@@ -8,6 +8,15 @@ npm install nodemon --save-dev -- para instalar o nodemon no seu projeto
 
 ng new meuApp -- cria o projeto angular
 ng serve --open roda o projeto e abre o browser
+ >> tambem poderia ser npm start
+
+
+>>> Adicionando o ngbootstrap ao projeto
 
 npm install @ng-bootstrap/ng-bootstrap
 ng add @ng-bootstrap/ng-bootstrap --adicionar o bootstrap no projeto da maneira mais simples
+
+ng g c componentes/cabecalho -- >> criando um componente para o angular js
+--- extensoes para o vscode
+Auto Import ---> fazer import do typescript
+Angular Language service
