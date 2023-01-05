@@ -1,0 +1,10 @@
+node init -- criar projeto
+npm install axios -- para fazer chamada http no node, mas precisa ser a versão ^0.21.1
+npm install body-parser -- para na aplicação node poder pegar os dados do formulario
+npm install express -- para instalar o pacote que faz subir a aplicação node (servidor)
+npm install express-session -- para instalar o pacote que faz controle de sessão
+npm install -g nodemon  -- para instalar o nodemon para poder usar nos projetos
+npm install nodemon --save-dev -- para instalar o nodemon no seu projeto
+
+ng new meuApp -- cria o projeto angular
+ng server --open roda o projeto e abre o browser
