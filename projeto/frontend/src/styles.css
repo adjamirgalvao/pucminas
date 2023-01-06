@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+.container {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .header {
+    margin: 1rem auto 2rem;
+  }

@@ -1,1 +1,40 @@
-<p>criar-produto works!</p>
+<div class="pt-1 ps-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cadastrar Produto</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="container">
+    <div class="grid gap-3 border rounded container">
+        <header class="header">
+            <h2>Novo Produto</h2>
+        </header>
+        <form [formGroup]="criarProdutoForm" (ngSubmit)="criarProduto()">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Produto</label>
+                <input type="text" formControlName="nome" class="form-control" placeholder="Digite o nome do produto"
+                    aria-label="Digite o nome do produto" aria-describedby="basic-addon1">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Estoque inicial</label>
+                <input type="number" formControlName="estoque" class="form-control"
+                    placeholder="Digite o estoque inicial do produto" aria-label="Digite o estoque inicial do produto"
+                    aria-describedby="basic-addon1" style="width: 300px;">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Preço</label>
+                <input type="number" formControlName="preco" class="form-control"
+                    placeholder="Digite o preço do produto" aria-label="Digite o preço do produto"
+                    aria-describedby="basic-addon1" style="width: 300px;">
+            </div>
+
+            <div class="acoes">
+                <button type="submit" class="btn btn-outline-primary">Salvar</button> &nbsp;
+                <button routerLink="/home" class="btn btn-outline-danger">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</section>
