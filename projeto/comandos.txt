@@ -20,3 +20,8 @@ ng g c componentes/cabecalho -- >> criando um componente para o angular js
 --- extensoes para o vscode
 Auto Import ---> fazer import do typescript
 Angular Language service
+
+
+npm i --save-dev @types/jest  --> coloquei, mas acho que não precisa
+
+npm install jest jest-preset-angular --save-dev --> coloquei, mas acho que não precisa

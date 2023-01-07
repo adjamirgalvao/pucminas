@@ -8,13 +8,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component';
 import { CriarProdutoComponent } from './componentes/produtos/criar-produto/criar-produto.component';
 import { HomeComponent } from './componentes/home/home/home.component';
+import { AlertaComponent } from './componentes/util/alerta/alerta.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CabecalhoComponent,
     CriarProdutoComponent,
-    HomeComponent
+    HomeComponent,
+    AlertaComponent
   ],
   imports: [
     BrowserModule,
