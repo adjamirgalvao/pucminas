@@ -27,6 +27,7 @@ exports.getAll = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
+    console.log('adicionar produto ', req.body);
     const createdProduto = await ProdutoService.addProduto(req.body);
     res.status(201).json(createdProduto);
   } catch (error) {
