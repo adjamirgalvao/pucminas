@@ -13,7 +13,7 @@ export class CriarProdutoComponent {
 
   criarProdutoForm = this.formBuilder.group({
     nome: '',
-    estoque: null,
+    quantidade: null,
     preco: null
   });
 

@@ -25,3 +25,43 @@ Angular Language service
 npm i --save-dev @types/jest  --> coloquei, mas acho que não precisa
 
 npm install jest jest-preset-angular --save-dev --> coloquei, mas acho que não precisa
+
+
+------ 
+
+Dicas
+
+----- ngClass para ligar ou desligar classe
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <div>
+      <h1 [ngClass]="{'color-blue': active}">
+        Home!
+      </h1>
+      <button (click)="colorBlue()">
+          Mudar cor
+      </button>
+    </div>
+  `,
+  styles: [
+  ]
+})
+export class HomeComponent {
+  active: boolean = true;
+
+  constructor() { }
+
+  colorBlue(){
+    this.active = !this.active
+  }
+}
+
+
+------ ngIf com else
+Isso aí. O elemento que recebeu a diretiva, caso a condicional for verdadeira, irá incluir o elemento no template, caso contrário, ele poderá excluir o elemento ou incluir um elemento declarado usando o elemento do Angular <ng-template>.
+
+XsdDxedCvHNWjXZh
+
+mongodb+srv://adjamirgalvao:XsdDxedCvHNWjXZh@cluster0.4jedpjg.mongodb.net/?retryWrites=true&w=majority
