@@ -35,7 +35,10 @@
             <div class="acoes">
                 <button type="submit" class="btn btn-outline-primary">Salvar</button> &nbsp;
                 <button routerLink="/home" class="btn btn-outline-danger">Cancelar</button>
-            </div>
+            </div><br/>
+            <div class="spinner-border" role="status" *ngIf="salvando">
+                <span class="visually-hidden">Salvando...</span>
+              </div>
         </form>
     </div>
 </section>

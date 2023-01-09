@@ -4,6 +4,9 @@ import { Alerta } from './../../../interfaces/alerta';
 
 import { ProdutoService } from '../../../services/produto.service';
 import { Produto } from './../../../interfaces/Produto';
+import { catchError } from 'rxjs/internal/operators/catchError';
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-criar-produto',
@@ -13,6 +16,7 @@ import { Produto } from './../../../interfaces/Produto';
 
 export class CriarProdutoComponent {
   alertas: Alerta[] = [];
+  salvando: boolean = false;
 
   criarProdutoForm = this.formBuilder.group({
     nome: '',
@@ -23,8 +27,8 @@ export class CriarProdutoComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: ProdutoService) { }
-
+    private service: ProdutoService) {
+  }
   
   criarProduto(): void {
     // Criação do produto
@@ -33,15 +37,19 @@ export class CriarProdutoComponent {
                               preco : this.criarProdutoForm.value.preco || 0.0
                             };
 
-                            console.log(produto);
-    this.service.criar(produto).subscribe(() => {
-      this.alertas.push({ tipo: 'success', mensagem: 'Produto cadastrado com sucesso!' });
-      console.warn('Produto criado foi', this.criarProdutoForm.value);
-      this.criarProdutoForm.reset();
+    this.salvando = true;
+    this.service.criar(produto).pipe(catchError(
+      err => {
+        this.salvando = false;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar produto!' });
+        throw 'error in source. Details: ' + err;
+      })).subscribe(
+      () => {
+        this.salvando = false;
+        this.alertas.push({ tipo: 'success', mensagem: 'Produto cadastrado com sucesso!' });
+        this.criarProdutoForm.reset();
       });
-    
-  
-  }
+  } 
 
 
 }
