@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,6 +8,10 @@ import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component'
 import { CriarProdutoComponent } from './componentes/produtos/criar-produto/criar-produto.component';
 import { HomeComponent } from './componentes/home/home/home.component';
 import { AlertaComponent } from './componentes/util/alerta/alerta.component';
+//para usar reactiveform
+import { ReactiveFormsModule } from '@angular/forms';
+//client http
+import { HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { AlertaComponent } from './componentes/util/alerta/alerta.component';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
