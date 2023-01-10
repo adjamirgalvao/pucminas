@@ -12,12 +12,12 @@ module.exports = class ProdutoService {
 
   static async addProduto(data) {
     try {
-      const newProduto = {
+      const novoProduto = {
         nome: data.nome,
         quantidade: data.quantidade,
         preco: data.preco
       };
-      const response = await new ProdutoModel(newProduto).save();
+      const response = await new ProdutoModel(novoProduto).save();
       return response;
     } catch (error) {
       console.log(error);

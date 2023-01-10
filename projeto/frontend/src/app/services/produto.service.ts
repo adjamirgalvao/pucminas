@@ -22,4 +22,9 @@ export class ProdutoService {
     console.log(produto);
     return this.http.post<Produto>(this.API, produto);
   }
+ 
+  excluir(produto: Produto): Observable<Produto> {
+    console.log(produto);
+    return this.http.delete<Produto>(this.API + '' + produto._id);
+  }
 }

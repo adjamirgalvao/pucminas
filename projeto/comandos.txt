@@ -19,15 +19,14 @@ ng serve --open roda o projeto e abre o browser
 npm install @ng-bootstrap/ng-bootstrap
 ng add @ng-bootstrap/ng-bootstrap --adicionar o bootstrap no projeto da maneira mais simples
 
+
+>> adicionando material da google
+
+ng add @angular/material
 ng g c componentes/cabecalho -- >> criando um componente para o angular js
 --- extensoes para o vscode
 Auto Import ---> fazer import do typescript
 Angular Language service
-
-
-npm i --save-dev @types/jest  --> coloquei, mas acho que não precisa
-
-npm install jest jest-preset-angular --save-dev --> coloquei, mas acho que não precisa
 
 
 ------ 
@@ -65,6 +64,8 @@ export class HomeComponent {
 ------ ngIf com else
 Isso aí. O elemento que recebeu a diretiva, caso a condicional for verdadeira, irá incluir o elemento no template, caso contrário, ele poderá excluir o elemento ou incluir um elemento declarado usando o elemento do Angular <ng-template>.
 
+
+============= mongodb
 XsdDxedCvHNWjXZh
 
 mongodb+srv://adjamirgalvao:XsdDxedCvHNWjXZh@cluster0.4jedpjg.mongodb.net/?retryWrites=true&w=majority

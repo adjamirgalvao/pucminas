@@ -14,6 +14,11 @@ import { Produto } from './../../../interfaces/Produto';
 })
 
 export class CriarProdutoComponent {
+  constructor(
+    private formBuilder: FormBuilder,
+    private service: ProdutoService) {
+  }
+
   alertas: Alerta[] = [];
   salvando: boolean = false;
 
@@ -22,20 +27,16 @@ export class CriarProdutoComponent {
     quantidade: 0,
     preco: 0
   };
+
   criarProdutoForm = this.formBuilder.group(this.inicial);
 
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private service: ProdutoService) {
-  }
-  
   criarProduto(): void {
     // Criação do produto
-    const produto : Produto = {nome: this.criarProdutoForm.value.nome || this.inicial.nome, 
-                              quantidade : this.criarProdutoForm.value.quantidade || this.inicial.quantidade,
-                              preco : this.criarProdutoForm.value.preco || this.inicial.preco
-                            };
+    const produto: Produto = {
+      nome: this.criarProdutoForm.value.nome || this.inicial.nome,
+      quantidade: this.criarProdutoForm.value.quantidade || this.inicial.quantidade,
+      preco: this.criarProdutoForm.value.preco || this.inicial.preco
+    };
 
     this.salvando = true;
     this.service.criar(produto).pipe(catchError(
@@ -44,12 +45,10 @@ export class CriarProdutoComponent {
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar produto!' });
         throw 'Erro ao cadastrar produto. Detalhes: ' + err;
       })).subscribe(
-      () => {
-        this.salvando = false;
-        this.alertas.push({ tipo: 'success', mensagem: 'Produto cadastrado com sucesso!' });
-        this.criarProdutoForm.reset(this.inicial);
-      });
-  } 
-
-
+        () => {
+          this.salvando = false;
+          this.alertas.push({ tipo: 'success', mensagem: 'Produto cadastrado com sucesso!' });
+          this.criarProdutoForm.reset(this.inicial);
+        });
+  }
 }
