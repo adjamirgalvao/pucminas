@@ -19,6 +19,14 @@ export class ListarProdutosComponent implements OnInit{
   alertas: Alerta[] = [];
   produtos: Produto[] = [];
   carregando: boolean = true;
+  excluindo: boolean = false;
+  produtoExcluido: Produto = {
+    _id: 0,
+    nome: '',
+    quantidade: 0,
+    preco: 0
+  };
+
   // Campos para a tabela
   displayedColumns: string[] =  ['_id', 'nome', 'quantidade', 'preco', 'actions'];
   dataSource: MatTableDataSource<Produto> = new MatTableDataSource();
@@ -55,22 +63,21 @@ export class ListarProdutosComponent implements OnInit{
 
 
     //Excluindo os dados 
-    
+    this.excluindo = true;
+    this.produtoExcluido = produto;
     this.service.excluir(produto).pipe(catchError(
       err => {
-        this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro excluir produto "${produto.nome}"!`});
-        throw 'Erro ao excluir produto. Detalhes: ' + err;
+        this.excluindo = false;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o produto "${produto.nome}"!`});
+        throw 'Erro ao excluir o produto. Detalhes: ' + err;
       })).subscribe(
         () => {
-          this.carregando = false;
+          this.excluindo = false;
           this.produtos.splice(this.produtos.indexOf(produto), 1);
           //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
           this.dataSource = new MatTableDataSource(this.produtos); 
-          this.alertas.push({ tipo: 'success', mensagem: `Produto "${produto.nome}" excluído com sucesso!` });
+          this.alertas.push({ tipo: 'success', mensagem: `O Produto "${produto.nome}" foi excluído com sucesso!` });
         });
-        
-        
   }
 }
 

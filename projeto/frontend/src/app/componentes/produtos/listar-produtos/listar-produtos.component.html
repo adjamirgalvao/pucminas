@@ -17,7 +17,7 @@
         <div *ngIf="carregando"><strong>Carregando...</strong>
             <mat-spinner [diameter]="20"></mat-spinner>
         </div>
-        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto cadastrado</strong>
+        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto cadastrado.</strong>
         </div>
         <table mat-table [dataSource]="dataSource" matSort *ngIf="dataSource.data.length > 0">
             <ng-container matColumnDef="_id">
@@ -42,9 +42,10 @@
                     <button mat-icon-button routerLink="/criarProduto" matTooltip="Editar produto">
                         <mat-icon color="primary">launch</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Excluir produto" (click)="excluirProduto(produto)">
+                    <button mat-icon-button matTooltip="Excluir produto" (click)="excluirProduto(produto)" [disabled]="excluindo">
                         <mat-icon color="warn">delete</mat-icon>
                     </button>
+                    <mat-spinner *ngIf="excluindo && (produto._id == produtoExcluido._id)" [diameter]="20"></mat-spinner>
                 </tr>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
