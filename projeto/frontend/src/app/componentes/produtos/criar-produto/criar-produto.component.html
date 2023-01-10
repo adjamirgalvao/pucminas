@@ -9,7 +9,7 @@
 
 <section class="container">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <div class="grid gap-3 border rounded container">
+    <div class="grid gap-3 border rounded container" aria-disabled>
         <header class="header">
             <h2>Novo Produto</h2>
         </header>
@@ -17,33 +17,36 @@
             <div class="mb-3">
                 <mat-form-field style="width: 70%;">
                     <mat-label>Produto</mat-label>
-                    <input type="text" formControlName="nome" maxlength="256" matInput placeholder="Digite o nome do produto">
+                    <input type="text" formControlName="nome" maxlength="256" matInput
+                        placeholder="Digite o nome do produto" [readonly]="salvando">
                     <mat-hint>Digite o nome do produto</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
-                <mat-form-field >
+                <mat-form-field>
                     <mat-label>Estoque inicial</mat-label>
-                    <input type="number" formControlName="quantidade" matInput placeholder="Digite o estoque inicial">
+                    <input type="number" formControlName="quantidade" matInput placeholder="Digite o estoque inicial"
+                        [readonly]="salvando">
                     <mat-hint>Digite o estoque inicial</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Preço</mat-label>
-                    <input type="number" formControlName="preco" matInput placeholder="Digite o preço">
+                    <input type="number" formControlName="preco" matInput placeholder="Digite o preço"
+                        [readonly]="salvando">
                     <mat-hint>Digite o preço do produto</mat-hint>
                 </mat-form-field>
             </div>
 
             <div class="acoes">
-                <button type="submit" mat-stroked-button color="primary">Salvar</button> &nbsp;
-                <button routerLink="/home" mat-stroked-button color="warn">Cancelar</button>
+                <button type="submit" mat-stroked-button matTooltip="Salvar o produto" color="primary"
+                    [disabled]="salvando">Salvar</button> &nbsp;
+                <button routerLink="/home" mat-stroked-button matTooltip="Cancelar" color="warn"
+                    [disabled]="salvando">Cancelar</button>
             </div><br />
             <div *ngIf="salvando"><strong>Salvando...</strong>
-                <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Salvando...</span>
-                </div>
+                <mat-spinner [diameter]="20"></mat-spinner>
             </div>
         </form>
     </div>
