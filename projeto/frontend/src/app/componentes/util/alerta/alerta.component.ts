@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Alerta } from 'src/app/interfaces/alerta';
+import { Alerta } from 'src/app/interfaces/Alerta';
 
 
 @Component({

@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Alerta } from './../../../interfaces/alerta';
+import { catchError } from 'rxjs/internal/operators/catchError';
 
 import { ProdutoService } from '../../../services/produto.service';
+import { Alerta } from '../../../interfaces/Alerta';
 import { Produto } from './../../../interfaces/Produto';
-import { catchError } from 'rxjs/internal/operators/catchError';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-criar-produto',
@@ -42,7 +41,7 @@ export class CriarProdutoComponent {
       err => {
         this.salvando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar produto!' });
-        throw 'error in source. Details: ' + err;
+        throw 'Erro ao cadastrar produto. Detalhes: ' + err;
       })).subscribe(
       () => {
         this.salvando = false;
