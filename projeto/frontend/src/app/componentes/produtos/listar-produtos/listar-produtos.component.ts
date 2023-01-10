@@ -24,11 +24,12 @@ export class ListarProdutosComponent implements OnInit{
     _id: 0,
     nome: '',
     quantidade: 0,
-    preco: 0
+    preco: 0,
+    precoCusto: 0
   };
 
   // Campos para a tabela
-  displayedColumns: string[] =  ['_id', 'nome', 'quantidade', 'preco', 'actions'];
+  displayedColumns: string[] =  ['_id', 'nome', 'quantidade', 'preco', 'precoCusto', 'actions'];
   dataSource: MatTableDataSource<Produto> = new MatTableDataSource();
   sort!: MatSort;
 

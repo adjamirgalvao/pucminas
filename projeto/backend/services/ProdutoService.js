@@ -15,7 +15,8 @@ module.exports = class ProdutoService {
       const novoProduto = {
         nome: data.nome,
         quantidade: data.quantidade,
-        preco: data.preco
+        preco: data.preco,
+        precoCusto : data.precoCusto
       };
       const response = await new ProdutoModel(novoProduto).save();
       return response;
