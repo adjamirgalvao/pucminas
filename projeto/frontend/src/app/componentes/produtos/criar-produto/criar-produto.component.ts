@@ -17,11 +17,12 @@ export class CriarProdutoComponent {
   alertas: Alerta[] = [];
   salvando: boolean = false;
 
-  criarProdutoForm = this.formBuilder.group({
+  inicial = {
     nome: '',
-    quantidade: null,
-    preco: null
-  });
+    quantidade: 0,
+    preco: 0
+  };
+  criarProdutoForm = this.formBuilder.group(this.inicial);
 
 
   constructor(
@@ -31,9 +32,9 @@ export class CriarProdutoComponent {
   
   criarProduto(): void {
     // Criação do produto
-    const produto : Produto = {nome: this.criarProdutoForm.value.nome || "", 
-                              quantidade : this.criarProdutoForm.value.quantidade || 0,
-                              preco : this.criarProdutoForm.value.preco || 0.0
+    const produto : Produto = {nome: this.criarProdutoForm.value.nome || this.inicial.nome, 
+                              quantidade : this.criarProdutoForm.value.quantidade || this.inicial.quantidade,
+                              preco : this.criarProdutoForm.value.preco || this.inicial.preco
                             };
 
     this.salvando = true;
@@ -46,7 +47,7 @@ export class CriarProdutoComponent {
       () => {
         this.salvando = false;
         this.alertas.push({ tipo: 'success', mensagem: 'Produto cadastrado com sucesso!' });
-        this.criarProdutoForm.reset();
+        this.criarProdutoForm.reset(this.inicial);
       });
   } 
 
