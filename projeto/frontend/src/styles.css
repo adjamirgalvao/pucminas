@@ -11,3 +11,10 @@
   .header {
     margin: 1rem auto 2rem;
   }
+
+  .full-width {
+    width: 100%;
+  }
+  
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -7,9 +7,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/home" routerLinkActive="active">Home</a>
-                </li>
                 <li class="nav-item" ngbDropdown>
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Produtos </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
@@ -17,7 +14,7 @@
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Listar Produtos</a>
                         <div class="dropdown-divider"></div>
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Compras para o Estoque</a>
-                   </div>
+                    </div>
                 </li>
                 <li class="nav-item" ngbDropdown>
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Clientes </a>
@@ -25,13 +22,14 @@
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Cadastrar Clientes</a>
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Listar Clientes</a>
                     </div>
-                </li>                
+                </li>
                 <li class="nav-item" ngbDropdown>
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Vendas </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Nova venda</a>
                     </div>
-                </li>              </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

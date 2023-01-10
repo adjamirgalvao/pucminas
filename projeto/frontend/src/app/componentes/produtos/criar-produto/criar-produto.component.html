@@ -15,28 +15,29 @@
         </header>
         <form [formGroup]="criarProdutoForm" (ngSubmit)="criarProduto()">
             <div class="mb-3">
-                <label for="formGroupExampleInput" class="form-label">Produto</label>
-                <input type="text" formControlName="nome" class="form-control" placeholder="Digite o nome do produto"
-                    aria-label="Digite o nome do produto" aria-describedby="basic-addon1">
+                <mat-form-field style="width: 70%;">
+                    <mat-label>Produto</mat-label>
+                    <input type="text" formControlName="nome" maxlength="256" matInput placeholder="Digite o nome do produto">
+                </mat-form-field>
             </div>
             <div class="mb-3">
-                <label for="formGroupExampleInput" class="form-label">Estoque inicial</label>
-                <input type="number" formControlName="quantidade" class="form-control"
-                    placeholder="Digite o estoque inicial do produto" aria-label="Digite o estoque inicial do produto"
-                    aria-describedby="basic-addon1" style="width: 300px;">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Estoque inicial</mat-label>
+                    <input type="number" formControlName="quantidade" matInput placeholder="Digite o estoque inicial">
+                </mat-form-field>
             </div>
             <div class="mb-3">
-                <label for="formGroupExampleInput" class="form-label">Preço</label>
-                <input type="number" formControlName="preco" class="form-control"
-                    placeholder="Digite o preço do produto" aria-label="Digite o preço do produto"
-                    aria-describedby="basic-addon1" style="width: 300px;">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Preço</mat-label>
+                    <input type="number" formControlName="preco" matInput placeholder="Digite o preço">
+                </mat-form-field>
             </div>
 
             <div class="acoes">
-                <button type="submit" class="btn btn-outline-primary">Salvar</button> &nbsp;
-                <button routerLink="/home" class="btn btn-outline-danger">Cancelar</button>
+                <button type="submit" mat-stroked-button color="primary">Salvar</button> &nbsp;
+                <button routerLink="/home" mat-stroked-button color="warn">Cancelar</button>
             </div><br />
-            <div  *ngIf="salvando"><strong>Salvando...</strong>
+            <div *ngIf="salvando"><strong>Salvando...</strong>
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Salvando...</span>
                 </div>
