@@ -59,12 +59,13 @@ export class ListarProdutosComponent implements OnInit{
     this.service.excluir(produto).pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro excluir produto!' });
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro excluir produto "${produto.nome}"!`});
         throw 'Erro ao excluir produto. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.carregando = false;
           this.produtos.splice(this.produtos.indexOf(produto), 1);
+          //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
           this.dataSource = new MatTableDataSource(this.produtos); 
           this.alertas.push({ tipo: 'success', mensagem: `Produto "${produto.nome}" excluído com sucesso!` });
         });
