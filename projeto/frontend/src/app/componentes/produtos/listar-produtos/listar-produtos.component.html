@@ -2,6 +2,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item">Produtos</li>
             <li class="breadcrumb-item active" aria-current="page">Listar Produtos</li>
         </ol>
     </nav>
@@ -41,7 +42,7 @@
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef>Ações</th>
                         <td mat-cell *matCellDef="let produto">
-                            <button mat-icon-button [routerLink]="['/editarProduto', produto._id]"
+                            <button mat-icon-button [routerLink]="['/produtos/editarProduto', produto._id]"
                                 matTooltip="Editar produto">
                                 <mat-icon color="secondary">create</mat-icon>
                             </button>
@@ -58,7 +59,7 @@
             </div>
         </div>
         <br>
-        <button mat-stroked-button routerLink="/criarProduto" matTooltip="Novo Produto" color="primary">Novo
+        <button mat-stroked-button routerLink="/produtos/criarProduto" [queryParams]="{ listar: true }" matTooltip="Novo Produto" color="primary">Novo
             Produto</button>
     </div>
 </section>

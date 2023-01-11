@@ -16,15 +16,15 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'criarProduto',
+    path: 'produtos/criarProduto',
     component: CriarProdutoComponent
   },
   {
-    path: 'editarProduto/:id',
+    path: 'produtos/editarProduto/:id',
     component: EditarProdutoComponent
   },
   {
-    path: 'listarProdutos',
+    path: 'produtos/listarProdutos',
     component: ListarProdutosComponent
   }
 ];

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
@@ -13,15 +14,17 @@ import { Produto } from './../../../interfaces/Produto';
   styleUrls: ['./criar-produto.component.css']
 })
 
-export class CriarProdutoComponent {
+export class CriarProdutoComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private service: ProdutoService,
-    private location: Location) {
+    private location: Location,
+    private route: ActivatedRoute) {
   }
 
   alertas: Alerta[] = [];
   salvando: boolean = false;
+  listar: boolean = false;
 
   inicial = {
     nome: '',
@@ -31,6 +34,10 @@ export class CriarProdutoComponent {
   };
 
   criarProdutoForm = this.formBuilder.group(this.inicial);
+
+  ngOnInit(): void {
+    this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
+  }
 
   criarProduto(): void {
     // Criação do produto
