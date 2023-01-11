@@ -1,9 +1,8 @@
 import { ModalConfirmacaoComponent } from './../../util/modal-confirmacao/modal-confirmacao.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Produto } from 'src/app/interfaces/Produto';
@@ -17,7 +16,6 @@ import { ProdutoService } from 'src/app/services/produto.service';
 export class ListarProdutosComponent implements OnInit{
   constructor(
     private service: ProdutoService,
-    private router: Router,
     public confirmacao: MatDialog){
   }
 
@@ -36,16 +34,10 @@ export class ListarProdutosComponent implements OnInit{
   // Campos para a tabela
   displayedColumns: string[] =  ['nome', 'quantidade', 'preco', 'precoCusto', 'actions'];
   dataSource: MatTableDataSource<Produto> = new MatTableDataSource();
-  sort!: MatSort;
-
-  //https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
+  
+  //Sem isso não consegui fazer funcionar o sort https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
   @ViewChild(MatSort) set matSort(ms: MatSort) {
-    this.sort = ms;
-    this.setDataSourceAttributes();
-  }
-
-  setDataSourceAttributes() {
-    this.dataSource.sort = this.sort;
+    this.dataSource.sort = ms;
   }
 
   ngOnInit(): void {
