@@ -24,6 +24,7 @@ export class EditarProdutoComponent implements OnInit {
 
   alertas: Alerta[] = [];
   salvando: boolean = false;
+  erroCarregando : boolean = false;
 
 
   produto: Produto = {
@@ -38,26 +39,32 @@ export class EditarProdutoComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
+    this.erroCarregando = false;
     this.service.buscarPorId(id!).subscribe((produto) => {
-      this.produto = {
-        _id: produto._id || '',
-        nome: produto.nome ||'',
-        quantidade: produto.quantidade || 0,
-        preco: produto.preco ||0,
-        precoCusto: produto.precoCusto ||0
-      };
-      this.editarProdutoForm = this.formBuilder.group(this.produto);
+      if (produto != null) {
+        this.produto = {
+          _id: produto._id || '',
+          nome: produto.nome || '',
+          quantidade: produto.quantidade || 0,
+          preco: produto.preco || 0,
+          precoCusto: produto.precoCusto || 0
+        };
+        this.editarProdutoForm = this.formBuilder.group(this.produto);
+      } else {
+        this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+        this.erroCarregando = true;
+      }
     });
 
     this.editarProdutoForm = this.formBuilder.group(this.produto);
 
-    
+
   }
 
   editarProduto(): void {
     // Criação do produto
     const produto: Produto = {
-      _id : this.produto._id,
+      _id: this.produto._id,
       nome: this.editarProdutoForm.value.nome || this.produto.nome,
       quantidade: this.editarProdutoForm.value.quantidade || this.produto.quantidade,
       preco: this.editarProdutoForm.value.preco || this.produto.preco,
