@@ -21,11 +21,9 @@ export class EditarProdutoComponent implements OnInit {
     private route: ActivatedRoute) {
   }
 
-
   alertas: Alerta[] = [];
   salvando: boolean = false;
   erroCarregando : boolean = false;
-
 
   produto: Produto = {
     _id: '',
@@ -57,8 +55,6 @@ export class EditarProdutoComponent implements OnInit {
     });
 
     this.editarProdutoForm = this.formBuilder.group(this.produto);
-
-
   }
 
   editarProduto(): void {
