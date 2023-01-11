@@ -18,6 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 // Meus componentes
 import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component';
 import { CriarProdutoComponent } from './componentes/produtos/criar-produto/criar-produto.component';
@@ -25,6 +26,7 @@ import { HomeComponent } from './componentes/home/home/home.component';
 import { AlertaComponent } from './componentes/util/alerta/alerta.component';
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
 import { EditarProdutoComponent } from './componentes/produtos/editar-produto/editar-produto.component';
+import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { EditarProdutoComponent } from './componentes/produtos/editar-produto/ed
     HomeComponent,
     AlertaComponent,
     ListarProdutosComponent,
-    EditarProdutoComponent
+    EditarProdutoComponent,
+    ModalConfirmacaoComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,8 @@ import { EditarProdutoComponent } from './componentes/produtos/editar-produto/ed
     MatTooltipModule,
     MatTableModule,
     MatIconModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

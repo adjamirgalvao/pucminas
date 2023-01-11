@@ -1,4 +1,6 @@
+import { ModalConfirmacaoComponent } from './../../util/modal-confirmacao/modal-confirmacao.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -15,8 +17,8 @@ import { ProdutoService } from 'src/app/services/produto.service';
 export class ListarProdutosComponent implements OnInit{
   constructor(
     private service: ProdutoService,
-    private router: Router,){
-    
+    private router: Router,
+    public confirmacao: MatDialog){
   }
 
   alertas: Alerta[] = [];
@@ -32,7 +34,7 @@ export class ListarProdutosComponent implements OnInit{
   };
 
   // Campos para a tabela
-  displayedColumns: string[] =  ['_id', 'nome', 'quantidade', 'preco', 'precoCusto', 'actions'];
+  displayedColumns: string[] =  ['nome', 'quantidade', 'preco', 'precoCusto', 'actions'];
   dataSource: MatTableDataSource<Produto> = new MatTableDataSource();
   sort!: MatSort;
 
@@ -62,6 +64,20 @@ export class ListarProdutosComponent implements OnInit{
         });
   }
 
+  confirmarExcluirProduto(produto: Produto){
+    const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
+      data: {mensagem: `Confirma a exclusão do produto '${produto.nome}'?`,
+             titulo: 'Confirmação de exclusão de produto'},
+    });
+
+    confirmacaoRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result == 'Sim') {
+        this.excluirProduto(produto);
+      }
+    });
+  }
+ 
   excluirProduto(produto: Produto) {
     console.log('excluindo', produto);
 
