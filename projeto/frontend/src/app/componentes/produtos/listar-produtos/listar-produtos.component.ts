@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Produto } from 'src/app/interfaces/Produto';
@@ -12,7 +13,9 @@ import { ProdutoService } from 'src/app/services/produto.service';
   styleUrls: ['./listar-produtos.component.css']
 })
 export class ListarProdutosComponent implements OnInit{
-  constructor(private service: ProdutoService){
+  constructor(
+    private service: ProdutoService,
+    private router: Router,){
     
   }
 
@@ -21,7 +24,7 @@ export class ListarProdutosComponent implements OnInit{
   carregando: boolean = true;
   excluindo: boolean = false;
   produtoExcluido: Produto = {
-    _id: 0,
+    _id: '',
     nome: '',
     quantidade: 0,
     preco: 0,

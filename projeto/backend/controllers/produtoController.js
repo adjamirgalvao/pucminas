@@ -43,8 +43,10 @@ exports.update = async (req, res) => {
     produto.nome = req.body.nome;
     produto.quantidade = req.body.quantidade;
     produto.preco = req.body.preco;
+    produto.precoCusto = req.body.precoCusto;
 
-    const updatedProduto = await ProdutoService.updateTodo(id, produto);
+    console.log(produto, id);
+    const updatedProduto = await ProdutoService.updateProduto(id, produto);
 
     if (updatedProduto.nModified === 0) {
       return res.status(404).json({});

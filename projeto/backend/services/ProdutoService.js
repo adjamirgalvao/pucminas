@@ -27,7 +27,7 @@ module.exports = class ProdutoService {
 
   static async getProdutobyId(produtoId) {
     try {
-      const produto = await Produto.findById({ _id: produtoId });
+      const produto = await ProdutoModel.findById(produtoId);
       return produto;
     } catch (error) {
       console.log(`Produto ${produtoId} não encontrado ${error}`);
@@ -36,11 +36,12 @@ module.exports = class ProdutoService {
 
   static async updateProduto(id, produto) {
     try {
+      console.log('aqui');
       const updateResponse = await ProdutoModel.updateOne(
         { _id: id },
         { ...produto}
       );
-
+        console.log(updateResponse);
       return updateResponse;
     } catch (error) {
       console.log(` Produto ${id} não pode ser atualizado ${error}`);

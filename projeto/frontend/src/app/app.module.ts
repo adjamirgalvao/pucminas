@@ -24,6 +24,7 @@ import { CriarProdutoComponent } from './componentes/produtos/criar-produto/cria
 import { HomeComponent } from './componentes/home/home/home.component';
 import { AlertaComponent } from './componentes/util/alerta/alerta.component';
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
+import { EditarProdutoComponent } from './componentes/produtos/editar-produto/editar-produto.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/
     CriarProdutoComponent,
     HomeComponent,
     AlertaComponent,
-    ListarProdutosComponent
+    ListarProdutosComponent,
+    EditarProdutoComponent
   ],
   imports: [
     BrowserModule,

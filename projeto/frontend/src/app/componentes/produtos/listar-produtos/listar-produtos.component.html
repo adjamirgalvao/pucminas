@@ -43,7 +43,7 @@
             </ng-container>            <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>Ações</th>
                 <tr mat-cell *matCellDef="let produto">
-                    <button mat-icon-button routerLink="/criarProduto" matTooltip="Editar produto">
+                    <button mat-icon-button [routerLink]="['/editarProduto', produto._id]" matTooltip="Editar produto">
                         <mat-icon color="primary">launch</mat-icon>
                     </button>
                     <button mat-icon-button matTooltip="Excluir produto" (click)="excluirProduto(produto)" [disabled]="excluindo" [class.spinner]="excluindo && (produto._id == produtoExcluido._id)">

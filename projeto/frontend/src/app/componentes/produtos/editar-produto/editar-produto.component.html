@@ -2,7 +2,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Cadastrar Produto</li>
+            <li class="breadcrumb-item active" aria-current="page">Editar Produto</li>
         </ol>
     </nav>
 </div>
@@ -11,9 +11,9 @@
     <app-alerta [alertas]="alertas"></app-alerta>
     <div class="grid gap-3 border rounded container" aria-disabled>
         <header class="header">
-            <h2>Novo Produto</h2>
+            <h2>Editar Produto <i>{{this.editarProdutoForm.get('nome').value}}</i></h2>
         </header>
-        <form [formGroup]="criarProdutoForm" (ngSubmit)="criarProduto()">
+        <form [formGroup]="editarProdutoForm" (ngSubmit)="editarProduto()">
             <div class="mb-3">
                 <mat-form-field style="width: 70%;">
                     <mat-label>Produto</mat-label>
@@ -24,10 +24,10 @@
             </div>
             <div class="mb-3">
                 <mat-form-field>
-                    <mat-label>Estoque inicial</mat-label>
-                    <input type="number" formControlName="quantidade" matInput placeholder="Digite o estoque inicial"
+                    <mat-label>Estoque</mat-label>
+                    <input type="number" formControlName="quantidade" matInput placeholder="Digite o estoque"
                         [readonly]="salvando">
-                    <mat-hint>Digite o estoque inicial</mat-hint>
+                    <mat-hint>Digite o estoque</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">

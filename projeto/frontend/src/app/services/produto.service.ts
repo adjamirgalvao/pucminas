@@ -8,6 +8,8 @@ import { Produto } from '../interfaces/Produto';
 })
 export class ProdutoService {
 
+
+
   private readonly API = 'http://localhost:8090/produtos/'
 
   constructor(private http: HttpClient) { 
@@ -21,6 +23,14 @@ export class ProdutoService {
   criar(produto: Produto): Observable<Produto> {
     console.log(produto);
     return this.http.post<Produto>(this.API, produto);
+  }
+
+  buscarPorId(id: string): Observable<Produto> {
+    return this.http.get<Produto>(this.API + '' + id);
+  }
+
+  editar(produto: Produto): Observable<Produto> {
+    return this.http.put<Produto>(this.API + '' + produto._id, produto);
   }
  
   excluir(produto: Produto): Observable<Produto> {
