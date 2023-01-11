@@ -1,8 +1,8 @@
-<h1 mat-dialog-title>{{ data.titulo }}</h1>
+<h1 mat-dialog-title class="bg-primary">{{ data.titulo }}</h1>
 <div mat-dialog-content>
   <p>{{ data.mensagem }}</p>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions align="center">
   <button mat-button (click)="onClickNao()" cdkFocusInitial>Não</button>
   <button mat-button mat-dialog-close="Sim">Sim</button>
 </div>

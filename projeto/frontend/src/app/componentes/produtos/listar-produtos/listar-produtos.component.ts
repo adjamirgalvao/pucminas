@@ -67,7 +67,7 @@ export class ListarProdutosComponent implements OnInit{
   confirmarExcluirProduto(produto: Produto){
     const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
       data: {mensagem: `Confirma a exclusão do produto '${produto.nome}'?`,
-             titulo: 'Confirmação de exclusão de produto'},
+             titulo: 'Confirmação de Exclusão de Produto'},
     });
 
     confirmacaoRef.afterClosed().subscribe(result => {
