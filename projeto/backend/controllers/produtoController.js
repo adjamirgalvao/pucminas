@@ -7,7 +7,7 @@ exports.get = async (req, res) => {
     const produto = await ProdutoService.getProdutobyId(id);
     res.json(produto);
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -21,7 +21,7 @@ exports.getAll = async (req, res) => {
 
     res.json(produtos);
   } catch (err) {
-    return res.status(500).json({ error: err });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -31,7 +31,7 @@ exports.add = async (req, res) => {
     const createdProduto = await ProdutoService.addProduto(req.body);
     res.status(201).json(createdProduto);
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -54,7 +54,7 @@ exports.update = async (req, res) => {
 
     res.json(updatedProduto);
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -65,6 +65,6 @@ exports.delete = async (req, res) => {
     const deleteResponse = await ProdutoService.deleteProduto(id);
     res.json(deleteResponse);
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 };
