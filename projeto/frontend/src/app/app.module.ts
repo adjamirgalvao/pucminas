@@ -19,6 +19,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 // Meus componentes
 import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component';
 import { CriarProdutoComponent } from './componentes/produtos/criar-produto/criar-produto.component';
@@ -53,7 +56,10 @@ import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/
     MatTableModule,
     MatIconModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

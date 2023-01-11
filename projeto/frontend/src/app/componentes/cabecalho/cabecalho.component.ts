@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class CabecalhoComponent {
 
+  //Resolvendo o problema do toogle no angular https://www.youtube.com/watch?v=m5fdwxB-jIM
+  public isCollapsed : boolean = true;
+
 }
