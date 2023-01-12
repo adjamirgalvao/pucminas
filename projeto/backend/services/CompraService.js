@@ -1,13 +1,26 @@
 const CompraModel = require("../models/CompraModel");
 
+const compraProdutoJoin = [
+  {
+    '$lookup': {
+      'from': 'produtos', 
+      'localField': 'id_produto', 
+      'foreignField': '_id', 
+      'as': 'produto'
+    }
+  }
+];
+
 module.exports = class CompraService {
   static async getAllCompras() {
     try {
-      const allCompras = await CompraModel.find();
+
+      const allCompras = await CompraModel.aggregate(compraProdutoJoin);
       
       return allCompras;
     } catch (error) {
       console.log(`Erro ao recuperar Compras ${error}`);
+      throw new Error(`Erro ao recuperar Compras ${error}`);
     }
   }
 

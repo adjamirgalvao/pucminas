@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const compraSchema = Schema({
   id_produto: {
-    type: String,
+    type: Schema.ObjectId,
     required: true
   },
   data: {

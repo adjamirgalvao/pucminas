@@ -8,6 +8,7 @@ module.exports = class ProdutoService {
       return allProdutos;
     } catch (error) {
       console.log(`Erro ao recuperar Produtos ${error}`);
+      throw new Error(`Erro ao recuperar Produtos ${error}`);
     }
   }
 
