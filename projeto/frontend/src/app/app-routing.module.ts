@@ -4,6 +4,7 @@ import { HomeComponent } from './componentes/home/home/home.component';
 import { CriarProdutoComponent } from './componentes/produtos/criar-produto/criar-produto.component';
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
 import { EditarProdutoComponent } from './componentes/produtos/editar-produto/editar-produto.component';
+import { CriarCompraProdutoComponent } from './componentes/produtos/criar-compra-produto/criar-compra-produto.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,9 @@ const routes: Routes = [
     component: EditarProdutoComponent
   },
   {
+    path: 'produtos/cadastrarCompraProduto/:id',
+    component: CriarCompraProdutoComponent
+  },  {
     path: 'produtos/listarProdutos',
     component: ListarProdutosComponent
   }
