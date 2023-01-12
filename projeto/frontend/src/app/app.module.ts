@@ -24,6 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
 // Meus componentes
 import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component';
 import { CriarProdutoComponent } from './componentes/produtos/criar-produto/criar-produto.component';
@@ -32,7 +33,7 @@ import { AlertaComponent } from './componentes/util/alerta/alerta.component';
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
 import { EditarProdutoComponent } from './componentes/produtos/editar-produto/editar-produto.component';
 import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
-import { CriarCompraProdutoComponent } from './componentes/produtos/criar-compra-produto/criar-compra-produto.component';
+import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { CriarCompraProdutoComponent } from './componentes/produtos/criar-compra
     MatMenuModule,
     MatDividerModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

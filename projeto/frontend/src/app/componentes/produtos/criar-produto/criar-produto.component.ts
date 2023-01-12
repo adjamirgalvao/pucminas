@@ -57,6 +57,7 @@ export class CriarProdutoComponent implements OnInit {
       })).subscribe(
         () => {
           this.salvando = false;
+          this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: 'Produto cadastrado com sucesso!' });
           this.criarProdutoForm.reset(this.inicial);
         });

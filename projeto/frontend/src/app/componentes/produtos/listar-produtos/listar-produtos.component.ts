@@ -1,5 +1,5 @@
 import { ModalConfirmacaoComponent } from './../../util/modal-confirmacao/modal-confirmacao.component';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,13 +7,19 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Produto } from 'src/app/interfaces/Produto';
 import { ProdutoService } from 'src/app/services/produto.service';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MyCustomPaginatorIntl } from '../../util/classes/MyCustomPaginatorIntl';
+
+
 
 @Component({
   selector: 'app-listar-produtos',
   templateUrl: './listar-produtos.component.html',
-  styleUrls: ['./listar-produtos.component.css']
+  styleUrls: ['./listar-produtos.component.css'],
+  providers: [{provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl}]
 })
 export class ListarProdutosComponent implements OnInit{
+
   constructor(
     private service: ProdutoService,
     public confirmacao: MatDialog){
@@ -35,9 +41,23 @@ export class ListarProdutosComponent implements OnInit{
   displayedColumns: string[] =  ['nome', 'quantidade', 'preco', 'precoCusto', 'actions'];
   dataSource: MatTableDataSource<Produto> = new MatTableDataSource();
   
-  //Sem isso não consegui fazer funcionar o sort https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
+  //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
+  private paginator!: MatPaginator;
+  private sort!: MatSort;  
+  
   @ViewChild(MatSort) set matSort(ms: MatSort) {
-    this.dataSource.sort = ms;
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+  setDataSourceAttributes() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
