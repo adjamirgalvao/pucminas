@@ -32,6 +32,8 @@ module.exports = class CompraService {
 
     produto.quantidade = produto.quantidade + compra.quantidade;
     produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (compra.quantidade * (compra.preco / compra.quantidade))) / produto.quantidade;
+    produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
+
     await ProdutoService.updateProduto(produto._id, produto, session);
   }
 
