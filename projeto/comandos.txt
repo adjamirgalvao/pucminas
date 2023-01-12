@@ -23,6 +23,11 @@ ng add @ng-bootstrap/ng-bootstrap --adicionar o bootstrap no projeto da maneira 
 >> adicionando material da google
 
 ng add @angular/material
+
+
+>> adicionando moment
+
+npm i @angular/material-moment-adapter
 ng g c componentes/cabecalho -- >> criando um componente para o angular js
 --- extensoes para o vscode
 Auto Import ---> fazer import do typescript
