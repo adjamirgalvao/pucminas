@@ -8,7 +8,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { Produto } from 'src/app/interfaces/Produto';
 import { ProdutoService } from 'src/app/services/produto.service';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MyCustomPaginatorIntl } from '../../util/classes/MyCustomPaginatorIntl';
+import { MyCustomPaginatorIntl } from '../../util/paginacao/MyCustomPaginatorIntl';
 
 
 
