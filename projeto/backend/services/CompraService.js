@@ -1,4 +1,4 @@
-const {CompraModel, Mongoose} = require("../models/CompraModel");
+const { CompraModel, Mongoose } = require("../models/CompraModel");
 const ProdutoService = require("./ProdutoService");
 
 const compraProdutoJoin = [
@@ -44,8 +44,8 @@ module.exports = class CompraService {
       
       return allCompras;
     } catch (error) {
-      console.log(`Erro ao recuperar Compras ${error}`);
-      throw new Error(`Erro ao recuperar Compras ${error}`);
+      console.log(`Erro ao recuperar Compras ${error.message}`);
+      throw new Error(`Erro ao recuperar Compras ${error.message}`);
     }
   }
 
@@ -70,7 +70,7 @@ module.exports = class CompraService {
     } catch (error) {
       await session.abortTransaction();
       console.log(error);
-      throw new Error(`Compra não pode ser criada ${error}`);
+      throw new Error(`Compra não pode ser criada ${error.message}`);
     } finally {
       session.endSession();
     }
@@ -82,8 +82,8 @@ module.exports = class CompraService {
 
       return Compra;
     } catch (error) {
-      console.log(`Compra ${compraId} não encontrada ${error}`);
-      throw new Error(`Compra ${compraId} não encontrada ${error}`);
+      console.log(`Compra ${compraId} não encontrada ${error.message}`);
+      throw new Error(`Compra ${compraId} não encontrada ${error.message}`);
     }
   }
 
@@ -93,8 +93,8 @@ module.exports = class CompraService {
 
       return deletedResponse;
     } catch (error) {
-      console.log(`Compra ${id} não pode ser deletada ${error}`);
-      throw new Error(`Compra ${id} não pode ser deletada ${error}`);
+      console.log(`Compra ${id} não pode ser deletada ${error.message}`);
+      throw new Error(`Compra ${id} não pode ser deletada ${error.message}`);
     }
   }
 };

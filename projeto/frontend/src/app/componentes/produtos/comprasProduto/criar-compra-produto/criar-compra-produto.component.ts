@@ -5,10 +5,11 @@ import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Compra } from 'src/app/interfaces/Compra';
 import { Produto } from 'src/app/interfaces/Produto';
-import { ProdutoService } from 'src/app/services/produto.service';
+import { CompraService } from 'src/app/services/compra/compra.service';
 import { Location } from '@angular/common';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { ProdutoService } from 'src/app/services/produto/produto.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -44,7 +45,8 @@ export class CriarCompraProdutoComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: ProdutoService,
+    private produtoService: ProdutoService,
+    private compraService: CompraService,
     private location: Location,
     private route: ActivatedRoute) {
   }
@@ -52,6 +54,7 @@ export class CriarCompraProdutoComponent implements OnInit {
   alertas: Alerta[] = [];
   salvando: boolean = false;
   erroCarregando : boolean = false;
+  listar: boolean = false;
 
   compra: Compra = {
     id_produto: '',
@@ -71,9 +74,10 @@ export class CriarCompraProdutoComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
 
     this.erroCarregando = false;
-    this.service.buscarPorId(id!).subscribe((produto) => {
+    this.produtoService.buscarPorId(id!).subscribe((produto) => {
       if (produto != null) {
         this.produto = {
           _id: produto._id || '',
@@ -102,7 +106,7 @@ export class CriarCompraProdutoComponent implements OnInit {
     };
 
     this.salvando = true;
-    this.service.cadastrarCompra(compra).pipe(catchError(
+    this.compraService.criarCompra(compra).pipe(catchError(
       err => {
         this.salvando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao salvar compra do produto!' });

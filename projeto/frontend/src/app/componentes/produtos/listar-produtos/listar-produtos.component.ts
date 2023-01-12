@@ -6,11 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Produto } from 'src/app/interfaces/Produto';
-import { ProdutoService } from 'src/app/services/produto.service';
+import { ProdutoService } from 'src/app/services/produto/produto.service';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MyCustomPaginatorIntl } from '../../util/paginacao/MyCustomPaginatorIntl';
-
-
 
 @Component({
   selector: 'app-listar-produtos',
@@ -21,7 +19,7 @@ import { MyCustomPaginatorIntl } from '../../util/paginacao/MyCustomPaginatorInt
 export class ListarProdutosComponent implements OnInit{
 
   constructor(
-    private service: ProdutoService,
+    private produtoService: ProdutoService,
     public confirmacao: MatDialog){
   }
 
@@ -29,13 +27,7 @@ export class ListarProdutosComponent implements OnInit{
   produtos: Produto[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
-  produtoExcluido: Produto = {
-    _id: '',
-    nome: '',
-    quantidade: 0,
-    preco: 0,
-    precoCusto: 0
-  };
+  produtoExcluido!: Produto;
 
   // Campos para a tabela
   displayedColumns: string[] =  ['nome', 'quantidade', 'preco', 'precoCusto', 'actions'];
@@ -62,11 +54,11 @@ export class ListarProdutosComponent implements OnInit{
 
   ngOnInit(): void {
     //Recuperando os dados
-    this.service.listar().pipe(catchError(
+    this.produtoService.listar().pipe(catchError(
       err => {
         this.carregando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar produtos!' });
-        throw 'Erro ao cadastrar produto. Detalhes: ' + err;
+        throw 'Erro ao recuperar compras! Detalhes: ' + err;
       })).subscribe(
         (produtos) => {
           this.carregando = false;
@@ -97,7 +89,7 @@ export class ListarProdutosComponent implements OnInit{
     //Excluindo os dados 
     this.excluindo = true;
     this.produtoExcluido = produto;
-    this.service.excluir(produto).pipe(catchError(
+    this.produtoService.excluir(produto).pipe(catchError(
       err => {
         this.excluindo = false;
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o produto "${produto.nome}"!`});

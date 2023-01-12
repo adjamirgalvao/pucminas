@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ProdutoService } from '../../../services/produto.service';
+import { ProdutoService } from '../../../services/produto/produto.service';
 import { Location } from '@angular/common';
 import { catchError } from 'rxjs';
 import { Alerta } from '../../../interfaces/Alerta';
@@ -25,13 +25,7 @@ export class EditarProdutoComponent implements OnInit {
   salvando: boolean = false;
   erroCarregando : boolean = false;
 
-  produto: Produto = {
-    _id: '',
-    nome: '',
-    quantidade: 0,
-    preco: 0,
-    precoCusto: 0
-  }
+  produto!: Produto;
   editarProdutoForm: any;
 
   ngOnInit(): void {
@@ -40,13 +34,7 @@ export class EditarProdutoComponent implements OnInit {
     this.erroCarregando = false;
     this.service.buscarPorId(id!).subscribe((produto) => {
       if (produto != null) {
-        this.produto = {
-          _id: produto._id || '',
-          nome: produto.nome || '',
-          quantidade: produto.quantidade || 0,
-          preco: produto.preco || 0,
-          precoCusto: produto.precoCusto || 0
-        };
+        this.produto = produto;
         this.editarProdutoForm = this.formBuilder.group(this.produto);
       } else {
         this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });

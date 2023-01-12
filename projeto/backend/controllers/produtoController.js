@@ -67,3 +67,19 @@ exports.delete = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getAllCompras = async (req, res) => {
+    let id = req.params.id;
+
+    try {
+      const compras = await ProdutoService.getAllCompras(id);
+  
+      if (!compras) {
+        return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
+      }
+  
+      res.json(compras);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+};

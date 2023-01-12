@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Produto } from '../interfaces/Produto';
-import { Compra } from '../interfaces/Compra';
+import { Produto } from '../../interfaces/Produto';
+import { Compra } from 'src/app/interfaces/Compra';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutoService {
 
+
   private readonly API_PRODUTO = 'http://localhost:8090/produtos/';
-  private readonly API_COMPRA = 'http://localhost:8090/compras/';
 
   constructor(private http: HttpClient) { 
 
@@ -38,8 +38,7 @@ export class ProdutoService {
     return this.http.delete<Produto>(this.API_PRODUTO + '' + produto._id);
   }
 
-  cadastrarCompra(compra: Compra): Observable<Compra> {
-    return this.http.post<Compra>(this.API_COMPRA, compra);
+  listarCompras(id: string): Observable<Compra[]> {
+    return this.http.get<Compra[]>(this.API_PRODUTO + '' + id + '/listarCompras');
   }
-
 }
