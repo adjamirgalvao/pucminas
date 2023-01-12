@@ -14,6 +14,7 @@ module.exports = class CompraService {
   static async addCompra(data) {
     try {
       const novaCompra = {
+        id_produto : data.id_produto,
         data: data.data,
         quantidade: data.quantidade,
         preco: data.preco
@@ -33,8 +34,8 @@ module.exports = class CompraService {
 
       return Compra;
     } catch (error) {
-      console.log(`Compra ${compraId} não encontrado ${error}`);
-      throw new Error(`Compra ${compraId} não encontrado ${error}`);
+      console.log(`Compra ${compraId} não encontrada ${error}`);
+      throw new Error(`Compra ${compraId} não encontrada ${error}`);
     }
   }
 

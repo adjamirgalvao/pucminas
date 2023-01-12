@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const compraSchema = Schema({
+  id_produto: {
+    type: String,
+    required: true
+  },
   data: {
     type: Date,
     required: true,
