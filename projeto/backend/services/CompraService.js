@@ -60,7 +60,7 @@ module.exports = class CompraService {
       const produto = await ProdutoService.getProdutobyId(data.id_produto, session);
 
       if (produto != null) {
-        await CompraService.atualizarPrecoCustoAposCompra(produto, response, session);
+         await CompraService.atualizarPrecoCustoAposCompra(produto, response, session);
          await session.commitTransaction();
       } else {
         throw new Error(`Produto ${data.id_produto} não cadastrado`);

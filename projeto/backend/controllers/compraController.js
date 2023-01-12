@@ -16,7 +16,7 @@ exports.getAll = async (req, res) => {
     const compras = await CompraService.getAllCompras();
 
     if (!compras) {
-      return res.status(404).json("There are no compras published yet!");
+      return res.status(404).json("Não existem compras cadastradas!");
     }
 
     res.json(compras);
@@ -27,7 +27,6 @@ exports.getAll = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    console.log('adicionar compra ', req.body);
     const createdCompra = await CompraService.addCompra(req.body);
     res.status(201).json(createdCompra);
   } catch (error) {

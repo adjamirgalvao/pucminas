@@ -47,8 +47,7 @@ module.exports = class ProdutoService {
                       quantidade: produto.quantidade, 
                       preco : produto.preco, 
                       precoCusto: produto.precoCusto}, {session});
-      console.log(updateResponse);
-
+    
       return updateResponse;
     } catch (error) {
       console.log(`Produto ${id} não pode ser atualizado ${error}`);

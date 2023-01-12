@@ -16,7 +16,7 @@ exports.getAll = async (req, res) => {
     const produtos = await ProdutoService.getAllProdutos();
 
     if (!produtos) {
-      return res.status(404).json("There are no produtos published yet!");
+      return res.status(404).json("Não existem produtos cadastrados!");
     }
 
     res.json(produtos);
@@ -27,7 +27,6 @@ exports.getAll = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    console.log('adicionar produto ', req.body);
     const createdProduto = await ProdutoService.addProduto(req.body);
     res.status(201).json(createdProduto);
   } catch (error) {
