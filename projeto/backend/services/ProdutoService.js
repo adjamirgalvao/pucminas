@@ -40,12 +40,13 @@ module.exports = class ProdutoService {
     }
   }
 
-  static async updateProduto(id, produto) {
+  static async updateProduto(id, produto, session) {
     try {
       const updateResponse = await ProdutoModel.updateOne(
-        { _id: id },
-        { ...produto }
-      );
+        { _id: id} , {nome : produto.nome, 
+                      quantidade: produto.quantidade, 
+                      preco : produto.preco, 
+                      precoCusto: produto.precoCusto}, {session});
       console.log(updateResponse);
 
       return updateResponse;

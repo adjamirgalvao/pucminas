@@ -1,4 +1,5 @@
-const CompraModel = require("../models/CompraModel");
+const {CompraModel, Mongoose} = require("../models/CompraModel");
+const ProdutoService = require("./ProdutoService");
 
 const compraProdutoJoin = [
   {
@@ -12,6 +13,28 @@ const compraProdutoJoin = [
 ];
 
 module.exports = class CompraService {
+
+  static async criarCompra(data, session) {
+    const novaCompra = {
+      id_produto: data.id_produto,
+      data: data.data,
+      quantidade: data.quantidade,
+      preco: data.preco
+    };
+
+    const response = await new CompraModel(novaCompra).save({session});
+
+    return response;
+  }
+
+  static async atualizarPrecoCustoAposCompra(produto, compra, session) {
+    let quantidadeInicial = produto.quantidade;
+
+    produto.quantidade = produto.quantidade + compra.quantidade;
+    produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (compra.quantidade * (compra.preco / compra.quantidade))) / produto.quantidade;
+    await ProdutoService.updateProduto(produto._id, produto, session);
+  }
+
   static async getAllCompras() {
     try {
 
@@ -24,20 +47,30 @@ module.exports = class CompraService {
     }
   }
 
+  // session no mongoose https://blog.tericcabrel.com/how-to-use-mongodb-transaction-in-node-js/
   static async addCompra(data) {
+    const session = await Mongoose.startSession();
+    
+    session.startTransaction();
     try {
-      const novaCompra = {
-        id_produto : data.id_produto,
-        data: data.data,
-        quantidade: data.quantidade,
-        preco: data.preco
-      };
-      const response = await new CompraModel(novaCompra).save();
+
+      const response = await CompraService.criarCompra(data, session);
+      const produto = await ProdutoService.getProdutobyId(data.id_produto, session);
+
+      if (produto != null) {
+        await CompraService.atualizarPrecoCustoAposCompra(produto, response, session);
+         await session.commitTransaction();
+      } else {
+        throw new Error(`Produto ${data.id_produto} não cadastrado`);
+      }
 
       return response;
     } catch (error) {
+      await session.abortTransaction();
       console.log(error);
       throw new Error(`Compra não pode ser criada ${error}`);
+    } finally {
+      session.endSession();
     }
   }
 
