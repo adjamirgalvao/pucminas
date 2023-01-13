@@ -52,6 +52,7 @@
         </div>
         <br>
         <button mat-stroked-button [routerLink]="['/produtos/' + produto._id + '/cadastrarCompraProduto']" [queryParams]="{ listar: true }"
-            matTooltip="Nova Compra" color="primary">Nova Compra </button>
-    </div>
+            matTooltip="Nova Compra" color="primary">Nova Compra </button>  &nbsp;
+        <button routerLink="/produtos" mat-stroked-button matTooltip="Voltar" color="warn">Voltar</button>
+</div>
 </section>
