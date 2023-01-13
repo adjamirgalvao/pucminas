@@ -80,7 +80,12 @@ export class ListarComprasProdutoComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.produtoService.buscarPorId(id!).subscribe((produto) => {
+    this.produtoService.buscarPorId(id!).pipe(catchError(
+      err => {
+        this.carregando = false;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o produto!' });
+        throw 'Erro ao recuperar o produto! Detalhes: ' + err;
+      })).subscribe((produto) => {
       if (produto != null) {
         this.produto = produto;
 
