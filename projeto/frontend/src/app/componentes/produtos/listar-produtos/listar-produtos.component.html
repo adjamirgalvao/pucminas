@@ -41,7 +41,7 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef>Ações</th>
                     <td mat-cell *matCellDef="let produto">
-                        <button mat-icon-button [routerLink]="['/produtos/editarProduto', produto._id]"
+                        <button mat-icon-button [routerLink]="['/produtos/' + produto._id + '/editarProduto']"
                             matTooltip="Editar produto">
                             <mat-icon color="secondary">create</mat-icon>
                         </button>
@@ -49,11 +49,11 @@
                             [disabled]="excluindo" [class.spinner]="excluindo && (produto._id == produtoExcluido._id)">
                             <mat-icon color="secondary">delete</mat-icon>
                         </button>
-                        <button mat-icon-button [routerLink]="['/produtos/:id/cadastrarCompraProduto', {id: produto._id}]"
+                        <button mat-icon-button [routerLink]="['/produtos/' + produto._id + '/cadastrarCompraProduto']"
                             matTooltip="Cadastrar compra para o estoque">
                             <mat-icon color="secondary">payment</mat-icon>
                         </button>
-                        <button mat-icon-button [routerLink]="['/produtos/:id/listarComprasProduto', {id: produto._id}]"
+                        <button mat-icon-button [routerLink]="['/produtos/' + produto._id + '/listarComprasProduto']"
                             matTooltip="Gerenciar compras do estoque">
                             <mat-icon color="secondary">local_mall</mat-icon>
                         </button>

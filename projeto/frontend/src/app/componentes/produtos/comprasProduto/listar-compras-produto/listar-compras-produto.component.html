@@ -3,7 +3,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
             <li class="breadcrumb-item">Produtos</li>
-            <li class="breadcrumb-item"><a routerLink="/produtos/listarProdutos">Listar Produtos</a></li>
+            <li class="breadcrumb-item"><a routerLink="/produtos">Listar Produtos</a></li>
             <li class="breadcrumb-item active" aria-current="page">Gerenciar compras do Produto</li>
         </ol>
     </nav>
@@ -50,7 +50,7 @@
                 <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
         </div>
         <br>
-        <button mat-stroked-button [routerLink]="['/produtos/:id/cadastrarCompraProduto', {id: produto._id}]" [queryParams]="{ listar: true }"
+        <button mat-stroked-button [routerLink]="['/produtos/' + produto._id + '/cadastrarCompraProduto']" [queryParams]="{ listar: true }"
             matTooltip="Nova Compra" color="primary">Nova Compra </button>
     </div>
 </section>

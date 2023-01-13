@@ -22,7 +22,12 @@ const routes: Routes = [
     component: CriarProdutoComponent
   },
   {
-    path: 'produtos/editarProduto/:id',
+    path: 'produtos',
+    component: ListarProdutosComponent
+  },
+  // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
+  {
+    path: 'produtos/:id/editarProduto',
     component: EditarProdutoComponent
   },
   {
@@ -33,10 +38,7 @@ const routes: Routes = [
     path: 'produtos/:id/listarComprasProduto',
     component: ListarComprasProdutoComponent
   },  
-  {
-    path: 'produtos/listarProdutos',
-    component: ListarProdutosComponent
-  }
+
 ];
 
 @NgModule({
