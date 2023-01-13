@@ -1,3 +1,5 @@
+import { NotaFiscalCompraService } from './../../../../services/notaFiscalCompra/nota-fiscal-compra.service';
+import { NotaFiscalCompra } from './../../../../interfaces/NotaFiscalCompra';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -47,6 +49,7 @@ export class CriarCompraProdutoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private produtoService: ProdutoService,
     private compraService: CompraService,
+    private notaFiscalService: NotaFiscalCompraService,
     private location: Location,
     private route: ActivatedRoute) {
   }
@@ -56,13 +59,13 @@ export class CriarCompraProdutoComponent implements OnInit {
   erroCarregando : boolean = false;
   listar: boolean = false;
 
-  compra: Compra = {
+  compra = {
     id_produto: '',
     data: new Date(),
     quantidade: 0,
     preco: 0
   };
-
+  
   produto: Produto = {
     _id: '',
     nome: '',
@@ -80,13 +83,12 @@ export class CriarCompraProdutoComponent implements OnInit {
     this.produtoService.buscarPorId(id!).subscribe((produto) => {
       if (produto != null) {
         this.produto = {
-          _id: produto._id || '',
-          nome: produto.nome || '',
-          quantidade: produto.quantidade || 0,
-          preco: produto.preco || 0,
-          precoCusto: produto.precoCusto || 0
+          _id: produto._id,
+          nome: produto.nome,
+          quantidade: produto.quantidade,
+          preco: produto.preco,
+          precoCusto: produto.precoCusto
         };
-        this.criarCompraProdutoForm = this.formBuilder.group(this.compra);
       } else {
         this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
         this.erroCarregando = true;
@@ -97,25 +99,39 @@ export class CriarCompraProdutoComponent implements OnInit {
   }
 
   comprarProduto(): void {
-    // Compra do produto
-    const compra: Compra = {
-      id_produto: this.produto._id!,
-      data: this.criarCompraProdutoForm.value.data || this.compra.data,
-      quantidade: this.criarCompraProdutoForm.value.quantidade || this.compra.quantidade,
-      preco: this.criarCompraProdutoForm.value.preco || this.compra.preco
+    // Nota Fsical
+    const nota: NotaFiscalCompra = {
+      data: this.criarCompraProdutoForm.value.data
     };
 
     this.salvando = true;
-    this.compraService.criarCompra(compra).pipe(catchError(
+    this.notaFiscalService.criarNota(nota).pipe(catchError(
       err => {
         this.salvando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao salvar compra do produto!' });
         throw 'Erro ao salvar compra do produto. Detalhes: ' + err;
       })).subscribe(
-        () => {
-          this.salvando = false;
-          //this.alertasEditar.push({ tipo: 'success', mensagem: 'Produto salvo com sucesso!' });
-          this.location.back();
+        (notaComprada) => {
+              
+          // Compra do produto
+          const compra: Compra = {
+            id_produto: this.produto._id!,
+            id_nota: notaComprada._id,
+            quantidade: this.criarCompraProdutoForm.value.quantidade,
+            preco: this.criarCompraProdutoForm.value.preco
+          };
+
+          this.compraService.criarCompra(compra).pipe(catchError(
+            err => {
+              this.salvando = false;
+              this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao salvar compra do produto!' });
+              throw 'Erro ao salvar compra do produto. Detalhes: ' + err;
+            })).subscribe(
+              () => {
+                this.salvando = false;
+                //this.alertasEditar.push({ tipo: 'success', mensagem: 'Produto salvo com sucesso!' });
+                this.location.back();
+              });
         });
   }
 

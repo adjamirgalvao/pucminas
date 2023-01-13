@@ -6,9 +6,9 @@ const compraSchema = Schema({
     type: Schema.ObjectId,
     required: true
   },
-  data: {
-    type: Date,
-    required: true,
+  id_nota: {
+    type: Schema.ObjectId,
+    required: true
   },
   quantidade: {
     type: Number,

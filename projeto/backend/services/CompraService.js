@@ -11,20 +11,43 @@ const compraProdutoInnerJoin = [
       'as': 'produto'
     }
   }, { // para fazer com que fique um campo e não uma lista
-    '$addFields': {
+     '$addFields': {
         'produto': {
             '$arrayElemAt': [
                 '$produto', 0
             ]
         }
     }
-}, { // para virar inner join e não left join
-  '$match': {
+  }, { // para virar inner join e não left join
+    '$match': {
       'produto': {
           '$exists': true
       }
-  }
-}
+    }
+  },
+  //nota fiscal
+  {
+    '$lookup': {
+      'from': 'notasfiscaiscompras', 
+      'localField': 'id_nota', 
+      'foreignField': '_id', 
+      'as': 'notaFiscal'
+    }
+  }, { // para fazer com que fique um campo e não uma lista
+     '$addFields': {
+        'notaFiscal': {
+            '$arrayElemAt': [
+                '$notaFiscal', 0
+            ]
+        }
+    }
+  }, { // para virar inner join e não left join
+    '$match': {
+      'notaFiscal': {
+          '$exists': true
+      }
+    }
+  }  
 ];
 
 module.exports = class CompraService {
@@ -32,7 +55,7 @@ module.exports = class CompraService {
   static async criarCompra(data, session) {
     const novaCompra = {
       id_produto: data.id_produto,
-      data: data.data,
+      id_nota: data.id_nota,
       quantidade: data.quantidade,
       preco: data.preco
     };

@@ -45,7 +45,7 @@ export class ListarComprasProdutoComponent implements OnInit {
   };
 
   // Campos para a tabela
-  displayedColumns: string[] = ['data', 'quantidade', 'preco', 'actions'];
+  displayedColumns: string[] = ['notaFiscal.data', 'quantidade', 'preco', 'actions'];
   dataSource: MatTableDataSource<Compra> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -65,6 +65,16 @@ export class ListarComprasProdutoComponent implements OnInit {
   setDataSourceAttributes() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    // para ordernar subcampo
+    // https://stackoverflow.com/questions/55030357/angular-matsort-not-working-when-using-object-inside-datasource
+    // e aqui descobri que tinha que colocar o item: any https://technology.amis.nl/frontend/sorting-an-angular-material-table/
+    this.dataSource.sortingDataAccessor = (item: any, property) => {
+      switch (property) {
+         case 'notaFiscal.data': return  item.notaFiscal!.data;
+         default: return item[property];
+      }
+   }
   }
 
   ngOnInit(): void {

@@ -16,4 +16,6 @@ app.set('view engine', 'html');
 app.use("/", require('./routers/routers'));
 app.use("/produtos", require('./routers/produtoRouter'));
 app.use("/compras", require('./routers/compraRouter'));
+app.use("/notasFiscaisCompra", require('./routers/notaFiscalCompraRouter'));
+
 module.exports = app;

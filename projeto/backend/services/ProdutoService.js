@@ -1,5 +1,38 @@
 const ProdutoModel = require("../models/ProdutoModel");
-const { CompraModel } = require("../models/CompraModel");
+const { CompraModel, Mongoose } = require("../models/CompraModel");
+
+
+function compraNotaInnerJoin(id) {
+  return  [
+  {
+    '$match':{
+      'id_produto': new Mongoose.Types.ObjectId(id)}
+  },
+  //nota fiscal
+  {
+    '$lookup': {
+      'from': 'notasfiscaiscompras', 
+      'localField': 'id_nota', 
+      'foreignField': '_id', 
+      'as': 'notaFiscal'
+    }
+  }, { // para fazer com que fique um campo e não uma lista
+     '$addFields': {
+        'notaFiscal': {
+            '$arrayElemAt': [
+                '$notaFiscal', 0
+            ]
+        }
+    }
+  }, { // para virar inner join e não left join
+    '$match': {
+      'notaFiscal': {
+          '$exists': true
+      }
+    }
+  }  
+];
+}
 
 module.exports = class ProdutoService {
   static async getAllProdutos() {
@@ -70,7 +103,7 @@ module.exports = class ProdutoService {
 
   static async getAllCompras(id) {
     try {
-      const allCompras = await CompraModel.find({id_produto : id});
+      const allCompras = await CompraModel.aggregate(compraNotaInnerJoin(id));
       
       return allCompras;
     } catch (error) {
