@@ -1,7 +1,8 @@
 const { CompraModel, Mongoose } = require("../models/CompraModel");
 const ProdutoService = require("./ProdutoService");
 
-const compraProdutoJoin = [
+// https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
+const compraProdutoInnerJoin = [
   {
     '$lookup': {
       'from': 'produtos', 
@@ -9,7 +10,21 @@ const compraProdutoJoin = [
       'foreignField': '_id', 
       'as': 'produto'
     }
+  }, { // para fazer com que fique um campo e não uma lista
+    '$addFields': {
+        'produto': {
+            '$arrayElemAt': [
+                '$produto', 0
+            ]
+        }
+    }
+}, { // para virar inner join e não left join
+  '$match': {
+      'produto': {
+          '$exists': true
+      }
   }
+}
 ];
 
 module.exports = class CompraService {
@@ -40,7 +55,7 @@ module.exports = class CompraService {
   static async getAllCompras() {
     try {
 
-      const allCompras = await CompraModel.aggregate(compraProdutoJoin);
+      const allCompras = await CompraModel.aggregate(compraProdutoInnerJoin);
       
       return allCompras;
     } catch (error) {

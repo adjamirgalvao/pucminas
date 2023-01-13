@@ -6,5 +6,5 @@ export interface Compra {
     data: Date
     quantidade: number
     preco: number
-    produto? : Produto[]
+    produto? : Produto
   }
