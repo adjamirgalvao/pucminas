@@ -18,14 +18,14 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'produtos/criarProduto',
-    component: CriarProdutoComponent
+    path: 'produtos',
+    component: ListarProdutosComponent,
   },
   {
-    path: 'produtos',
-    component: ListarProdutosComponent
+    path: 'produtos/criarProduto',
+    component: CriarProdutoComponent,
   },
-  // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
+   // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
   {
     path: 'produtos/:id/editarProduto',
     component: EditarProdutoComponent
