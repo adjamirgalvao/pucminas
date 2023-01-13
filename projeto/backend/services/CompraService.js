@@ -42,12 +42,25 @@ module.exports = class CompraService {
     return response;
   }
 
-  static async atualizarPrecoCustoAposCompra(produto, compra, session) {
+  static async atualizarPrecoCustoAposEntrada(produto, compra, session) {
     let quantidadeInicial = produto.quantidade;
 
     produto.quantidade = produto.quantidade + compra.quantidade;
     produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (compra.quantidade * (compra.preco / compra.quantidade))) / produto.quantidade;
     produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
+
+    await ProdutoService.updateProduto(produto._id, produto, session);
+  }
+
+  static async atualizarPrecoCustoAposSaida(produto, saida, session) {
+    let quantidadeInicial = produto.quantidade;
+
+    produto.quantidade = produto.quantidade - saida.quantidade;
+    if (produto.quantidade == 0) {
+      produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * (saida.preco / saida.quantidade))) / produto.quantidade;
+      produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
+      produto.precoCusto = produto.precoCustoInicial;
+    }  
 
     await ProdutoService.updateProduto(produto._id, produto, session);
   }
@@ -70,15 +83,14 @@ module.exports = class CompraService {
     
     session.startTransaction();
     try {
-
       const response = await CompraService.criarCompra(data, session);
-      const produto = await ProdutoService.getProdutobyId(data.id_produto, session);
+      const produto = await ProdutoService.getProdutobyId(data.id_produto);
 
       if (produto != null) {
-         await CompraService.atualizarPrecoCustoAposCompra(produto, response, session);
+         await CompraService.atualizarPrecoCustoAposEntrada(produto, response, session);
          await session.commitTransaction();
       } else {
-        throw new Error(`Produto ${data.id_produto} não cadastrado`);
+         throw new Error(`Produto ${data.id_produto} não cadastrado`);
       }
 
       return response;
@@ -91,25 +103,37 @@ module.exports = class CompraService {
     }
   }
 
-  static async getComprabyId(compraId) {
+  static async getComprabyId(id) {
     try {
-      const Compra = await CompraModel.findById(compraId);
+      const Compra = await CompraModel.findById(id);
 
       return Compra;
     } catch (error) {
-      console.log(`Compra ${compraId} não encontrada ${error.message}`);
-      throw new Error(`Compra ${compraId} não encontrada ${error.message}`);
+      console.log(`Compra ${id} não encontrada ${error.message}`);
+      throw new Error(`Compra ${id} não encontrada ${error.message}`);
     }
   }
 
-  static async deleteCompra(compraId) {
+  static async deleteCompra(id) {
+    const session = await Mongoose.startSession();
+    
+    session.startTransaction();
     try {
-      const deletedResponse = await CompraModel.findOneAndDelete({ _id: compraId });
+      const deletedResponse = await CompraModel.findOneAndDelete({ _id: id }, {session});
+      const produto = await ProdutoService.getProdutobyId(deletedResponse.id_produto);
+
+      if (produto != null) {
+         await CompraService.atualizarPrecoCustoAposSaida(produto, deletedResponse, session);
+      }
+      await session.commitTransaction();
 
       return deletedResponse;
     } catch (error) {
+      await session.abortTransaction();
       console.log(`Compra ${id} não pode ser deletada ${error.message}`);
       throw new Error(`Compra ${id} não pode ser deletada ${error.message}`);
+    } finally {
+      session.endSession();
     }
   }
 };

@@ -13,15 +13,16 @@ module.exports = class ProdutoService {
     }
   }
 
-  static async addProduto(data) {
+  static async addProduto(data, session) {
     try {
       const novoProduto = {
         nome: data.nome,
         quantidade: data.quantidade,
         preco: data.preco,
-        precoCusto: data.precoCusto
+        precoCusto: data.precoCusto,
+        precoCustoInicial: data.precoCusto
       };
-      const response = await new ProdutoModel(novoProduto).save();
+      const response = await new ProdutoModel(novoProduto).save({session});
 
       return response;
     } catch (error) {
@@ -48,7 +49,7 @@ module.exports = class ProdutoService {
                       quantidade: produto.quantidade, 
                       preco : produto.preco, 
                       precoCusto: produto.precoCusto}, {session});
-    
+
       return updateResponse;
     } catch (error) {
       console.log(`Produto ${id} não pode ser atualizado ${error.message}`);
@@ -56,9 +57,9 @@ module.exports = class ProdutoService {
     }
   }
 
-  static async deleteProduto(produtoId) {
+  static async deleteProduto(id, session) {
     try {
-      const deletedResponse = await ProdutoModel.findOneAndDelete({ _id: produtoId });
+      const deletedResponse = await ProdutoModel.findOneAndDelete({ _id: id }, {session});
 
       return deletedResponse;
     } catch (error) {

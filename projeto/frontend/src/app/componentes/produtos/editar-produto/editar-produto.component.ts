@@ -50,9 +50,9 @@ export class EditarProdutoComponent implements OnInit {
     const produto: Produto = {
       _id: this.produto._id,
       nome: this.editarProdutoForm.value.nome || this.produto.nome,
-      quantidade: this.editarProdutoForm.value.quantidade || this.produto.quantidade,
-      preco: this.editarProdutoForm.value.preco || this.produto.preco,
-      precoCusto: this.editarProdutoForm.value.precoCusto || this.produto.precoCusto
+      quantidade: this.editarProdutoForm.value.quantidade,
+      preco: this.editarProdutoForm.value.preco,
+      precoCusto: this.editarProdutoForm.value.precoCusto
     };
 
     this.salvando = true;

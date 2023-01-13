@@ -17,7 +17,11 @@ const produtoSchema = Schema({
   precoCusto: {
     type: Number,
     required: true,
-  },
+  },  
+  precoCustoInicial: {
+    type: Number,
+    required: true,
+  }
 });
 
 module.exports = ProdutoModel = mongoose.model("produtos", produtoSchema);
