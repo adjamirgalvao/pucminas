@@ -28,6 +28,14 @@
             </div>
             <div class="mb-3">
                 <mat-form-field>
+                    <mat-label>Nota Fiscal</mat-label>
+                    <input type="string" formControlName="numero" matInput placeholder="Digite o numero da Nota Fiscal"
+                        [readonly]="salvando || erroCarregando">
+                    <mat-hint>Digite o numero da Nota Fiscal</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="mb-3">
+                <mat-form-field>
                     <mat-label>Quantidade</mat-label>
                     <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
                         [readonly]="salvando || erroCarregando">
