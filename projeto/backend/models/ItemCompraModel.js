@@ -21,6 +21,6 @@ const compraSchema = Schema({
 });
 
 module.exports = {
-  CompraModel: mongoose.model("itensCompras", compraSchema),
+  ItemCompraModel: mongoose.model("itenscompras", compraSchema),
   Mongoose: mongoose,
 };

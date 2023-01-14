@@ -1,5 +1,5 @@
 const ProdutoModel = require("../models/ProdutoModel");
-const { CompraModel, Mongoose } = require("../models/CompraModel");
+const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
 
 
 function compraNotaInnerJoin(id) {
@@ -103,12 +103,12 @@ module.exports = class ProdutoService {
 
   static async getAllCompras(id) {
     try {
-      const allCompras = await CompraModel.aggregate(compraNotaInnerJoin(id));
+      const allCompras = await ItemCompraModel.aggregate(compraNotaInnerJoin(id));
       
       return allCompras;
     } catch (error) {
-      console.log(`Erro ao recuperar Compras ${error.message}`);
-      throw new Error(`Erro ao recuperar Compras ${error.message}`);
+      console.log(`Erro ao recuperar Comprass ${error.message}`);
+      throw new Error(`Erro ao recuperar Comprass ${error.message}`);
     }
   }
 };

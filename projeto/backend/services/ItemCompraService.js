@@ -1,4 +1,4 @@
-const { CompraModel, Mongoose } = require("../models/CompraModel");
+const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
 const ProdutoService = require("./ProdutoService");
 const NotaFiscalService = require("./NotaFiscalCompraService");
 
@@ -51,7 +51,7 @@ const compraProdutoInnerJoin = [
   }  
 ];
 
-module.exports = class CompraService {
+module.exports = class ItemCompraService {
 
   static async criarCompra(data, session) {
     const novaCompra = {
@@ -61,7 +61,7 @@ module.exports = class CompraService {
       preco: data.preco
     };
 
-    const response = await new CompraModel(novaCompra).save({session});
+    const response = await new ItemCompraModel(novaCompra).save({session});
 
     return response;
   }
@@ -92,7 +92,7 @@ module.exports = class CompraService {
   static async getAllCompras() {
     try {
 
-      const allCompras = await CompraModel.aggregate(compraProdutoInnerJoin);
+      const allCompras = await ItemCompraModel.aggregate(compraProdutoInnerJoin);
       
       return allCompras;
     } catch (error) {
@@ -115,11 +115,11 @@ module.exports = class CompraService {
         const nota = await NotaFiscalService.addNotaFiscalCompra(dataNota, session);
         data.id_compra = nota._id;
       }
-      const itemCompra = await CompraService.criarCompra(data, session);
+      const itemCompra = await ItemCompraService.criarCompra(data, session);
       const produto = await ProdutoService.getProdutobyId(data.id_produto);
 
       if (produto != null) {
-         await CompraService.atualizarPrecoCustoAposEntrada(produto, itemCompra, session);
+         await ItemCompraService.atualizarPrecoCustoAposEntrada(produto, itemCompra, session);
          await session.commitTransaction();
       } else {
          throw new Error(`Produto ${data.id_produto} não cadastrado`);
@@ -137,7 +137,7 @@ module.exports = class CompraService {
 
   static async getComprabyId(id) {
     try {
-      const Compra = await CompraModel.findById(id);
+      const Compra = await ItemCompraModel.findById(id);
 
       return Compra;
     } catch (error) {
@@ -151,11 +151,11 @@ module.exports = class CompraService {
     
     session.startTransaction();
     try {
-      const compraRemovida = await CompraModel.findOneAndDelete({ _id: id }, {session});
+      const compraRemovida = await ItemCompraModel.findOneAndDelete({ _id: id }, {session});
       const produto = await ProdutoService.getProdutobyId(compraRemovida.id_produto);
 
       if (produto != null) {
-         await CompraService.atualizarPrecoCustoAposSaida(produto, compraRemovida, session);
+         await ItemCompraService.atualizarPrecoCustoAposSaida(produto, compraRemovida, session);
       }
       await session.commitTransaction();
 
