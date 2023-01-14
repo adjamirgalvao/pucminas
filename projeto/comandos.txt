@@ -1,3 +1,4 @@
+>> backend passos iniciais 
 node init -- criar projeto
 npm install axios -- para fazer chamada http no node, mas precisa ser a versão ^0.21.1
 npm install body-parser -- para na aplicação node poder pegar os dados do formulario
@@ -9,6 +10,7 @@ npm install nodemon --save-dev -- para instalar o nodemon no seu projeto
 npm install cors   https://www.treinaweb.com.br/blog/o-que-e-cors-e-como-resolver-os-principais-erros
 para resolver o problema de Access to XMLHttpRequest at 'http://localhost:8090/produtos/' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 
+>> frontend passos iniciais
 ng new meuApp -- cria o projeto angular
 ng serve --open roda o projeto e abre o browser
  >> tambem poderia ser npm start

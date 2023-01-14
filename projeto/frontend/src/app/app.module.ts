@@ -34,6 +34,7 @@ import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/
 import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { ListarComprasProdutoComponent } from './componentes/produtos/comprasPro
     MatDividerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

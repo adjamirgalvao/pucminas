@@ -9,6 +9,7 @@
     </nav>
 </div>
 
+<mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="container">
     <app-alerta [alertas]="alertas"></app-alerta>
 
@@ -16,9 +17,6 @@
         <header class="header">
             <h2>Gerenciar Compras do Produto <i> {{ produto.nome }}</i> </h2>
         </header>
-        <div *ngIf="carregando"><strong>Carregando...</strong>
-            <mat-spinner [diameter]="20"></mat-spinner>
-        </div>
         <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhuma compra cadastrada para o produto.</strong>
         </div>
         <div class="grid gap-3 border rounded container" *ngIf="dataSource.data.length > 0">

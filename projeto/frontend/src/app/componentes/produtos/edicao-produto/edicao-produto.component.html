@@ -9,15 +9,13 @@
     </nav>
 </div>
 
+<mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="container">
     <app-alerta [alertas]="alertas"></app-alerta>
     <div class="grid gap-3 border rounded container" aria-disabled>
         <header class="header">
             <h2>{{ operacao }} Produto <i *ngIf="this.formulario">{{this.formulario.get('nome')!.value}}</i></h2>
         </header>
-        <div *ngIf="carregando"><strong>Carregando...</strong>
-            <mat-spinner [diameter]="20"></mat-spinner>
-        </div>
         <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando">
             <div class="mb-3">
                 <mat-form-field style="width: 70%;">
