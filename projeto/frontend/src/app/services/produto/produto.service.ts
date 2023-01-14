@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Produto } from '../../interfaces/Produto';
-import { Compra } from 'src/app/interfaces/Compra';
+import { ItemCompraProduto } from 'src/app/interfaces/ItemCompraProduto';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +38,7 @@ export class ProdutoService {
     return this.http.delete<Produto>(this.API_PRODUTO + '' + produto._id);
   }
 
-  listarCompras(id: string): Observable<Compra[]> {
-    return this.http.get<Compra[]>(this.API_PRODUTO + '' + id + '/listarCompras');
+  listarItensCompras(id: string): Observable<ItemCompraProduto[]> {
+    return this.http.get<ItemCompraProduto[]>(this.API_PRODUTO + '' + id + '/listarCompras');
   }
 }

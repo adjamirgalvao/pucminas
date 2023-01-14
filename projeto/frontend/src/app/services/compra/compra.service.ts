@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Compra } from '../../interfaces/Compra';
+import { ItemCompraProduto } from '../../interfaces/ItemCompraProduto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +14,16 @@ export class CompraService {
 
   }
   
-  criarItemCompra(itemCompra: Compra): Observable<Compra> {
-    return this.http.post<Compra>(this.API_ITEM_COMPRA, itemCompra);
+  criarItemCompra(itemCompra: ItemCompraProduto): Observable<ItemCompraProduto> {
+    return this.http.post<ItemCompraProduto>(this.API_ITEM_COMPRA, itemCompra);
   }
 
-  listarItemCompra() : Observable<Compra> {
-    return this.http.get<Compra>(this.API_ITEM_COMPRA);
+  listarItemCompra() : Observable<ItemCompraProduto> {
+    return this.http.get<ItemCompraProduto>(this.API_ITEM_COMPRA);
   }
 
-  excluirItemCompra(itemCompra: Compra): Observable<Compra> {
+  excluirItemCompra(itemCompra: ItemCompraProduto): Observable<ItemCompraProduto> {
     console.log(itemCompra);
-    return this.http.delete<Compra>(this.API_ITEM_COMPRA + '' + itemCompra._id);
+    return this.http.delete<ItemCompraProduto>(this.API_ITEM_COMPRA + '' + itemCompra._id);
   }
 }

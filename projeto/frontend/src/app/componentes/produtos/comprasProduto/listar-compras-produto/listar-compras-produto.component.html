@@ -37,7 +37,7 @@
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                     <mat-cell *matCellDef="let compra">
-                        <button mat-icon-button matTooltip="Excluir compra" (click)="confirmarExcluirCompra(compra)"
+                        <button mat-icon-button matTooltip="Excluir compra" (click)="confirmarExcluirItemCompra(compra)"
                             [disabled]="excluindo" [class.spinner]="excluindo && (produto._id == compraExcluida._id)">
                             <mat-icon color="secondary">delete</mat-icon>
                         </button>

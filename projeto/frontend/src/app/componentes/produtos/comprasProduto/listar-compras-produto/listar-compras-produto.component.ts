@@ -10,7 +10,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MyCustomPaginatorIntl } from '../../../util/paginacao/MyCustomPaginatorIntl';
 import { CompraService } from 'src/app/services/compra/compra.service';
 import { ActivatedRoute } from '@angular/router';
-import { Compra } from 'src/app/interfaces/Compra';
+import { ItemCompraProduto } from 'src/app/interfaces/ItemCompraProduto';
 import { ModalConfirmacaoComponent } from 'src/app/componentes/util/modal-confirmacao/modal-confirmacao.component';
 
 @Component({
@@ -31,11 +31,11 @@ export class ListarComprasProdutoComponent implements OnInit {
   }
 
   alertas: Alerta[] = [];
-  compras: Compra[] = [];
+  itensCompras: ItemCompraProduto[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
 
-  compraExcluida!: Compra;
+  compraExcluida!: ItemCompraProduto;
   //Esse declaro os valores porque o campo é exibido no formulário
   produto: Produto = {
     nome: '',
@@ -46,7 +46,7 @@ export class ListarComprasProdutoComponent implements OnInit {
 
   // Campos para a tabela
   displayedColumns: string[] = ['compra.data', 'quantidade', 'preco', 'actions'];
-  dataSource: MatTableDataSource<Compra> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ItemCompraProduto> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
   private paginator!: MatPaginator;
@@ -90,17 +90,17 @@ export class ListarComprasProdutoComponent implements OnInit {
         this.produto = produto;
 
         //Recuperando os dados
-        this.produtoService.listarCompras(id!).pipe(catchError(
+        this.produtoService.listarItensCompras(id!).pipe(catchError(
           err => {
             this.carregando = false;
             this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar compras!' });
             throw 'Erro ao recuperar compras! Detalhes: ' + err;
           })).subscribe(
-            (compras) => {
+            (itensCompras) => {
               this.carregando = false;
-              console.log(compras);
-              this.compras = compras;
-              this.dataSource.data = this.compras;
+              console.log(itensCompras);
+              this.itensCompras = itensCompras;
+              this.dataSource.data = this.itensCompras;
             });
       } else {
         this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
@@ -109,7 +109,7 @@ export class ListarComprasProdutoComponent implements OnInit {
     });
   }
 
-  confirmarExcluirCompra(compra: Compra) {
+  confirmarExcluirItemCompra(itemCompra: ItemCompraProduto) {
     const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
       data: {
         mensagem: `Confirma a exclusão da compra produto '${this.produto.nome}'?`,
@@ -120,19 +120,19 @@ export class ListarComprasProdutoComponent implements OnInit {
     confirmacaoRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result == 'Sim') {
-        this.excluirCompra(compra);
+        this.excluirItemCompra(itemCompra);
       }
     });
   }
 
-  excluirCompra(compra: Compra) {
-    console.log('excluindo', compra);
+  excluirItemCompra(itemCompra: ItemCompraProduto) {
+    console.log('excluindo', itemCompra);
 
 
     //Excluindo os dados 
     this.excluindo = true;
-    this.compraExcluida = compra;
-    this.compraService.excluirItemCompra(compra).pipe(catchError(
+    this.compraExcluida = itemCompra;
+    this.compraService.excluirItemCompra(itemCompra).pipe(catchError(
       err => {
         this.excluindo = false;
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a compra do produto "${this.produto.nome}"!` });
@@ -140,9 +140,9 @@ export class ListarComprasProdutoComponent implements OnInit {
       })).subscribe(
         () => {
           this.excluindo = false;
-          this.compras.splice(this.compras.indexOf(compra), 1);
+          this.itensCompras.splice(this.itensCompras.indexOf(itemCompra), 1);
           //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
-          this.dataSource = new MatTableDataSource(this.compras);
+          this.dataSource = new MatTableDataSource(this.itensCompras);
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `A compra do Produto "${this.produto.nome}" foi excluída com sucesso!` });
         });

@@ -1,11 +1,10 @@
 import { NotaFiscalCompraService } from './../../../../services/notaFiscalCompra/nota-fiscal-compra.service';
-import { NotaFiscalCompra } from './../../../../interfaces/NotaFiscalCompra';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
-import { Compra } from 'src/app/interfaces/Compra';
+import { ItemCompraProduto } from 'src/app/interfaces/ItemCompraProduto';
 import { Produto } from 'src/app/interfaces/Produto';
 import { CompraService } from 'src/app/services/compra/compra.service';
 import { Location } from '@angular/common';
@@ -116,7 +115,7 @@ export class CriarCompraProdutoComponent implements OnInit {
 
   comprarProduto(): void {
     this.salvando = true;
-    const itemCompra: Compra = {
+    const itemCompra: ItemCompraProduto = {
       id_produto: this.produto._id!,
       quantidade: this.formulario.value.quantidade,
       preco: this.formulario.value.preco,
