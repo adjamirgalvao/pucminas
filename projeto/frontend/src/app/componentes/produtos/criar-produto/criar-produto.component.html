@@ -15,12 +15,13 @@
         <header class="header">
             <h2>Novo Produto</h2>
         </header>
-        <form [formGroup]="criarProdutoForm" (ngSubmit)="criarProduto()">
+        <form [formGroup]="formulario" (ngSubmit)="criarProduto()">
             <div class="mb-3">
                 <mat-form-field style="width: 70%;">
                     <mat-label>Produto</mat-label>
                     <input type="text" formControlName="nome" maxlength="256" matInput
                         placeholder="Digite o nome do produto" [readonly]="salvando">
+                    <mat-error *ngIf="formulario.get('nome')!.hasError('required') && formulario.get('nome')!.touched">O campo é obrigatório!</mat-error>
                     <mat-hint>Digite o nome do produto</mat-hint>
                 </mat-form-field>
             </div>
@@ -29,7 +30,9 @@
                     <mat-label>Estoque inicial</mat-label>
                     <input type="number" formControlName="quantidade" matInput placeholder="Digite o estoque inicial"
                         [readonly]="salvando">
-                    <mat-hint>Digite o estoque inicial</mat-hint>
+                        <mat-error *ngIf="formulario.get('quantidade')!.hasError('required')  && formulario.get('quantidade')!.touched">O campo é obrigatório!</mat-error>
+                        <mat-error *ngIf="formulario.get('quantidade')!.hasError('min') && formulario.get('quantidade')!.touched">O valor deve ser maior ou igual a zero!</mat-error>
+                        <mat-hint>Digite o estoque inicial</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -37,6 +40,8 @@
                     <mat-label>Preço</mat-label>
                     <input type="number" formControlName="preco" matInput placeholder="Digite o preço"
                         [readonly]="salvando">
+                        <mat-error *ngIf="formulario.get('preco')!.hasError('required') && formulario.get('preco')!.touched">O campo é obrigatório!</mat-error>
+                        <mat-error *ngIf="formulario.get('preco')!.hasError('min') && formulario.get('preco')!.touched">O valor deve ser maior que zero!</mat-error>
                     <mat-hint>Digite o preço</mat-hint>
                 </mat-form-field>
             </div>
@@ -45,13 +50,15 @@
                     <mat-label>Preço custo</mat-label>
                     <input type="number" formControlName="precoCusto" matInput placeholder="Digite o preço médio de custo"
                         [readonly]="salvando">
+                        <mat-error *ngIf="formulario.get('precoCusto')!.hasError('required') && formulario.get('precoCusto')!.touched">O campo é obrigatório!</mat-error>
+                        <mat-error *ngIf="formulario.get('precoCusto')!.hasError('min') && formulario.get('precoCusto')!.touched">O valor deve ser maior ou igual a zero!</mat-error>
                     <mat-hint>Digite o preço de custo</mat-hint>
                 </mat-form-field>
             </div>
             <div class="acoes">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
                 <button type="submit" mat-stroked-button matTooltip="Salvar o produto" color="primary"
-                    [disabled]="salvando" [class.spinner]="salvando">Salvar</button> &nbsp;
+                    [disabled]="salvando || !formulario.valid" [class.spinner]="salvando">Salvar</button> &nbsp;
                 <button (click)="$event.preventDefault(); cancelar();" mat-stroked-button matTooltip="Voltar sem salvar" color="warn"
                     [disabled]="salvando">Voltar</button>
             </div>

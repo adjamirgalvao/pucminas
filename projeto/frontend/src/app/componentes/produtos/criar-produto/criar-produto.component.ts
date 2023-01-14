@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
 
@@ -21,6 +21,7 @@ export class CriarProdutoComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute) {
   }
+  formulario! : FormGroup;
 
   alertas: Alerta[] = [];
   salvando: boolean = false;
@@ -32,20 +33,32 @@ export class CriarProdutoComponent implements OnInit {
     preco: 0,
     precoCusto: 0
   };
-
-  criarProdutoForm = this.formBuilder.group(this.inicial);
-
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
+
+    this.formulario = this.formBuilder.group({
+      nome: [this.inicial.nome, Validators.compose([
+        Validators.required
+      ])],
+      quantidade: [this.inicial.quantidade, Validators.compose([
+        Validators.required, Validators.min(0)
+      ])],
+      preco: [this.inicial.preco, Validators.compose([
+        Validators.required, Validators.min(0.01)
+      ])],
+      precoCusto: [this.inicial.precoCusto, Validators.compose([
+        Validators.required, Validators.min(0)
+      ])]
+    });
   }
 
   criarProduto(): void {
     // Criação do produto
     const produto: Produto = {
-      nome: this.criarProdutoForm.value.nome || this.inicial.nome,
-      quantidade: this.criarProdutoForm.value.quantidade || this.inicial.quantidade,
-      preco: this.criarProdutoForm.value.preco || this.inicial.preco,
-      precoCusto: this.criarProdutoForm.value.precoCusto || this.inicial.precoCusto
+      nome: this.formulario.value.nome,
+      quantidade: this.formulario.value.quantidade,
+      preco: this.formulario.value.preco,
+      precoCusto: this.formulario.value.precoCusto
     };
 
     this.salvando = true;
@@ -59,7 +72,11 @@ export class CriarProdutoComponent implements OnInit {
           this.salvando = false;
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: 'Produto cadastrado com sucesso!' });
-          this.criarProdutoForm.reset(this.inicial);
+          this.formulario.reset(this.inicial);
+          // Para resetar os erros https://stackoverflow.com/questions/55776775/how-to-reset-validation-error-without-resetting-form-in-angular
+          Object.keys(this.formulario.controls).forEach(key => {
+            this.formulario.get(key)!.setErrors(null);
+          });
         });
   }
 

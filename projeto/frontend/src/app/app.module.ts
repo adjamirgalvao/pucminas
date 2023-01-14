@@ -4,13 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-//para usar reactiveform
+// Para usar reactiveform
 import { ReactiveFormsModule } from '@angular/forms';
-//client http
+// Client http
 import { HttpClientModule} from '@angular/common/http';
 // Animações 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//material io
+// Material io
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -54,7 +54,7 @@ import { ListarComprasProdutoComponent } from './componentes/produtos/comprasPro
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    HttpClientModule, 
     BrowserAnimationsModule,
     MatButtonModule,
     MatInputModule,
