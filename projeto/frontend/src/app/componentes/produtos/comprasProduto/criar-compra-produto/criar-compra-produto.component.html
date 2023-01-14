@@ -16,11 +16,12 @@
         <header class="header">
             <h2>Nova Compra do Produto <i>{{this.produto.nome}}</i></h2>
         </header>
-        <form [formGroup]="criarCompraProdutoForm" (ngSubmit)="comprarProduto()">
+        <form [formGroup]="formulario" (ngSubmit)="comprarProduto()">
             <div class="mb-3">
                 <mat-form-field appearance="fill">
                     <mat-label>Data de compra</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="data">
+                    <mat-error *ngIf="formulario.get('data')!.hasError('required') && formulario.get('data')!.touched">O campo é obrigatório!</mat-error>
                     <mat-hint>DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -29,9 +30,9 @@
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Nota Fiscal</mat-label>
-                    <input type="string" formControlName="numero" matInput placeholder="Digite o numero da Nota Fiscal"
+                    <input type="string" formControlName="numero" matInput placeholder="Digite a Nota Fiscal"
                         [readonly]="salvando || erroCarregando">
-                    <mat-hint>Digite o numero da Nota Fiscal</mat-hint>
+                    <mat-hint>Digite a Nota Fiscal</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -39,6 +40,8 @@
                     <mat-label>Quantidade</mat-label>
                     <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
                         [readonly]="salvando || erroCarregando">
+                        <mat-error *ngIf="formulario.get('quantidade')!.hasError('required')  && formulario.get('quantidade')!.touched">O campo é obrigatório!</mat-error>
+                        <mat-error *ngIf="formulario.get('quantidade')!.hasError('min') && formulario.get('quantidade')!.touched">O valor deve ser maior que zero!</mat-error>
                     <mat-hint>Digite a quantidade</mat-hint>
                 </mat-form-field>
             </div>
@@ -47,13 +50,15 @@
                     <mat-label>Preço total</mat-label>
                     <input type="number" formControlName="preco" matInput placeholder="Digite o preço"
                         [readonly]="salvando || erroCarregando">
+                        <mat-error *ngIf="formulario.get('preco')!.hasError('required')  && formulario.get('preco')!.touched">O campo é obrigatório!</mat-error>
+                        <mat-error *ngIf="formulario.get('preco')!.hasError('min') && formulario.get('preco')!.touched">O valor deve ser maior que zero!</mat-error>
                     <mat-hint>Digite o preço total</mat-hint>
                 </mat-form-field>
             </div>
             <div class="acoes">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
                 <button type="submit" mat-stroked-button matTooltip="Salvar a compra" color="primary"
-                    [disabled]="salvando || erroCarregando" [class.spinner]="salvando">Salvar</button> &nbsp;
+                    [disabled]="salvando || erroCarregando || !formulario.valid" [class.spinner]="salvando">Salvar</button> &nbsp;
                 <button (click)="$event.preventDefault(); cancelar();" mat-stroked-button matTooltip="Voltar sem salvar"
                     color="warn" [disabled]="salvando">Voltar</button>
             </div>

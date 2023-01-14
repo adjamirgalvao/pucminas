@@ -1,7 +1,7 @@
 import { NotaFiscalCompraService } from './../../../../services/notaFiscalCompra/nota-fiscal-compra.service';
 import { NotaFiscalCompra } from './../../../../interfaces/NotaFiscalCompra';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
@@ -74,7 +74,7 @@ export class CriarCompraProdutoComponent implements OnInit {
     preco: 0,
     precoCusto: 0
   }
-  criarCompraProdutoForm: any;
+  formulario: any;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -96,17 +96,32 @@ export class CriarCompraProdutoComponent implements OnInit {
       }
     });
 
-    this.criarCompraProdutoForm = this.formBuilder.group(this.compra);
+    this.criarFormulario();
+  }
+
+  private criarFormulario() {
+      this.formulario = this.formBuilder.group({
+        data: [this.compra.data, Validators.compose([
+          Validators.required
+        ])],
+        numero: [this.compra.numero],        
+        quantidade: [this.compra.quantidade, Validators.compose([
+          Validators.required, Validators.min(0.01)
+        ])],
+        preco: [this.compra.preco, Validators.compose([
+          Validators.required, Validators.min(0.01)
+        ])]
+      });
   }
 
   comprarProduto(): void {
     this.salvando = true;
     const compra: Compra = {
       id_produto: this.produto._id!,
-      quantidade: this.criarCompraProdutoForm.value.quantidade,
-      preco: this.criarCompraProdutoForm.value.preco,
-      dataNotaFiscal: this.criarCompraProdutoForm.value.data,
-      numeroNotaFiscal: this.criarCompraProdutoForm.value.numero};
+      quantidade: this.formulario.value.quantidade,
+      preco: this.formulario.value.preco,
+      dataNotaFiscal: this.formulario.value.data,
+      numeroNotaFiscal: this.formulario.value.numero};
 
     this.compraService.criarCompra(compra).pipe(catchError(
       err => {
