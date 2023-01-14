@@ -1,5 +1,6 @@
 const { CompraModel, Mongoose } = require("../models/CompraModel");
 const ProdutoService = require("./ProdutoService");
+const NotaFiscalService = require("./NotaFiscalCompraService");
 
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
 const compraProdutoInnerJoin = [
@@ -79,12 +80,12 @@ module.exports = class CompraService {
     let quantidadeInicial = produto.quantidade;
 
     produto.quantidade = produto.quantidade - saida.quantidade;
-    if (produto.quantidade == 0) {
+    if (produto.quantidade > 0) {
       produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * (saida.preco / saida.quantidade))) / produto.quantidade;
       produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
+    } else {
       produto.precoCusto = produto.precoCustoInicial;
-    }  
-
+    } 
     await ProdutoService.updateProduto(produto._id, produto, session);
   }
 
@@ -106,17 +107,25 @@ module.exports = class CompraService {
     
     session.startTransaction();
     try {
-      const response = await CompraService.criarCompra(data, session);
+      // Se a compra não tem a nota fiscal. é uma compra feita sem criar a nota. Então vamos criar a nota
+      if (!data.id_nota) {
+         const dataNota = {data : data.dataNotaFiscal,
+                      numero: data.numeroNotaFiscal};
+
+        const nota = await NotaFiscalService.addNotaFiscalCompra(dataNota, session);
+        data.id_nota = nota._id;
+      }
+      const compra = await CompraService.criarCompra(data, session);
       const produto = await ProdutoService.getProdutobyId(data.id_produto);
 
       if (produto != null) {
-         await CompraService.atualizarPrecoCustoAposEntrada(produto, response, session);
+         await CompraService.atualizarPrecoCustoAposEntrada(produto, compra, session);
          await session.commitTransaction();
       } else {
          throw new Error(`Produto ${data.id_produto} não cadastrado`);
       }
 
-      return response;
+      return compra;
     } catch (error) {
       await session.abortTransaction();
       console.log(error);
@@ -142,15 +151,15 @@ module.exports = class CompraService {
     
     session.startTransaction();
     try {
-      const deletedResponse = await CompraModel.findOneAndDelete({ _id: id }, {session});
-      const produto = await ProdutoService.getProdutobyId(deletedResponse.id_produto);
+      const compraRemovida = await CompraModel.findOneAndDelete({ _id: id }, {session});
+      const produto = await ProdutoService.getProdutobyId(compraRemovida.id_produto);
 
       if (produto != null) {
-         await CompraService.atualizarPrecoCustoAposSaida(produto, deletedResponse, session);
+         await CompraService.atualizarPrecoCustoAposSaida(produto, compraRemovida, session);
       }
       await session.commitTransaction();
 
-      return deletedResponse;
+      return compraRemovida;
     } catch (error) {
       await session.abortTransaction();
       console.log(`Compra ${id} não pode ser deletada ${error.message}`);

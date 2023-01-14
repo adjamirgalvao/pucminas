@@ -9,4 +9,6 @@ export interface Compra {
     preco: number
     produto? : Produto
     notaFiscal? : NotaFiscalCompra
+    dataNotaFiscal?: string
+    numeroNotaFiscal?: string
   }

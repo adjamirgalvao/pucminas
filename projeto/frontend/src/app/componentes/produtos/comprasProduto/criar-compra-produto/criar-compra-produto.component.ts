@@ -76,28 +76,6 @@ export class CriarCompraProdutoComponent implements OnInit {
   }
   criarCompraProdutoForm: any;
 
-
-  private criarCompra(notaComprada: NotaFiscalCompra) {
-    const compra: Compra = {
-      id_produto: this.produto._id!,
-      id_nota: notaComprada._id,
-      quantidade: this.criarCompraProdutoForm.value.quantidade,
-      preco: this.criarCompraProdutoForm.value.preco
-    };
-
-    this.compraService.criarCompra(compra).pipe(catchError(
-      err => {
-        this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao salvar compra do produto!' });
-        throw 'Erro ao salvar compra do produto. Detalhes: ' + err;
-      })).subscribe(
-        () => {
-          this.salvando = false;
-          //this.alertasEditar.push({ tipo: 'success', mensagem: 'Produto salvo com sucesso!' });
-          this.location.back();
-        });
-  }
-
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
@@ -122,22 +100,24 @@ export class CriarCompraProdutoComponent implements OnInit {
   }
 
   comprarProduto(): void {
-    // Nota Fiscal
-    const nota: NotaFiscalCompra = {
-      data: this.criarCompraProdutoForm.value.data,
-      numero: this.criarCompraProdutoForm.value.numero
-    };
-
     this.salvando = true;
-    this.notaFiscalService.criarNota(nota).pipe(catchError(
+    const compra: Compra = {
+      id_produto: this.produto._id!,
+      quantidade: this.criarCompraProdutoForm.value.quantidade,
+      preco: this.criarCompraProdutoForm.value.preco,
+      dataNotaFiscal: this.criarCompraProdutoForm.value.data,
+      numeroNotaFiscal: this.criarCompraProdutoForm.value.numero};
+
+    this.compraService.criarCompra(compra).pipe(catchError(
       err => {
         this.salvando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao salvar compra do produto!' });
         throw 'Erro ao salvar compra do produto. Detalhes: ' + err;
       })).subscribe(
-        (notaComprada) => {
-          // Compra do produto
-          this.criarCompra(notaComprada);
+        () => {
+          this.salvando = false;
+          //this.alertasEditar.push({ tipo: 'success', mensagem: 'Produto salvo com sucesso!' });
+          this.location.back();
         });
   }
 
