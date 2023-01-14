@@ -119,7 +119,7 @@ export class EdicaoProdutoComponent implements OnInit {
         () => {
           this.salvando = false;
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: 'Produto cadastrado com sucesso!' });
+          this.alertas.push({ tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!` });
           this.formulario.reset(this.inicial);
           // Para resetar os erros https://stackoverflow.com/questions/55776775/how-to-reset-validation-error-without-resetting-form-in-angular
           Object.keys(this.formulario.controls).forEach(key => {
