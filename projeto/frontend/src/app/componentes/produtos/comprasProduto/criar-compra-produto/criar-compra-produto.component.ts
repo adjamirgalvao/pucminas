@@ -116,14 +116,14 @@ export class CriarCompraProdutoComponent implements OnInit {
 
   comprarProduto(): void {
     this.salvando = true;
-    const compra: Compra = {
+    const itemCompra: Compra = {
       id_produto: this.produto._id!,
       quantidade: this.formulario.value.quantidade,
       preco: this.formulario.value.preco,
-      dataNotaFiscal: this.formulario.value.data,
-      numeroNotaFiscal: this.formulario.value.numero};
+      dataCompra: this.formulario.value.data,
+      numeroCompra: this.formulario.value.numero};
 
-    this.compraService.criarCompra(compra).pipe(catchError(
+    this.compraService.criarItemCompra(itemCompra).pipe(catchError(
       err => {
         this.salvando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao salvar compra do produto!' });

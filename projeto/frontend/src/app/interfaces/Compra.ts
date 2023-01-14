@@ -3,12 +3,12 @@ import { NotaFiscalCompra } from "./NotaFiscalCompra"
 
 export interface Compra {
     _id?: string
-    id_nota?: string
+    id_compra?: string
     id_produto: string 
     quantidade: number
     preco: number
     produto? : Produto
-    notaFiscal? : NotaFiscalCompra
-    dataNotaFiscal?: string
-    numeroNotaFiscal?: string
+    compra? : NotaFiscalCompra
+    dataCompra?: string
+    numeroCompra?: string
   }

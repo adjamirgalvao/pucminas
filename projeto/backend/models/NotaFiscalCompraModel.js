@@ -12,4 +12,4 @@ const notaFiscalSchema = Schema({
   },
 });
 
-module.exports = NotaFiscalCompraModel = mongoose.model("notasfiscaiscompra", notaFiscalSchema);
+module.exports = NotaFiscalCompraModel = mongoose.model("compras", notaFiscalSchema);

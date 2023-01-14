@@ -26,25 +26,25 @@ const compraProdutoInnerJoin = [
       }
     }
   },
-  //nota fiscal
+  //compra
   {
     '$lookup': {
-      'from': 'notasfiscaiscompras', 
-      'localField': 'id_nota', 
+      'from': 'compras', 
+      'localField': 'id_compra', 
       'foreignField': '_id', 
-      'as': 'notaFiscal'
+      'as': 'compra'
     }
   }, { // para fazer com que fique um campo e não uma lista
      '$addFields': {
-        'notaFiscal': {
+        'compra': {
             '$arrayElemAt': [
-                '$notaFiscal', 0
+                '$compra', 0
             ]
         }
     }
   }, { // para virar inner join e não left join
     '$match': {
-      'notaFiscal': {
+      'compra': {
           '$exists': true
       }
     }
@@ -56,7 +56,7 @@ module.exports = class CompraService {
   static async criarCompra(data, session) {
     const novaCompra = {
       id_produto: data.id_produto,
-      id_nota: data.id_nota,
+      id_compra: data.id_compra,
       quantidade: data.quantidade,
       preco: data.preco
     };
@@ -108,24 +108,24 @@ module.exports = class CompraService {
     session.startTransaction();
     try {
       // Se a compra não tem a nota fiscal. é uma compra feita sem criar a nota. Então vamos criar a nota
-      if (!data.id_nota) {
-         const dataNota = {data : data.dataNotaFiscal,
-                      numero: data.numeroNotaFiscal};
+      if (!data.id_compra) {
+         const dataNota = {data : data.dataCompra,
+                      numero: data.numeroCompra};
 
         const nota = await NotaFiscalService.addNotaFiscalCompra(dataNota, session);
-        data.id_nota = nota._id;
+        data.id_compra = nota._id;
       }
-      const compra = await CompraService.criarCompra(data, session);
+      const itemCompra = await CompraService.criarCompra(data, session);
       const produto = await ProdutoService.getProdutobyId(data.id_produto);
 
       if (produto != null) {
-         await CompraService.atualizarPrecoCustoAposEntrada(produto, compra, session);
+         await CompraService.atualizarPrecoCustoAposEntrada(produto, itemCompra, session);
          await session.commitTransaction();
       } else {
          throw new Error(`Produto ${data.id_produto} não cadastrado`);
       }
 
-      return compra;
+      return itemCompra;
     } catch (error) {
       await session.abortTransaction();
       console.log(error);

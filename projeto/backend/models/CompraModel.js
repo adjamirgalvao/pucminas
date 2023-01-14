@@ -6,7 +6,7 @@ const compraSchema = Schema({
     type: Schema.ObjectId,
     required: true
   },
-  id_nota: {
+  id_compra: {
     type: Schema.ObjectId,
     required: true
   },
@@ -21,6 +21,6 @@ const compraSchema = Schema({
 });
 
 module.exports = {
-  CompraModel: mongoose.model("compras", compraSchema),
+  CompraModel: mongoose.model("itensCompras", compraSchema),
   Mongoose: mongoose,
 };

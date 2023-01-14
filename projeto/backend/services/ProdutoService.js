@@ -11,22 +11,22 @@ function compraNotaInnerJoin(id) {
   //nota fiscal
   {
     '$lookup': {
-      'from': 'notasfiscaiscompras', 
-      'localField': 'id_nota', 
+      'from': 'compras', 
+      'localField': 'id_compra', 
       'foreignField': '_id', 
-      'as': 'notaFiscal'
+      'as': 'compra'
     }
   }, { // para fazer com que fique um campo e não uma lista
      '$addFields': {
-        'notaFiscal': {
+        'compra': {
             '$arrayElemAt': [
-                '$notaFiscal', 0
+                '$compra', 0
             ]
         }
     }
   }, { // para virar inner join e não left join
     '$match': {
-      'notaFiscal': {
+      'compra': {
           '$exists': true
       }
     }

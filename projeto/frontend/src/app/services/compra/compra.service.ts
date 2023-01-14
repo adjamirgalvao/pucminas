@@ -8,22 +8,22 @@ import { Compra } from '../../interfaces/Compra';
 })
 export class CompraService {
 
-  private readonly API_COMPRA = 'http://localhost:8090/compras/';
+  private readonly API_ITEM_COMPRA = 'http://localhost:8090/compras/';
 
   constructor(private http: HttpClient) { 
 
   }
   
-  criarCompra(compra: Compra): Observable<Compra> {
-    return this.http.post<Compra>(this.API_COMPRA, compra);
+  criarItemCompra(itemCompra: Compra): Observable<Compra> {
+    return this.http.post<Compra>(this.API_ITEM_COMPRA, itemCompra);
   }
 
-  listar(id: string) : Observable<Compra> {
-    return this.http.get<Compra>(this.API_COMPRA);
+  listarItemCompra() : Observable<Compra> {
+    return this.http.get<Compra>(this.API_ITEM_COMPRA);
   }
 
-  excluir(compra: Compra): Observable<Compra> {
-    console.log(compra);
-    return this.http.delete<Compra>(this.API_COMPRA + '' + compra._id);
+  excluirItemCompra(itemCompra: Compra): Observable<Compra> {
+    console.log(itemCompra);
+    return this.http.delete<Compra>(this.API_ITEM_COMPRA + '' + itemCompra._id);
   }
 }

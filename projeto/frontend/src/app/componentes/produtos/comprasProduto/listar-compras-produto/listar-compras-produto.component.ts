@@ -45,7 +45,7 @@ export class ListarComprasProdutoComponent implements OnInit {
   };
 
   // Campos para a tabela
-  displayedColumns: string[] = ['notaFiscal.data', 'quantidade', 'preco', 'actions'];
+  displayedColumns: string[] = ['compra.data', 'quantidade', 'preco', 'actions'];
   dataSource: MatTableDataSource<Compra> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -71,7 +71,7 @@ export class ListarComprasProdutoComponent implements OnInit {
     // e aqui descobri que tinha que colocar o item: any https://technology.amis.nl/frontend/sorting-an-angular-material-table/
     this.dataSource.sortingDataAccessor = (item: any, property) => {
       switch (property) {
-         case 'notaFiscal.data': return  item.notaFiscal!.data;
+         case 'compra.data': return  item.compra!.data;
          default: return item[property];
       }
    }
@@ -132,7 +132,7 @@ export class ListarComprasProdutoComponent implements OnInit {
     //Excluindo os dados 
     this.excluindo = true;
     this.compraExcluida = compra;
-    this.compraService.excluir(compra).pipe(catchError(
+    this.compraService.excluirItemCompra(compra).pipe(catchError(
       err => {
         this.excluindo = false;
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a compra do produto "${this.produto.nome}"!` });
