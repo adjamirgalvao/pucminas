@@ -27,11 +27,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 // Meus componentes
 import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component';
-import { CriarProdutoComponent } from './componentes/produtos/criar-produto/criar-produto.component';
+import { EdicaoProdutoComponent } from './componentes/produtos/edicao-produto/edicao-produto.component';
 import { HomeComponent } from './componentes/home/home/home.component';
 import { AlertaComponent } from './componentes/util/alerta/alerta.component';
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
-import { EditarProdutoComponent } from './componentes/produtos/editar-produto/editar-produto.component';
 import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
@@ -40,11 +39,10 @@ import { ListarComprasProdutoComponent } from './componentes/produtos/comprasPro
   declarations: [
     AppComponent,
     CabecalhoComponent,
-    CriarProdutoComponent,
+    EdicaoProdutoComponent,
     HomeComponent,
     AlertaComponent,
     ListarProdutosComponent,
-    EditarProdutoComponent,
     ModalConfirmacaoComponent,
     CriarCompraProdutoComponent,
     ListarComprasProdutoComponent

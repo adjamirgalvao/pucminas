@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './componentes/home/home/home.component';
-import { CriarProdutoComponent } from './componentes/produtos/criar-produto/criar-produto.component';
+import { EdicaoProdutoComponent } from './componentes/produtos/edicao-produto/edicao-produto.component';
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
-import { EditarProdutoComponent } from './componentes/produtos/editar-produto/editar-produto.component';
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 
@@ -23,12 +22,12 @@ const routes: Routes = [
   },
   {
     path: 'produtos/criarProduto',
-    component: CriarProdutoComponent,
+    component: EdicaoProdutoComponent,
   },
    // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
   {
     path: 'produtos/:id/editarProduto',
-    component: EditarProdutoComponent
+    component: EdicaoProdutoComponent //EditarProdutoComponent
   },
   {
     path: 'produtos/:id/cadastrarCompraProduto',
