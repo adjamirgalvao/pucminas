@@ -11,7 +11,7 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
 
-    <div class="grid gap-3 border rounded px-3" aria-disabled>
+    <div class="grid gap-3 border rounded px-3 pb-3" aria-disabled>
         <header class="header">
             <h2>Listar Produtos</h2>
         </header>
@@ -67,5 +67,5 @@
         <button mat-stroked-button routerLink="/produtos/criarProduto" [queryParams]="{ listar: true }"
             matTooltip="Novo Produto" color="primary">Novo Produto</button>  &nbsp;
             <button routerLink="/home" mat-stroked-button matTooltip="Voltar" color="warn">Voltar</button>
-    </div>
+   </div>
 </section>
