@@ -22,7 +22,7 @@
                     <mat-label>Nome</mat-label>
                     <input type="text" formControlName="nome" matInput
                         placeholder="Digite o nome do produto" [readonly]="salvando  || erroCarregando">
-                    <mat-error *ngIf="formulario.get('nome')?.hasError('required') && formulario.get('nome')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="formulario.get('nome')?.errors && formulario.get('nome')?.touched">O campo é obrigatório!</mat-error>
                     <mat-hint>Digite o nome do produto</mat-hint>
                 </mat-form-field>
             </div>

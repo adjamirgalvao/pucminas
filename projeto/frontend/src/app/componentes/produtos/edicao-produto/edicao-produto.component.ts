@@ -95,7 +95,8 @@ export class EdicaoProdutoComponent implements OnInit {
   private criarFormulario() {
     this.formulario = this.formBuilder.group({
       nome: [this.inicial.nome, Validators.compose([
-        Validators.required
+        Validators.required,
+        Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
       quantidade: [this.inicial.quantidade, Validators.compose([
         Validators.required, Validators.min(0)
