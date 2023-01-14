@@ -19,7 +19,7 @@
         <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando">
             <div class="mb-3">
                 <mat-form-field style="width: 70%;">
-                    <mat-label>Produto</mat-label>
+                    <mat-label>Nome</mat-label>
                     <input type="text" formControlName="nome" matInput
                         placeholder="Digite o nome do produto" [readonly]="salvando  || erroCarregando">
                     <mat-error *ngIf="formulario.get('nome')!.hasError('required') && formulario.get('nome')!.touched">O campo é obrigatório!</mat-error>
