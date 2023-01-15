@@ -24,7 +24,7 @@ ng add @ng-bootstrap/ng-bootstrap --adicionar o bootstrap no projeto da maneira 
 
 >> adicionando material da google
 
-ng add @angular/material
+ng add @angular/material 
 
 
 >> adicionando moment
