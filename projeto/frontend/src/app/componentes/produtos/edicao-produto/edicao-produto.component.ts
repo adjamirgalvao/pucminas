@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
@@ -19,24 +19,25 @@ export class EdicaoProdutoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private service: ProdutoService,
     private location: Location,
+    private router: Router,
     private route: ActivatedRoute) {
   }
-  formulario! : FormGroup;
+  formulario!: FormGroup;
 
   alertas: Alerta[] = [];
   salvando: boolean = false;
   listar: boolean = false;
-  erroCarregando : boolean = false;
-  carregando : boolean = false;
+  erroCarregando: boolean = false;
+  carregando: boolean = false;
 
-  inicial : Produto = {
+  inicial: Produto = {
     nome: '',
     quantidade: 0,
     preco: 0,
     precoCusto: 0
   };
 
-  operacao! : string;
+  operacao!: string;
 
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
@@ -47,26 +48,26 @@ export class EdicaoProdutoComponent implements OnInit {
 
     this.criarFormulario();
     if (this.operacao == 'Editar') {
-        this.erroCarregando = false;
-        this.carregando = true;
-        this.service.buscarPorId(id!).pipe(catchError(
-          err => {
-            this.erroCarregando = true;
-            this.carregando = false;
-            this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o produto!' });
-            throw 'Erro ao recuperar o produto! Detalhes: ' + err;
-          })).subscribe((produto) => {
-            this.carregando = false; 
-           if (produto != null) {
-              this.inicial = produto;
-              console.log('inicial', this.inicial);
-              this.criarFormulario();
+      this.erroCarregando = false;
+      this.carregando = true;
+      this.service.buscarPorId(id!).pipe(catchError(
+        err => {
+          this.erroCarregando = true;
+          this.carregando = false;
+          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o produto!' });
+          throw 'Erro ao recuperar o produto! Detalhes: ' + err;
+        })).subscribe((produto) => {
+          this.carregando = false;
+          if (produto != null) {
+            this.inicial = produto;
+            console.log('inicial', this.inicial);
+            this.criarFormulario();
           } else {
-              this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
-              this.erroCarregando = true;
+            this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+            this.erroCarregando = true;
           }
         });
-    } 
+    }
   }
 
   salvar(): void {
@@ -80,11 +81,11 @@ export class EdicaoProdutoComponent implements OnInit {
 
     this.salvando = true;
     if (this.operacao == 'Cadastrar') {
-       this.cadastrarProduto(produto);
-    } else{
+      this.cadastrarProduto(produto);
+    } else {
       produto._id = this.inicial._id!;
       this.editarProduto(produto);
-    }   
+    }
   }
 
   cancelar(): void {
@@ -129,7 +130,7 @@ export class EdicaoProdutoComponent implements OnInit {
         });
   }
 
-  private editarProduto(produto : Produto) {
+  private editarProduto(produto: Produto) {
     this.salvando = true;
     this.service.editar(produto).pipe(catchError(
       err => {
@@ -139,8 +140,8 @@ export class EdicaoProdutoComponent implements OnInit {
       })).subscribe(
         () => {
           this.salvando = false;
-          //this.alertasEditar.push({ tipo: 'success', mensagem: 'Produto salvo com sucesso!' });
-          this.location.back();
+          // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
+          this.router.navigate(['/produtos'],  {state: {alerta: {tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!`} }});
         });
   }
 
