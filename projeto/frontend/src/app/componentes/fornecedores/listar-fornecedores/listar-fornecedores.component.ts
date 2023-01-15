@@ -1,28 +1,26 @@
-import { ModalConfirmacaoComponent } from './../../util/modal-confirmacao/modal-confirmacao.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { catchError } from 'rxjs/internal/operators/catchError';
-import { Alerta } from 'src/app/interfaces/Alerta';
-import { Produto } from 'src/app/interfaces/Produto';
-import { ProdutoService } from 'src/app/services/produto/produto.service';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MyCustomPaginatorIntl } from '../../util/paginacao/MyCustomPaginatorIntl';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError } from 'rxjs';
+import { Alerta } from 'src/app/interfaces/Alerta';
+import { Fornecedor } from 'src/app/interfaces/Fornecedor';
+import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
+import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-confirmacao.component';
 
 @Component({
-  selector: 'app-listar-produtos',
-  templateUrl: './listar-produtos.component.html',
-  styleUrls: ['./listar-produtos.component.css'],
-  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }]
+  selector: 'app-listar-fornecedores',
+  templateUrl: './listar-fornecedores.component.html',
+  styleUrls: ['./listar-fornecedores.component.css']
 })
-export class ListarProdutosComponent implements OnInit {
+export class ListarFornecedoresComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private produtoService: ProdutoService,
+    private fornecedorService: FornecedorService,
     public confirmacao: MatDialog) {
       // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
       // não pode ficar no OnInit 
@@ -34,14 +32,14 @@ export class ListarProdutosComponent implements OnInit {
   }
 
   alertas: Alerta[] = [];
-  produtos: Produto[] = [];
+  fornecedores: Fornecedor[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
-  produtoExcluido!: Produto;
+  fornecedorExcluido!: Fornecedor;
 
   // Campos para a tabela
   displayedColumns: string[] = ['nome', 'quantidade', 'preco', 'actions'];
-  dataSource: MatTableDataSource<Produto> = new MatTableDataSource();
+  dataSource: MatTableDataSource<Fornecedor> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
   private paginator!: MatPaginator;
@@ -64,57 +62,56 @@ export class ListarProdutosComponent implements OnInit {
 
   ngOnInit(): void {
     //Recuperando os dados
-    this.produtoService.listar().pipe(catchError(
+    this.fornecedorService.listar().pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar produtos!' });
-        throw 'Erro ao recuperar produtos! Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar fornecedores!' });
+        throw 'Erro ao recuperar fornecedores! Detalhes: ' + err;
       })).subscribe(
-        (produtos) => {
+        (fornecedores) => {
           this.carregando = false;
-          console.log(produtos);
-          this.produtos = produtos;
-          this.dataSource.data = this.produtos;
+          console.log(fornecedores);
+          this.fornecedores = fornecedores;
+          this.dataSource.data = this.fornecedores;
         });
   }
 
-  confirmarExcluirProduto(produto: Produto) {
+  confirmarExcluirFornecedor(fornecedor: Fornecedor) {
     const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
       data: {
-        mensagem: `Confirma a exclusão do produto '${produto.nome}'?`,
-        titulo: 'Confirmação de Exclusão de Produto'
+        mensagem: `Confirma a exclusão do fornecedor '${fornecedor.nome}'?`,
+        titulo: 'Confirmação de Exclusão de Fornecedor'
       },
     });
 
     confirmacaoRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result == 'Sim') {
-        this.excluirProduto(produto);
+        this.excluirFornecedor(fornecedor);
       }
     });
   }
 
-  excluirProduto(produto: Produto) {
-    console.log('excluindo', produto);
+  excluirFornecedor(fornecedor: Fornecedor) {
+    console.log('excluindo', fornecedor);
 
 
     //Excluindo os dados 
     this.excluindo = true;
-    this.produtoExcluido = produto;
-    this.produtoService.excluir(produto).pipe(catchError(
+    this.fornecedorExcluido = fornecedor;
+    this.fornecedorService.excluir(fornecedor).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o produto "${produto.nome}"!` });
-        throw 'Erro ao excluir o produto. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o fornecedor "${fornecedor.nome}"!` });
+        throw 'Erro ao excluir o fornecedor. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.excluindo = false;
-          this.produtos.splice(this.produtos.indexOf(produto), 1);
+          this.fornecedores.splice(this.fornecedores.indexOf(fornecedor), 1);
           //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
-          this.dataSource = new MatTableDataSource(this.produtos);
+          this.dataSource = new MatTableDataSource(this.fornecedores);
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `O Produto "${produto.nome}" foi excluído com sucesso!` });
+          this.alertas.push({ tipo: 'success', mensagem: `O Fornecedor "${fornecedor.nome}" foi excluído com sucesso!` });
         });
   }
 }
-

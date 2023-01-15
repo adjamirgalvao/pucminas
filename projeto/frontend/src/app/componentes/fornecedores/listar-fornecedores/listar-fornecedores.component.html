@@ -2,8 +2,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
-            <li class="breadcrumb-item">Produtos</li>
-            <li class="breadcrumb-item active" aria-current="page">Listar Produtos</li>
+            <li class="breadcrumb-item">Fornecedores</li>
+            <li class="breadcrumb-item active" aria-current="page">Listar Fornecedores</li>
         </ol>
     </nav>
 </div>
@@ -13,47 +13,39 @@
 
     <div class="grid gap-3 border rounded px-3 pb-3" aria-disabled>
         <header class="header">
-            <h2>Listar Produtos</h2>
+            <h2>Listar Fornecedores</h2>
         </header>
-        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto cadastrado.</strong>
+        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum fornecedor cadastrado.</strong>
         </div>
         <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
             <mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="nome">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
-                    <mat-cell *matCellDef="let produto">{{ produto.nome }}</mat-cell>
+                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.nome }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="quantidade">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estoque</mat-header-cell>
-                    <mat-cell *matCellDef="let produto">{{ produto.quantidade }}</mat-cell>
+                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.quantidade }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="preco">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Preço</mat-header-cell>
-                    <mat-cell *matCellDef="let produto">{{ produto.preco | dinheiroPipe }}</mat-cell>
+                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.preco | dinheiroPipe }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
-                    <mat-cell *matCellDef="let produto">
+                    <mat-cell *matCellDef="let fornecedor">
                         <div>
-                        <button mat-icon-button [routerLink]="['/produtos/' + produto._id]"
-                            matTooltip="Detalhar produto" [state]="{ operacao: 'Consultar' }">
+                        <button mat-icon-button [routerLink]="['/fornecedors/' + fornecedor._id]"
+                            matTooltip="Detalhar Fornecedor" [state]="{ operacao: 'Consultar' }">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
-                        <button mat-icon-button [routerLink]="['/produtos/' + produto._id + '/editarProduto']"
-                            matTooltip="Editar produto">
+                        <button mat-icon-button [routerLink]="['/fornecedors/' + fornecedor._id + '/editarFornecedor']"
+                            matTooltip="Editar Fornecedor">
                             <mat-icon color="secondary">create</mat-icon>
                         </button>
-                        <button mat-icon-button matTooltip="Excluir produto" (click)="confirmarExcluirProduto(produto)"
-                            [disabled]="excluindo" [class.spinner]="excluindo && (produto._id == produtoExcluido._id)">
+                        <button mat-icon-button matTooltip="Excluir Fornecedor" (click)="confirmarExcluirFornecedor(fornecedor)"
+                            [disabled]="excluindo" [class.spinner]="excluindo && (fornecedor._id == fornecedorExcluido._id)">
                             <mat-icon color="secondary">delete</mat-icon>
-                        </button>
-                        <button mat-icon-button [routerLink]="['/produtos/' + produto._id + '/cadastrarCompraProduto']"
-                            matTooltip="Cadastrar compra para o estoque">
-                            <mat-icon color="secondary">payment</mat-icon>
-                        </button>
-                        <button mat-icon-button [routerLink]="['/produtos/' + produto._id + '/listarComprasProduto']"
-                            matTooltip="Gerenciar compras do estoque">
-                            <mat-icon color="secondary">local_mall</mat-icon>
                         </button>
                     </div>
                     </mat-cell>
@@ -64,8 +56,8 @@
                 <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
         </div>
         <br>
-        <button mat-stroked-button routerLink="/produtos/criarProduto" [queryParams]="{ listar: true }"
-            matTooltip="Novo Produto" color="primary">Novo</button>  &nbsp;
+        <button mat-stroked-button routerLink="/fornecedors/criarFornecedor" [queryParams]="{ listar: true }"
+            matTooltip="Novo Fornecedor" color="primary">Novo</button>  &nbsp;
         <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
    </div>
 </section>

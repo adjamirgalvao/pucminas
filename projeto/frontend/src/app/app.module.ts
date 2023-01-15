@@ -37,6 +37,7 @@ import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProdu
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DinheiroPipe } from './pipes/DinheiroPipe';
+import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -59,7 +60,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ModalConfirmacaoComponent,
     CriarCompraProdutoComponent,
     ListarComprasProdutoComponent,
-    DinheiroPipe
+    DinheiroPipe,
+    ListarFornecedoresComponent
   ],
   imports: [
     BrowserModule,

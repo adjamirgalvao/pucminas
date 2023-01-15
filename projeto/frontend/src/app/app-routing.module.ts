@@ -5,6 +5,7 @@ import { EdicaoProdutoComponent } from './componentes/produtos/edicao-produto/ed
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
+import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
 
 const routes: Routes = [
   {
@@ -41,7 +42,10 @@ const routes: Routes = [
     path: 'produtos/:id/listarComprasProduto',
     component: ListarComprasProdutoComponent
   },  
-
+  {
+    path: 'fornecedores',
+    component: ListarFornecedoresComponent,
+  },
 ];
 
 @NgModule({
