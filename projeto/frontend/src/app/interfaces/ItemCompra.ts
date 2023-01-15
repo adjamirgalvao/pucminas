@@ -1,5 +1,5 @@
 import { Produto } from "./Produto"
-import { NotaFiscalCompra } from "./NotaFiscalCompra"
+import { Compra } from "./Compra"
 
 export interface ItemCompra {
     _id?: string
@@ -8,7 +8,7 @@ export interface ItemCompra {
     quantidade: number
     preco: number
     produto? : Produto
-    compra? : NotaFiscalCompra
+    compra? : Compra
     dataCompra?: string
     numeroCompra?: string
   }

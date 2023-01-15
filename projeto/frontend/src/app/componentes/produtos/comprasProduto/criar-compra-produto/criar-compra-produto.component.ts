@@ -1,4 +1,3 @@
-import { NotaFiscalCompraService } from './../../../../services/notaFiscalCompra/nota-fiscal-compra.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -48,7 +47,6 @@ export class CriarCompraProdutoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private produtoService: ProdutoService,
     private itemCompraService: ItemCompraService,
-    private notaFiscalService: NotaFiscalCompraService,
     private location: Location,
     private route: ActivatedRoute) {
   }

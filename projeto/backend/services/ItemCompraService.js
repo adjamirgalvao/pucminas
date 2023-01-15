@@ -1,6 +1,6 @@
 const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
 const ProdutoService = require("./ProdutoService");
-const NotaFiscalService = require("./NotaFiscalCompraService");
+const CompraService = require("./CompraService");
 
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
 const compraProdutoInnerJoin = [
@@ -107,13 +107,13 @@ module.exports = class ItemCompraService {
     
     session.startTransaction();
     try {
-      // Se a compra não tem a nota fiscal. é uma compra feita sem criar a nota. Então vamos criar a nota
+      // Se o teim não tem a compra. é uma compra feita sem criar a compra. Então vamos criar a compra
       if (!data.id_compra) {
-         const dataNota = {data : data.dataCompra,
+         const dataCompra = {data : data.dataCompra,
                       numero: data.numeroCompra};
 
-        const nota = await NotaFiscalService.addNotaFiscalCompra(dataNota, session);
-        data.id_compra = nota._id;
+        const compra = await CompraService.addCompra(dataCompra, session);
+        data.id_compra = compra._id;
       }
       const itemCompra = await ItemCompraService.criarCompra(data, session);
       const produto = await ProdutoService.getProdutobyId(data.id_produto);

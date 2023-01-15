@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const notaFiscalSchema = Schema({
+const compraSchema = Schema({
   data: {
     type: Date,
     required: true,
@@ -12,4 +12,4 @@ const notaFiscalSchema = Schema({
   },
 });
 
-module.exports = NotaFiscalCompraModel = mongoose.model("compras", notaFiscalSchema);
+module.exports = CompraModel = mongoose.model("compras", compraSchema);
