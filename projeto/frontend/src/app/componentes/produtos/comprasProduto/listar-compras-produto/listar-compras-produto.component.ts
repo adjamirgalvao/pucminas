@@ -32,7 +32,6 @@ export class ListarComprasProdutoComponent implements OnInit {
       // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
       // não pode ficar no OnInit 
       let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
-      console.log('alerta2', alerta);
       if (alerta) {
          this.alertas.push(alerta);
       }
