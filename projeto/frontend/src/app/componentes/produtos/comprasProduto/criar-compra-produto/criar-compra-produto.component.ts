@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { Produto } from 'src/app/interfaces/Produto';
 import { ItemCompraService } from 'src/app/services/itemCompra/item-compra.service';
-import { Location } from '@angular/common';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
@@ -47,7 +46,6 @@ export class CriarCompraProdutoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private produtoService: ProdutoService,
     private itemCompraService: ItemCompraService,
-    private location: Location,
     private route: ActivatedRoute,
     private router: Router) {
   }
@@ -129,14 +127,21 @@ export class CriarCompraProdutoComponent implements OnInit {
       })).subscribe(
         () => {
           this.salvando = false;
-          //this.alertasEditar.push({ tipo: 'success', mensagem: 'Produto salvo com sucesso!' });
-          this.router.navigate(['/produtos']);
+          let extras = {state: {alerta: {tipo: 'success', mensagem: `Compra do "${this.produto.nome}" cadastrada com sucesso!`} }};
+          if (this.listar) {
+            this.router.navigate(['/produtos/' + this.produto._id + '/listarComprasProduto'], extras);
+         } else {
+            this.router.navigate(['/produtos/'],  extras);
+         }   
         });
   }
 
 
   cancelar(): void {
-    //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
-    this.router.navigate(['/produtos']);
+      if (this.listar) {
+         this.router.navigate(['/produtos/' + this.produto._id + '/listarComprasProduto']);
+      } else {
+         this.router.navigate(['/produtos/']);
+      }
   }
 }

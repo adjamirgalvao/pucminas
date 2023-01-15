@@ -9,7 +9,7 @@ import { ProdutoService } from 'src/app/services/produto/produto.service';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MyCustomPaginatorIntl } from '../../../util/paginacao/MyCustomPaginatorIntl';
 import { ItemCompraService } from 'src/app/services/itemCompra/item-compra.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { ModalConfirmacaoComponent } from 'src/app/componentes/util/modal-confirmacao/modal-confirmacao.component';
 
@@ -26,8 +26,16 @@ export class ListarComprasProdutoComponent implements OnInit {
     private produtoService: ProdutoService,
     private itemCompraService: ItemCompraService,
     private route: ActivatedRoute,
+    private router: Router, 
     public confirmacao: MatDialog,
   ) {
+      // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
+      // não pode ficar no OnInit 
+      let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
+      console.log('alerta2', alerta);
+      if (alerta) {
+         this.alertas.push(alerta);
+      }
   }
 
   alertas: Alerta[] = [];
