@@ -39,7 +39,7 @@
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Preço</mat-label>
-                    <input type="number" formControlName="preco" matInput placeholder="Digite o preço"
+                    <input formControlName="preco" matInput currencyMask placeholder="Digite o preço"
                         [readonly]="salvando || erroCarregando">
                         <mat-error *ngIf="formulario.get('preco')?.hasError('required') && formulario.get('preco')?.touched">O campo é obrigatório!</mat-error>
                         <mat-error *ngIf="formulario.get('preco')?.hasError('min') && formulario.get('preco')?.touched">O valor deve ser maior que zero!</mat-error>
@@ -49,7 +49,7 @@
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Preço custo</mat-label>
-                    <input type="number" formControlName="precoCusto" matInput placeholder="Digite o preço médio de custo"
+                    <input formControlName="precoCusto" matInput currencyMask placeholder="Digite o preço médio de custo"
                         [readonly]="salvando || erroCarregando">
                         <mat-error *ngIf="formulario.get('precoCusto')?.hasError('required') && formulario.get('precoCusto')?.touched">O campo é obrigatório!</mat-error>
                         <mat-error *ngIf="formulario.get('precoCusto')?.hasError('min') && formulario.get('precoCusto')?.touched">O valor deve ser maior ou igual a zero!</mat-error>
