@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
@@ -48,7 +48,8 @@ export class CriarCompraProdutoComponent implements OnInit {
     private produtoService: ProdutoService,
     private itemCompraService: ItemCompraService,
     private location: Location,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private router: Router) {
   }
 
   alertas: Alerta[] = [];
@@ -129,13 +130,13 @@ export class CriarCompraProdutoComponent implements OnInit {
         () => {
           this.salvando = false;
           //this.alertasEditar.push({ tipo: 'success', mensagem: 'Produto salvo com sucesso!' });
-          this.location.back();
+          this.router.navigate(['/produtos']);
         });
   }
 
 
   cancelar(): void {
     //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
-    this.location.back();
+    this.router.navigate(['/produtos']);
   }
 }

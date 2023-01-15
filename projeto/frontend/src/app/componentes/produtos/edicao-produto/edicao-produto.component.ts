@@ -99,11 +99,18 @@ export class EdicaoProdutoComponent implements OnInit {
   }
 
   cancelar(): void {
-    //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
-    this.location.back();
+
+    // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
+    if ((this.operacao != 'Cadastrar') || this.listar) {
+        this.router.navigate(['/produtos']);
+    } else {
+      //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
+      this.location.back();
+    }    
   }
 
   private criarFormulario() {
+    //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
     this.formulario = this.formBuilder.group({
       nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
         Validators.required,
