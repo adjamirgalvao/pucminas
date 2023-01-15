@@ -21,7 +21,14 @@ export class EdicaoProdutoComponent implements OnInit {
     private location: Location,
     private router: Router,
     private route: ActivatedRoute) {
-  }
+      // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
+      // não pode ficar no OnInit 
+      let modo = this.router.getCurrentNavigation()?.extras.state?.['operacao'];
+      if (modo) {
+         this.operacao = modo;
+         this.leitura = true;
+      }
+    }
   formulario!: FormGroup;
 
   alertas: Alerta[] = [];
@@ -29,6 +36,7 @@ export class EdicaoProdutoComponent implements OnInit {
   listar: boolean = false;
   erroCarregando: boolean = false;
   carregando: boolean = false;
+  leitura: boolean = false;
 
   inicial: Produto = {
     nome: '',
@@ -44,10 +52,12 @@ export class EdicaoProdutoComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    this.operacao = (id == null) ? 'Cadastrar' : 'Editar';
+    if (!this.operacao){
+       this.operacao = (id == null) ? 'Cadastrar' : 'Editar';
+    }
 
     this.criarFormulario();
-    if (this.operacao == 'Editar') {
+    if (this.operacao != 'Cadastrar') {
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
@@ -130,6 +140,10 @@ export class EdicaoProdutoComponent implements OnInit {
         });
   }
 
+  readOnly(){
+    return this.salvando  || this.erroCarregando || this.leitura;
+  }
+
   private editarProduto(produto: Produto) {
     this.salvando = true;
     this.service.editar(produto).pipe(catchError(
@@ -141,7 +155,7 @@ export class EdicaoProdutoComponent implements OnInit {
         () => {
           this.salvando = false;
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
-          this.router.navigate(['/produtos'],  {state: {alerta: {tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!`} }});
+          this.router.navigate(['/produtos'],  {state: {alerta: {tipo: 'success', mensagem: `Produto "${produto.nome}" salvo com sucesso!`} }});
         });
   }
 

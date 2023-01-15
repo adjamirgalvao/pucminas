@@ -25,9 +25,13 @@ const routes: Routes = [
     component: EdicaoProdutoComponent,
   },
    // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
+   {
+    path: 'produtos/:id',
+    component: EdicaoProdutoComponent 
+  },
   {
     path: 'produtos/:id/editarProduto',
-    component: EdicaoProdutoComponent //EditarProdutoComponent
+    component: EdicaoProdutoComponent 
   },
   {
     path: 'produtos/:id/cadastrarCompraProduto',
