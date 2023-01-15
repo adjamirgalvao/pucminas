@@ -4,7 +4,7 @@ exports.get = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const compra = await ItemCompraService.getComprabyId(id);
+    const item = await ItemCompraService.getItemComprabyId(id);
     res.json(compra);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -13,13 +13,13 @@ exports.get = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const compras = await ItemCompraService.getAllCompras();
+    const itens = await ItemCompraService.getAllItensCompras();
 
-    if (!compras) {
-      return res.status(404).json("Não existem compras cadastradas!");
+    if (!itens) {
+      return res.status(404).json("Não existem itens de compras cadastradas!");
     }
 
-    res.json(compras);
+    res.json(itens);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -27,8 +27,8 @@ exports.getAll = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    const createdCompra = await ItemCompraService.addCompra(req.body);
-    res.status(201).json(createdCompra);
+    const item = await ItemCompraService.addItemCompra(req.body);
+    res.status(201).json(item);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -38,7 +38,7 @@ exports.delete = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const deleteResponse = await ItemCompraService.deleteCompra(id);
+    const deleteResponse = await ItemCompraService.deleteItemCompra(id);
     res.json(deleteResponse);
   } catch (error) {
     res.status(500).json({ error: error.message });

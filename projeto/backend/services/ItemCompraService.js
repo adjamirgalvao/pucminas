@@ -53,56 +53,33 @@ const compraProdutoInnerJoin = [
 
 module.exports = class ItemCompraService {
 
-  static async criarCompra(data, session) {
-    const novaCompra = {
+  static async criarItemCompra(data, session) {
+    const itemCompra = {
       id_produto: data.id_produto,
       id_compra: data.id_compra,
       quantidade: data.quantidade,
       preco: data.preco
     };
 
-    const response = await new ItemCompraModel(novaCompra).save({session});
+    const response = await new ItemCompraModel(itemCompra).save({session});
 
     return response;
   }
 
-  static async atualizarPrecoCustoAposEntrada(produto, compra, session) {
-    let quantidadeInicial = produto.quantidade;
-
-    produto.quantidade = produto.quantidade + compra.quantidade;
-    produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (compra.quantidade * (compra.preco / compra.quantidade))) / produto.quantidade;
-    produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
-
-    await ProdutoService.updateProduto(produto._id, produto, session);
-  }
-
-  static async atualizarPrecoCustoAposSaida(produto, saida, session) {
-    let quantidadeInicial = produto.quantidade;
-
-    produto.quantidade = produto.quantidade - saida.quantidade;
-    if (produto.quantidade > 0) {
-      produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * (saida.preco / saida.quantidade))) / produto.quantidade;
-      produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
-    } else {
-      produto.precoCusto = produto.precoCustoInicial;
-    } 
-    await ProdutoService.updateProduto(produto._id, produto, session);
-  }
-
-  static async getAllCompras() {
+  static async getAllItensCompras() {
     try {
 
-      const allCompras = await ItemCompraModel.aggregate(compraProdutoInnerJoin);
+      const allItensCompras = await ItemCompraModel.aggregate(compraProdutoInnerJoin);
       
-      return allCompras;
+      return allItensCompras;
     } catch (error) {
-      console.log(`Erro ao recuperar Compras ${error.message}`);
-      throw new Error(`Erro ao recuperar Compras ${error.message}`);
+      console.log(`Erro ao recuperar ItensCompras ${error.message}`);
+      throw new Error(`Erro ao recuperar ItensCompras ${error.message}`);
     }
   }
 
   // session no mongoose https://blog.tericcabrel.com/how-to-use-mongodb-transaction-in-node-js/
-  static async addCompra(data) {
+  static async addItemCompra(data) {
     const session = await Mongoose.startSession();
     
     session.startTransaction();
@@ -115,11 +92,11 @@ module.exports = class ItemCompraService {
         const compra = await CompraService.addCompra(dataCompra, session);
         data.id_compra = compra._id;
       }
-      const itemCompra = await ItemCompraService.criarCompra(data, session);
+      const itemCompra = await ItemCompraService.criarItemCompra(data, session);
       const produto = await ProdutoService.getProdutobyId(data.id_produto);
 
       if (produto != null) {
-         await ItemCompraService.atualizarPrecoCustoAposEntrada(produto, itemCompra, session);
+         await ProdutoService.atualizarPrecoCustoAposEntrada(produto, itemCompra, session);
          await session.commitTransaction();
       } else {
          throw new Error(`Produto ${data.id_produto} não cadastrado`);
@@ -135,7 +112,7 @@ module.exports = class ItemCompraService {
     }
   }
 
-  static async getComprabyId(id) {
+  static async getItemComprabyId(id) {
     try {
       const Compra = await ItemCompraModel.findById(id);
 
@@ -146,7 +123,7 @@ module.exports = class ItemCompraService {
     }
   }
 
-  static async deleteCompra(id) {
+  static async deleteItemCompra(id) {
     const session = await Mongoose.startSession();
     
     session.startTransaction();
@@ -155,7 +132,7 @@ module.exports = class ItemCompraService {
       const produto = await ProdutoService.getProdutobyId(compraRemovida.id_produto);
 
       if (produto != null) {
-         await ItemCompraService.atualizarPrecoCustoAposSaida(produto, compraRemovida, session);
+         await ProdutoService.atualizarPrecoCustoAposSaida(produto, compraRemovida, session);
       }
       await session.commitTransaction();
 

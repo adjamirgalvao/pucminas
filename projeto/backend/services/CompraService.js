@@ -7,18 +7,18 @@ module.exports = class CompraService {
       
       return allCompras;
     } catch (error) {
-      console.log(`Erro ao recuperar NotasFiscaisCompras ${error.message}`);
-      throw new Error(`Erro ao recuperar NotasFiscaisCompras ${error.message}`);
+      console.log(`Erro ao recuperar Compras ${error.message}`);
+      throw new Error(`Erro ao recuperar Compras ${error.message}`);
     }
   }
 
   static async addCompra(data, session) {
     try {
-      const novaNota = {
+      const novaCompra = {
         data: data.data,
         numero: data.numero
       };
-      const response = await new CompraModel(novaNota).save({session});
+      const response = await new CompraModel(novaCompra).save({session});
 
       return response;
     } catch (error) {
@@ -38,11 +38,11 @@ module.exports = class CompraService {
     }
   }
 
-  static async updateCompra(id, nota, session) {
+  static async updateCompra(id, compra, session) {
     try {
       const updateResponse = await CompraModel.updateOne(
-        { _id: id} , {data : nota.data, 
-                      numero: nota.numero}, session);
+        { _id: id} , {data : compra.data, 
+                      numero: compra.numero}, session);
     
       return updateResponse;
     } catch (error) {

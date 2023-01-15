@@ -2,13 +2,13 @@ const ProdutoModel = require("../models/ProdutoModel");
 const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
 
 
-function compraNotaInnerJoin(id) {
+function itemCompraInnerJoinCompra(id) {
   return  [
   {
     '$match':{
       'id_produto': new Mongoose.Types.ObjectId(id)}
   },
-  //nota fiscal
+  //compra
   {
     '$lookup': {
       'from': 'compras', 
@@ -35,6 +35,30 @@ function compraNotaInnerJoin(id) {
 }
 
 module.exports = class ProdutoService {
+
+  static async atualizarPrecoCustoAposEntrada(produto, entrada, session) {
+    let quantidadeInicial = produto.quantidade;
+  
+    produto.quantidade = produto.quantidade + entrada.quantidade;
+    produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (entrada.quantidade * (entrada.preco / entrada.quantidade))) / produto.quantidade;
+    produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
+  
+    await ProdutoService.updateProduto(produto._id, produto, session);
+  }
+  
+  static async atualizarPrecoCustoAposSaida(produto, saida, session) {
+    let quantidadeInicial = produto.quantidade;
+  
+    produto.quantidade = produto.quantidade - saida.quantidade;
+    if (produto.quantidade > 0) {
+      produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * (saida.preco / saida.quantidade))) / produto.quantidade;
+      produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
+    } else {
+      produto.precoCusto = produto.precoCustoInicial;
+    } 
+    await ProdutoService.updateProduto(produto._id, produto, session);
+  }
+  
   static async getAllProdutos() {
     try {
       const allProdutos = await ProdutoModel.find();
@@ -103,12 +127,12 @@ module.exports = class ProdutoService {
 
   static async getAllCompras(id) {
     try {
-      const allCompras = await ItemCompraModel.aggregate(compraNotaInnerJoin(id));
+      const allCompras = await ItemCompraModel.aggregate(itemCompraInnerJoinCompra(id));
       
       return allCompras;
     } catch (error) {
-      console.log(`Erro ao recuperar Comprass ${error.message}`);
-      throw new Error(`Erro ao recuperar Comprass ${error.message}`);
+      console.log(`Erro ao recuperar Compras ${error.message}`);
+      throw new Error(`Erro ao recuperar Compras ${error.message}`);
     }
   }
 };
