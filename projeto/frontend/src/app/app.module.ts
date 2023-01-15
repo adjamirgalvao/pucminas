@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Material io
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
@@ -35,6 +36,17 @@ import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DinheiroPipe } from './pipes/DinheiroPipe';
+
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+  align: "right",
+  allowNegative: true,
+  decimal: ",",
+  precision: 2,
+  prefix: "R$ ",
+  suffix: "",
+  thousands: "."
+};
 
 @NgModule({
   declarations: [
@@ -46,7 +58,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ListarProdutosComponent,
     ModalConfirmacaoComponent,
     CriarCompraProdutoComponent,
-    ListarComprasProdutoComponent
+    ListarComprasProdutoComponent,
+    DinheiroPipe
   ],
   imports: [
     BrowserModule,
@@ -57,6 +70,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     BrowserAnimationsModule,
     MatButtonModule,
     MatInputModule,
+    CurrencyMaskModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatTableModule,
@@ -71,7 +85,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatPaginatorModule,
     MatProgressBarModule
   ],
-  providers: [],
+  providers: [
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

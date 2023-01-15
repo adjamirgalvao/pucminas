@@ -29,11 +29,11 @@
                 </ng-container>
                 <ng-container matColumnDef="preco">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Preço</mat-header-cell>
-                    <mat-cell *matCellDef="let produto">{{ produto.preco }}</mat-cell>
+                    <mat-cell *matCellDef="let produto">{{ produto.preco | dinheiroPipe }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="precoCusto">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Preço custo</mat-header-cell>
-                    <mat-cell *matCellDef="let produto">{{ produto.precoCusto }}</mat-cell>
+                    <mat-cell *matCellDef="let produto">{{ produto.precoCusto | dinheiroPipe }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
