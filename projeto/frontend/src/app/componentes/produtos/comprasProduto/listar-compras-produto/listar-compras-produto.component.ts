@@ -8,9 +8,9 @@ import { Produto } from 'src/app/interfaces/Produto';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MyCustomPaginatorIntl } from '../../../util/paginacao/MyCustomPaginatorIntl';
-import { CompraService } from 'src/app/services/compra/compra.service';
+import { ItemCompraService } from 'src/app/services/itemCompra/item-compra.service';
 import { ActivatedRoute } from '@angular/router';
-import { ItemCompraProduto } from 'src/app/interfaces/ItemCompraProduto';
+import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { ModalConfirmacaoComponent } from 'src/app/componentes/util/modal-confirmacao/modal-confirmacao.component';
 
 @Component({
@@ -24,18 +24,18 @@ export class ListarComprasProdutoComponent implements OnInit {
 
   constructor(
     private produtoService: ProdutoService,
-    private compraService: CompraService,
+    private itemCompraService: ItemCompraService,
     private route: ActivatedRoute,
     public confirmacao: MatDialog,
   ) {
   }
 
   alertas: Alerta[] = [];
-  itensCompras: ItemCompraProduto[] = [];
+  itensCompras: ItemCompra[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
 
-  compraExcluida!: ItemCompraProduto;
+  compraExcluida!: ItemCompra;
   //Esse declaro os valores porque o campo é exibido no formulário
   produto: Produto = {
     nome: '',
@@ -46,7 +46,7 @@ export class ListarComprasProdutoComponent implements OnInit {
 
   // Campos para a tabela
   displayedColumns: string[] = ['compra.data', 'quantidade', 'preco', 'actions'];
-  dataSource: MatTableDataSource<ItemCompraProduto> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ItemCompra> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
   private paginator!: MatPaginator;
@@ -109,7 +109,7 @@ export class ListarComprasProdutoComponent implements OnInit {
     });
   }
 
-  confirmarExcluirItemCompra(itemCompra: ItemCompraProduto) {
+  confirmarExcluirItemCompra(itemCompra: ItemCompra) {
     const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
       data: {
         mensagem: `Confirma a exclusão da compra produto '${this.produto.nome}'?`,
@@ -118,21 +118,17 @@ export class ListarComprasProdutoComponent implements OnInit {
     });
 
     confirmacaoRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result == 'Sim') {
         this.excluirItemCompra(itemCompra);
       }
     });
   }
 
-  excluirItemCompra(itemCompra: ItemCompraProduto) {
-    console.log('excluindo', itemCompra);
-
-
+  excluirItemCompra(itemCompra: ItemCompra) {
     //Excluindo os dados 
     this.excluindo = true;
     this.compraExcluida = itemCompra;
-    this.compraService.excluirItemCompra(itemCompra).pipe(catchError(
+    this.itemCompraService.excluirItemCompra(itemCompra).pipe(catchError(
       err => {
         this.excluindo = false;
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a compra do produto "${this.produto.nome}"!` });

@@ -4,9 +4,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
-import { ItemCompraProduto } from 'src/app/interfaces/ItemCompraProduto';
+import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { Produto } from 'src/app/interfaces/Produto';
-import { CompraService } from 'src/app/services/compra/compra.service';
+import { ItemCompraService } from 'src/app/services/itemCompra/item-compra.service';
 import { Location } from '@angular/common';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -47,7 +47,7 @@ export class CriarCompraProdutoComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private produtoService: ProdutoService,
-    private compraService: CompraService,
+    private itemCompraService: ItemCompraService,
     private notaFiscalService: NotaFiscalCompraService,
     private location: Location,
     private route: ActivatedRoute) {
@@ -115,14 +115,14 @@ export class CriarCompraProdutoComponent implements OnInit {
 
   comprarProduto(): void {
     this.salvando = true;
-    const itemCompra: ItemCompraProduto = {
+    const itemCompra: ItemCompra = {
       id_produto: this.produto._id!,
       quantidade: this.formulario.value.quantidade,
       preco: this.formulario.value.preco,
       dataCompra: this.formulario.value.data,
       numeroCompra: this.formulario.value.numero};
 
-    this.compraService.criarItemCompra(itemCompra).pipe(catchError(
+    this.itemCompraService.criarItemCompra(itemCompra).pipe(catchError(
       err => {
         this.salvando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao salvar compra do produto!' });
