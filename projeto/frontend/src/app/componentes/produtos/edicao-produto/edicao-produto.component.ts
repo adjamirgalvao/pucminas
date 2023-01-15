@@ -105,17 +105,17 @@ export class EdicaoProdutoComponent implements OnInit {
 
   private criarFormulario() {
     this.formulario = this.formBuilder.group({
-      nome: [this.inicial.nome, Validators.compose([
+      nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
         Validators.required,
         Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
-      quantidade: [this.inicial.quantidade, Validators.compose([
+      quantidade: [{value: this.inicial.quantidade, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0)
       ])],
-      preco: [this.inicial.preco, Validators.compose([
+      preco: [{value: this.inicial.preco, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01)
       ])],
-      precoCusto: [this.inicial.precoCusto, Validators.compose([
+      precoCusto: [{value: this.inicial.precoCusto, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0)
       ])]
     });
