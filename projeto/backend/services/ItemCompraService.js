@@ -69,9 +69,9 @@ module.exports = class ItemCompraService {
   static async getAllItensCompras() {
     try {
 
-      const allItensCompras = await ItemCompraModel.aggregate(compraProdutoInnerJoin);
+      const todos = await ItemCompraModel.aggregate(compraProdutoInnerJoin);
       
-      return allItensCompras;
+      return todos;
     } catch (error) {
       console.log(`Erro ao recuperar ItensCompras ${error.message}`);
       throw new Error(`Erro ao recuperar ItensCompras ${error.message}`);
@@ -84,12 +84,12 @@ module.exports = class ItemCompraService {
     
     session.startTransaction();
     try {
-      // Se o teim não tem a compra. é uma compra feita sem criar a compra. Então vamos criar a compra
+      // Se o item não tem a compra. é uma compra feita sem criar a compra. Então vamos criar a compra
       if (!data.id_compra) {
-         const dataCompra = {data : data.dataCompra,
+         const dadosCompra = {data : data.dataCompra,
                       numero: data.numeroCompra};
 
-        const compra = await CompraService.addCompra(dataCompra, session);
+        const compra = await CompraService.addCompra(dadosCompra, session);
         data.id_compra = compra._id;
       }
       const itemCompra = await ItemCompraService.criarItemCompra(data, session);
@@ -114,9 +114,9 @@ module.exports = class ItemCompraService {
 
   static async getItemComprabyId(id) {
     try {
-      const Compra = await ItemCompraModel.findById(id);
+      const registro = await ItemCompraModel.findById(id);
 
-      return Compra;
+      return registro;
     } catch (error) {
       console.log(`Compra ${id} não encontrada ${error.message}`);
       throw new Error(`Compra ${id} não encontrada ${error.message}`);

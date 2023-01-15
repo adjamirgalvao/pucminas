@@ -1,10 +1,10 @@
-const CompraService = require("../services/CompraService");
+const FornecedorService = require("../services/FornecedorService");
 
 exports.get = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const registro = await CompraService.getComprabyId(id);
+    const registro = await FornecedorService.getFornecedorbyId(id);
     res.json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -13,10 +13,10 @@ exports.get = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const registros = await CompraService.getAllCompras();
+    const registros = await FornecedorService.getAllFornecedores();
 
     if (!registros) {
-      return res.status(404).json("Não existem compras cadastradas!");
+      return res.status(404).json("Não existem fornecedores cadastrados!");
     }
 
     res.json(registros);
@@ -27,7 +27,7 @@ exports.getAll = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    const registro = await CompraService.addCompra(req.body);
+    const registro = await FornecedorService.addFornecedor(req.body);
     res.status(201).json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -38,12 +38,15 @@ exports.update = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const compra = {};
-    compra.data = req.body.data;
-    compra.numero = req.body.numero;
+    const fornecedor =  {
+      nome: req.body.nome,
+      tipo: req.body.tipo,
+      identificacao: req.body.identificacao,
+      endereco: req.body.endereco
+  };
 
-    console.log(compra, id);
-    const registro = await CompraService.updateCompra(id, compra);
+    console.log(fornecedor, id);
+    const registro = await FornecedorService.updateFornecedor(id, fornecedor);
 
     if (registro.nModified === 0) {
       return res.status(404).json({});
@@ -59,25 +62,9 @@ exports.delete = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const registro = await CompraService.deleteCompra(id);
+    const registro = await FornecedorService.deleteRegistro(id);
     res.json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
-
-exports.getAllCompras = async (req, res) => {
-    let id = req.params.id;
-
-    try {
-      const registros = await CompraService.getAllCompras(id);
-  
-      if (!registros) {
-        return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
-      }
-  
-      res.json(registros);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
-    }
 };

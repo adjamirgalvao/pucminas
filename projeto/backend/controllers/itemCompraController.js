@@ -5,7 +5,7 @@ exports.get = async (req, res) => {
 
   try {
     const item = await ItemCompraService.getItemComprabyId(id);
-    res.json(compra);
+    res.json(item);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -13,13 +13,13 @@ exports.get = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const itens = await ItemCompraService.getAllItensCompras();
+    const registros = await ItemCompraService.getAllItensCompras();
 
-    if (!itens) {
+    if (!registros) {
       return res.status(404).json("Não existem itens de compras cadastradas!");
     }
 
-    res.json(itens);
+    res.json(registros);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -27,8 +27,8 @@ exports.getAll = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    const item = await ItemCompraService.addItemCompra(req.body);
-    res.status(201).json(item);
+    const registro = await ItemCompraService.addItemCompra(req.body);
+    res.status(201).json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -38,8 +38,8 @@ exports.delete = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const deleteResponse = await ItemCompraService.deleteItemCompra(id);
-    res.json(deleteResponse);
+    const registro = await ItemCompraService.deleteItemCompra(id);
+    res.json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

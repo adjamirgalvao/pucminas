@@ -61,9 +61,9 @@ module.exports = class ProdutoService {
   
   static async getAllProdutos() {
     try {
-      const allProdutos = await ProdutoModel.find();
+      const todos = await ProdutoModel.find();
       
-      return allProdutos;
+      return todos;
     } catch (error) {
       console.log(`Erro ao recuperar Produtos ${error.message}`);
       throw new Error(`Erro ao recuperar Produtos ${error.message}`);
@@ -72,16 +72,16 @@ module.exports = class ProdutoService {
 
   static async addProduto(data, session) {
     try {
-      const novoProduto = {
+      const novo = {
         nome: data.nome,
         quantidade: data.quantidade,
         preco: data.preco,
         precoCusto: data.precoCusto,
         precoCustoInicial: data.precoCusto
       };
-      const response = await new ProdutoModel(novoProduto).save({session});
+      const registro = await new ProdutoModel(novo).save({session});
 
-      return response;
+      return registro;
     } catch (error) {
       console.log(error);
       throw new Error(`Produto não pode ser criado ${error.message}`);
@@ -90,9 +90,9 @@ module.exports = class ProdutoService {
 
   static async getProdutobyId(produtoId) {
     try {
-      const produto = await ProdutoModel.findById(produtoId);
+      const registro = await ProdutoModel.findById(produtoId);
 
-      return produto;
+      return registro;
     } catch (error) {
       console.log(`Produto ${produtoId} não encontrado ${error.message}`);
       throw new Error(`Produto ${produtoId} não encontrado ${error.message}`);
@@ -101,13 +101,14 @@ module.exports = class ProdutoService {
 
   static async updateProduto(id, produto, session) {
     try {
-      const updateResponse = await ProdutoModel.updateOne(
+      // Aqui eu tenho que criar o objeto porque essa função também é chamada de outro lugar
+      const registro = await ProdutoModel.updateOne(
         { _id: id} , {nome : produto.nome, 
-                      quantidade: produto.quantidade, 
-                      preco : produto.preco, 
-                      precoCusto: produto.precoCusto}, {session});
+          quantidade: produto.quantidade, 
+          preco : produto.preco, 
+          precoCusto: produto.precoCusto}, {session});
 
-      return updateResponse;
+      return registro;
     } catch (error) {
       console.log(`Produto ${id} não pode ser atualizado ${error.message}`);
       throw new Error(`Produto ${id} não pode ser atualizado ${error.message}`);
@@ -116,9 +117,9 @@ module.exports = class ProdutoService {
 
   static async deleteProduto(id, session) {
     try {
-      const deletedResponse = await ProdutoModel.findOneAndDelete({ _id: id }, {session});
+      const registro = await ProdutoModel.findOneAndDelete({ _id: id }, {session});
 
-      return deletedResponse;
+      return registro;
     } catch (error) {
       console.log(`Produto ${id} não pode ser deletado ${error.message}`);
       throw new Error(`Produto ${id} não pode ser deletado ${error.message}`);
@@ -127,9 +128,9 @@ module.exports = class ProdutoService {
 
   static async getAllCompras(id) {
     try {
-      const allCompras = await ItemCompraModel.aggregate(itemCompraInnerJoinCompra(id));
+      const todos = await ItemCompraModel.aggregate(itemCompraInnerJoinCompra(id));
       
-      return allCompras;
+      return todos;
     } catch (error) {
       console.log(`Erro ao recuperar Compras ${error.message}`);
       throw new Error(`Erro ao recuperar Compras ${error.message}`);

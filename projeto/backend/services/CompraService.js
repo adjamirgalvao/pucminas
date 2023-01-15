@@ -3,9 +3,9 @@ const CompraModel = require("../models/CompraModel");
 module.exports = class CompraService {
   static async getAllCompras() {
     try {
-      const allCompras = await CompraModel.find();
+      const todos = await CompraModel.find();
       
-      return allCompras;
+      return todos;
     } catch (error) {
       console.log(`Erro ao recuperar Compras ${error.message}`);
       throw new Error(`Erro ao recuperar Compras ${error.message}`);
@@ -14,13 +14,13 @@ module.exports = class CompraService {
 
   static async addCompra(data, session) {
     try {
-      const novaCompra = {
+      const novo = {
         data: data.data,
         numero: data.numero
       };
-      const response = await new CompraModel(novaCompra).save({session});
+      const registro = await new CompraModel(novo).save({session});
 
-      return response;
+      return registro;
     } catch (error) {
       console.log(error);
       throw new Error(`Compra não pode ser criada ${error.message}`);
@@ -29,9 +29,9 @@ module.exports = class CompraService {
 
   static async getComprabyId(id) {
     try {
-      const compra = await CompraModel.findById(id);
+      const registro = await CompraModel.findById(id);
 
-      return compra;
+      return registro;
     } catch (error) {
       console.log(`Compra ${id} não encontrada ${error.message}`);
       throw new Error(`Compra ${id} não encontrada ${error.message}`);
@@ -40,11 +40,10 @@ module.exports = class CompraService {
 
   static async updateCompra(id, compra, session) {
     try {
-      const updateResponse = await CompraModel.updateOne(
-        { _id: id} , {data : compra.data, 
-                      numero: compra.numero}, session);
+      const registro = await CompraModel.updateOne(
+        { _id: id} , {...compra}, session);
     
-      return updateResponse;
+      return registro;
     } catch (error) {
       console.log(`Compra ${id} não pode ser atualizada ${error.message}`);
       throw new Error(`Compra ${id} não pode ser atualizada ${error.message}`);
@@ -53,12 +52,12 @@ module.exports = class CompraService {
 
   static async deleteCompra(id) {
     try {
-      const deletedResponse = await CompraModel.findOneAndDelete({ _id: id });
+      const registro = await CompraModel.findOneAndDelete({ _id: id });
 
-      return deletedResponse;
+      return registro;
     } catch (error) {
-      console.log(`Compra ${id} não pode ser deletado ${error.message}`);
-      throw new Error(`Compra ${id} não pode ser deletado ${error.message}`);
+      console.log(`Compra ${id} não pode ser deletada ${error.message}`);
+      throw new Error(`Compra ${id} não pode ser deletada ${error.message}`);
     }
   }
 };
