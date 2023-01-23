@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const user = "adjamirgalvao";
 const pass = "XsdDxedCvHNWjXZh";
 const serverName = "cluster0.4jedpjg.mongodb.net";
-const database = 'Cluster0';
+const database = 'LojaOnline';
 
 module.exports = {
     init: () => {
