@@ -1,12 +1,13 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
 
 import { ProdutoService } from '../../../services/produto/produto.service';
 import { Alerta } from '../../../interfaces/Alerta';
 import { Produto } from '../../../interfaces/Produto';
+import { toJSDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
 
 @Component({
   selector: 'app-edicao-produto',
@@ -47,6 +48,9 @@ export class EdicaoProdutoComponent implements OnInit {
 
   operacao!: string;
 
+  @ViewChild('formDirective')
+  private formDirective!: NgForm;
+  
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     const id = this.route.snapshot.paramMap.get('id');
@@ -139,13 +143,8 @@ export class EdicaoProdutoComponent implements OnInit {
           this.salvando = false;
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!` });
-          //this.criarFormulario();
-          this.formulario.reset(this.inicial);
-          // Para resetar os erros https://stackoverflow.com/questions/55776775/how-to-reset-validation-error-without-resetting-form-in-angular
-          Object.keys(this.formulario.controls).forEach(key => {
-            this.formulario.get(key)!.setErrors(null);
-            this.formulario.get(key)!.markAsUntouched(); //esse aqui descobri só
-          });
+          //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
+          this.formDirective.resetForm(this.inicial);
         });
   }
 

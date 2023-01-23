@@ -17,13 +17,12 @@
         <header class="header">
             <h2>{{ operacao }} Fornecedor <i *ngIf="this.formulario">{{this.formulario.get('nome')?.value}}</i></h2>
         </header>
-        <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando">
+        <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando" #formDirective="ngForm">
             <div class="mb-3">
                 <mat-form-field style="width: 70%;">
                     <mat-label>Nome</mat-label>
                     <input formControlName="nome" matInput placeholder="Digite o nome do fornecedor">
-                    <mat-error *ngIf="formulario.get('nome')?.errors && formulario.get('nome')?.touched">O campo é
-                        obrigatório!</mat-error>
+                    <mat-error *ngIf="formulario.get('nome')?.errors">O campo é obrigatório!</mat-error>
                     <mat-hint>Digite o nome do fornecedor</mat-hint>
                 </mat-form-field>
             </div>
@@ -40,7 +39,7 @@
                     <mat-label>Identificação</mat-label>
                     <input formControlName="identificacao" matInput placeholder="Digite a identificação">
                     <mat-error
-                        *ngIf="formulario.get('identificacao')?.hasError('required')  && formulario.get('identificacao')?.touched">O
+                        *ngIf="formulario.get('identificacao')?.hasError('required')">O
                         campo é obrigatório!</mat-error>
                     <mat-hint>Digite a identificacao</mat-hint>
                 </mat-form-field>
@@ -50,8 +49,7 @@
                     <mat-label>Rua</mat-label>
                     <input formControlName="rua" matInput placeholder="Digite a rua">
                     <mat-error
-                        *ngIf="formulario.get('rua')?.hasError('required') && formulario.get('rua')?.touched">O
-                        campo é obrigatório!</mat-error>
+                        *ngIf="formulario.get('rua')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-hint>Digite a rua</mat-hint>
                 </mat-form-field>
             </div>
@@ -60,8 +58,7 @@
                     <mat-label>Número</mat-label>
                     <input formControlName="numero" matInput placeholder="Digite o número">
                     <mat-error
-                        *ngIf="formulario.get('numero')?.hasError('required') && formulario.get('numero')?.touched">O
-                        campo é obrigatório!</mat-error>
+                        *ngIf="formulario.get('numero')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-hint>Digite o número</mat-hint>
                 </mat-form-field>
             </div>

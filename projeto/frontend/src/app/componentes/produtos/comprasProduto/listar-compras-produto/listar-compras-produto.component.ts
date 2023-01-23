@@ -146,6 +146,7 @@ export class ListarComprasProdutoComponent implements OnInit {
           this.itensCompras.splice(this.itensCompras.indexOf(itemCompra), 1);
           //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
           this.dataSource = new MatTableDataSource(this.itensCompras);
+          this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `A compra do Produto "${this.produto.nome}" foi excluída com sucesso!` });
         });

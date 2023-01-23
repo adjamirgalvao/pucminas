@@ -109,6 +109,7 @@ export class ListarFornecedoresComponent implements OnInit {
           this.fornecedores.splice(this.fornecedores.indexOf(fornecedor), 1);
           //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
           this.dataSource = new MatTableDataSource(this.fornecedores);
+          this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `O Fornecedor "${fornecedor.nome}" foi excluído com sucesso!` });
         });

@@ -1,8 +1,8 @@
 import { Fornecedor } from 'src/app/interfaces/Fornecedor';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
 import { Alerta } from 'src/app/interfaces/Alerta';
@@ -50,6 +50,9 @@ export class EdicaoFornecedorComponent implements OnInit {
 
   operacao!: string;
 
+  @ViewChild('formDirective')
+  private formDirective!: NgForm;
+  
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     const id = this.route.snapshot.paramMap.get('id');
@@ -143,12 +146,8 @@ export class EdicaoFornecedorComponent implements OnInit {
           this.salvando = false;
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `Fornecedor "${fornecedor.nome}" cadastrado com sucesso!` });
-          this.formulario.reset(this.inicial);
-          // Para resetar os erros https://stackoverflow.com/questions/55776775/how-to-reset-validation-error-without-resetting-form-in-angular
-          Object.keys(this.formulario.controls).forEach(key => {
-            this.formulario.get(key)!.setErrors(null);
-            this.formulario.get(key)!.markAsUntouched(); //esse aqui descobri só
-          });
+          //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
+          this.formDirective.resetForm(this.inicial);
         });
   }
 
