@@ -62,7 +62,7 @@ exports.delete = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const registro = await FornecedorService.deleteRegistro(id);
+    const registro = await FornecedorService.deleteFornecedor(id);
     res.json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });

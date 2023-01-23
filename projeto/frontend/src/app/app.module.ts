@@ -26,18 +26,20 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
-// Meus componentes
-import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component';
-import { EdicaoProdutoComponent } from './componentes/produtos/edicao-produto/edicao-produto.component';
-import { HomeComponent } from './componentes/home/home/home.component';
-import { AlertaComponent } from './componentes/util/alerta/alerta.component';
-import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
-import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
-import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
-import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioModule } from '@angular/material/radio';
+// Meus componentes
+import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
+import { AlertaComponent } from './componentes/util/alerta/alerta.component';
 import { DinheiroPipe } from './pipes/DinheiroPipe';
+import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component';
+import { HomeComponent } from './componentes/home/home/home.component';
+import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
+import { EdicaoProdutoComponent } from './componentes/produtos/edicao-produto/edicao-produto.component';
+import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
+import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
+import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor/edicao-fornecedor.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -61,7 +63,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     CriarCompraProdutoComponent,
     ListarComprasProdutoComponent,
     DinheiroPipe,
-    ListarFornecedoresComponent
+    ListarFornecedoresComponent,
+    EdicaoFornecedorComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +88,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MatDatepickerModule,
     MatNativeDateModule,
     MatPaginatorModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatRadioModule
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }

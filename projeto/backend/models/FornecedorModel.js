@@ -11,7 +11,7 @@ const fornecedorSchema = Schema({
     required: true,
   },
   identificacao: {
-    type: Number,
+    type: String,
     required: true,
   },
   endereco: {
@@ -20,12 +20,12 @@ const fornecedorSchema = Schema({
        required: true,
      },  
      numero: {
-       type: Number,
+       type: String,
        required: true,
      },
      complemento: {
       type: String,
-      required: true,
+      required: false,
     }
 }
 });

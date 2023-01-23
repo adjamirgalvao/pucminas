@@ -1,23 +1,22 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { Fornecedor } from 'src/app/interfaces/Fornecedor';
+import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
-
-import { ProdutoService } from '../../../services/produto/produto.service';
-import { Alerta } from '../../../interfaces/Alerta';
-import { Produto } from '../../../interfaces/Produto';
+import { Alerta } from 'src/app/interfaces/Alerta';
 
 @Component({
-  selector: 'app-edicao-produto',
-  templateUrl: './edicao-produto.component.html',
-  styleUrls: ['./edicao-produto.component.css']
+  selector: 'app-edicao-fornecedor',
+  templateUrl: './edicao-fornecedor.component.html',
+  styleUrls: ['./edicao-fornecedor.component.css']
 })
 
-export class EdicaoProdutoComponent implements OnInit {
+export class EdicaoFornecedorComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private service: ProdutoService,
+    private service: FornecedorService,
     private location: Location,
     private router: Router,
     private route: ActivatedRoute) {
@@ -38,11 +37,15 @@ export class EdicaoProdutoComponent implements OnInit {
   carregando: boolean = false;
   leitura: boolean = false;
 
-  inicial: Produto = {
+  inicial: Fornecedor = {
     nome: '',
-    quantidade: 0,
-    preco: 0,
-    precoCusto: 0
+    identificacao: '',
+    tipo: '',
+    endereco: {
+      rua: '',
+      numero: '',
+      complemento: ''
+    }
   };
 
   operacao!: string;
@@ -64,16 +67,16 @@ export class EdicaoProdutoComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o produto!' });
-          throw 'Erro ao recuperar o produto! Detalhes: ' + err;
-        })).subscribe((produto) => {
+          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o fornecedor!' });
+          throw 'Erro ao recuperar o fornecedor! Detalhes: ' + err;
+        })).subscribe((fornecedor) => {
           this.carregando = false;
-          if (produto != null) {
-            this.inicial = produto;
+          if (fornecedor != null) {
+            this.inicial = fornecedor;
             console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
-            this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+            this.alertas.push({ tipo: 'danger', mensagem: 'Fornecedor não encontrado!' });
             this.erroCarregando = true;
           }
         });
@@ -81,20 +84,24 @@ export class EdicaoProdutoComponent implements OnInit {
   }
 
   salvar(): void {
-    // Criação do produto
-    const produto: Produto = {
+    // Criação do fornecedor
+    const fornecedor: Fornecedor = {
       nome: this.formulario.value.nome,
-      quantidade: this.formulario.value.quantidade,
-      preco: this.formulario.value.preco,
-      precoCusto: this.formulario.value.precoCusto
+      tipo: this.formulario.value.tipo,
+      identificacao: this.formulario.value.identificacao,
+      endereco : {
+        rua : this.formulario.value.rua,
+        numero: this.formulario.value.numero,
+        complemento: this.formulario.value.complemento
+      }
     };
 
     this.salvando = true;
     if (this.operacao == 'Cadastrar') {
-      this.cadastrarProduto(produto);
+      this.cadastrarFornecedor(fornecedor);
     } else {
-      produto._id = this.inicial._id!;
-      this.editarProduto(produto);
+      fornecedor._id = this.inicial._id!;
+      this.editarFornecedor(fornecedor);
     }
   }
 
@@ -102,7 +109,7 @@ export class EdicaoProdutoComponent implements OnInit {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
     if ((this.operacao != 'Cadastrar') || this.listar) {
-        this.router.navigate(['/produtos']);
+        this.router.navigate(['/fornecedores']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
       this.location.back();
@@ -116,30 +123,26 @@ export class EdicaoProdutoComponent implements OnInit {
         Validators.required,
         Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
-      quantidade: [{value: this.inicial.quantidade, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, Validators.min(0)
-      ])],
-      preco: [{value: this.inicial.preco, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, Validators.min(0.01)
-      ])],
-      precoCusto: [{value: this.inicial.precoCusto, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, Validators.min(0)
-      ])]
+      identificacao: [{value: this.inicial.identificacao, disabled: this.readOnly()}, Validators.required],
+      tipo: [{value: this.inicial.tipo, disabled: this.readOnly()}, Validators.required],
+      rua: [{value: this.inicial.endereco.rua, disabled: this.readOnly()}, Validators.required],
+      numero: [{value: this.inicial.endereco.numero, disabled: this.readOnly()}, Validators.required],
+      complemento: [{value: this.inicial.endereco.complemento, disabled: this.readOnly()}],
+
     });
   }
 
-  private cadastrarProduto(produto: Produto) {
-    this.service.criar(produto).pipe(catchError(
+  private cadastrarFornecedor(fornecedor: Fornecedor) {
+    this.service.criar(fornecedor).pipe(catchError(
       err => {
         this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar produto!' });
-        throw 'Erro ao cadastrar produto. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar fornecedor!' });
+        throw 'Erro ao cadastrar fornecedor. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.salvando = false;
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!` });
-          //this.criarFormulario();
+          this.alertas.push({ tipo: 'success', mensagem: `Fornecedor "${fornecedor.nome}" cadastrado com sucesso!` });
           this.formulario.reset(this.inicial);
           // Para resetar os erros https://stackoverflow.com/questions/55776775/how-to-reset-validation-error-without-resetting-form-in-angular
           Object.keys(this.formulario.controls).forEach(key => {
@@ -153,19 +156,20 @@ export class EdicaoProdutoComponent implements OnInit {
     return this.salvando  || this.erroCarregando || this.leitura;
   }
 
-  private editarProduto(produto: Produto) {
+  private editarFornecedor(fornecedor: Fornecedor) {
     this.salvando = true;
-    this.service.editar(produto).pipe(catchError(
+    this.service.editar(fornecedor).pipe(catchError(
       err => {
         this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar produto!' });
-        throw 'Erro ao editar produto. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar fornecedor!' });
+        throw 'Erro ao editar fornecedor. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.salvando = false;
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
-          this.router.navigate(['/produtos'],  {state: {alerta: {tipo: 'success', mensagem: `Produto "${produto.nome}" salvo com sucesso!`} }});
+          this.router.navigate(['/fornecedores'],  {state: {alerta: {tipo: 'success', mensagem: `Fornecedor "${fornecedor.nome}" salvo com sucesso!`} }});
         });
   }
+
 
 }

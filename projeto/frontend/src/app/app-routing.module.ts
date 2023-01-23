@@ -6,6 +6,7 @@ import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
+import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor/edicao-fornecedor.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
     component: EdicaoProdutoComponent,
   },
    // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
-   {
+  {
     path: 'produtos/:id',
     component: EdicaoProdutoComponent 
   },
@@ -45,6 +46,18 @@ const routes: Routes = [
   {
     path: 'fornecedores',
     component: ListarFornecedoresComponent,
+  },
+  {
+    path: 'fornecedores/criarFornecedor',
+    component: EdicaoFornecedorComponent,
+  },
+  {
+    path: 'fornecedores/:id',
+    component: EdicaoFornecedorComponent 
+  },
+  {
+    path: 'fornecedores/:id/editarFornecedor',
+    component: EdicaoFornecedorComponent 
   },
 ];
 

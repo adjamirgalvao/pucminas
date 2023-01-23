@@ -2,10 +2,10 @@ export interface Fornecedor {
     _id?: string
     nome: string,
     tipo: string,
-    identificacao: Number,
+    identificacao: string,
     endereco: {
        rua: string,
-       numero: Number,
+       numero: string,
        complemento: string
       }
   }

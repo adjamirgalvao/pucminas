@@ -23,23 +23,23 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
                     <mat-cell *matCellDef="let fornecedor">{{ fornecedor.nome }}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="quantidade">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Estoque</mat-header-cell>
-                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.quantidade }}</mat-cell>
+                <ng-container matColumnDef="tipo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
+                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.tipo == 'pf' ? 'Pessoa Física' : 'Pessoa Jurídica'}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="preco">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Preço</mat-header-cell>
-                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.preco | dinheiroPipe }}</mat-cell>
+                <ng-container matColumnDef="identificacao">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Identificação</mat-header-cell>
+                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.identificacao }} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                     <mat-cell *matCellDef="let fornecedor">
                         <div>
-                        <button mat-icon-button [routerLink]="['/fornecedors/' + fornecedor._id]"
+                        <button mat-icon-button [routerLink]="['/fornecedores/' + fornecedor._id]"
                             matTooltip="Detalhar Fornecedor" [state]="{ operacao: 'Consultar' }">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
-                        <button mat-icon-button [routerLink]="['/fornecedors/' + fornecedor._id + '/editarFornecedor']"
+                        <button mat-icon-button [routerLink]="['/fornecedores/' + fornecedor._id + '/editarFornecedor']"
                             matTooltip="Editar Fornecedor">
                             <mat-icon color="secondary">create</mat-icon>
                         </button>
@@ -56,7 +56,7 @@
                 <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
         </div>
         <br>
-        <button mat-stroked-button routerLink="/fornecedors/criarFornecedor" [queryParams]="{ listar: true }"
+        <button mat-stroked-button routerLink="/fornecedores/criarFornecedor" [queryParams]="{ listar: true }"
             matTooltip="Novo Fornecedor" color="primary">Novo</button>  &nbsp;
         <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
    </div>
