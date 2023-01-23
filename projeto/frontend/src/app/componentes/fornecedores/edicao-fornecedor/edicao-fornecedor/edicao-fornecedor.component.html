@@ -23,50 +23,45 @@
                     <mat-label>Nome</mat-label>
                     <input formControlName="nome" matInput placeholder="Digite o nome do fornecedor">
                     <mat-error *ngIf="formulario.get('nome')?.errors">O campo é obrigatório!</mat-error>
-                    <mat-hint>Digite o nome do fornecedor</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o nome do fornecedor</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
-               <!-- <mat-form-field>-->
+                <label id="example-radio-group-label">Tipo de Fornecedor</label><br>
                     <mat-radio-group matInput aria-label="Escolha o tipo" formControlName="tipo" color="primary" >
                         <mat-radio-button value="pf">Pessoa Física</mat-radio-button>
                         <mat-radio-button value="pj">Pessoa Jurídica</mat-radio-button>
-                      </mat-radio-group>
-               <!-- </mat-form-field>-->
+                      </mat-radio-group><br>
             </div>
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Identificação</mat-label>
                     <input formControlName="identificacao" matInput placeholder="Digite a identificação">
-                    <mat-error
-                        *ngIf="formulario.get('identificacao')?.hasError('required')">O
-                        campo é obrigatório!</mat-error>
-                    <mat-hint>Digite a identificacao</mat-hint>
+                    <mat-error *ngIf="formulario.get('identificacao')?.hasError('required')">O campo é obrigatório!</mat-error>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite a identificacao</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
                 <mat-form-field  style="width: 80%;">
                     <mat-label>Rua</mat-label>
                     <input formControlName="rua" matInput placeholder="Digite a rua">
-                    <mat-error
-                        *ngIf="formulario.get('rua')?.hasError('required')">O campo é obrigatório!</mat-error>
-                    <mat-hint>Digite a rua</mat-hint>
+                    <mat-error *ngIf="formulario.get('rua')?.hasError('required')">O campo é obrigatório!</mat-error>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite a rua</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Número</mat-label>
                     <input formControlName="numero" matInput placeholder="Digite o número">
-                    <mat-error
-                        *ngIf="formulario.get('numero')?.hasError('required')">O campo é obrigatório!</mat-error>
-                    <mat-hint>Digite o número</mat-hint>
+                    <mat-error *ngIf="formulario.get('numero')?.hasError('required')">O campo é obrigatório!</mat-error>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o número</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Complemento</mat-label>
                     <input formControlName="complemento" matInput placeholder="Digite o complemento">
-                    <mat-hint>Digite o complemento</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o complemento</mat-hint>
                 </mat-form-field>
             </div>            
             <div class="acoes">
