@@ -7,6 +7,7 @@ import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProdu
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
 import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor/edicao-fornecedor.component';
+import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras/listar-compras.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
   {
     path: 'fornecedores/:id/editarFornecedor',
     component: EdicaoFornecedorComponent 
+  },
+  {
+    path: 'compras',
+    component: ListarComprasComponent,
   },
 ];
 

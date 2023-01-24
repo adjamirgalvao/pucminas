@@ -19,8 +19,8 @@ export class CompraService {
     return this.http.post<Compra>(this.API_COMPRA, compra);
   }
 
-  listar(id: string) : Observable<Compra> {
-    return this.http.get<Compra>(this.API_COMPRA);
+  listar() : Observable<Compra[]> {
+    return this.http.get<Compra[]>(this.API_COMPRA);
   }
 
   excluir(compra: Compra): Observable<Compra> {

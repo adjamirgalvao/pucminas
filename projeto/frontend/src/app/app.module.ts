@@ -40,6 +40,7 @@ import { ListarComprasProdutoComponent } from './componentes/produtos/comprasPro
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
 import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor/edicao-fornecedor.component';
+import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras/listar-compras.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -64,7 +65,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ListarComprasProdutoComponent,
     DinheiroPipe,
     ListarFornecedoresComponent,
-    EdicaoFornecedorComponent
+    EdicaoFornecedorComponent,
+    ListarComprasComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,10 @@ const compraSchema = Schema({
     type: String,
     required: false,
   },
+  id_fornecedor: {
+    type: Schema.ObjectId,
+    required: false
+  },
 });
 
 module.exports = CompraModel = mongoose.model("compras", compraSchema);

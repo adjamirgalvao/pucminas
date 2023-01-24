@@ -32,6 +32,8 @@
                 <li class="nav-item" ngbDropdown>
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Compras </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                        <!-- https://stackoverflow.com/questions/55587975/routerlinkactive-route-for-child-and-parent -->
+                        <a ngbDropdownItem routerLink="/compras/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Compras</a>
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Nova compra</a>
                     </div>
                 </li>
