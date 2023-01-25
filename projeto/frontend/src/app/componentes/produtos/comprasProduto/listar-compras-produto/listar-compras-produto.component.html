@@ -24,21 +24,21 @@
                 <ng-container matColumnDef="compra.data">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Data da Compra</mat-header-cell>
                     <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
-                    <mat-cell *matCellDef="let compra">{{ compra.compra.data  | date: 'dd/MM/yyyy'}}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{ item.compra.data  | date: 'dd/MM/yyyy'}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="quantidade">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estoque</mat-header-cell>
-                    <mat-cell *matCellDef="let compra">{{ compra.quantidade }}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{ item.quantidade }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="preco">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Preço</mat-header-cell>
-                    <mat-cell *matCellDef="let compra">{{ compra.preco | dinheiroPipe }}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{ item.preco | dinheiroPipe }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
-                    <mat-cell *matCellDef="let compra">
-                        <button mat-icon-button matTooltip="Excluir compra" (click)="confirmarExcluirItemCompra(compra)"
-                            [disabled]="excluindo" [class.spinner]="excluindo && (produto._id == compraExcluida._id)">
+                    <mat-cell *matCellDef="let item">
+                        <button mat-icon-button matTooltip="Excluir Compra" (click)="confirmarExcluirItemCompra(item)"
+                            [disabled]="excluindo" [class.spinner]="excluindo && (item._id == itemCompraExcluida._id)">
                             <mat-icon color="secondary">delete</mat-icon>
                         </button>
                     </mat-cell>

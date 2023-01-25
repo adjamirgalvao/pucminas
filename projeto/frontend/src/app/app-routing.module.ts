@@ -6,8 +6,9 @@ import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
-import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor/edicao-fornecedor.component';
-import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras/listar-compras.component';
+import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor.component';
+import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras.component';
+import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edicao-compra/edicao-compra.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,14 @@ const routes: Routes = [
   {
     path: 'compras',
     component: ListarComprasComponent,
+  },
+  {
+    path: 'compras/criarCompra',
+    component: EdicaoCompraComponent,
+  },
+  {
+    path: 'compras/:id',
+    component: EdicaoCompraComponent 
   },
 ];
 

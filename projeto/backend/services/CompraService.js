@@ -1,9 +1,53 @@
 const CompraModel = require("../models/CompraModel");
 
+// https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
+const compraFornecedorInnerJoin = [
+  {
+    '$lookup': {
+      'from': 'fornecedores', 
+      'localField': 'id_fornecedor', 
+      'foreignField': '_id', 
+      'as': 'fornecedor'
+    }
+  },
+  { // para fazer com que fique um campo e não uma lista
+     '$addFields': {
+        'fornecedor': {
+            '$arrayElemAt': [
+                '$fornecedor', 0
+            ]
+        }
+    }
+  },
+  {
+    '$lookup': {
+      'from': 'itenscompras', 
+      'localField': '_id', 
+      'foreignField': 'id_compra', 
+      'as': 'itenscompra'
+    }  
+  },
+  //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
+  {
+    '$addFields': {
+       'total': {
+           '$sum': {
+             '$map': {
+               'input': "$itenscompra",
+               'as': "itemcompra",
+               'in': "$$itemcompra.preco",
+             }
+           }
+         }
+       }
+  }
+  
+];
+
 module.exports = class CompraService {
   static async getAllCompras() {
     try {
-      const todos = await CompraModel.find();
+      const todos = await CompraModel.aggregate(compraFornecedorInnerJoin);
       
       return todos;
     } catch (error) {

@@ -39,8 +39,9 @@ import { EdicaoProdutoComponent } from './componentes/produtos/edicao-produto/ed
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
-import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor/edicao-fornecedor.component';
-import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras/listar-compras.component';
+import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor.component';
+import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras.component';
+import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edicao-compra/edicao-compra.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -66,7 +67,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     DinheiroPipe,
     ListarFornecedoresComponent,
     EdicaoFornecedorComponent,
-    ListarComprasComponent
+    ListarComprasComponent,
+    EdicaoCompraComponent
   ],
   imports: [
     BrowserModule,

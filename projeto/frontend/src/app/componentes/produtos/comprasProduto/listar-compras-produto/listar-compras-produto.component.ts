@@ -42,7 +42,7 @@ export class ListarComprasProdutoComponent implements OnInit {
   carregando: boolean = true;
   excluindo: boolean = false;
 
-  compraExcluida!: ItemCompra;
+  itemCompraExcluida!: ItemCompra;
   //Esse declaro os valores porque o campo é exibido no formulário
   produto: Produto = {
     nome: '',
@@ -134,7 +134,7 @@ export class ListarComprasProdutoComponent implements OnInit {
   excluirItemCompra(itemCompra: ItemCompra) {
     //Excluindo os dados 
     this.excluindo = true;
-    this.compraExcluida = itemCompra;
+    this.itemCompraExcluida = itemCompra;
     this.itemCompraService.excluirItemCompra(itemCompra).pipe(catchError(
       err => {
         this.excluindo = false;

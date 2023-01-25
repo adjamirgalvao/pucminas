@@ -8,5 +8,5 @@ export interface Compra {
     total?: number
     id_fornecedor?: string
     fornecedor?: Fornecedor
-    itens?: ItemCompra[]
+    itensCompra?: ItemCompra[]
   }

@@ -1,0 +1,65 @@
+<div class="pt-1 ps-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item">Compras</li>
+            <li class="breadcrumb-item">Listar Compras</li>
+        </ol>
+    </nav>
+</div>
+
+<mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
+<section class="pt-1 px-3 pb-3">
+    <app-alerta [alertas]="alertas"></app-alerta>
+
+    <div class="grid gap-3 border rounded px-3 pb-3" aria-disabled>
+        <header class="header">
+            <h2>Listar Compras</h2>
+        </header>
+        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhuma compra cadastrada.</strong>
+        </div>
+        <div class="grid gap-3 border rounded  px-3" *ngIf="dataSource.data.length > 0">
+            <mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="data">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Data da Compra</mat-header-cell>
+                    <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
+                    <mat-cell *matCellDef="let compra">{{ compra.data  | date: 'dd/MM/yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="numero">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nota Fiscal</mat-header-cell>
+                    <mat-cell *matCellDef="let compra">{{ compra.numero }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="fornecedor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Fornecedor</mat-header-cell>
+                    <mat-cell *matCellDef="let compra">{{ compra.fornecedor?.nome }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="total">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Preço</mat-header-cell>
+                    <mat-cell *matCellDef="let compra">{{ compra.total | dinheiroPipe }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                    <mat-cell *matCellDef="let compra">
+                        <div>
+                        <button mat-icon-button [routerLink]="['/compras/' + compra._id]"
+                            matTooltip="Detalhar Compra" [state]="{ operacao: 'Consultar' }">
+                            <mat-icon color="secondary">receipt</mat-icon>
+                        </button>
+                       <button mat-icon-button matTooltip="Excluir Compra" (click)="confirmarExcluirCompra(compra)"
+                            [disabled]="excluindo" [class.spinner]="excluindo && (compra._id == compraExcluida._id)">
+                            <mat-icon color="secondary">delete</mat-icon>
+                        </button>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <br>
+        <button mat-stroked-button [routerLink]="['/compras/cadastrarCompra']" [queryParams]="{ listar: true }"
+            matTooltip="Nova Compra" color="primary">Nova Compra </button>  &nbsp;
+        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
+</div>
+</section>
