@@ -15,8 +15,12 @@ export class CompraService {
 
   }
 
-  criarCompra(compra: Compra): Observable<Compra> {
+  criar(compra: Compra): Observable<Compra> {
     return this.http.post<Compra>(this.API_COMPRA, compra);
+  }
+  
+  buscarPorId(id: string): Observable<Compra> {
+    return this.http.get<Compra>(this.API_COMPRA + '' + id);
   }
 
   listar() : Observable<Compra[]> {

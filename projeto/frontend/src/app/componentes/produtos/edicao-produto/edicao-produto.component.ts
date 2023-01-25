@@ -7,7 +7,6 @@ import { Location } from '@angular/common';
 import { ProdutoService } from '../../../services/produto/produto.service';
 import { Alerta } from '../../../interfaces/Alerta';
 import { Produto } from '../../../interfaces/Produto';
-import { toJSDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
 
 @Component({
   selector: 'app-edicao-produto',
