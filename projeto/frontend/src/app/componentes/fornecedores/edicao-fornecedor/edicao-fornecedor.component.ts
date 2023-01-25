@@ -1,8 +1,8 @@
 import { Fornecedor } from 'src/app/interfaces/Fornecedor';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
 import { Alerta } from 'src/app/interfaces/Alerta';

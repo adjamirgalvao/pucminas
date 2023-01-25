@@ -4,9 +4,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
 
-import { ProdutoService } from '../../../services/produto/produto.service';
 import { Alerta } from '../../../interfaces/Alerta';
-import { Produto } from '../../../interfaces/Produto';
 import { CompraService } from 'src/app/services/compra/compra.service';
 import { Compra } from 'src/app/interfaces/Compra';
 
