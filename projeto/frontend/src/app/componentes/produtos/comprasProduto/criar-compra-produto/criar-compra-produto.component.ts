@@ -6,28 +6,13 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { Produto } from 'src/app/interfaces/Produto';
 import { ItemCompraService } from 'src/app/services/itemCompra/item-compra.service';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
-import { MY_FORMATS } from 'src/app/constantes/Mydata';
 
 // Alterar o formato de data do picker https://material.angular.io/components/datepicker/overview
 @Component({
   selector: 'app-criar-compra-produto',
   templateUrl: './criar-compra-produto.component.html',
   styleUrls: ['./criar-compra-produto.component.css'],
-  providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-  ],
 })
 export class CriarCompraProdutoComponent implements OnInit {
 

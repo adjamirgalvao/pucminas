@@ -1,3 +1,4 @@
+import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -7,26 +8,16 @@ import { Location } from '@angular/common';
 import { Alerta } from '../../../interfaces/Alerta';
 import { CompraService } from 'src/app/services/compra/compra.service';
 import { Compra } from 'src/app/interfaces/Compra';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from 'src/app/constantes/Mydata';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-confirmacao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edicao-compra',
   templateUrl: './edicao-compra.component.html',
   styleUrls: ['./edicao-compra.component.css'],
-  providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-  ],
 
 })
 
@@ -36,7 +27,8 @@ export class EdicaoCompraComponent implements OnInit {
     private service: CompraService,
     private location: Location,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    public confirmacao: MatDialog) {
       // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
       // não pode ficar no OnInit 
       let modo = this.router.getCurrentNavigation()?.extras.state?.['operacao'];
@@ -45,6 +37,7 @@ export class EdicaoCompraComponent implements OnInit {
          this.leitura = true;
       }
     }
+
   formulario!: FormGroup;
 
   alertas: Alerta[] = [];
@@ -56,13 +49,49 @@ export class EdicaoCompraComponent implements OnInit {
 
   inicial: Compra = {
     numero: '',
-    data: new Date()
+    data: new Date(),
   };
+
+  itensCompra: ItemCompra[] = [];
 
   operacao!: string;
 
   @ViewChild('formDirective')
   private formDirective!: NgForm;
+  
+
+   // Campos para a tabela
+  displayedColumns: string[] = ['produto.nome', 'quantidade', 'preco', 'actions'];
+  dataSource: MatTableDataSource<ItemCompra> = new MatTableDataSource();
+
+  //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
+  private paginator!: MatPaginator;
+  private sort!: MatSort;
+
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+  setDataSourceAttributes() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    // para ordernar subcampo
+    // https://stackoverflow.com/questions/55030357/angular-matsort-not-working-when-using-object-inside-datasource
+    // e aqui descobri que tinha que colocar o item: any https://technology.amis.nl/frontend/sorting-an-angular-material-table/
+    this.dataSource.sortingDataAccessor = (item: any, property) => {
+      switch (property) {
+         case 'produto.nome': return  item.produto.nome;
+         default: return item[property];
+      }
+   }
+  }
   
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
@@ -103,7 +132,6 @@ export class EdicaoCompraComponent implements OnInit {
       data: this.formulario.value.data,
       numero: this.formulario.value.numero,
      // preco: this.formulario.value.preco,
-     // precoCusto: this.formulario.value.precoCusto
     };
 
     this.salvando = true;
@@ -126,6 +154,15 @@ export class EdicaoCompraComponent implements OnInit {
     }    
   }
 
+  formularioValido(): boolean {
+    return this.formulario.get('data')!.valid && this.formulario.get('numero')!.valid && this.itensCompra.length > 0;
+  }
+
+  formularioIncluirValido(): boolean {
+    return this.formulario.get('quantidade')!.valid && this.formulario.get('preco')!.valid;
+  }
+
+
   private criarFormulario() {
     //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
     this.formulario = this.formBuilder.group({
@@ -133,7 +170,13 @@ export class EdicaoCompraComponent implements OnInit {
         Validators.required
       ])],
       numero: [this.inicial.numero],        
-    });
+      quantidade: [0, Validators.compose([
+        Validators.required, Validators.min(0.01)
+      ])],
+      preco: [0, Validators.compose([
+        Validators.required, Validators.min(0.01)
+      ])]
+  });
   }
 
   private cadastrarCompra(compra: Compra) {
@@ -171,6 +214,52 @@ export class EdicaoCompraComponent implements OnInit {
           this.router.navigate(['/compras'],  {state: {alerta: {tipo: 'success', mensagem: `Compra "${compra.numero}" salva com sucesso!`} }});
         });
     */    
+  }
+
+
+  adicionarItem(){
+    const itemCompra: ItemCompra = {
+      preco: this.formulario.value.preco,
+      quantidade: this.formulario.value.quantidade,
+      id_produto: '1',
+      produto: {
+          nome: 'Teste',
+          quantidade: 1,
+          preco: 1,
+          precoCusto: 1
+      }
+    };
+    this.itensCompra.push(itemCompra);
+
+    // resetando parte do formulario
+    let campos = ['quantidade', 'preco'];
+    campos.map(campo => {
+        this.formulario.get(campo)?.setValue(0); 
+        this.formulario.get(campo)?.markAsUntouched();
+    });
+    this.atualizarTabela();
+  }
+
+  atualizarTabela() : void {
+    //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
+    this.dataSource = new MatTableDataSource(this.itensCompra);
+    this.setDataSourceAttributes(); // para atualizar paginação
+  }
+
+  confirmarExcluirItemCompra(itemCompra: ItemCompra) {
+    const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
+      data: {
+        mensagem: `Confirma a exclusão da compra produto '${itemCompra.produto?.nome}'?`,
+        titulo: 'Confirmação de Exclusão de Compra de Produto'
+      },
+    });
+
+    confirmacaoRef.afterClosed().subscribe(result => {
+      if (result == 'Sim') {
+        this.itensCompra.splice(this.itensCompra.indexOf(itemCompra), 1);
+        this.atualizarTabela();
+    }
+    });
   }
 
 }
