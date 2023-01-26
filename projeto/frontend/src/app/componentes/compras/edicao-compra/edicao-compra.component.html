@@ -1,1 +1,80 @@
-<p>edicao-compra works!</p>
+<div class="pt-1 ps-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item">Compras</li>
+            <li *ngIf="listar || (operacao != 'Cadastrar')" class="breadcrumb-item"><a routerLink="/compras">Listar Compras</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ operacao }} Compra</li>
+        </ol>
+    </nav>
+</div>
+
+<mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
+<section class="container">
+    <app-alerta [alertas]="alertas"></app-alerta>
+    <div class="grid gap-3 border rounded container" aria-disabled>
+        <header class="header">
+            <h2>{{ operacao }} Compra <i *ngIf="this.formulario">{{this.formulario.get('numero')?.value}}</i></h2>
+        </header>
+        <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando" #formDirective="ngForm">
+            <div class="mb-3">
+                <mat-form-field appearance="fill">
+                    <mat-label>Data de compra</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="data">
+                    <mat-error *ngIf="formulario.get('data')?.hasError('required') && formulario.get('data')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="mb-3">
+                <mat-form-field>
+                   <mat-label>Nota Fiscal</mat-label>
+                   <input type="string" formControlName="numero" matInput placeholder="Digite a Nota Fiscal"
+                       [readonly]="salvando || erroCarregando">
+                   <mat-hint>Digite a Nota Fiscal</mat-hint>
+             </mat-form-field>
+            </div>
+            <div class="mb-3">
+                <mat-form-field>
+                    <mat-label>Identificação</mat-label>
+                    <input formControlName="identificacao" matInput placeholder="Digite a identificação">
+                    <mat-error *ngIf="formulario.get('identificacao')?.hasError('required')">O campo é obrigatório!</mat-error>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite a identificacao</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="mb-3">
+                <mat-form-field  style="width: 80%;">
+                    <mat-label>Rua</mat-label>
+                    <input formControlName="rua" matInput placeholder="Digite a rua">
+                    <mat-error *ngIf="formulario.get('rua')?.hasError('required')">O campo é obrigatório!</mat-error>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite a rua</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="mb-3">
+                <mat-form-field>
+                    <mat-label>Número</mat-label>
+                    <input formControlName="numero" matInput placeholder="Digite o número">
+                    <mat-error *ngIf="formulario.get('numero')?.hasError('required')">O campo é obrigatório!</mat-error>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o número</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="mb-3">
+                <mat-form-field>
+                    <mat-label>Complemento</mat-label>
+                    <input formControlName="complemento" matInput placeholder="Digite o complemento">
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o complemento</mat-hint>
+                </mat-form-field>
+            </div>            
+            <div class="acoes">
+                <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
+                <button *ngIf="!leitura" type="submit" mat-stroked-button matTooltip="Salvar o fornecedor" color="primary"
+                    [disabled]="salvando || erroCarregando || !formulario.valid"
+                    [class.spinner]="salvando">Salvar</button> &nbsp;
+                <button (click)="$event.preventDefault(); cancelar();" mat-stroked-button
+                    matTooltip="{{ leitura ? 'Voltar' : 'Voltar sem salvar' }}"
+                    color="{{ leitura ? 'primary' : 'warn' }}" [disabled]="salvando || erroCarregando">Voltar</button>
+            </div>
+        </form>
+    </div>
+</section>

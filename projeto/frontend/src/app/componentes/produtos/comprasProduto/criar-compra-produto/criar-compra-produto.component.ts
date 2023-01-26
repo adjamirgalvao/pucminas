@@ -9,18 +9,7 @@ import { ItemCompraService } from 'src/app/services/itemCompra/item-compra.servi
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { MY_FORMATS } from 'src/app/constantes/Mydata';
 
 // Alterar o formato de data do picker https://material.angular.io/components/datepicker/overview
 @Component({

@@ -7,12 +7,29 @@ import { Location } from '@angular/common';
 import { Alerta } from '../../../interfaces/Alerta';
 import { CompraService } from 'src/app/services/compra/compra.service';
 import { Compra } from 'src/app/interfaces/Compra';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MY_FORMATS } from 'src/app/constantes/Mydata';
 
 @Component({
   selector: 'app-edicao-compra',
   templateUrl: './edicao-compra.component.html',
-  styleUrls: ['./edicao-compra.component.css']
+  styleUrls: ['./edicao-compra.component.css'],
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
+
 })
+
 export class EdicaoCompraComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
@@ -83,8 +100,8 @@ export class EdicaoCompraComponent implements OnInit {
   salvar(): void {
     // Criação da compra
     const compra: Compra = {
-      numero: this.formulario.value.numero,
       data: this.formulario.value.data,
+      numero: this.formulario.value.numero,
      // preco: this.formulario.value.preco,
      // precoCusto: this.formulario.value.precoCusto
     };
@@ -112,10 +129,10 @@ export class EdicaoCompraComponent implements OnInit {
   private criarFormulario() {
     //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
     this.formulario = this.formBuilder.group({
-      numero: [{value: this.inicial.numero, disabled: this.readOnly()}, Validators.compose([
-        Validators.required,
-        Validators.pattern(/(.|\s)*\S(.|\s)*/)
+      data: [this.inicial.data, Validators.compose([
+        Validators.required
       ])],
+      numero: [this.inicial.numero],        
     });
   }
 
