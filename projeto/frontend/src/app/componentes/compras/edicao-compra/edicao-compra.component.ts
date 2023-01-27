@@ -117,6 +117,7 @@ export class EdicaoCompraComponent implements OnInit {
         throw 'Erro ao recuperar produtos! Detalhes: ' + err;
       })).subscribe((produtos) => {
         this.produtos = produtos;
+        console.log(produtos);
         if (this.operacao != 'Cadastrar') {
           this.erroCarregando = false;
           this.carregando = true;

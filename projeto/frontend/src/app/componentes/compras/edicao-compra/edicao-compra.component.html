@@ -40,6 +40,15 @@
                <div class="grid gap-3 border rounded container" aria-disabled>
                 <p class="mat-title">Adicionar Produto</p>
                 <mat-form-field class="me-3">
+                    <mat-label>Produto</mat-label>
+                    <input type="text" formControlName="produto" [matAutocomplete]="auto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let produto of produtos" [value]="produto.nome">
+                          {{produto.nome}}
+                        </mat-option>
+                    </mat-autocomplete>                    
+                </mat-form-field>
+                <mat-form-field class="me-3">
                     <mat-label>Quantidade</mat-label>
                     <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
                         [readonly]="salvando || erroCarregando">

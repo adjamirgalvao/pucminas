@@ -28,6 +28,11 @@ import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } f
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MY_FORMATS } from './constantes/Mydata';
+
 // Meus componentes
 import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
 import { AlertaComponent } from './componentes/util/alerta/alerta.component';
@@ -42,9 +47,6 @@ import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-f
 import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor.component';
 import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras.component';
 import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edicao-compra.component';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from './constantes/Mydata';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -97,7 +99,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MatPaginatorModule,
     MatProgressBarModule,
     MatRadioModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatAutocompleteModule
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
