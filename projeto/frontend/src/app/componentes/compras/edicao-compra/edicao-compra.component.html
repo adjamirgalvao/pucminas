@@ -10,11 +10,11 @@
 </div>
 
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
-<section class="container">
+<section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <div class="grid gap-3 border rounded container" aria-disabled>
-        <header class="header">
-            <h2>{{ operacao }} Compra <i *ngIf="this.formulario">{{this.formulario.get('numero')?.value}}</i></h2>
+    <div class="grid gap-3 border rounded px-3 pb-3" aria-disabled>
+        <header>
+            <h2 class="mat-h2">{{ operacao }} Compra <i *ngIf="this.formulario">{{this.formulario.get('numero')?.value}}</i></h2>
         </header>
         <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando" #formDirective="ngForm">
             <div class="mb-3">
@@ -38,7 +38,7 @@
                     <mat-panel-description>Produtos da Compra</mat-panel-description>
                 </mat-expansion-panel-header>     
                <div class="grid gap-3 border rounded container" aria-disabled>
-                <h4>Adicionar Produto</h4>
+                <p class="mat-title">Adicionar Produto</p>
                 <mat-form-field class="me-3">
                     <mat-label>Quantidade</mat-label>
                     <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
@@ -61,7 +61,7 @@
                 </div>
                 <!-- Listagem de produtos da compra -->
                 <div class="grid gap-3 border rounded px-3 mt-3"> <h3>Produtos</h3>
-                <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto cadastrado na compra.</strong>
+                <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto adicionado a compra.</strong>
                 </div>
                 <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
                     <mat-table [dataSource]="dataSource" matSort>

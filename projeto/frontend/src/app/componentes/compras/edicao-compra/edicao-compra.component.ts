@@ -13,6 +13,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-confirmacao.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ProdutoService } from 'src/app/services/produto/produto.service';
+import { Produto } from 'src/app/interfaces/Produto';
 
 @Component({
   selector: 'app-edicao-compra',
@@ -24,7 +26,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class EdicaoCompraComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private service: CompraService,
+    private compraService: CompraService,
+    private produtoService: ProdutoService,
     private location: Location,
     private router: Router,
     private route: ActivatedRoute,
@@ -53,6 +56,7 @@ export class EdicaoCompraComponent implements OnInit {
   };
 
   itensCompra: ItemCompra[] = [];
+  produtos: Produto[] = [];
 
   operacao!: string;
 
@@ -103,27 +107,41 @@ export class EdicaoCompraComponent implements OnInit {
     }
 
     this.criarFormulario();
-    if (this.operacao != 'Cadastrar') {
-      this.erroCarregando = false;
-      this.carregando = true;
-      this.service.buscarPorId(id!).pipe(catchError(
-        err => {
-          this.erroCarregando = true;
+    this.erroCarregando = false;
+    this.carregando = true;
+    this.produtoService.listar().pipe(catchError(
+      err => {
+        this.erroCarregando = true;
+        this.carregando = false;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar produtos!' });
+        throw 'Erro ao recuperar produtos! Detalhes: ' + err;
+      })).subscribe((produtos) => {
+        this.produtos = produtos;
+        if (this.operacao != 'Cadastrar') {
+          this.erroCarregando = false;
+          this.carregando = true;
+          this.compraService.buscarPorId(id!).pipe(catchError(
+            err => {
+              this.erroCarregando = true;
+              this.carregando = false;
+              this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar a compra!' });
+              throw 'Erro ao recuperar a compra! Detalhes: ' + err;
+            })).subscribe((compra) => {
+              this.carregando = false;
+              if (compra != null) {
+                this.inicial = compra;
+                console.log('inicial', this.inicial);
+                this.criarFormulario();
+              } else {
+                this.alertas.push({ tipo: 'danger', mensagem: 'Compra não encontrada!' });
+                this.erroCarregando = true;
+              }
+            });
+        } else {
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar a compra!' });
-          throw 'Erro ao recuperar a compra! Detalhes: ' + err;
-        })).subscribe((compra) => {
-          this.carregando = false;
-          if (compra != null) {
-            this.inicial = compra;
-            console.log('inicial', this.inicial);
-            this.criarFormulario();
-          } else {
-            this.alertas.push({ tipo: 'danger', mensagem: 'Compra não encontrada!' });
-            this.erroCarregando = true;
-          }
-        });
-    }
+        }
+      });
+
   }
 
   salvar(): void {
@@ -180,7 +198,7 @@ export class EdicaoCompraComponent implements OnInit {
   }
 
   private cadastrarCompra(compra: Compra) {
-    this.service.criar(compra).pipe(catchError(
+    this.compraService.criar(compra).pipe(catchError(
       err => {
         this.salvando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar compra!' });

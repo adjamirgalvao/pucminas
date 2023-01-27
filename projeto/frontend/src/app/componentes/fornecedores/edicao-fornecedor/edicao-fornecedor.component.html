@@ -11,11 +11,11 @@
 </div>
 
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
-<section class="container">
+<section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <div class="grid gap-3 border rounded container" aria-disabled>
+    <div class="grid gap-3 border rounded px-3 pb-3" aria-disabled>
         <header class="header">
-            <h2>{{ operacao }} Fornecedor <i *ngIf="this.formulario">{{this.formulario.get('nome')?.value}}</i></h2>
+            <h2 class="mat-h2">{{ operacao }} Fornecedor <i *ngIf="this.formulario">{{this.formulario.get('nome')?.value}}</i></h2>
         </header>
         <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando" #formDirective="ngForm">
             <div class="mb-3">
