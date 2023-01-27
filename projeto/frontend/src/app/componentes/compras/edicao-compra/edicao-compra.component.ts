@@ -178,7 +178,7 @@ export class EdicaoCompraComponent implements OnInit {
   }
 
   formularioIncluirValido(): boolean {
-    return this.formulario.get('quantidade')!.valid && this.formulario.get('preco')!.valid;
+    return this.formulario.get('produto')!.valid && this.formulario.get('quantidade')!.valid && this.formulario.get('preco')!.valid;
   }
 
 
@@ -189,6 +189,9 @@ export class EdicaoCompraComponent implements OnInit {
         Validators.required
       ])],
       numero: [this.inicial.numero],        
+      produto: ['', Validators.compose([
+        Validators.required
+      ])],
       quantidade: [0, Validators.compose([
         Validators.required, Validators.min(0.01)
       ])],
@@ -256,6 +259,9 @@ export class EdicaoCompraComponent implements OnInit {
         this.formulario.get(campo)?.setValue(0); 
         this.formulario.get(campo)?.markAsUntouched();
     });
+    this.formulario.get('produto')?.setValue('');
+    this.formulario.get('produto')?.markAsUntouched();
+
     this.atualizarTabela();
   }
 

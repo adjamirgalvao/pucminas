@@ -39,14 +39,16 @@
                 </mat-expansion-panel-header>     
                <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
                 <p class="mat-title">Adicionar Produto</p>
-                <mat-form-field class="me-3">
+                <mat-form-field class="me-3" style="width: 50%;">
                     <mat-label>Produto</mat-label>
                     <input type="text" formControlName="produto" [matAutocomplete]="auto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
+                    <mat-error *ngIf="formulario.get('produto')?.hasError('required')  && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let produto of produtos" [value]="produto.nome">
                           {{produto.nome}}
                         </mat-option>
                     </mat-autocomplete>                    
+                    <mat-hint>Escolha o produto</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3">
                     <mat-label>Quantidade</mat-label>
@@ -90,7 +92,7 @@
                         <ng-container matColumnDef="actions">
                             <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                             <mat-cell *matCellDef="let item">
-                                <button mat-icon-button matTooltip="Excluir Produto" (click)="confirmarExcluirItemCompra(item)">
+                                <button mat-icon-button matTooltip="Excluir Produto" (click)="$event.preventDefault(); confirmarExcluirItemCompra(item)">
                                     <mat-icon color="secondary">delete</mat-icon>
                                 </button>
                             </mat-cell>
@@ -106,7 +108,7 @@
 
             <div class="acoes">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
-                <button *ngIf="!leitura" type="submit" mat-stroked-button matTooltip="Salvar o fornecedor" color="primary"
+                <button *ngIf="!leitura" type="submit" mat-stroked-button matTooltip="Salvar a compra" color="primary"
                     [disabled]="salvando || erroCarregando || !formularioValido()"
                     [class.spinner]="salvando">Salvar</button> &nbsp;
                 <button (click)="$event.preventDefault(); cancelar();" mat-stroked-button
