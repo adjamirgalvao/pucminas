@@ -42,12 +42,12 @@
                 <mat-form-field class="me-3" style="width: 50%;">
                     <mat-label>Produto</mat-label>
                     <input type="text" formControlName="produto" [matAutocomplete]="auto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
-                    <mat-error *ngIf="formulario.get('produto')?.hasError('required')  && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let produto of produtos" [value]="produto.nome">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnProduto">
+                        <mat-option *ngFor="let produto of produtosFiltrados | async" [value]="produto">
                           {{produto.nome}}
                         </mat-option>
                     </mat-autocomplete>                    
+                    <mat-error *ngIf="formulario.get('produto')?.hasError('required')  && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
                     <mat-hint>Escolha o produto</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3">

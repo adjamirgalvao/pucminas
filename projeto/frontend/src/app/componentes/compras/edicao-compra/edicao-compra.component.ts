@@ -15,6 +15,7 @@ import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-co
 import { MatDialog } from '@angular/material/dialog';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
 import { Produto } from 'src/app/interfaces/Produto';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-edicao-compra',
@@ -72,6 +73,9 @@ export class EdicaoCompraComponent implements OnInit {
   private paginator!: MatPaginator;
   private sort!: MatSort;
 
+  //Filtro de produtos
+  produtosFiltrados!: Observable<Produto[]>;  
+
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.setDataSourceAttributes();
@@ -95,6 +99,22 @@ export class EdicaoCompraComponent implements OnInit {
          default: return item[property];
       }
    }
+  }
+  
+  atualizarTabela() : void {
+    //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
+    this.dataSource = new MatTableDataSource(this.itensCompra);
+    this.setDataSourceAttributes(); // para atualizar paginação
+  }
+
+  displayFnProduto(produto: Produto): string {
+    return produto && produto.nome ? produto.nome : '';
+  }
+
+  private _filterProduto(nome: string): Produto[] {
+    const filterValue = nome.toLowerCase();
+
+    return this.produtos.filter(produto => produto.nome.toLowerCase().includes(filterValue));
   }
   
   ngOnInit(): void {
@@ -139,6 +159,7 @@ export class EdicaoCompraComponent implements OnInit {
               }
             });
         } else {
+          this.criarFormulario();
           this.carregando = false;
         }
       });
@@ -149,8 +170,7 @@ export class EdicaoCompraComponent implements OnInit {
     // Criação da compra
     const compra: Compra = {
       data: this.formulario.value.data,
-      numero: this.formulario.value.numero,
-     // preco: this.formulario.value.preco,
+      numero: this.formulario.value.numero
     };
 
     this.salvando = true;
@@ -198,7 +218,22 @@ export class EdicaoCompraComponent implements OnInit {
       preco: [0, Validators.compose([
         Validators.required, Validators.min(0.01)
       ])]
-  });
+    });
+
+    //Faz o filtro de produtos e garante que o valor do campo produto é um objeto
+    this.produtosFiltrados = this.formulario.controls['produto'].valueChanges.pipe(
+      startWith(''), map(value => {
+        let ehString = typeof value === 'string';
+        const nome = typeof value === 'string' ? value : value?.nome;
+        console.log('aqui');
+
+        if (ehString && nome && (nome != '') && this.produtos && (this.produtos.length > 0)){
+          //https://stackoverflow.com/questions/45241103/patchvalue-with-emitevent-false-triggers-valuechanges-on-angular-4-formgrou
+           this.formulario.get('produto')!.patchValue(this.produtos[0],{ emitEvent: false });
+        }
+        return nome ? this._filterProduto(nome as string) : this.produtos.slice();
+      }),
+    );
   }
 
   private cadastrarCompra(compra: Compra) {
@@ -243,15 +278,11 @@ export class EdicaoCompraComponent implements OnInit {
     const itemCompra: ItemCompra = {
       preco: this.formulario.value.preco,
       quantidade: this.formulario.value.quantidade,
-      id_produto: '1',
-      produto: {
-          nome: 'Teste',
-          quantidade: 1,
-          preco: 1,
-          precoCusto: 1
-      }
+      id_produto: this.formulario.value.produto._id,
+      produto: this.formulario.value.produto
     };
     this.itensCompra.push(itemCompra);
+    console.log('produto incluído', this.formulario.value.produto);
 
     // resetando parte do formulario
     let campos = ['quantidade', 'preco'];
@@ -263,12 +294,6 @@ export class EdicaoCompraComponent implements OnInit {
     this.formulario.get('produto')?.markAsUntouched();
 
     this.atualizarTabela();
-  }
-
-  atualizarTabela() : void {
-    //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
-    this.dataSource = new MatTableDataSource(this.itensCompra);
-    this.setDataSourceAttributes(); // para atualizar paginação
   }
 
   confirmarExcluirItemCompra(itemCompra: ItemCompra) {
