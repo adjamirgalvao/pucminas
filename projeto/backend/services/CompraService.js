@@ -1,4 +1,5 @@
-const CompraModel = require("../models/CompraModel");
+const { CompraModel, Mongoose } = require("../models/CompraModel");
+const ItemCompraService = require("../services/ItemCompraService");
 
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
 const compraFornecedorInnerJoin = [
@@ -56,18 +57,48 @@ module.exports = class CompraService {
     }
   }
 
-  static async addCompra(data, session) {
+  static async addCompra(data, sessionPassada) {
+    const session = sessionPassada != null? sessionPassada : await Mongoose.startSession();
+    if (!sessionPassada) {
+      session.startTransaction();
+    }
+
     try {
       const novo = {
-        data: data.data,
-        numero: data.numero
-      };
-      const registro = await new CompraModel(novo).save({session});
+          data: data.data,
+          numero: data.numero,
+          id_fornecedor: data.id_fornecedor
+       };
 
+      let registro = await new CompraModel(novo).save({session});
+      for (let i in data.itensCompra) {
+          const novoItemCompra = {
+             id_produto: data.itensCompra[i].id_produto,
+             id_compra: registro._id,
+             quantidade: data.itensCompra[i].quantidade,
+             preco: data.itensCompra[i].preco
+          };
+          console.log('novoitemcompra', novoItemCompra);
+          let novoItem = await ItemCompraService.addItemCompra(novoItemCompra, session);
+          //registro.itensCompra.push(novoItem);
+          console.log('novoItem', novoItem);
+          console.log('registro', registro);
+         throw new Error(`Adjamir desistindo`);
+      }
+      if (!sessionPassada) {
+        await session.commitTransaction();
+      } 
       return registro;
     } catch (error) {
+      if (!sessionPassada) {
+        await session.abortTransaction();
+      }  
       console.log(error);
       throw new Error(`Compra não pode ser criada ${error.message}`);
+    } finally {
+      if (!sessionPassada) {
+         session.endSession();
+      }  
     }
   }
 

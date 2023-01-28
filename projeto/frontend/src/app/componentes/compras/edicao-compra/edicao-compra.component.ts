@@ -209,7 +209,9 @@ export class EdicaoCompraComponent implements OnInit {
     // Criação da compra
     const compra: Compra = {
       data: this.formulario.value.data,
-      numero: this.formulario.value.numero
+      numero: this.formulario.value.numero,
+      id_fornecedor : this.formulario.value.fornecedor._id,
+      itensCompra: this.itensCompra
     };
 
     this.salvando = true;

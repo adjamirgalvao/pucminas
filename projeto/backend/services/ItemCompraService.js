@@ -1,6 +1,5 @@
 const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
 const ProdutoService = require("./ProdutoService");
-const CompraService = require("./CompraService");
 
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
 const compraProdutoInnerJoin = [
@@ -60,7 +59,7 @@ module.exports = class ItemCompraService {
       quantidade: data.quantidade,
       preco: data.preco
     };
-
+    console.log('aqui 3', session != null ? 'nulo' : 'não nulo');
     const response = await new ItemCompraModel(itemCompra).save({session});
 
     return response;
@@ -79,36 +78,37 @@ module.exports = class ItemCompraService {
   }
 
   // session no mongoose https://blog.tericcabrel.com/how-to-use-mongodb-transaction-in-node-js/
-  static async addItemCompra(data) {
-    const session = await Mongoose.startSession();
-    
-    session.startTransaction();
-    try {
-      // Se o item não tem a compra. é uma compra feita sem criar a compra. Então vamos criar a compra
-      if (!data.id_compra) {
-         const dadosCompra = {data : data.dataCompra,
-                      numero: data.numeroCompra};
+  static async addItemCompra(data, sessionPassada) {
+    const session = sessionPassada != null ? sessionPassada : await Mongoose.startSession();
 
-        const compra = await CompraService.addCompra(dadosCompra, session);
-        data.id_compra = compra._id;
-      }
+    if (!sessionPassada) {
+      console.log('aqui 1');
+      session.startTransaction();
+    }
+    try {
       const itemCompra = await ItemCompraService.criarItemCompra(data, session);
       const produto = await ProdutoService.getProdutobyId(data.id_produto);
 
       if (produto != null) {
          await ProdutoService.atualizarPrecoCustoAposEntrada(produto, itemCompra, session);
-         await session.commitTransaction();
+         if (!sessionPassada) {
+            await session.commitTransaction();
+         } 
       } else {
          throw new Error(`Produto ${data.id_produto} não cadastrado`);
       }
-
+      console.log('retorno', itemCompra);
       return itemCompra;
     } catch (error) {
-      await session.abortTransaction();
+      if (!sessionPassada) {
+        await session.abortTransaction();
+      }  
       console.log(error);
-      throw new Error(`Compra não pode ser criada ${error.message}`);
+      throw new Error(`Item Compra não pode ser criada ${error.message}`);
     } finally {
-      session.endSession();
+      if (!sessionPassada) {
+         session.endSession();
+      }  
     }
   }
 
