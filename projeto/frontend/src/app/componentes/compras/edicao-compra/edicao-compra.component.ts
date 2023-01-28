@@ -112,6 +112,18 @@ export class EdicaoCompraComponent implements OnInit {
     this.setDataSourceAttributes(); // para atualizar paginação
   }
 
+  /** Quantidade total dos itens
+  */
+    getQuantidadeTotal() {
+      return this.itensCompra.map(t => t.quantidade).reduce((acc, value) => acc + value, 0);
+    }
+  /** Preço total dos itens
+  */
+  getPrecoTotal() {
+    return this.itensCompra.map(t => t.preco).reduce((acc, value) => acc + value, 0);
+  }
+
+
   displayFnProduto(produto: Produto): string {
     return produto && produto.nome ? produto.nome : '';
   }

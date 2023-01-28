@@ -93,15 +93,18 @@
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>
                             <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
                             <mat-cell *matCellDef="let item">{{ item.produto.nome }}</mat-cell>
-                        </ng-container>
+                            <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
+                       </ng-container>
                         <ng-container matColumnDef="quantidade">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Quantidade</mat-header-cell>
                             <mat-cell *matCellDef="let item">{{ item.quantidade }}</mat-cell>
+                            <mat-footer-cell *matFooterCellDef>{{getQuantidadeTotal()}}</mat-footer-cell>
                         </ng-container>
                         <ng-container matColumnDef="preco">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Preço</mat-header-cell>
                             <mat-cell *matCellDef="let item">{{ item.preco | dinheiroPipe }}</mat-cell>
-                        </ng-container>
+                            <mat-footer-cell *matFooterCellDef> {{getPrecoTotal() | dinheiroPipe}} </mat-footer-cell>
+                       </ng-container>
                         <ng-container matColumnDef="actions">
                             <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                             <mat-cell *matCellDef="let item">
@@ -109,9 +112,11 @@
                                     <mat-icon color="secondary">delete</mat-icon>
                                 </button>
                             </mat-cell>
+                            <mat-footer-cell *matFooterCellDef>  </mat-footer-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                        <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
                     </mat-table>
                     <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
                 </div>
