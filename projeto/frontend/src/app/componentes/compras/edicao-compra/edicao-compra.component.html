@@ -48,6 +48,7 @@
                         </mat-option>
                     </mat-autocomplete>                    
                     <mat-error *ngIf="formulario.get('produto')?.hasError('required')  && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="formulario.get('produto')?.hasError('produtoCadastrado')  && formulario.get('produto')?.touched">O produto não está cadastrado!</mat-error>
                     <mat-hint>Escolha o produto</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3">

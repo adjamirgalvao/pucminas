@@ -1,7 +1,7 @@
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
 
@@ -202,6 +202,14 @@ export class EdicaoCompraComponent implements OnInit {
   }
 
 
+  produtoValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+        if ((control.value !== undefined) && !(typeof control.value != 'string')) {
+            return { 'produtoCadastrado': true };
+        }
+        return null;
+    }
+  } 
   private criarFormulario() {
     //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
     this.formulario = this.formBuilder.group({
@@ -210,7 +218,7 @@ export class EdicaoCompraComponent implements OnInit {
       ])],
       numero: [this.inicial.numero],        
       produto: ['', Validators.compose([
-        Validators.required
+        Validators.required, this.produtoValidator()
       ])],
       quantidade: [0, Validators.compose([
         Validators.required, Validators.min(0.01)
@@ -225,11 +233,13 @@ export class EdicaoCompraComponent implements OnInit {
       startWith(''), map(value => {
         let ehString = typeof value === 'string';
         const nome = typeof value === 'string' ? value : value?.nome;
-        console.log('aqui');
 
         if (ehString && nome && (nome != '') && this.produtos && (this.produtos.length > 0)){
           //https://stackoverflow.com/questions/45241103/patchvalue-with-emitevent-false-triggers-valuechanges-on-angular-4-formgrou
-           this.formulario.get('produto')!.patchValue(this.produtos[0],{ emitEvent: false });
+          let produto = this.produtos.find(produto => produto.nome.toLowerCase() == nome.toLowerCase());
+          if (produto) {
+             this.formulario.get('produto')!.patchValue(produto, { emitEvent: false });
+          }
         }
         return nome ? this._filterProduto(nome as string) : this.produtos.slice();
       }),
