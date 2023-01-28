@@ -26,6 +26,18 @@
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
+                <mat-form-field class="me-3" style="width: 50%;">
+                    <mat-label>Fornecedor</mat-label>
+                    <input type="text" formControlName="fornecedor" [matAutocomplete]="autoFornecedor" matInput placeholder="Escolha o fornecedor" [readonly]="salvando || erroCarregando">
+                    <mat-autocomplete #autoFornecedor="matAutocomplete" [displayWith]="displayFnFornecedor">
+                        <mat-option *ngFor="let fornecedor of fornecedoresFiltrados | async" [value]="fornecedor">
+                          {{fornecedor.nome}}
+                        </mat-option>
+                    </mat-autocomplete>                    
+                    <mat-error *ngIf="formulario.get('fornecedor')?.hasError('required')  && formulario.get('fornecedor')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="!formulario.get('fornecedor')?.hasError('required') && formulario.get('fornecedor')?.hasError('fornecedorCadastrado')  && formulario.get('fornecedor')?.touched">O fornecedor não está cadastrado!</mat-error>
+                    <mat-hint>Escolha o fornecedor</mat-hint>
+                </mat-form-field>
                 <mat-form-field>
                    <mat-label>Nota Fiscal</mat-label>
                    <input type="string" formControlName="numero" matInput placeholder="Digite a Nota Fiscal"
@@ -41,14 +53,14 @@
                 <p class="mat-title">Adicionar Produto</p>
                 <mat-form-field class="me-3" style="width: 50%;">
                     <mat-label>Produto</mat-label>
-                    <input type="text" formControlName="produto" [matAutocomplete]="auto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnProduto">
+                    <input type="text" formControlName="produto" [matAutocomplete]="autoProduto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
+                    <mat-autocomplete #autoProduto="matAutocomplete" [displayWith]="displayFnProduto">
                         <mat-option *ngFor="let produto of produtosFiltrados | async" [value]="produto">
                           {{produto.nome}}
                         </mat-option>
                     </mat-autocomplete>                    
-                    <mat-error *ngIf="formulario.get('produto')?.hasError('required')  && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
-                    <mat-error *ngIf="formulario.get('produto')?.hasError('produtoCadastrado')  && formulario.get('produto')?.touched">O produto não está cadastrado!</mat-error>
+                    <mat-error *ngIf="formulario.get('produto')?.hasError('required') && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="!formulario.get('produto')?.hasError('required') && formulario.get('produto')?.hasError('produtoCadastrado')  && formulario.get('produto')?.touched">O produto não está cadastrado!</mat-error>
                     <mat-hint>Escolha o produto</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3">
