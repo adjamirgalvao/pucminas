@@ -10,6 +10,7 @@
     </nav>
 </div>
 
+<mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
     <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>

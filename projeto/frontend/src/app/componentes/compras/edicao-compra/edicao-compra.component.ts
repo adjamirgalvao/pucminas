@@ -264,20 +264,20 @@ export class EdicaoCompraComponent implements OnInit {
   private criarFormulario() {
     //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
     this.formulario = this.formBuilder.group({
-      data: [this.inicial.data, Validators.compose([
+      data: [{value: this.inicial.data, disabled: this.readOnly()}, Validators.compose([
         Validators.required
       ])],
-      fornecedor: ['', Validators.compose([
+      fornecedor: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.fornecedorValidator()
       ])],
-      numero: [this.inicial.numero],
-      produto: ['', Validators.compose([
+      numero: [{value: this.inicial.numero, disabled: this.readOnly()}],
+      produto: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.produtoValidator()
       ])],
-      quantidade: [0, Validators.compose([
+      quantidade: [{value: 0, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01)
       ])],
-      preco: [0, Validators.compose([
+      preco: [{value: 0, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01)
       ])]
     });
