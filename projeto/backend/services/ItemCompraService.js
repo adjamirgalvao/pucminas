@@ -59,7 +59,6 @@ module.exports = class ItemCompraService {
       quantidade: data.quantidade,
       preco: data.preco
     };
-    console.log('aqui 3', session != null ? 'nulo' : 'não nulo');
     const response = await new ItemCompraModel(itemCompra).save({session});
 
     return response;
@@ -82,7 +81,6 @@ module.exports = class ItemCompraService {
     const session = sessionPassada != null ? sessionPassada : await Mongoose.startSession();
 
     if (!sessionPassada) {
-      console.log('aqui 1');
       session.startTransaction();
     }
     try {
@@ -97,7 +95,6 @@ module.exports = class ItemCompraService {
       } else {
          throw new Error(`Produto ${data.id_produto} não cadastrado`);
       }
-      console.log('retorno', itemCompra);
       return itemCompra;
     } catch (error) {
       if (!sessionPassada) {

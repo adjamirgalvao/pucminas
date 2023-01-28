@@ -60,8 +60,6 @@ export class EdicaoCompraComponent implements OnInit {
   };
 
   itensCompra: ItemCompra[] = [];
-  produtos: Produto[] = [];
-  fornecedores: Fornecedor[] = [];
   operacao!: string;
 
   @ViewChild('formDirective')
@@ -77,8 +75,11 @@ export class EdicaoCompraComponent implements OnInit {
   private sort!: MatSort;
 
   //Filtro de produtos
+  produtos: Produto[] = [];
   produtosFiltrados!: Observable<Produto[]>;
+  
   //Filtro de fornecedores
+  fornecedores: Fornecedor[] = [];
   fornecedoresFiltrados!: Observable<Fornecedor[]>;
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
@@ -298,7 +299,7 @@ export class EdicaoCompraComponent implements OnInit {
       }),
     );
 
-    //Faz o filtro de produtos e garante que o valor do campo produto é um objeto
+    //Faz o filtro de fornecedores e garante que o valor do campo fornecedor é um objeto
     this.fornecedoresFiltrados = this.formulario.controls['fornecedor'].valueChanges.pipe(
       startWith(''), map(value => {
         let ehString = typeof value === 'string';

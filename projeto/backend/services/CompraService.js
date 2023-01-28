@@ -71,6 +71,7 @@ module.exports = class CompraService {
        };
 
       let registro = await new CompraModel(novo).save({session});
+
       for (let i in data.itensCompra) {
           const novoItemCompra = {
              id_produto: data.itensCompra[i].id_produto,
@@ -78,12 +79,7 @@ module.exports = class CompraService {
              quantidade: data.itensCompra[i].quantidade,
              preco: data.itensCompra[i].preco
           };
-          console.log('novoitemcompra', novoItemCompra);
           let novoItem = await ItemCompraService.addItemCompra(novoItemCompra, session);
-          //registro.itensCompra.push(novoItem);
-          console.log('novoItem', novoItem);
-          console.log('registro', registro);
-         throw new Error(`Adjamir desistindo`);
       }
       if (!sessionPassada) {
         await session.commitTransaction();

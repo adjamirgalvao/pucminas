@@ -18,7 +18,7 @@
         </header>
         <form [formGroup]="formulario" (ngSubmit)="comprarProduto()">
             <div class="mb-3">
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="fill"  class="me-3" >
                     <mat-label>Data de compra</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="data">
                     <mat-error *ngIf="formulario.get('data')?.hasError('required') && formulario.get('data')?.touched">O campo é obrigatório!</mat-error>
@@ -26,8 +26,18 @@
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
-            </div>
-            <div class="mb-3">
+                <mat-form-field class="me-3" style="width: 50%;">
+                    <mat-label>Fornecedor</mat-label>
+                    <input type="text" formControlName="fornecedor" [matAutocomplete]="autoFornecedor" matInput placeholder="Escolha o fornecedor" [readonly]="salvando || erroCarregando">
+                    <mat-autocomplete #autoFornecedor="matAutocomplete" [displayWith]="displayFnFornecedor">
+                        <mat-option *ngFor="let fornecedor of fornecedoresFiltrados | async" [value]="fornecedor">
+                          {{fornecedor.nome}}
+                        </mat-option>
+                    </mat-autocomplete>                    
+                    <mat-error *ngIf="formulario.get('fornecedor')?.hasError('required')  && formulario.get('fornecedor')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="!formulario.get('fornecedor')?.hasError('required') && formulario.get('fornecedor')?.hasError('fornecedorCadastrado')  && formulario.get('fornecedor')?.touched">O fornecedor não está cadastrado!</mat-error>
+                    <mat-hint>Escolha o fornecedor</mat-hint>
+                </mat-form-field>
                 <mat-form-field>
                     <mat-label>Nota Fiscal</mat-label>
                     <input type="string" formControlName="numero" matInput placeholder="Digite a Nota Fiscal"
@@ -36,7 +46,7 @@
                 </mat-form-field>
             </div>
             <div class="mb-3">
-                <mat-form-field>
+                <mat-form-field class="me-3">
                     <mat-label>Quantidade</mat-label>
                     <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
                         [readonly]="salvando || erroCarregando">
@@ -44,8 +54,6 @@
                         <mat-error *ngIf="formulario.get('quantidade')?.hasError('min') && formulario.get('quantidade')?.touched">O valor deve ser maior que zero!</mat-error>
                     <mat-hint>Digite a quantidade</mat-hint>
                 </mat-form-field>
-            </div>
-            <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Preço total</mat-label>
                     <input formControlName="preco" matInput placeholder="Digite o preço" currencyMask
