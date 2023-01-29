@@ -2,7 +2,7 @@ const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
 const ProdutoService = require("./ProdutoService");
 
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
-const compraProdutoInnerJoin = [
+const allItensCompraProdutoInnerJoin = [
   {
     '$lookup': {
       'from': 'produtos', 
@@ -67,7 +67,7 @@ module.exports = class ItemCompraService {
   static async getAllItensCompras() {
     try {
 
-      const todos = await ItemCompraModel.aggregate(compraProdutoInnerJoin);
+      const todos = await ItemCompraModel.aggregate(allItensCompraProdutoInnerJoin);
       
       return todos;
     } catch (error) {
