@@ -1,4 +1,4 @@
 export interface Alerta {
-	tipo: string ; 
+	tipo: string; 
 	mensagem: string;
 }
