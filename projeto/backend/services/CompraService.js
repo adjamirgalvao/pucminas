@@ -25,7 +25,7 @@ const allComprasFornecedorInnerJoin = [
       'from': 'itenscompras', 
       'localField': '_id', 
       'foreignField': 'id_compra', 
-      'as': 'itenscompra'
+      'as': 'itensCompra'
     }  
   },
   //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
@@ -34,7 +34,7 @@ const allComprasFornecedorInnerJoin = [
        'total': {
            '$sum': {
              '$map': {
-               'input': "$itenscompra",
+               'input': "$itensCompra",
                'as': "itemcompra",
                'in': "$$itemcompra.preco",
              }
@@ -77,7 +77,7 @@ function umaCompraItensFornecedorInnerJoinconst (id) {
       'from': 'itenscompras', 
       'localField': '_id', 
       'foreignField': 'id_compra', 
-      'as': 'itenscompra'
+      'as': 'itensCompra'
     }  
   },
   //Para fazer o lookup dentro de uma lista
@@ -86,7 +86,7 @@ function umaCompraItensFornecedorInnerJoinconst (id) {
   {
    '$lookup': {
       'from': 'produtos',
-      'localField': 'itenscompra.id_produto',
+      'localField': 'itensCompra.id_produto',
       'foreignField': '_id',
       'as': 'todosProdutos'
     }
@@ -94,9 +94,9 @@ function umaCompraItensFornecedorInnerJoinconst (id) {
   //agora vai refazer o itenscompra com o que tem $$this e o produto
   {
     "$set": {
-      "itenscompra": {
+      "itensCompra": {
         "$map": {
-          "input": "$itenscompra",
+          "input": "$itensCompra",
           "in": {
             "$mergeObjects": [
               "$$this",
@@ -184,7 +184,7 @@ module.exports = class CompraService {
     try {
       const registro = await CompraModel.aggregate(umaCompraItensFornecedorInnerJoinconst(id));
 
-      return registro;
+      return registro[0];
     } catch (error) {
       console.log(`Compra ${id} não encontrada ${error.message}`);
       throw new Error(`Compra ${id} não encontrada ${error.message}`);

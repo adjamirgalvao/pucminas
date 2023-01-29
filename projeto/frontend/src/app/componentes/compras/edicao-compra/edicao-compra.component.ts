@@ -67,7 +67,7 @@ export class EdicaoCompraComponent implements OnInit {
 
 
   // Campos para a tabela
-  displayedColumns: string[] = ['produto.nome', 'quantidade', 'preco', 'actions'];
+  displayedColumns: string[] = ['produto.nome', 'quantidade', 'preco'];
   dataSource: MatTableDataSource<ItemCompra> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -153,6 +153,9 @@ export class EdicaoCompraComponent implements OnInit {
     if (!this.operacao) {
       this.operacao = (id == null) ? 'Cadastrar' : 'Editar';
     }
+    if (this.operacao != 'Consultar'){
+      this.displayedColumns.push('actions');
+    }
 
     this.criarFormulario();
     this.erroCarregando = false;
@@ -190,8 +193,9 @@ export class EdicaoCompraComponent implements OnInit {
                   this.carregando = false;
                   if (compra != null) {
                     this.inicial = compra;
-                    console.log('inicial', this.inicial);
+                    this.itensCompra = compra.itensCompra!;
                     this.criarFormulario();
+                    this.atualizarTabela();
                   } else {
                     this.alertas.push({ tipo: 'danger', mensagem: 'Compra não encontrada!' });
                     this.erroCarregando = true;

@@ -105,7 +105,7 @@
                             <mat-cell *matCellDef="let item">{{ item.preco | dinheiroPipe }}</mat-cell>
                             <mat-footer-cell *matFooterCellDef> {{getPrecoTotal() | dinheiroPipe}} </mat-footer-cell>
                        </ng-container>
-                        <ng-container matColumnDef="actions">
+                        <ng-container matColumnDef="actions" *ngIf="(operacao != 'Consultar')">
                             <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                             <mat-cell *matCellDef="let item">
                                 <button mat-icon-button matTooltip="Excluir Produto" (click)="$event.preventDefault(); confirmarExcluirItemCompra(item)">
