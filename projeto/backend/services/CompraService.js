@@ -181,13 +181,22 @@ module.exports = class CompraService {
   }
 
   static async getComprabyId(id) {
+    let retorno = null
     try {
       const registro = await CompraModel.aggregate(umaCompraItensFornecedorInnerJoinconst(id));
 
-      return registro[0];
+      if (registro && registro.length > 0) {
+        retorno =  registro[0];
+      }  
     } catch (error) {
       console.log(`Compra ${id} não encontrada ${error.message}`);
       throw new Error(`Compra ${id} não encontrada ${error.message}`);
+    }
+
+    if (retorno){
+      return retorno;
+    } else {
+      throw new Error(`Compra ${id} não encontrada`);
     }
   }
 
