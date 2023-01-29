@@ -56,9 +56,13 @@ export class EdicaoProdutoComponent implements OnInit {
 
     console.log('id ', id);
     if (!this.operacao){
-       this.operacao = (id == null) ? 'Cadastrar' : 'Editar';
+      this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
     }
 
+    if (this.operacao == 'Consultar'){
+      this.leitura = true;
+    }
+  
     this.criarFormulario();
     if (this.operacao != 'Cadastrar') {
       this.erroCarregando = false;

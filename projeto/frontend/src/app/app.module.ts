@@ -47,6 +47,7 @@ import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-f
 import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor.component';
 import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras.component';
 import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edicao-compra.component';
+import { NotfoundComponent } from './componentes/util/notfound/notfound.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -73,7 +74,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ListarFornecedoresComponent,
     EdicaoFornecedorComponent,
     ListarComprasComponent,
-    EdicaoCompraComponent
+    EdicaoCompraComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,

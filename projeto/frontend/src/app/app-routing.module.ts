@@ -1,3 +1,4 @@
+import { NotfoundComponent } from './componentes/util/notfound/notfound.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './componentes/home/home/home.component';
@@ -73,6 +74,8 @@ const routes: Routes = [
     path: 'compras/:id',
     component: EdicaoCompraComponent 
   },
+  {path: '404', component: NotfoundComponent},
+  {path: '**', redirectTo: '/404'},
 ];
 
 @NgModule({

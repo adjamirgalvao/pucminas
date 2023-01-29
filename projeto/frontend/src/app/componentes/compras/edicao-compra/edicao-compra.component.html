@@ -16,7 +16,7 @@
         <header>
             <h2 class="mat-h2">{{ operacao }} Compra <i *ngIf="this.formulario">{{this.formulario.get('numero')?.value}}</i></h2>
         </header>
-        <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando" #formDirective="ngForm">
+        <form [formGroup]="formulario" *ngIf="!carregando" #formDirective="ngForm">
             <div class="mb-3">
                 <mat-form-field appearance="fill" class="me-3">
                     <mat-label>Data de compra</mat-label>
@@ -108,7 +108,7 @@
                         <ng-container matColumnDef="actions" *ngIf="(operacao != 'Consultar')">
                             <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                             <mat-cell *matCellDef="let item">
-                                <button mat-icon-button matTooltip="Excluir Produto" (click)="$event.preventDefault(); confirmarExcluirItemCompra(item)">
+                                <button mat-icon-button matTooltip="Excluir Produto" [disabled]="salvando" (click)="$event.preventDefault(); confirmarExcluirItemCompra(item)">
                                     <mat-icon color="secondary">delete</mat-icon>
                                 </button>
                             </mat-cell>
@@ -126,12 +126,12 @@
 
             <div class="acoes">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
-                <button *ngIf="!leitura" type="submit" mat-stroked-button matTooltip="Salvar a compra" color="primary"
+                <button *ngIf="!leitura" (click)="$event.preventDefault(); salvar();" mat-stroked-button matTooltip="Salvar a compra" color="primary"
                     [disabled]="salvando || erroCarregando || !formularioValido()"
                     [class.spinner]="salvando">Salvar</button> &nbsp;
                 <button (click)="$event.preventDefault(); cancelar();" mat-stroked-button
                     matTooltip="{{ leitura ? 'Voltar' : 'Voltar sem salvar' }}"
-                    color="{{ leitura ? 'primary' : 'warn' }}" [disabled]="salvando || erroCarregando">Voltar</button>
+                    color="{{ leitura ? 'primary' : 'warn' }}" [disabled]="salvando">Voltar</button>
             </div>
         </form>
     </div>

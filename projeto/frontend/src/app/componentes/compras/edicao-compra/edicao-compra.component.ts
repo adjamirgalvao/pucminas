@@ -151,10 +151,12 @@ export class EdicaoCompraComponent implements OnInit {
 
     console.log('id ', id);
     if (!this.operacao) {
-      this.operacao = (id == null) ? 'Cadastrar' : 'Editar';
+      this.operacao = (id == null) ? 'Cadastrar' : 'Consultar'; //se fizer edição troca por Editar
     }
     if (this.operacao != 'Consultar'){
       this.displayedColumns.push('actions');
+    } else {
+      this.leitura = true;
     }
 
     this.criarFormulario();
@@ -220,12 +222,7 @@ export class EdicaoCompraComponent implements OnInit {
     };
 
     this.salvando = true;
-    if (this.operacao == 'Cadastrar') {
-      this.cadastrarCompra(compra);
-    } else {
-      compra._id = this.inicial._id!;
-      this.editarCompra(compra);
-    }
+    this.cadastrarCompra(compra);
   }
 
   cancelar(): void {
@@ -331,33 +328,17 @@ export class EdicaoCompraComponent implements OnInit {
         () => {
           this.salvando = false;
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Compra "${compra.numero}" cadastrada com sucesso!` });
+          this.alertas.push({ tipo: 'success', mensagem: `Compra cadastrada com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
+          this.itensCompra = [];
+          this.atualizarTabela();
         });
   }
 
   readOnly() {
     return this.salvando || this.erroCarregando || this.leitura;
   }
-
-  private editarCompra(compra: Compra) {
-    /*
-    this.salvando = true;
-    this.service.editar(compra).pipe(catchError(
-      err => {
-        this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar compra!' });
-        throw 'Erro ao editar compra. Detalhes: ' + err;
-      })).subscribe(
-        () => {
-          this.salvando = false;
-          // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
-          this.router.navigate(['/compras'],  {state: {alerta: {tipo: 'success', mensagem: `Compra "${compra.numero}" salva com sucesso!`} }});
-        });
-    */
-  }
-
 
   adicionarItem() {
     const itemCompra: ItemCompra = {
@@ -366,10 +347,14 @@ export class EdicaoCompraComponent implements OnInit {
       id_produto: this.formulario.value.produto._id,
       produto: this.formulario.value.produto
     };
-    this.itensCompra.push(itemCompra);
-    console.log('produto incluído', this.formulario.value.produto);
 
+    this.itensCompra.push(itemCompra);
     // resetando parte do formulario
+    this.resetAdicionarProduto();
+    this.atualizarTabela();
+  }
+
+  private resetAdicionarProduto() {
     let campos = ['quantidade', 'preco'];
     campos.map(campo => {
       this.formulario.get(campo)?.setValue(0);
@@ -377,8 +362,6 @@ export class EdicaoCompraComponent implements OnInit {
     });
     this.formulario.get('produto')?.setValue('');
     this.formulario.get('produto')?.markAsUntouched();
-
-    this.atualizarTabela();
   }
 
   confirmarExcluirItemCompra(itemCompra: ItemCompra) {

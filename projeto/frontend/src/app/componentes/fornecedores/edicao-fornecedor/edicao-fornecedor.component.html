@@ -71,7 +71,7 @@
                     [class.spinner]="salvando">Salvar</button> &nbsp;
                 <button (click)="$event.preventDefault(); cancelar();" mat-stroked-button
                     matTooltip="{{ leitura ? 'Voltar' : 'Voltar sem salvar' }}"
-                    color="{{ leitura ? 'primary' : 'warn' }}" [disabled]="salvando || erroCarregando">Voltar</button>
+                    color="{{ leitura ? 'primary' : 'warn' }}" [disabled]="salvando">Voltar</button>
             </div>
         </form>
     </div>
