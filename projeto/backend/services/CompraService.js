@@ -2,7 +2,7 @@ const { CompraModel, Mongoose } = require("../models/CompraModel");
 const ItemCompraService = require("../services/ItemCompraService");
 
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
-const compraFornecedorInnerJoin = [
+const allComprasFornecedorInnerJoin = [
   {
     '$lookup': {
       'from': 'fornecedores', 
@@ -28,6 +28,51 @@ const compraFornecedorInnerJoin = [
       'as': 'itenscompra'
     }  
   },
+  //Para fazer o lookup dentro de uma lista
+  //https://stackoverflow.com/questions/72345162/mongodb-lookup-on-array-of-objects-with-reference-objectid
+  //Cria uma tabela temporaria
+  {
+   '$lookup': {
+      'from': 'produtos',
+      'localField': 'itenscompra.id_produto',
+      'foreignField': '_id',
+      'as': 'todosProdutos'
+    }
+  },
+  //agora vai refazer o itenscompra com o que tem $$this e o produto
+  {
+    "$set": {
+      "itenscompra": {
+        "$map": {
+          "input": "$itenscompra",
+          "in": {
+            "$mergeObjects": [
+              "$$this",
+              {
+                'produto': {
+                  "$arrayElemAt": [
+                    "$todosProdutos",
+                    {
+                      "$indexOfArray": [
+                        "$todosProdutos._id",
+                        "$$this.id_produto"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  //Remove a tabela temporaria
+  {
+    "$unset": [
+      "todosProdutos"
+    ]
+  },
   //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
   {
     '$addFields': {
@@ -41,14 +86,14 @@ const compraFornecedorInnerJoin = [
            }
          }
        }
-  }
+  },
   
 ];
 
 module.exports = class CompraService {
   static async getAllCompras() {
     try {
-      const todos = await CompraModel.aggregate(compraFornecedorInnerJoin);
+      const todos = await CompraModel.aggregate(allComprasFornecedorInnerJoin);
       
       return todos;
     } catch (error) {
