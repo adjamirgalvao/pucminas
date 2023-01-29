@@ -28,6 +28,58 @@ const allComprasFornecedorInnerJoin = [
       'as': 'itenscompra'
     }  
   },
+  //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
+  {
+    '$addFields': {
+       'total': {
+           '$sum': {
+             '$map': {
+               'input': "$itenscompra",
+               'as': "itemcompra",
+               'in': "$$itemcompra.preco",
+             }
+           }
+         }
+       }
+  },
+  
+];
+
+function umaCompraItensFornecedorInnerJoinconst (id) {
+  return  [
+  // Para localizar por id tem que ser pelo tipo
+  {
+    '$match': {
+      '_id': Mongoose.Types.ObjectId(id)
+    }
+  },
+  // lookup de fornecedores
+  // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
+  {
+    '$lookup': {
+      'from': 'fornecedores', 
+      'localField': 'id_fornecedor', 
+      'foreignField': '_id', 
+      'as': 'fornecedor'
+    }
+  },
+  { // para fazer com que fique um campo e não uma lista
+     '$addFields': {
+        'fornecedor': {
+            '$arrayElemAt': [
+                '$fornecedor', 0
+            ]
+        }
+    }
+  },
+  {
+    '$lookup': {
+      'from': 'itenscompras', 
+      'localField': '_id', 
+      'foreignField': 'id_compra', 
+      'as': 'itenscompra'
+    }  
+  },
   //Para fazer o lookup dentro de uma lista
   //https://stackoverflow.com/questions/72345162/mongodb-lookup-on-array-of-objects-with-reference-objectid
   //Cria uma tabela temporaria
@@ -73,22 +125,7 @@ const allComprasFornecedorInnerJoin = [
       "todosProdutos"
     ]
   },
-  //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
-  {
-    '$addFields': {
-       'total': {
-           '$sum': {
-             '$map': {
-               'input': "$itenscompra",
-               'as': "itemcompra",
-               'in': "$$itemcompra.preco",
-             }
-           }
-         }
-       }
-  },
-  
-];
+]};
 
 module.exports = class CompraService {
   static async getAllCompras() {
@@ -145,7 +182,7 @@ module.exports = class CompraService {
 
   static async getComprabyId(id) {
     try {
-      const registro = await CompraModel.findById(id);
+      const registro = await CompraModel.aggregate(umaCompraItensFornecedorInnerJoinconst(id));
 
       return registro;
     } catch (error) {
