@@ -18,5 +18,6 @@ app.use("/produtos", require('./routers/produtoRouter'));
 app.use("/fornecedores", require('./routers/fornecedorRouter'));
 app.use("/itensCompras", require('./routers/itemCompraRouter'));
 app.use("/compras", require('./routers/compraRouter'));
+app.use("/clientes", require('./routers/clienteRouter'));
 
 module.exports = app;
