@@ -43,10 +43,10 @@
             </div>
             <div class="mb-3">
                 <mat-form-field  style="width: 80%;">
-                    <mat-label>Rua</mat-label>
-                    <input formControlName="rua" matInput placeholder="Digite a rua">
+                    <mat-label>Logradouro</mat-label>
+                    <input formControlName="rua" matInput placeholder="Digite o logradouro">
                     <mat-error *ngIf="formulario.get('rua')?.hasError('required')">O campo é obrigatório!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite a rua</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o logradouro</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
