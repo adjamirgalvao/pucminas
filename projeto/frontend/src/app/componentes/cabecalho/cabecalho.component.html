@@ -25,7 +25,7 @@
                 <li class="nav-item" ngbDropdown>
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Clientes </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
-                        <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Listar Clientes</a>
+                        <a ngbDropdownItem href="#" routerLink="/clientes/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Clientes</a>
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Cadastrar Clientes</a>
                     </div>
                 </li>

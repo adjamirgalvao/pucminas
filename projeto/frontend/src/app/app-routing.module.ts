@@ -10,6 +10,7 @@ import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-f
 import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor.component';
 import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras.component';
 import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edicao-compra.component';
+import { ListarClientesComponent } from './componentes/clientes/listar-clientes/listar-clientes.component';
 
 const routes: Routes = [
   {
@@ -74,8 +75,18 @@ const routes: Routes = [
     path: 'compras/:id',
     component: EdicaoCompraComponent 
   },
-  {path: '404', component: NotfoundComponent},
-  {path: '**', redirectTo: '/404'},
+  {
+    path: 'clientes',
+    component: ListarClientesComponent,
+  },
+  {
+     path: '404', 
+    component: NotfoundComponent
+  },
+  {
+    path: '**', 
+    redirectTo: '/404'
+  },
 ];
 
 @NgModule({

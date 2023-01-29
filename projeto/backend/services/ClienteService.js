@@ -19,7 +19,7 @@ module.exports = class ClienteService {
       const novo =  {
         nome: data.nome,
         dataNascimento: data.dataNascimento,
-        identificacao: data.identificacao,
+        cpf: data.cpf,
         endereco: data.endereco
     };
     const registro = await new ClienteModel(novo).save({session});

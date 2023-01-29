@@ -1,0 +1,63 @@
+<div class="pt-1 ps-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item">Clientes</li>
+            <li class="breadcrumb-item active" aria-current="page">Listar Clientes</li>
+        </ol>
+    </nav>
+</div>
+<mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
+<section class="pt-1 px-3">
+    <app-alerta [alertas]="alertas"></app-alerta>
+
+    <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <header class="header">
+            <h2 class="mat-h2">Listar Clientes</h2>
+        </header>
+        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum cliente cadastrado.</strong>
+        </div>
+        <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
+            <mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="nome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+                    <mat-cell *matCellDef="let cliente">{{ cliente.nome }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="cpf">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>CPF</mat-header-cell>
+                    <mat-cell *matCellDef="let cliente">{{ cliente.cpf }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="dataNascimento">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Data de Nascimento</mat-header-cell>
+                    <mat-cell *matCellDef="let cliente">{{ cliente.dataNascimento  | date: 'dd/MM/yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                    <mat-cell *matCellDef="let cliente">
+                        <div>
+                        <button mat-icon-button [routerLink]="['/clientes/' + cliente._id]"
+                            matTooltip="Detalhar Cliente" [state]="{ operacao: 'Consultar' }">
+                            <mat-icon color="secondary">receipt</mat-icon>
+                        </button>
+                        <button mat-icon-button [routerLink]="['/clientes/' + cliente._id + '/editarCliente']"
+                            matTooltip="Editar Cliente">
+                            <mat-icon color="secondary">create</mat-icon>
+                        </button>
+                        <button mat-icon-button matTooltip="Excluir Cliente" (click)="confirmarExcluirCliente(cliente)"
+                            [disabled]="excluindo" [class.spinner]="excluindo && (cliente._id == clienteExcluido._id)">
+                            <mat-icon color="secondary">delete</mat-icon>
+                        </button>
+                    </div>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <br>
+        <button mat-stroked-button routerLink="/clientes/criarCliente" [queryParams]="{ listar: true }"
+            matTooltip="Novo Cliente" color="primary">Novo</button>  &nbsp;
+        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
+   </div>
+</section>

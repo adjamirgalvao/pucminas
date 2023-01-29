@@ -41,7 +41,7 @@ exports.update = async (req, res) => {
     const cliente =  {
       nome: req.body.nome,
       dataNascimento: req.body.dataNascimento,
-      identificacao: req.body.identificacao,
+      cpf: req.body.cpf,
       endereco: req.body.endereco
   };
 
