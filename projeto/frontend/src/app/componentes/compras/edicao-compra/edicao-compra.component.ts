@@ -267,7 +267,7 @@ export class EdicaoCompraComponent implements OnInit {
       data: [{value: this.inicial.data, disabled: this.readOnly()}, Validators.compose([
         Validators.required
       ])],
-      fornecedor: [{value: '', disabled: this.readOnly()}, Validators.compose([
+      fornecedor: [{value: this.inicial.fornecedor, disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.fornecedorValidator()
       ])],
       numero: [{value: this.inicial.numero, disabled: this.readOnly()}],
