@@ -11,6 +11,7 @@ import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-for
 import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras.component';
 import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edicao-compra.component';
 import { ListarClientesComponent } from './componentes/clientes/listar-clientes/listar-clientes.component';
+import { EdicaoClienteComponent } from './componentes/clientes/edicao-cliente/edicao-cliente.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,18 @@ const routes: Routes = [
   {
     path: 'clientes',
     component: ListarClientesComponent,
+  },
+  {
+    path: 'clientes/criarCliente',
+    component: EdicaoClienteComponent,
+  },
+  {
+    path: 'clientes/:id',
+    component: EdicaoClienteComponent 
+  },
+  {
+    path: 'clientes/:id/editarCliente',
+    component: EdicaoClienteComponent 
   },
   {
      path: '404', 
