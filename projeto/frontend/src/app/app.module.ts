@@ -32,6 +32,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from './constantes/Mydata';
+import { NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask} from 'ngx-mask';
 
 // Meus componentes
 import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
@@ -50,6 +51,7 @@ import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edica
 import { NotfoundComponent } from './componentes/util/notfound/notfound.component';
 import { ListarClientesComponent } from './componentes/clientes/listar-clientes/listar-clientes.component';
 import { EdicaoClienteComponent } from './componentes/clientes/edicao-cliente/edicao-cliente.component';
+import { CpfCnpjPipe } from './pipes/CpfCnpjPipe';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -72,14 +74,16 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ModalConfirmacaoComponent,
     CriarCompraProdutoComponent,
     ListarComprasProdutoComponent,
-    DinheiroPipe,
+    DinheiroPipe, 
+    CpfCnpjPipe, // nem uso mais após o NgxMask
     ListarFornecedoresComponent,
     EdicaoFornecedorComponent,
     ListarComprasComponent,
     EdicaoCompraComponent,
     NotfoundComponent,
     ListarClientesComponent,
-    EdicaoClienteComponent
+    EdicaoClienteComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -106,7 +110,10 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MatProgressBarModule,
     MatRadioModule,
     MatExpansionModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    NgxMaskDirective,
+    NgxMaskPipe
+
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
@@ -120,8 +127,13 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     },
 
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    provideEnvironmentNgxMask()
 
 ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+function provideNgxPipe(): import("@angular/core").Provider | import("@angular/core").EnvironmentProviders {
+  throw new Error('Function not implemented.');
+}
+
