@@ -25,7 +25,7 @@
                 </ng-container>
                 <ng-container matColumnDef="cpf">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>CPF</mat-header-cell>
-                    <mat-cell *matCellDef="let cliente">{{ cliente.cpf }} </mat-cell>
+                    <mat-cell *matCellDef="let cliente">{{ cliente.cpf | mask:'CPF_CNPJ' }} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="dataNascimento">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Data de Nascimento</mat-header-cell>

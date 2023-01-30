@@ -36,7 +36,7 @@
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Identificação</mat-label>
-                    <input formControlName="identificacao" matInput placeholder="Digite a identificação">
+                    <input formControlName="identificacao" matInput placeholder="Digite a identificação" mask="CPF_CNPJ">
                     <mat-error *ngIf="formulario.get('identificacao')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Consultar')">Digite a identificacao</mat-hint>
                 </mat-form-field>

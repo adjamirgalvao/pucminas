@@ -29,7 +29,7 @@
                 </ng-container>
                 <ng-container matColumnDef="identificacao">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Identificação</mat-header-cell>
-                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.identificacao }} </mat-cell>
+                    <mat-cell *matCellDef="let fornecedor">{{ fornecedor.identificacao | mask:'CPF_CNPJ'}} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
