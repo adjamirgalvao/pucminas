@@ -33,6 +33,9 @@ npm i @angular/material-moment-adapter
 ng g c componentes/cabecalho -- >> criando um componente para o angular js
 
 npm install ng2-currency-mask --save  mascara de numero CurrencyMaskModule
+
+ npm install --save ngx-mask    https://github.com/JsDaddy/ngx-mask mascara para cnpj cpf
+ depois que instalei reclamou de vulnerabilidade e rodei npm audit fix
 --- extensoes para o vscode
 Auto Import ---> fazer import do typescript
 Angular Language service
