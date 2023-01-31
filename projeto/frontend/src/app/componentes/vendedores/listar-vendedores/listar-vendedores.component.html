@@ -1,1 +1,63 @@
-<p>listar-vendedores works!</p>
+<div class="pt-1 ps-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item">Vendedores</li>
+            <li class="breadcrumb-item active" aria-current="page">Listar Vendedores</li>
+        </ol>
+    </nav>
+</div>
+<mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
+<section class="pt-1 px-3">
+    <app-alerta [alertas]="alertas"></app-alerta>
+
+    <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <header class="header">
+            <h2 class="mat-h2">Listar Vendedores</h2>
+        </header>
+        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum vendedor cadastrado.</strong>
+        </div>
+        <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
+            <mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="nome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+                    <mat-cell *matCellDef="let vendedor">{{ vendedor.nome }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="cpf">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>CPF</mat-header-cell>
+                    <mat-cell *matCellDef="let vendedor">{{ vendedor.cpf | mask:'CPF_CNPJ' }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="salario">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Salário</mat-header-cell>
+                    <mat-cell *matCellDef="let vendedor">{{ vendedor.salario  | dinheiroPipe}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                    <mat-cell *matCellDef="let vendedor">
+                        <div>
+                        <button mat-icon-button [routerLink]="['/vendedores/' + vendedor._id]"
+                            matTooltip="Detalhar Vendedor" [state]="{ operacao: 'Consultar' }">
+                            <mat-icon color="secondary">receipt</mat-icon>
+                        </button>
+                        <button mat-icon-button [routerLink]="['/vendedores/' + vendedor._id + '/editarVendedor']"
+                            matTooltip="Editar Vendedor">
+                            <mat-icon color="secondary">create</mat-icon>
+                        </button>
+                        <button mat-icon-button matTooltip="Excluir Vendedor" (click)="confirmarExcluirVendedor(vendedor)"
+                            [disabled]="excluindo" [class.spinner]="excluindo && (vendedor._id == vendedorExcluido._id)">
+                            <mat-icon color="secondary">delete</mat-icon>
+                        </button>
+                    </div>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <br>
+        <button mat-stroked-button routerLink="/vendedores/criarVendedor" [queryParams]="{ listar: true }"
+            matTooltip="Novo Vendedor" color="primary">Novo</button>  &nbsp;
+        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
+   </div>
+</section>
