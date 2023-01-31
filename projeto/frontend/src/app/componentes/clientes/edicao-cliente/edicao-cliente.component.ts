@@ -115,7 +115,7 @@ export class EdicaoClienteComponent implements OnInit {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
     if ((this.operacao != 'Cadastrar') || this.listar) {
-        this.router.navigate(['/clientees']);
+        this.router.navigate(['/clientes']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
       this.location.back();
@@ -169,7 +169,7 @@ export class EdicaoClienteComponent implements OnInit {
         () => {
           this.salvando = false;
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
-          this.router.navigate(['/clientees'],  {state: {alerta: {tipo: 'success', mensagem: `Cliente "${cliente.nome}" salvo com sucesso!`} }});
+          this.router.navigate(['/clientes'],  {state: {alerta: {tipo: 'success', mensagem: `Cliente "${cliente.nome}" salvo com sucesso!`} }});
         });
   }
 
