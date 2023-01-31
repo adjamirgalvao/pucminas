@@ -39,7 +39,7 @@
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>CPF</mat-label>
-                    <input formControlName="cpf" matInput placeholder="Digite o CPF" mask="CPF_CNPJ">
+                    <input formControlName="cpf" matInput placeholder="Digite o CPF" mask="CPF_CNPJ" maxlength="14">
                     <mat-error *ngIf="formulario.get('cpf')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="!formulario.get('cpf')?.hasError('required') && formulario.get('cpf')?.hasError('mask')">CPF inválido!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Consultar')">Digite o CPF</mat-hint>
