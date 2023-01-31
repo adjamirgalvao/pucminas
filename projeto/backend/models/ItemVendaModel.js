@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const itemCompraSchema = Schema({
+const itemVendaSchema = Schema({
   id_produto: {
     type: Schema.ObjectId,
     required: true
   },
-  id_compra: {
+  id_venda: {
     type: Schema.ObjectId,
     required: true
   },
@@ -21,6 +21,6 @@ const itemCompraSchema = Schema({
 });
 
 module.exports = {
-  ItemCompraModel: mongoose.model("itenscompras", itemCompraSchema),
+  ItemVendaModel: mongoose.model("itensvendas", itemVendaSchema),
   Mongoose: mongoose,
 };

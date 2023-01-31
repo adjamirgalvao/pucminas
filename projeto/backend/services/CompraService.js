@@ -202,8 +202,7 @@ module.exports = class CompraService {
 
   static async updateCompra(id, compra, session) {
     try {
-      const registro = await CompraModel.updateOne(
-        { _id: id} , {...compra}, session);
+      const registro = await CompraModel.updateOne({ _id: id} , {...compra}, session);
     
       return registro;
     } catch (error) {
@@ -213,19 +212,27 @@ module.exports = class CompraService {
   }
 
   static async deleteCompra(id) {
+    let session = await Mongoose.startSession();
+
+    session.startTransaction();
     try {
       let compra = await this.getComprabyId(id);
 
       for (let i in compra.itensCompra) {
-        await ItemCompraService.deleteItemCompra(compra.itensCompra[i]._id);
+        await ItemCompraService.deleteItemCompra(compra.itensCompra[i]._id, session);
       };
 
-      const registro = await CompraModel.findOneAndDelete({ _id: id });
+      const registro = await CompraModel.findOneAndDelete({ _id: id }, session);
 
+      await session.commitTransaction();
       return registro;
     } catch (error) {
+      await session.abortTransaction();
       console.log(`Compra ${id} não pode ser deletada ${error.message}`);
       throw new Error(`Compra ${id} não pode ser deletada ${error.message}`);
+    } finally {
+      session.endSession();
     }
+    
   }
 };

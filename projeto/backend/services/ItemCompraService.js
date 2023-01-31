@@ -120,26 +120,33 @@ module.exports = class ItemCompraService {
     }
   }
 
-  static async deleteItemCompra(id) {
-    const session = await Mongoose.startSession();
-    
-    session.startTransaction();
+  static async deleteItemCompra(id, sessionPassada) {
+    const session = sessionPassada != null? sessionPassada : await Mongoose.startSession();
+    if (!sessionPassada) {
+      session.startTransaction();
+    }
     try {
-      const compraRemovida = await ItemCompraModel.findOneAndDelete({ _id: id }, {session});
-      const produto = await ProdutoService.getProdutobyId(compraRemovida.id_produto);
+      const itemCompraRemovida = await ItemCompraModel.findOneAndDelete({ _id: id }, {session});
+      const produto = await ProdutoService.getProdutobyId(itemCompraRemovida.id_produto);
 
       if (produto != null) {
-         await ProdutoService.atualizarPrecoCustoAposSaida(produto, compraRemovida, session);
+         await ProdutoService.atualizarPrecoCustoAposSaida(produto, itemCompraRemovida, session);
       }
-      await session.commitTransaction();
+      if (!sessionPassada) {
+        await session.commitTransaction();
+      }
 
-      return compraRemovida;
+      return itemCompraRemovida;
     } catch (error) {
-      await session.abortTransaction();
+      if (!sessionPassada) {
+         await session.abortTransaction();
+      }
       console.log(`Compra ${id} não pode ser deletada ${error.message}`);
       throw new Error(`Compra ${id} não pode ser deletada ${error.message}`);
     } finally {
-      session.endSession();
+      if (!sessionPassada) {
+        session.endSession();
+      }  
     }
   }
 };
