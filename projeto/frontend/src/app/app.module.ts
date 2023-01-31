@@ -41,17 +41,19 @@ import { DinheiroPipe } from './pipes/DinheiroPipe';
 import { CabecalhoComponent } from './componentes/cabecalho/cabecalho.component';
 import { HomeComponent } from './componentes/home/home/home.component';
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
-import { EdicaoProdutoComponent } from './componentes/produtos/edicao-produto/edicao-produto.component';
+import { EditarProdutoComponent } from './componentes/produtos/editar-produto/editar-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
-import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor.component';
+import { EditarFornecedorComponent } from './componentes/fornecedores/editar-fornecedor/editar-fornecedor.component';
 import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras.component';
-import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edicao-compra.component';
+import { EditarCompraComponent } from './componentes/compras/editar-compra/editar-compra.component';
 import { NotfoundComponent } from './componentes/util/notfound/notfound.component';
 import { ListarClientesComponent } from './componentes/clientes/listar-clientes/listar-clientes.component';
-import { EdicaoClienteComponent } from './componentes/clientes/edicao-cliente/edicao-cliente.component';
+import { EditarClienteComponent } from './componentes/clientes/editar-cliente/editar-cliente.component';
 import { CpfCnpjPipe } from './pipes/CpfCnpjPipe';
+import { ListarVendedoresComponent } from './componentes/vendedores/listar-vendedores/listar-vendedores.component';
+import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedor/editar-vendedor.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -67,7 +69,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   declarations: [
     AppComponent,
     CabecalhoComponent,
-    EdicaoProdutoComponent,
+    EditarProdutoComponent,
     HomeComponent,
     AlertaComponent,
     ListarProdutosComponent,
@@ -77,12 +79,14 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     DinheiroPipe, 
     CpfCnpjPipe, // nem uso mais após o NgxMask
     ListarFornecedoresComponent,
-    EdicaoFornecedorComponent,
+    EditarFornecedorComponent,
     ListarComprasComponent,
-    EdicaoCompraComponent,
+    EditarCompraComponent,
     NotfoundComponent,
     ListarClientesComponent,
-    EdicaoClienteComponent,
+    EditarClienteComponent,
+    ListarVendedoresComponent,
+    EditarVendedorComponent,
    
   ],
   imports: [

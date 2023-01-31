@@ -2,16 +2,18 @@ import { NotfoundComponent } from './componentes/util/notfound/notfound.componen
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './componentes/home/home/home.component';
-import { EdicaoProdutoComponent } from './componentes/produtos/edicao-produto/edicao-produto.component';
+import { EditarProdutoComponent } from './componentes/produtos/editar-produto/editar-produto.component';
 import { ListarProdutosComponent } from './componentes/produtos/listar-produtos/listar-produtos.component';
 import { CriarCompraProdutoComponent } from './componentes/produtos/comprasProduto/criar-compra-produto/criar-compra-produto.component';
 import { ListarComprasProdutoComponent } from './componentes/produtos/comprasProduto/listar-compras-produto/listar-compras-produto.component';
 import { ListarFornecedoresComponent } from './componentes/fornecedores/listar-fornecedores/listar-fornecedores.component';
-import { EdicaoFornecedorComponent } from './componentes/fornecedores/edicao-fornecedor/edicao-fornecedor.component';
+import { EditarFornecedorComponent } from './componentes/fornecedores/editar-fornecedor/editar-fornecedor.component';
 import { ListarComprasComponent } from './componentes/compras/listar-compras/listar-compras.component';
-import { EdicaoCompraComponent } from './componentes/compras/edicao-compra/edicao-compra.component';
+import { EditarCompraComponent } from './componentes/compras/editar-compra/editar-compra.component';
 import { ListarClientesComponent } from './componentes/clientes/listar-clientes/listar-clientes.component';
-import { EdicaoClienteComponent } from './componentes/clientes/edicao-cliente/edicao-cliente.component';
+import { EditarClienteComponent } from './componentes/clientes/editar-cliente/editar-cliente.component';
+import { ListarVendedoresComponent } from './componentes/vendedores/listar-vendedores/listar-vendedores.component';
+import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedor/editar-vendedor.component';
 
 const routes: Routes = [
   {
@@ -29,16 +31,16 @@ const routes: Routes = [
   },
   {
     path: 'produtos/criarProduto',
-    component: EdicaoProdutoComponent,
+    component: EditarProdutoComponent,
   },
    // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
   {
     path: 'produtos/:id',
-    component: EdicaoProdutoComponent 
+    component: EditarProdutoComponent 
   },
   {
     path: 'produtos/:id/editarProduto',
-    component: EdicaoProdutoComponent 
+    component: EditarProdutoComponent 
   },
   {
     path: 'produtos/:id/cadastrarCompraProduto',
@@ -54,15 +56,15 @@ const routes: Routes = [
   },
   {
     path: 'fornecedores/criarFornecedor',
-    component: EdicaoFornecedorComponent,
+    component: EditarFornecedorComponent,
   },
   {
     path: 'fornecedores/:id',
-    component: EdicaoFornecedorComponent 
+    component: EditarFornecedorComponent 
   },
   {
     path: 'fornecedores/:id/editarFornecedor',
-    component: EdicaoFornecedorComponent 
+    component: EditarFornecedorComponent 
   },
   {
     path: 'compras',
@@ -70,11 +72,11 @@ const routes: Routes = [
   },
   {
     path: 'compras/criarCompra',
-    component: EdicaoCompraComponent,
+    component: EditarCompraComponent,
   },
   {
     path: 'compras/:id',
-    component: EdicaoCompraComponent 
+    component: EditarCompraComponent 
   },
   {
     path: 'clientes',
@@ -82,15 +84,31 @@ const routes: Routes = [
   },
   {
     path: 'clientes/criarCliente',
-    component: EdicaoClienteComponent,
+    component: EditarClienteComponent,
   },
   {
     path: 'clientes/:id',
-    component: EdicaoClienteComponent 
+    component: EditarClienteComponent 
   },
   {
     path: 'clientes/:id/editarCliente',
-    component: EdicaoClienteComponent 
+    component: EditarClienteComponent 
+  },
+  {
+    path: 'vendedores',
+    component: ListarVendedoresComponent,
+  },
+  {
+    path: 'vendedores/criarVendedor',
+    component: EditarVendedorComponent,
+  },
+  {
+    path: 'vendedores/:id',
+    component: EditarVendedorComponent 
+  },
+  {
+    path: 'vendedores/:id/editarVendedor',
+    component: EditarVendedorComponent 
   },
   {
      path: '404', 

@@ -1,23 +1,21 @@
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { catchError } from 'rxjs/internal/operators/catchError';
+import { ActivatedRoute, Router } from '@angular/router';
+import { catchError } from 'rxjs';
+import { Alerta } from 'src/app/interfaces/Alerta';
+import { Cliente } from 'src/app/interfaces/Cliente';
+import { ClienteService } from 'src/app/services/cliente/cliente.service';
 import { Location } from '@angular/common';
 
-import { ProdutoService } from '../../../services/produto/produto.service';
-import { Alerta } from '../../../interfaces/Alerta';
-import { Produto } from '../../../interfaces/Produto';
-
 @Component({
-  selector: 'app-edicao-produto',
-  templateUrl: './edicao-produto.component.html',
-  styleUrls: ['./edicao-produto.component.css']
+  selector: 'app-editar-cliente',
+  templateUrl: './editar-cliente.component.html',
+  styleUrls: ['./editar-cliente.component.css']
 })
-
-export class EdicaoProdutoComponent implements OnInit {
+export class EditarClienteComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private service: ProdutoService,
+    private service: ClienteService,
     private location: Location,
     private router: Router,
     private route: ActivatedRoute) {
@@ -38,11 +36,15 @@ export class EdicaoProdutoComponent implements OnInit {
   carregando: boolean = false;
   leitura: boolean = false;
 
-  inicial: Produto = {
+  inicial: Cliente = {
     nome: '',
-    quantidade: 0,
-    preco: 0,
-    precoCusto: 0
+    cpf: '',
+    dataNascimento: new Date(),
+    endereco: {
+      rua: '',
+      numero: '',
+      complemento: ''
+    }
   };
 
   operacao!: string;
@@ -56,13 +58,13 @@ export class EdicaoProdutoComponent implements OnInit {
 
     console.log('id ', id);
     if (!this.operacao){
-      this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
+       this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
     }
 
     if (this.operacao == 'Consultar'){
       this.leitura = true;
     }
-  
+
     this.criarFormulario();
     if (this.operacao != 'Cadastrar') {
       this.erroCarregando = false;
@@ -71,16 +73,16 @@ export class EdicaoProdutoComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o produto!' });
-          throw 'Erro ao recuperar o produto! Detalhes: ' + err;
-        })).subscribe((produto) => {
+          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o cliente!' });
+          throw 'Erro ao recuperar o cliente! Detalhes: ' + err;
+        })).subscribe((cliente) => {
           this.carregando = false;
-          if (produto != null) {
-            this.inicial = produto;
+          if (cliente != null) {
+            this.inicial = cliente;
             console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
-            this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+            this.alertas.push({ tipo: 'danger', mensagem: 'Cliente não encontrado!' });
             this.erroCarregando = true;
           }
         });
@@ -88,20 +90,24 @@ export class EdicaoProdutoComponent implements OnInit {
   }
 
   salvar(): void {
-    // Criação do produto
-    const produto: Produto = {
+    // Criação do cliente
+    const cliente: Cliente = {
       nome: this.formulario.value.nome,
-      quantidade: this.formulario.value.quantidade,
-      preco: this.formulario.value.preco,
-      precoCusto: this.formulario.value.precoCusto
+      dataNascimento: this.formulario.value.dataNascimento,
+      cpf: this.formulario.value.cpf,
+      endereco : {
+        rua : this.formulario.value.rua,
+        numero: this.formulario.value.numero,
+        complemento: this.formulario.value.complemento
+      }
     };
 
     this.salvando = true;
     if (this.operacao == 'Cadastrar') {
-      this.cadastrarProduto(produto);
+      this.cadastrarCliente(cliente);
     } else {
-      produto._id = this.inicial._id!;
-      this.editarProduto(produto);
+      cliente._id = this.inicial._id!;
+      this.editarCliente(cliente);
     }
   }
 
@@ -109,7 +115,7 @@ export class EdicaoProdutoComponent implements OnInit {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
     if ((this.operacao != 'Cadastrar') || this.listar) {
-        this.router.navigate(['/produtos']);
+        this.router.navigate(['/clientes']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
       this.location.back();
@@ -123,29 +129,26 @@ export class EdicaoProdutoComponent implements OnInit {
         Validators.required,
         Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
-      quantidade: [{value: this.inicial.quantidade, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, Validators.min(0)
-      ])],
-      preco: [{value: this.inicial.preco, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, Validators.min(0.01)
-      ])],
-      precoCusto: [{value: this.inicial.precoCusto, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, Validators.min(0)
-      ])]
+      cpf: [{value: this.inicial.cpf, disabled: this.readOnly()}, Validators.required],
+      dataNascimento: [{value: this.inicial.dataNascimento, disabled: this.readOnly()}, Validators.required],
+      rua: [{value: this.inicial.endereco.rua, disabled: this.readOnly()}, Validators.required],
+      numero: [{value: this.inicial.endereco.numero, disabled: this.readOnly()}, Validators.required],
+      complemento: [{value: this.inicial.endereco.complemento, disabled: this.readOnly()}],
+
     });
   }
 
-  private cadastrarProduto(produto: Produto) {
-    this.service.criar(produto).pipe(catchError(
+  private cadastrarCliente(cliente: Cliente) {
+    this.service.criar(cliente).pipe(catchError(
       err => {
         this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar produto!' });
-        throw 'Erro ao cadastrar produto. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar cliente!' });
+        throw 'Erro ao cadastrar cliente. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.salvando = false;
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!` });
+          this.alertas.push({ tipo: 'success', mensagem: `Cliente "${cliente.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
         });
@@ -155,19 +158,21 @@ export class EdicaoProdutoComponent implements OnInit {
     return this.salvando  || this.erroCarregando || this.leitura;
   }
 
-  private editarProduto(produto: Produto) {
+  private editarCliente(cliente: Cliente) {
     this.salvando = true;
-    this.service.editar(produto).pipe(catchError(
+    this.service.editar(cliente).pipe(catchError(
       err => {
         this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar produto!' });
-        throw 'Erro ao editar produto. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar cliente!' });
+        throw 'Erro ao editar cliente. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.salvando = false;
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
-          this.router.navigate(['/produtos'],  {state: {alerta: {tipo: 'success', mensagem: `Produto "${produto.nome}" salvo com sucesso!`} }});
+          this.router.navigate(['/clientes'],  {state: {alerta: {tipo: 'success', mensagem: `Cliente "${cliente.nome}" salvo com sucesso!`} }});
         });
   }
 
+
 }
+

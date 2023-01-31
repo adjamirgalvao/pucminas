@@ -1,22 +1,23 @@
-import { Fornecedor } from 'src/app/interfaces/Fornecedor';
-import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
-import { Alerta } from 'src/app/interfaces/Alerta';
+
+import { ProdutoService } from '../../../services/produto/produto.service';
+import { Alerta } from '../../../interfaces/Alerta';
+import { Produto } from '../../../interfaces/Produto';
 
 @Component({
-  selector: 'app-edicao-fornecedor',
-  templateUrl: './edicao-fornecedor.component.html',
-  styleUrls: ['./edicao-fornecedor.component.css']
+  selector: 'app-editar-produto',
+  templateUrl: './editar-produto.component.html',
+  styleUrls: ['./editar-produto.component.css']
 })
 
-export class EdicaoFornecedorComponent implements OnInit {
+export class EditarProdutoComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private service: FornecedorService,
+    private service: ProdutoService,
     private location: Location,
     private router: Router,
     private route: ActivatedRoute) {
@@ -37,15 +38,11 @@ export class EdicaoFornecedorComponent implements OnInit {
   carregando: boolean = false;
   leitura: boolean = false;
 
-  inicial: Fornecedor = {
+  inicial: Produto = {
     nome: '',
-    identificacao: '',
-    tipo: '',
-    endereco: {
-      rua: '',
-      numero: '',
-      complemento: ''
-    }
+    quantidade: 0,
+    preco: 0,
+    precoCusto: 0
   };
 
   operacao!: string;
@@ -59,13 +56,13 @@ export class EdicaoFornecedorComponent implements OnInit {
 
     console.log('id ', id);
     if (!this.operacao){
-       this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
+      this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
     }
 
     if (this.operacao == 'Consultar'){
       this.leitura = true;
     }
-
+  
     this.criarFormulario();
     if (this.operacao != 'Cadastrar') {
       this.erroCarregando = false;
@@ -74,16 +71,16 @@ export class EdicaoFornecedorComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o fornecedor!' });
-          throw 'Erro ao recuperar o fornecedor! Detalhes: ' + err;
-        })).subscribe((fornecedor) => {
+          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o produto!' });
+          throw 'Erro ao recuperar o produto! Detalhes: ' + err;
+        })).subscribe((produto) => {
           this.carregando = false;
-          if (fornecedor != null) {
-            this.inicial = fornecedor;
+          if (produto != null) {
+            this.inicial = produto;
             console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
-            this.alertas.push({ tipo: 'danger', mensagem: 'Fornecedor não encontrado!' });
+            this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
             this.erroCarregando = true;
           }
         });
@@ -91,24 +88,20 @@ export class EdicaoFornecedorComponent implements OnInit {
   }
 
   salvar(): void {
-    // Criação do fornecedor
-    const fornecedor: Fornecedor = {
+    // Criação do produto
+    const produto: Produto = {
       nome: this.formulario.value.nome,
-      tipo: this.formulario.value.tipo,
-      identificacao: this.formulario.value.identificacao,
-      endereco : {
-        rua : this.formulario.value.rua,
-        numero: this.formulario.value.numero,
-        complemento: this.formulario.value.complemento
-      }
+      quantidade: this.formulario.value.quantidade,
+      preco: this.formulario.value.preco,
+      precoCusto: this.formulario.value.precoCusto
     };
 
     this.salvando = true;
     if (this.operacao == 'Cadastrar') {
-      this.cadastrarFornecedor(fornecedor);
+      this.cadastrarProduto(produto);
     } else {
-      fornecedor._id = this.inicial._id!;
-      this.editarFornecedor(fornecedor);
+      produto._id = this.inicial._id!;
+      this.editarProduto(produto);
     }
   }
 
@@ -116,7 +109,7 @@ export class EdicaoFornecedorComponent implements OnInit {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
     if ((this.operacao != 'Cadastrar') || this.listar) {
-        this.router.navigate(['/fornecedores']);
+        this.router.navigate(['/produtos']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
       this.location.back();
@@ -130,26 +123,29 @@ export class EdicaoFornecedorComponent implements OnInit {
         Validators.required,
         Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
-      identificacao: [{value: this.inicial.identificacao, disabled: this.readOnly()}, Validators.required],
-      tipo: [{value: this.inicial.tipo, disabled: this.readOnly()}, Validators.required],
-      rua: [{value: this.inicial.endereco.rua, disabled: this.readOnly()}, Validators.required],
-      numero: [{value: this.inicial.endereco.numero, disabled: this.readOnly()}, Validators.required],
-      complemento: [{value: this.inicial.endereco.complemento, disabled: this.readOnly()}],
-
+      quantidade: [{value: this.inicial.quantidade, disabled: this.readOnly()}, Validators.compose([
+        Validators.required, Validators.min(0)
+      ])],
+      preco: [{value: this.inicial.preco, disabled: this.readOnly()}, Validators.compose([
+        Validators.required, Validators.min(0.01)
+      ])],
+      precoCusto: [{value: this.inicial.precoCusto, disabled: this.readOnly()}, Validators.compose([
+        Validators.required, Validators.min(0)
+      ])]
     });
   }
 
-  private cadastrarFornecedor(fornecedor: Fornecedor) {
-    this.service.criar(fornecedor).pipe(catchError(
+  private cadastrarProduto(produto: Produto) {
+    this.service.criar(produto).pipe(catchError(
       err => {
         this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar fornecedor!' });
-        throw 'Erro ao cadastrar fornecedor. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar produto!' });
+        throw 'Erro ao cadastrar produto. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.salvando = false;
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Fornecedor "${fornecedor.nome}" cadastrado com sucesso!` });
+          this.alertas.push({ tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
         });
@@ -159,20 +155,19 @@ export class EdicaoFornecedorComponent implements OnInit {
     return this.salvando  || this.erroCarregando || this.leitura;
   }
 
-  private editarFornecedor(fornecedor: Fornecedor) {
+  private editarProduto(produto: Produto) {
     this.salvando = true;
-    this.service.editar(fornecedor).pipe(catchError(
+    this.service.editar(produto).pipe(catchError(
       err => {
         this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar fornecedor!' });
-        throw 'Erro ao editar fornecedor. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar produto!' });
+        throw 'Erro ao editar produto. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.salvando = false;
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
-          this.router.navigate(['/fornecedores'],  {state: {alerta: {tipo: 'success', mensagem: `Fornecedor "${fornecedor.nome}" salvo com sucesso!`} }});
+          this.router.navigate(['/produtos'],  {state: {alerta: {tipo: 'success', mensagem: `Produto "${produto.nome}" salvo com sucesso!`} }});
         });
   }
-
 
 }

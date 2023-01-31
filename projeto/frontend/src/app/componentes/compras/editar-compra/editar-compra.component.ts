@@ -20,13 +20,13 @@ import { map, Observable, startWith } from 'rxjs';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
 
 @Component({
-  selector: 'app-edicao-compra',
-  templateUrl: './edicao-compra.component.html',
-  styleUrls: ['./edicao-compra.component.css'],
+  selector: 'app-editar-compra',
+  templateUrl: './editar-compra.component.html',
+  styleUrls: ['./editar-compra.component.css'],
 
 })
 
-export class EdicaoCompraComponent implements OnInit {
+export class EditarCompraComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private compraService: CompraService,
