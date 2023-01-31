@@ -21,5 +21,6 @@ app.use("/api/compras", require('./routers/compraRouter'));
 app.use("/api/clientes", require('./routers/clienteRouter'));
 app.use("/api/vendedores", require('./routers/vendedorRouter'));
 app.use("/api/itensVendas", require('./routers/itemVendaRouter'));
+app.use("/api/vendas", require('./routers/vendaRouter'));
 
 module.exports = app;

@@ -1,10 +1,10 @@
-const CompraService = require("../services/CompraService");
+const VendaService = require("../services/VendaService");
 
 exports.get = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const registro = await CompraService.getComprabyId(id);
+    const registro = await VendaService.getVendabyId(id);
     res.json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -13,10 +13,10 @@ exports.get = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const registros = await CompraService.getAllCompras();
+    const registros = await VendaService.getAllVendas();
 
     if (!registros) {
-      return res.status(404).json("Não existem compras cadastradas!");
+      return res.status(404).json("Não existem vendas cadastradas!");
     }
 
     res.json(registros);
@@ -27,7 +27,7 @@ exports.getAll = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    const registro = await CompraService.addCompra(req.body);
+    const registro = await VendaService.addVenda(req.body);
     res.status(201).json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -38,13 +38,13 @@ exports.update = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const compra = {};
-    compra.data = req.body.data;
-    compra.numero = req.body.numero;
-    compra.id_fornecedor = req.body.id_fornecedor;
-
-    console.log(compra, id);
-    const registro = await CompraService.updateCompra(id, compra);
+    const venda = {};
+    venda.data = req.body.data;
+    venda.numero = req.body.numero;
+    venda.id_vendedor = req.body.id_vendedor;
+  
+    console.log(venda, id);
+    const registro = await VendaService.updateVenda(id, venda);
 
     if (registro.nModified === 0) {
       return res.status(404).json({});
@@ -60,21 +60,21 @@ exports.delete = async (req, res) => {
   let id = req.params.id;
 
   try {
-    const registro = await CompraService.deleteCompra(id);
+    const registro = await VendaService.deleteVenda(id);
     res.json(registro);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-exports.getAllCompras = async (req, res) => {
+exports.getAllVendas = async (req, res) => {
     let id = req.params.id;
 
     try {
-      const registros = await CompraService.getAllCompras(id);
+      const registros = await VendaService.getAllVendas(id);
   
       if (!registros) {
-        return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
+        return res.status(404).json(`Não existem vendas cadastradas para o produto ${id}!`);
       }
   
       res.json(registros);
