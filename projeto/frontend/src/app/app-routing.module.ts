@@ -14,6 +14,8 @@ import { ListarClientesComponent } from './componentes/clientes/listar-clientes/
 import { EditarClienteComponent } from './componentes/clientes/editar-cliente/editar-cliente.component';
 import { ListarVendedoresComponent } from './componentes/vendedores/listar-vendedores/listar-vendedores.component';
 import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedor/editar-vendedor.component';
+import { ListarVendasComponent } from './componentes/vendas/listar-vendas/listar-vendas.component';
+import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-venda.component';
 
 const routes: Routes = [
   {
@@ -67,18 +69,6 @@ const routes: Routes = [
     component: EditarFornecedorComponent 
   },
   {
-    path: 'compras',
-    component: ListarComprasComponent,
-  },
-  {
-    path: 'compras/criarCompra',
-    component: EditarCompraComponent,
-  },
-  {
-    path: 'compras/:id',
-    component: EditarCompraComponent 
-  },
-  {
     path: 'clientes',
     component: ListarClientesComponent,
   },
@@ -109,6 +99,30 @@ const routes: Routes = [
   {
     path: 'vendedores/:id/editarVendedor',
     component: EditarVendedorComponent 
+  },
+  {
+    path: 'compras',
+    component: ListarComprasComponent,
+  },
+  {
+    path: 'compras/criarCompra',
+    component: EditarCompraComponent,
+  },
+  {
+    path: 'compras/:id',
+    component: EditarCompraComponent 
+  },
+  {
+    path: 'vendas',
+    component: ListarVendasComponent,
+  },
+  {
+    path: 'vendas/criarVenda',
+    component: EditarVendaComponent,
+  },
+  {
+    path: 'vendas/:id',
+    component: EditarVendaComponent 
   },
   {
      path: '404', 

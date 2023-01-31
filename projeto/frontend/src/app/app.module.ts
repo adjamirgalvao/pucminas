@@ -54,6 +54,8 @@ import { EditarClienteComponent } from './componentes/clientes/editar-cliente/ed
 import { CpfCnpjPipe } from './pipes/CpfCnpjPipe';
 import { ListarVendedoresComponent } from './componentes/vendedores/listar-vendedores/listar-vendedores.component';
 import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedor/editar-vendedor.component';
+import { ListarVendasComponent } from './componentes/vendas/listar-vendas/listar-vendas.component';
+import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-venda.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -87,6 +89,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     EditarClienteComponent,
     ListarVendedoresComponent,
     EditarVendedorComponent,
+    ListarVendasComponent,
+    EditarVendaComponent,
    
   ],
   imports: [
