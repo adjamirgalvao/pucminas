@@ -14,10 +14,10 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.use("/", require('./routers/routers'));
-app.use("/produtos", require('./routers/produtoRouter'));
-app.use("/fornecedores", require('./routers/fornecedorRouter'));
-app.use("/itensCompras", require('./routers/itemCompraRouter'));
-app.use("/compras", require('./routers/compraRouter'));
-app.use("/clientes", require('./routers/clienteRouter'));
+app.use("/api/produtos", require('./routers/produtoRouter'));
+app.use("/api/fornecedores", require('./routers/fornecedorRouter'));
+app.use("/api/itensCompras", require('./routers/itemCompraRouter'));
+app.use("/api/compras", require('./routers/compraRouter'));
+app.use("/api/clientes", require('./routers/clienteRouter'));
 
 module.exports = app;

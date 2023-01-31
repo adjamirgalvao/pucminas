@@ -8,7 +8,7 @@ import { ItemCompra } from '../../interfaces/ItemCompra';
 })
 export class ItemCompraService {
 
-  private readonly API_ITEM_COMPRA = 'http://localhost:8090/itensCompras/';
+  private readonly API_ITEM_COMPRA = 'http://localhost:8090/api/itensCompras/';
 
   constructor(private http: HttpClient) { 
 

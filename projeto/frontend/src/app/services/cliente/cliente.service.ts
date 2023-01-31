@@ -8,7 +8,7 @@ import { Cliente } from 'src/app/interfaces/Cliente';
 })
 export class ClienteService {
 
-  private readonly API_CLIENTE = 'http://localhost:8090/clientes/';
+  private readonly API_CLIENTE = 'http://localhost:8090/api/clientes/';
 
   constructor(private http: HttpClient) { 
 

@@ -10,7 +10,7 @@ import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 export class ProdutoService {
 
 
-  private readonly API_PRODUTO = 'http://localhost:8090/produtos/';
+  private readonly API_PRODUTO = 'http://localhost:8090/api/produtos/';
 
   constructor(private http: HttpClient) { 
 

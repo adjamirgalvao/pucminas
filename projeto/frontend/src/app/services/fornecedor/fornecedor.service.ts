@@ -8,7 +8,7 @@ import { Fornecedor } from 'src/app/interfaces/Fornecedor';
 })
 export class FornecedorService {
 
-  private readonly API_FORNECEDOR = 'http://localhost:8090/fornecedores/';
+  private readonly API_FORNECEDOR = 'http://localhost:8090/api/fornecedores/';
 
   constructor(private http: HttpClient) { 
 

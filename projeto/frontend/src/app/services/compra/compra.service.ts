@@ -9,7 +9,7 @@ import { Compra } from 'src/app/interfaces/Compra';
 export class CompraService {
 
 
-  private readonly API_COMPRA = 'http://localhost:8090/compras/';
+  private readonly API_COMPRA = 'http://localhost:8090/api/compras/';
 
   constructor(private http: HttpClient) { 
 
