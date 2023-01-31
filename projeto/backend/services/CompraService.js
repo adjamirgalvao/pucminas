@@ -161,7 +161,7 @@ module.exports = class CompraService {
              quantidade: data.itensCompra[i].quantidade,
              preco: data.itensCompra[i].preco
           };
-          let novoItem = await ItemCompraService.addItemCompra(novoItemCompra, session);
+          await ItemCompraService.addItemCompra(novoItemCompra, session);
       }
       if (!sessionPassada) {
         await session.commitTransaction();
@@ -214,6 +214,12 @@ module.exports = class CompraService {
 
   static async deleteCompra(id) {
     try {
+      let compra = await this.getComprabyId(id);
+
+      for (let i in compra.itensCompra) {
+        await ItemCompraService.deleteItemCompra(compra.itensCompra[i]._id);
+      };
+
       const registro = await CompraModel.findOneAndDelete({ _id: id });
 
       return registro;
