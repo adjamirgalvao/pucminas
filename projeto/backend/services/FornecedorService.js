@@ -44,8 +44,7 @@ module.exports = class FornecedorService {
 
   static async updateFornecedor(id, fornecedor, session) {
     try {
-      const registro = await FornecedorModel.updateOne(
-        { _id: id} , {... fornecedor}, {session});
+      const registro = await FornecedorModel.updateOne({ _id: id} , {... fornecedor}, {session});
 
       return registro;
     } catch (error) {

@@ -202,7 +202,7 @@ module.exports = class CompraService {
 
   static async updateCompra(id, compra, session) {
     try {
-      const registro = await CompraModel.updateOne({ _id: id} , {...compra}, session);
+      const registro = await CompraModel.updateOne({ _id: id} , {...compra}, {session});
     
       return registro;
     } catch (error) {

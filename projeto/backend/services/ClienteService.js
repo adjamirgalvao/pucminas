@@ -44,8 +44,7 @@ module.exports = class ClienteService {
 
   static async updateCliente(id, cliente, session) {
     try {
-      const registro = await ClienteModel.updateOne(
-        { _id: id} , {... cliente}, {session});
+      const registro = await ClienteModel.updateOne({ _id: id} , {... cliente}, {session});
 
       return registro;
     } catch (error) {

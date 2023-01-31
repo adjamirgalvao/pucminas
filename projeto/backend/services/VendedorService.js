@@ -45,8 +45,7 @@ module.exports = class VendedorService {
 
   static async updateVendedor(id, vendedor, session) {
     try {
-      const registro = await VendedorModel.updateOne(
-        { _id: id} , {... vendedor}, {session});
+      const registro = await VendedorModel.updateOne({ _id: id} , {... vendedor}, {session});
 
       return registro;
     } catch (error) {
