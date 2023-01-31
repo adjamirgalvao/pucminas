@@ -17,6 +17,10 @@ const itemVendaSchema = Schema({
   preco: {
     type: Number,
     required: true,
+  },
+  precoCusto: {
+    type: Number,
+    required: true,
   }
 });
 

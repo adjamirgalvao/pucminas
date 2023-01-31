@@ -14,10 +14,6 @@ export class ItemCompraService {
 
   }
   
-  criarItemCompra(itemCompra: ItemCompra): Observable<ItemCompra> {
-    return this.http.post<ItemCompra>(this.API_ITEM_COMPRA, itemCompra);
-  }
-
   listarItemCompra() : Observable<ItemCompra> {
     return this.http.get<ItemCompra>(this.API_ITEM_COMPRA);
   }

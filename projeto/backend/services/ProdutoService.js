@@ -126,7 +126,7 @@ module.exports = class ProdutoService {
     }
   }
 
-  static async getAllCompras(id) {
+  static async getAllItensCompras(id) {
     try {
       const todos = await ItemCompraModel.aggregate(itemCompraInnerJoinCompra(id));
       

@@ -5,7 +5,7 @@ const produtoController = require("../controllers/produtoController");
 //get
 router.get("/", produtoController.getAll);
 router.get("/:id", produtoController.get);
-router.get("/:id/listarCompras", produtoController.getAllCompras);
+router.get("/:id/listarItensCompras", produtoController.getAllItensCompras);
 //post
 router.post("/", produtoController.add);
 //update

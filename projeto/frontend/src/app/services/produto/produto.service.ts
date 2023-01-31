@@ -39,6 +39,6 @@ export class ProdutoService {
   }
 
   listarItensCompras(id: string): Observable<ItemCompra[]> {
-    return this.http.get<ItemCompra[]>(this.API_PRODUTO + '' + id + '/listarCompras');
+    return this.http.get<ItemCompra[]>(this.API_PRODUTO + '' + id + '/listarItensCompras');
   }
 }
