@@ -21,7 +21,7 @@ export class ProdutoService {
   }
 
   listarComSaldo(): Observable<Produto[]> {
-    return this.http.get<Produto[]>(this.API_PRODUTO + "saldo=true");
+    return this.http.get<Produto[]>(this.API_PRODUTO + "?saldo=true");
   }
 
   criar(produto: Produto): Observable<Produto> {
