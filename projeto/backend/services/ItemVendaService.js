@@ -92,6 +92,9 @@ module.exports = class ItemVendaService {
 
       if (produto != null) {
          produto.quantidade = produto.quantidade - itemVenda.quantidade;
+         if (produto.quantidade < 0){
+          throw new Error(`Produto ${data.id_produto} sem estoque suficiente para a venda`); 
+         }
          await ProdutoService.updateProduto(produto, session);
          if (!sessionPassada) {
             await session.commitTransaction();
