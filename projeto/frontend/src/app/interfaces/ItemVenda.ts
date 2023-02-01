@@ -1,12 +1,13 @@
 import { Produto } from "./Produto"
-import { Compra } from "./Compra"
+import { Venda } from "./Venda"
 
-export interface ItemCompra {
+export interface ItemVenda {
     _id?: string
-    id_compra?: string
+    id_venda?: string
     id_produto: string 
     quantidade: number
     preco: number
+    precoCusto?: number
     produto? : Produto
-    compra? : Compra
+    venda? : Venda
   }
