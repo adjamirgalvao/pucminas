@@ -53,9 +53,11 @@ module.exports = class ProdutoService {
     if (produto.quantidade > 0) {
       produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * (saida.preco / saida.quantidade))) / produto.quantidade;
       produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
-    } else {
+    } else if (produto.quantidade == 0){
       produto.precoCusto = produto.precoCustoInicial;
-    } 
+    }  else {
+      throw new Error(`O produto '${produto.nome}' não pode ser atualizado, pois o saldo ficará negativo!`)
+    }
     await ProdutoService.updateProduto(produto._id, produto, session);
   }
   

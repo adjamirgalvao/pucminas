@@ -91,7 +91,7 @@ export class ListarComprasProdutoComponent implements OnInit {
       err => {
         this.carregando = false;
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o produto!' });
-        throw 'Erro ao recuperar o produto! Detalhes: ' + err;
+        throw 'Erro ao recuperar o produto! Detalhes: ' + err.err;
       })).subscribe((produto) => {
       if (produto != null) {
         this.produto = produto;
@@ -138,7 +138,8 @@ export class ListarComprasProdutoComponent implements OnInit {
     this.itemCompraService.excluirItemCompra(itemCompra).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a compra do produto "${this.produto.nome}"!` });
+        console.log(err);
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a compra do produto "${this.produto.nome}"! Detalhes: ${err.error.error}` });
         throw `Erro ao excluir a compra do produto "${this.produto.nome}". Detalhes: ` + err;
       })).subscribe(
         () => {

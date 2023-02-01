@@ -101,7 +101,7 @@ export class ListarComprasComponent implements OnInit {
     this.compraService.excluir(compra).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a compra "${compra.numero}"!` });
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a compra "${compra.numero}"! Detalhes: ${err.error.error}` });
         throw 'Erro ao excluir a compra. Detalhes: ' + err;
       })).subscribe(
         () => {
