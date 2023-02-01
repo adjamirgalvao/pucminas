@@ -220,7 +220,7 @@ module.exports = class VendaService {
 
       for (let i in venda.itensVenda) {
         await ItemVendaService.deleteItemVenda(venda.itensVenda[i]._id, session);
-      };
+      }
 
       const registro = await VendaModel.findOneAndDelete({ _id: id }, session);
 

@@ -220,7 +220,7 @@ module.exports = class CompraService {
 
       for (let i in compra.itensCompra) {
         await ItemCompraService.deleteItemCompra(compra.itensCompra[i]._id, session);
-      };
+      }
 
       const registro = await CompraModel.findOneAndDelete({ _id: id }, session);
 
