@@ -75,6 +75,12 @@ export class ListarComprasComponent implements OnInit {
         });
   }
 
+  /** Preço total dos itens
+  */
+  getPrecoTotal() {
+    return this.compras.map(t => t.total!).reduce((acc, value) => acc + value, 0);
+  }
+
   confirmarExcluirCompra(compra: Compra) {
     const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
       data: {

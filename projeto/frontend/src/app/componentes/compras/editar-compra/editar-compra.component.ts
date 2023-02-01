@@ -118,6 +118,7 @@ export class EditarCompraComponent implements OnInit {
     getQuantidadeTotal() {
       return this.itensCompra.map(t => t.quantidade).reduce((acc, value) => acc + value, 0);
     }
+    
   /** Preço total dos itens
   */
   getPrecoTotal() {
