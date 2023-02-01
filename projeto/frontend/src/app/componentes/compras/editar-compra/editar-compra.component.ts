@@ -171,6 +171,7 @@ export class EditarCompraComponent implements OnInit {
         throw 'Erro ao recuperar produtos! Detalhes: ' + err;
       })).subscribe((produtos) => {
         this.produtos = produtos;
+        this.ordernarNome(this.produtos);
         console.log(produtos);
 
         this.fornecedorService.listar().pipe(catchError(
@@ -181,6 +182,7 @@ export class EditarCompraComponent implements OnInit {
             throw 'Erro ao recuperar fornecedores! Detalhes: ' + err;
           })).subscribe((fornecedores) => {
             this.fornecedores = fornecedores;
+            this.ordernarNome(this.fornecedores);
             console.log(fornecedores);
 
             if (this.operacao != 'Cadastrar') {
@@ -380,5 +382,15 @@ export class EditarCompraComponent implements OnInit {
       }
     });
   }
-
+  
+  ordernarNome(objeto: { nome: string; }[]) {
+    objeto.sort( (a: { nome: string; }, b: { nome: string; }) => {
+      if ( a.nome < b.nome ){
+        return -1;
+      }
+      if ( a.nome > b.nome ){
+        return 1;
+      }
+      return 0;});
+  }
 }

@@ -167,6 +167,7 @@ export class EditarVendaComponent implements OnInit {
         throw 'Erro ao recuperar produtos! Detalhes: ' + err;
       })).subscribe((produtos) => {
         this.produtos = produtos;
+        this.ordernarNome(this.produtos);
         console.log(produtos);
 
         this.vendedorService.listar().pipe(catchError(
@@ -177,6 +178,7 @@ export class EditarVendaComponent implements OnInit {
             throw 'Erro ao recuperar vendedores! Detalhes: ' + err;
           })).subscribe((vendedores) => {
             this.vendedores = vendedores;
+            this.ordernarNome(this.vendedores);
             console.log(vendedores);
 
             if (this.operacao != 'Cadastrar') {
@@ -366,6 +368,7 @@ export class EditarVendaComponent implements OnInit {
     };
 
     this.itensVenda.push(itemVenda);
+    this.produtos.splice(this.produtos.indexOf(itemVenda.produto!), 1);
     // resetando parte do formulario
     this.resetAdicionarProduto();
     this.atualizarTabela();
@@ -392,10 +395,23 @@ export class EditarVendaComponent implements OnInit {
     confirmacaoRef.afterClosed().subscribe(result => {
       if (result == 'Sim') {
         this.itensVenda.splice(this.itensVenda.indexOf(itemVenda), 1);
+        this.produtos.push(itemVenda.produto!);
+        this.ordernarNome(this.produtos);
+        this.resetAdicionarProduto();
         this.atualizarTabela();
       }
     });
   }
-
+  
+  ordernarNome(objeto: { nome: string; }[]) {
+    objeto.sort( (a: { nome: string; }, b: { nome: string; }) => {
+      if ( a.nome < b.nome ){
+        return -1;
+      }
+      if ( a.nome > b.nome ){
+        return 1;
+      }
+      return 0;});
+  }
 }
 
