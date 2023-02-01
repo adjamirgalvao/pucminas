@@ -6,6 +6,7 @@ export interface Venda {
     data: Date
     numero?: string
     total?: number
+    custoTotal?: number
     id_vendedor?: string
     vendedor?: Vendedor
     itensVenda?: ItemVenda[]

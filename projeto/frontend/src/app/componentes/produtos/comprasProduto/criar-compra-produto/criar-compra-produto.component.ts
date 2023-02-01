@@ -87,8 +87,8 @@ export class CriarCompraProdutoComponent implements OnInit {
           err => {
             this.erroCarregando = true;
             this.carregando = false;
-            this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar fornecedores!' });
-            throw 'Erro ao recuperar fornecedores! Detalhes: ' + err;
+            this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar fornecedores! Detalhes: ${err.error.error}`});
+            throw 'Erro ao recuperar fornecedores! Detalhes: ' + err.error.error;
           })).subscribe((fornecedores) => {
             this.fornecedores = fornecedores;
             this.carregando = false;
@@ -167,8 +167,8 @@ export class CriarCompraProdutoComponent implements OnInit {
     this.compraService.criar(compra).pipe(catchError(
       err => {
         this.salvando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao salvar compra do produto!' });
-        throw 'Erro ao salvar compra do produto. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao salvar compra do produto! Detalhes: ${err.error.error}` });
+        throw 'Erro ao salvar compra do produto. Detalhes: ' + err.error.error;
       })).subscribe(
         () => {
           this.salvando = false;

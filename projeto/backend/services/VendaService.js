@@ -42,7 +42,19 @@ const allVendasVendedorInnerJoin = [
          }
        }
   },
-  
+  {
+    '$addFields': {
+       'custoTotal': {
+           '$sum': {
+             '$map': {
+               'input': "$itensVenda",
+               'as': "itemvenda",
+               'in': {"$multiply" : ['$$itemvenda.precoCusto', '$$itemvenda.quantidade']},
+             }
+           }
+         }
+       }
+  },  
 ];
 
 function umaVendaItensVendedorInnerJoinconst (id) {
