@@ -13,10 +13,31 @@ exports.get = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const registros = await ProdutoService.getAllProdutos();
+    let registros;
+
+    //Fazendo a consulta para ver se quer com saldo ou sem
+    if (!req.query.saldo) {
+       registros = await ProdutoService.getAllProdutos();
+    } else {
+      registros = await ProdutoService.getAllProdutosComSaldo();
+    }   
 
     if (!registros) {
       return res.status(404).json("Não existem produtos cadastrados!");
+    }
+
+    res.json(registros);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getAllComSaldo = async (req, res) => {
+  try {
+    const registros = await ProdutoService.getAllProdutosComSaldo();
+
+    if (!registros) {
+      return res.status(404).json("Não existem produtos cadastrados com saldo!");
     }
 
     res.json(registros);

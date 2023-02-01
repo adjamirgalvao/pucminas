@@ -70,6 +70,17 @@ module.exports = class ProdutoService {
     }
   }
 
+  static async getAllProdutosComSaldo() {
+    try {
+      const todos = await ProdutoModel.find({quantidade: {$gt: 0}});
+      
+      return todos;
+    } catch (error) {
+      console.log(`Erro ao recuperar Produtos ${error.message}`);
+      throw new Error(`Erro ao recuperar Produtos ${error.message}`);
+    }
+  }
+
   static async addProduto(data, session) {
     try {
       const novo = {

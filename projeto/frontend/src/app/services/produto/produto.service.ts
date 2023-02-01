@@ -20,6 +20,10 @@ export class ProdutoService {
     return this.http.get<Produto[]>(this.API_PRODUTO);
   }
 
+  listarComSaldo(): Observable<Produto[]> {
+    return this.http.get<Produto[]>(this.API_PRODUTO + "saldo=true");
+  }
+
   criar(produto: Produto): Observable<Produto> {
     console.log(produto);
     return this.http.post<Produto>(this.API_PRODUTO, produto);
