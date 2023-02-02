@@ -159,8 +159,7 @@ module.exports = class CompraService {
              id_produto: data.itensCompra[i].id_produto,
              id_compra: registro._id,
              quantidade: data.itensCompra[i].quantidade,
-             preco: data.itensCompra[i].preco,
-             precoCusto: data.itensCompra[i].precoCusto
+             preco: data.itensCompra[i].preco
           };
           await ItemCompraService.addItemCompra(novoItemCompra, session);
       }
