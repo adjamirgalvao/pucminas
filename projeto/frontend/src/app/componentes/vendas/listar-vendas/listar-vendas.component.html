@@ -43,7 +43,7 @@
                 </ng-container>
                 <ng-container matColumnDef="lucro">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Lucro</mat-header-cell>
-                    <mat-cell *matCellDef="let venda">{{ venda.total - venda.custoTotal | dinheiroPipe }}</mat-cell>
+                    <mat-cell *matCellDef="let venda"><span [ngClass]="{'text-danger': (venda.total - venda.custoTotal) <=0}"> {{ venda.total - venda.custoTotal | dinheiroPipe }}</span></mat-cell>
                     <mat-footer-cell *matFooterCellDef>  {{getLucroTotal() | dinheiroPipe}}  </mat-footer-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
