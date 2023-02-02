@@ -63,7 +63,7 @@ export class EditarVendaComponent implements OnInit {
 
 
   // Campos para a tabela
-  displayedColumns: string[] = ['produto.nome', 'quantidade', 'preco'/*, 'precoTotal'*/];
+  displayedColumns: string[] = ['produto.nome', 'quantidade', 'precoUnitario', 'precoTotal', 'desconto', 'precoFinal'];
   dataSource: MatTableDataSource<ItemVenda> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -111,16 +111,58 @@ export class EditarVendaComponent implements OnInit {
 
   /** Quantidade total dos itens
   */
-    getQuantidadeTotal() {
+  getQuantidadeTotal() {
       return this.itensVenda.map(t => t.quantidade).reduce((acc, value) => acc + value, 0);
-    }
+  }
     
-  /** Preço total dos itens
+  /** Desconto total dos itens
+  */
+  getDescontoTotal() {
+    return this.itensVenda.map(t => t.desconto).reduce((acc, value) => acc + value, 0);
+}
+  /** 
+   * Preço total dos itens
   */
   getPrecoTotal() {
-    return this.itensVenda.map(t => t.preco).reduce((acc, value) => acc + value, 0);
+    return this.itensVenda.map(t => (t.quantidade * t.precoUnitario)).reduce((acc, value) => acc + value, 0);
   }
 
+ /** Preço total dos itens
+  */
+ getPrecoFinalTotal() {
+  return this.itensVenda.map(t => t.preco).reduce((acc, value) => acc + value, 0);
+ }
+
+  getPrecoUnitario_(): number {
+    return this.getPrecoUnitario(this.formulario.value.produto);
+  }
+
+  getPrecoUnitario(produto: { preco: number; } | undefined): number {
+    let retorno = 0;
+
+    if (produto){
+      retorno = produto.preco;
+    }
+    return retorno;  
+  }
+    
+  getPrecoItemVenda_(): number {
+    return this.getPrecoItemVenda(this.formulario.value.produto);
+  }
+
+  getPrecoFinalItemVenda_(): number {
+    return this.getPrecoItemVenda(this.formulario.value.produto) - this.formulario.value.desconto;
+  }
+
+  getPrecoItemVenda(produto: { preco: number;} | undefined): number {
+    let retorno = 0;
+    
+    if ((produto) && (this.formulario.value.quantidade)) {
+      retorno = this.formulario.value.quantidade * this.getPrecoUnitario(produto);
+    }
+
+    return retorno;  
+  }   
 
   displayFnProduto(produto: Produto): string {
     return produto && produto.nome ? produto.nome : '';
@@ -240,7 +282,7 @@ export class EditarVendaComponent implements OnInit {
   }
 
   formularioIncluirValido(): boolean {
-    return this.formulario.get('produto')!.valid && this.formulario.get('quantidade')!.valid && this.formulario.get('preco')!.valid;
+    return this.formulario.get('produto')!.valid && this.formulario.get('quantidade')!.valid && this.formulario.get('desconto')!.valid;
   }
 
   vendedorValidator(): ValidatorFn {
@@ -288,8 +330,8 @@ export class EditarVendaComponent implements OnInit {
       quantidade: [{value: 0, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01), this.quantidadeValidator()
       ])],
-      preco: [{value: 0, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, Validators.min(0.01)
+      desconto: [{value: 0, disabled: this.readOnly()}, Validators.compose([
+        Validators.required, Validators.min(0)
       ])]
     });
 
@@ -311,8 +353,12 @@ export class EditarVendaComponent implements OnInit {
         } 
         if (produto) {
            //atribuindo o valor do produto
-           this.formulario.get('preco')!.patchValue(produto.preco, { emitEvent: false });
-
+           //this.formulario.get('preco')!.patchValue(produto.preco, { emitEvent: false });
+           this.formulario.controls['quantidade'].enable();
+           this.formulario.controls['desconto'].enable();
+        } else {
+           this.formulario.controls['quantidade'].disable();
+           this.formulario.controls['desconto'].disable();
         }
 
         return nome ? this._filterProduto(nome as string) : this.produtos.slice();
@@ -360,12 +406,17 @@ export class EditarVendaComponent implements OnInit {
   }
 
   adicionarItem() {
-    const itemVenda: ItemVenda = {
-      preco: this.formulario.value.preco,
+    let itemVenda: ItemVenda = {
+      preco: (this.formulario.value.produto.preco * this.formulario.value.quantidade) - this.formulario.value.desconto,
       quantidade: this.formulario.value.quantidade,
       id_produto: this.formulario.value.produto._id,
-      produto: this.formulario.value.produto
+      produto: this.formulario.value.produto,
+      desconto: this.formulario.value.desconto,
+      precoCusto: this.formulario.value.produto.precoCusto,
+      precoUnitario: this.formulario.value.produto.preco,
     };
+    //https://stackoverflow.com/questions/1458633/how-to-deal-with-floating-point-number-precision-in-javascript
+    itemVenda.preco = Math.round(itemVenda.preco * 100) / 100; //arredondar em 2 digitos
 
     this.itensVenda.push(itemVenda);
     this.produtos.splice(this.produtos.indexOf(itemVenda.produto!), 1);
@@ -375,7 +426,7 @@ export class EditarVendaComponent implements OnInit {
   }
 
   private resetAdicionarProduto() {
-    let campos = ['quantidade', 'preco'];
+    let campos = ['quantidade', 'desconto'];
     campos.map(campo => {
       this.formulario.get(campo)?.setValue(0);
       this.formulario.get(campo)?.markAsUntouched();

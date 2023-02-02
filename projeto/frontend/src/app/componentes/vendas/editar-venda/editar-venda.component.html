@@ -28,111 +28,138 @@
                 </mat-form-field>
                 <mat-form-field class="me-3 mb-3" style="width: 50%;">
                     <mat-label>Vendedor</mat-label>
-                    <input type="text" formControlName="vendedor" [matAutocomplete]="autoVendedor" matInput placeholder="Escolha o vendedor" [readonly]="salvando || erroCarregando">
+                    <input type="text" formControlName="vendedor" [matAutocomplete]="autoVendedor" matInput
+                        placeholder="Escolha o vendedor" [readonly]="salvando || erroCarregando">
                     <mat-autocomplete #autoVendedor="matAutocomplete" [displayWith]="displayFnVendedor">
                         <mat-option *ngFor="let vendedor of vendedoresFiltrados | async" [value]="vendedor">
-                          {{vendedor.nome}}
+                            {{vendedor.nome}}
                         </mat-option>
-                    </mat-autocomplete>                    
+                    </mat-autocomplete>
                     <mat-error *ngIf="formulario.get('vendedor')?.hasError('required')  && formulario.get('vendedor')?.touched">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="!formulario.get('vendedor')?.hasError('required') && formulario.get('vendedor')?.hasError('vendedorCadastrado')  && formulario.get('vendedor')?.touched">O vendedor não está cadastrado!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Consultar')">Escolha o vendedor</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3 mb-3">
-                   <mat-label>Nota Fiscal</mat-label>
-                   <input type="string" formControlName="numero" matInput placeholder="Digite a Nota Fiscal"
-                       [readonly]="salvando || erroCarregando">
-                   <mat-hint *ngIf="(operacao != 'Consultar')">Digite a Nota Fiscal</mat-hint>
+                    <mat-label>Nota Fiscal</mat-label>
+                    <input type="string" formControlName="numero" matInput placeholder="Digite a Nota Fiscal"
+                        [readonly]="salvando || erroCarregando">
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite a Nota Fiscal</mat-hint>
                 </mat-form-field>
             </div>
-            <mat-expansion-panel  expanded>
+            <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-description>Produtos da Venda</mat-panel-description>
-                </mat-expansion-panel-header>     
-               <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled *ngIf="(operacao != 'Consultar')">
-                <p class="mat-title">Adicionar Produto</p>
-                <mat-form-field class="me-3 mb-3" style="width: 50%;">
-                    <mat-label>Produto</mat-label>
-                    <input type="text" formControlName="produto" [matAutocomplete]="autoProduto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
-                    <mat-autocomplete #autoProduto="matAutocomplete" [displayWith]="displayFnProduto">
-                        <mat-option *ngFor="let produto of produtosFiltrados | async" [value]="produto">
-                          {{produto.nome}}
-                        </mat-option>
-                    </mat-autocomplete>                    
-                    <mat-error *ngIf="formulario.get('produto')?.hasError('required') && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
-                    <mat-error *ngIf="!formulario.get('produto')?.hasError('required') && formulario.get('produto')?.hasError('produtoCadastrado')  && formulario.get('produto')?.touched">O produto não está cadastrado ou não tem estoque!</mat-error>
-                    <mat-hint>Escolha o produto</mat-hint>
-                </mat-form-field>
-                <mat-form-field class="me-3 mb-3">
-                    <mat-label>Quantidade</mat-label>
-                    <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
-                        [readonly]="salvando || erroCarregando">
-                        <mat-error *ngIf="formulario.get('quantidade')?.hasError('required')  && formulario.get('quantidade')?.touched">O campo é obrigatório!</mat-error>
-                        <mat-error *ngIf="formulario.get('quantidade')?.hasError('min') && formulario.get('quantidade')?.touched">O valor deve ser maior que zero!</mat-error>
-                        <mat-error *ngIf="!formulario.get('quantidade')?.hasError('required') && formulario.get('quantidade')?.hasError('quantidadeProduto')  && formulario.get('quantidade')?.touched">A quantidade é maior que o estoque do produto!</mat-error>
-                        <mat-hint>Digite a quantidade</mat-hint>
-                </mat-form-field>
-                <mat-form-field class="me-3 mb-3">
-                    <mat-label>Preço Unitário</mat-label>
-                    <input formControlName="preco" matInput placeholder="Digite o preço" currencyMask
-                        [readonly]="salvando || erroCarregando">
-                        <mat-error *ngIf="formulario.get('preco')?.hasError('required')  && formulario.get('preco')?.touched">O campo é obrigatório!</mat-error>
-                        <mat-error *ngIf="formulario.get('preco')?.hasError('min') && formulario.get('preco')?.touched">O valor deve ser maior que zero!</mat-error>
-                    <mat-hint>Digite o preço unitário</mat-hint>
-                </mat-form-field>
-                <button mat-icon-button matTooltip="Adicionar" color="primary" (click)="$event.preventDefault(); adicionarItem();" [disabled]="salvando || erroCarregando || !formularioIncluirValido()">
-                    <mat-icon>add</mat-icon>
-                  </button>
+                </mat-expansion-panel-header>
+                <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled *ngIf="(operacao != 'Consultar')">
+                    <p class="mat-title">Adicionar Produto</p>
+                    <div class="mb-3">
+                        <mat-form-field class="me-3" style="width: 50%;">
+                            <mat-label>Produto</mat-label>
+                            <input type="text" formControlName="produto" [matAutocomplete]="autoProduto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
+                            <mat-autocomplete #autoProduto="matAutocomplete" [displayWith]="displayFnProduto">
+                                <mat-option *ngFor="let produto of produtosFiltrados | async" [value]="produto">
+                                    {{produto.nome}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="formulario.get('produto')?.hasError('required') && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
+                            <mat-error  *ngIf="!formulario.get('produto')?.hasError('required') && formulario.get('produto')?.hasError('produtoCadastrado')  && formulario.get('produto')?.touched">O produto não está cadastrado ou não tem estoque!</mat-error>
+                            <mat-hint>Escolha o produto</mat-hint>
+                        </mat-form-field>
+                        <span class="me-3" *ngIf="formulario.get('produto')!.valid">* Preço unitário {{ getPrecoUnitario_() | dinheiroPipe}} </span>
+                    </div>
+                    <div class="mb-3">
+                        <mat-form-field class="me-3">
+                            <mat-label>Quantidade</mat-label>
+                            <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
+                                [readonly]="salvando || erroCarregando">
+                            <mat-error *ngIf="formulario.get('quantidade')?.hasError('required')  && formulario.get('quantidade')?.touched">O campo é obrigatório!</mat-error>
+                            <mat-error *ngIf="formulario.get('quantidade')?.hasError('min') && formulario.get('quantidade')?.touched">O valor deve ser maior que zero!</mat-error>
+                            <mat-error *ngIf="!formulario.get('quantidade')?.hasError('required') && formulario.get('quantidade')?.hasError('quantidadeProduto')  && formulario.get('quantidade')?.touched">A quantidade é maior que o estoque do produto!</mat-error>
+                            <mat-hint>Digite a quantidade</mat-hint>
+                        </mat-form-field>
+                        <span class="me-3" *ngIf="formulario.get('produto')!.valid && formulario.get('quantidade')!.valid"> * Preço total {{getPrecoItemVenda_() | dinheiroPipe}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <mat-form-field class="me-3 mb-3">
+                            <mat-label>Desconto</mat-label>
+                            <input formControlName="desconto" matInput placeholder="Digite o desconto" currencyMask [readonly]="salvando || erroCarregando">
+                            <mat-error *ngIf="formulario.get('desconto')?.hasError('required')  && formulario.get('desconto')?.touched">O campo é obrigatório!</mat-error>
+                            <mat-error  *ngIf="formulario.get('desconto')?.hasError('min') && formulario.get('desconto')?.touched">O valor deve ser maior ou igual que zero!</mat-error>
+                            <mat-hint>Digite o desconto</mat-hint>
+                        </mat-form-field>
+                        <span class="me-3 fw-bold" *ngIf="formulario.get('produto')!.valid && formulario.get('quantidade')!.valid && formulario.get('desconto')!.valid"> * Preço Final {{getPrecoFinalItemVenda_() | dinheiroPipe}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <button mat-stroked-button matTooltip="Adicionar" color="primary"
+                            (click)="$event.preventDefault(); adicionarItem();"
+                            [disabled]="salvando || erroCarregando || !formularioIncluirValido()">
+                           <!-- <mat-icon>add</mat-icon>-->Adicionar
+                        </button>
+                    </div>
                 </div>
                 <!-- Listagem de produtos da venda -->
-                <div class="grid gap-3 border rounded px-3 mt-3 mb-3"> <h3>Produtos</h3>
-                <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto adicionado a venda.</strong>
+                <div class="grid gap-3 border rounded px-3 mt-3 mb-3">
+                    <h3>Produtos</h3>
+                    <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto adicionado a venda.</strong>
+                    </div>
+                    <div class="grid gap-3 border rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
+                        <mat-table [dataSource]="dataSource" matSort>
+                            <ng-container matColumnDef="produto.nome">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>
+                                <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
+                                <mat-cell *matCellDef="let item">{{ item.produto.nome }}</mat-cell>
+                                <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="quantidade">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Quantidade</mat-header-cell>
+                                <mat-cell *matCellDef="let item">{{ item.quantidade }}</mat-cell>
+                                <mat-footer-cell *matFooterCellDef>{{getQuantidadeTotal()}}</mat-footer-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="precoUnitario">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Unitário</mat-header-cell>
+                                <mat-cell *matCellDef="let item">{{ item.precoUnitario | dinheiroPipe }}</mat-cell>
+                                <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="precoTotal">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Total</mat-header-cell>
+                                <mat-cell *matCellDef="let item">{{ item.quantidade * item.precoUnitario | dinheiroPipe }}</mat-cell>
+                                <mat-footer-cell *matFooterCellDef>{{ getPrecoTotal() | dinheiroPipe }} </mat-footer-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="desconto">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Desconto</mat-header-cell>
+                                <mat-cell *matCellDef="let item">{{ item.desconto | dinheiroPipe }}</mat-cell>
+                                <mat-footer-cell *matFooterCellDef>{{ getDescontoTotal() | dinheiroPipe }}</mat-footer-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="precoFinal">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Final</mat-header-cell>
+                                <mat-cell *matCellDef="let item">{{ item.preco | dinheiroPipe }}</mat-cell>
+                                <mat-footer-cell *matFooterCellDef>{{ getPrecoFinalTotal() | dinheiroPipe }}</mat-footer-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="actions" *ngIf="(operacao != 'Consultar')">
+                                <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                                <mat-cell *matCellDef="let item">
+                                    <button mat-icon-button matTooltip="Excluir Produto" [disabled]="salvando"
+                                        (click)="$event.preventDefault(); confirmarExcluirItemVenda(item)">
+                                        <mat-icon color="secondary">delete</mat-icon>
+                                    </button>
+                                </mat-cell>
+                                <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                            <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
+                        </mat-table>
+                        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]"
+                            showFirstLastButtons></mat-paginator>
+                    </div>
                 </div>
-                <div class="grid gap-3 border rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
-                    <mat-table [dataSource]="dataSource" matSort>
-                        <ng-container matColumnDef="produto.nome">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>
-                            <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
-                            <mat-cell *matCellDef="let item">{{ item.produto.nome }}</mat-cell>
-                            <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
-                       </ng-container>
-                        <ng-container matColumnDef="quantidade">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Quantidade</mat-header-cell>
-                            <mat-cell *matCellDef="let item">{{ item.quantidade }}</mat-cell>
-                            <mat-footer-cell *matFooterCellDef>{{getQuantidadeTotal()}}</mat-footer-cell>
-                        </ng-container>
-                        <ng-container matColumnDef="preco">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Unitário</mat-header-cell>
-                            <mat-cell *matCellDef="let item">{{ item.preco | dinheiroPipe }}</mat-cell>
-                            <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
-                       </ng-container><!--
-                       <ng-container matColumnDef="precoTotal">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Total</mat-header-cell>
-                        <mat-cell *matCellDef="let item">{{ (item.preco * item.quantidade) | dinheiroPipe }}</mat-cell>
-                        <mat-footer-cell *matFooterCellDef> {{getPrecoTotal() | dinheiroPipe}} </mat-footer-cell>
-                   </ng-container>-->
-                    <ng-container matColumnDef="actions" *ngIf="(operacao != 'Consultar')">
-                            <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
-                            <mat-cell *matCellDef="let item">
-                                <button mat-icon-button matTooltip="Excluir Produto" [disabled]="salvando" (click)="$event.preventDefault(); confirmarExcluirItemVenda(item)">
-                                    <mat-icon color="secondary">delete</mat-icon>
-                                </button>
-                            </mat-cell>
-                            <mat-footer-cell *matFooterCellDef>  </mat-footer-cell>
-                        </ng-container>
-                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-                        <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
-                    </mat-table>
-                    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
-                </div>
-            </div>
-        
+
             </mat-expansion-panel>
 
             <div class="acoes mt-3">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
-                <button *ngIf="!leitura" (click)="$event.preventDefault(); salvar();" mat-stroked-button matTooltip="Salvar a venda" color="primary"
+                <button *ngIf="!leitura" (click)="$event.preventDefault(); salvar();" mat-stroked-button
+                    matTooltip="Salvar a venda" color="primary"
                     [disabled]="salvando || erroCarregando || !formularioValido()"
                     [class.spinner]="salvando">Salvar</button> &nbsp;
                 <button (click)="$event.preventDefault(); cancelar();" mat-stroked-button

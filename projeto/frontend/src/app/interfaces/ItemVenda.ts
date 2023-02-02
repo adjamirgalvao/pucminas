@@ -7,7 +7,9 @@ export interface ItemVenda {
     id_produto: string 
     quantidade: number
     preco: number
-    precoCusto?: number
+    desconto: number
+    precoCusto: number
+    precoUnitario: number
     produto? : Produto
     venda? : Venda
   }

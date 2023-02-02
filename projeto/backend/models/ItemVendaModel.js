@@ -21,7 +21,15 @@ const itemVendaSchema = Schema({
   precoCusto: {
     type: Number,
     required: true,
-  }
+  },
+  precoUnitario: {
+    type: Number,
+    required: true,
+  },
+  desconto: {
+    type: Number,
+    required: true,
+  }  
 });
 
 module.exports = {

@@ -53,13 +53,14 @@ const allItensVendaProdutoInnerJoin = [
 module.exports = class ItemVendaService {
 
   static async criarItemVenda(data, session) {
-    let produto = await ProdutoService.findById(data.id_produto);
     const itemVenda = {
       id_produto: data.id_produto,
       id_venda: data.id_venda,
       quantidade: data.quantidade,
       preco: data.preco,
-      precoCusto: produto.precoCusto
+      desconto: data.desconto,
+      precoCusto: data.precoCusto,
+      precoUnitario: data.precoUnitario
     };
 
     const response = await new ItemVendaModel(itemVenda).save({session});
@@ -91,11 +92,12 @@ module.exports = class ItemVendaService {
       const produto = await ProdutoService.getProdutobyId(data.id_produto);
 
       if (produto != null) {
+        console.log('produto', produto);
          produto.quantidade = produto.quantidade - itemVenda.quantidade;
          if (produto.quantidade < 0){
           throw new Error(`Produto ${data.id_produto} sem estoque suficiente para a venda`); 
          }
-         await ProdutoService.updateProduto(produto, session);
+         await ProdutoService.updateProduto(produto._id, produto, session);
          if (!sessionPassada) {
             await session.commitTransaction();
          } 
@@ -137,8 +139,8 @@ module.exports = class ItemVendaService {
       const produto = await ProdutoService.getProdutobyId(itemVendaRemovida.id_produto);
 
       if (produto != null) {
-        produto.quantidade = produto.quantidade + itemVenda.quantidade;
-        await ProdutoService.updateProduto(produto, session);
+         produto.quantidade = produto.quantidade + itemVendaRemovida.quantidade;
+        await ProdutoService.updateProduto(produto._id, produto, session);
       }
       if (!sessionPassada) {
         await session.commitTransaction();

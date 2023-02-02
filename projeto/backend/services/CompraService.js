@@ -159,7 +159,8 @@ module.exports = class CompraService {
              id_produto: data.itensCompra[i].id_produto,
              id_compra: registro._id,
              quantidade: data.itensCompra[i].quantidade,
-             preco: data.itensCompra[i].preco
+             preco: data.itensCompra[i].preco,
+             precoCusto: data.itensCompra[i].precoCusto
           };
           await ItemCompraService.addItemCompra(novoItemCompra, session);
       }
@@ -222,7 +223,7 @@ module.exports = class CompraService {
         await ItemCompraService.deleteItemCompra(compra.itensCompra[i]._id, session);
       }
 
-      const registro = await CompraModel.findOneAndDelete({ _id: id }, session);
+      const registro = await CompraModel.findOneAndDelete({ _id: id }, {session});
 
       await session.commitTransaction();
       return registro;

@@ -52,6 +52,7 @@ module.exports = class ProdutoService {
     produto.quantidade = produto.quantidade - saida.quantidade;
     if (produto.quantidade > 0) {
       produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * (saida.preco / saida.quantidade))) / produto.quantidade;
+      //https://stackoverflow.com/questions/1458633/how-to-deal-with-floating-point-number-precision-in-javascript
       produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
     } else if (produto.quantidade == 0){
       produto.precoCusto = produto.precoCustoInicial;

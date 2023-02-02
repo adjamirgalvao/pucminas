@@ -171,7 +171,10 @@ module.exports = class VendaService {
              id_produto: data.itensVenda[i].id_produto,
              id_venda: registro._id,
              quantidade: data.itensVenda[i].quantidade,
-             preco: data.itensVenda[i].preco
+             preco: data.itensVenda[i].preco,
+             desconto: data.itensVenda[i].desconto,
+             precoCusto: data.itensVenda[i].precoCusto,
+             precoUnitario: data.itensVenda[i].precoUnitario,
           };
           await ItemVendaService.addItemVenda(novoItemVenda, session);
       }
@@ -234,7 +237,7 @@ module.exports = class VendaService {
         await ItemVendaService.deleteItemVenda(venda.itensVenda[i]._id, session);
       }
 
-      const registro = await VendaModel.findOneAndDelete({ _id: id }, session);
+      const registro = await VendaModel.findOneAndDelete({ _id: id }, {session});
 
       await session.commitTransaction();
       return registro;

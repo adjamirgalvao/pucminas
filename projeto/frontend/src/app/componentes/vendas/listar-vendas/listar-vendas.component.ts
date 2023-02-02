@@ -75,18 +75,21 @@ export class ListarVendasComponent implements OnInit {
         });
   }
 
-  /** Lucro total dos itens
+  /** 
+   * Lucro total das vendas
   */
   getLucroTotal() {
     return this.vendas.map(t => (t.total! - t.custoTotal!)).reduce((acc, value) => acc + value, 0);
   }
 
-/*
-* Lucro total dos itens
+  /** 
+   * Valor total das vendas
   */
-    getPrecoTotal() {
+   getValorTotal() {
       return this.vendas.map(t => t.total!).reduce((acc, value) => acc + value, 0);
     }
+
+
   confirmarExcluirVenda(venda: Venda) {
     const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
       data: {
@@ -123,7 +126,7 @@ export class ListarVendasComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.vendas);
           this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `A venda "${venda.numero}" foi excluído com sucesso!` });
+          this.alertas.push({ tipo: 'success', mensagem: `A venda "${venda.numero}" foi excluída com sucesso!` });
         });
   }
 }

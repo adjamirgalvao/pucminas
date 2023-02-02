@@ -117,7 +117,7 @@ export class ListarComprasComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.compras);
           this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `A compra "${compra.numero}" foi excluído com sucesso!` });
+          this.alertas.push({ tipo: 'success', mensagem: `A compra "${compra.numero}" foi excluída com sucesso!` });
         });
   }
 }
