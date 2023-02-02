@@ -26,7 +26,6 @@ export class EditarProdutoComponent implements OnInit {
       let modo = this.router.getCurrentNavigation()?.extras.state?.['operacao'];
       if (modo) {
          this.operacao = modo;
-         this.leitura = true;
       }
     }
   formulario!: FormGroup;
@@ -55,9 +54,7 @@ export class EditarProdutoComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    if (!this.operacao){
-      this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
-    }
+    this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
 
     if (this.operacao == 'Consultar'){
       this.leitura = true;

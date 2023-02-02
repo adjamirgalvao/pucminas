@@ -37,7 +37,6 @@ export class EditarVendaComponent implements OnInit {
     let modo = this.router.getCurrentNavigation()?.extras.state?.['operacao'];
     if (modo) {
       this.operacao = modo;
-      this.leitura = true;
     }
   }
 
@@ -189,9 +188,8 @@ export class EditarVendaComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    if (!this.operacao) {
-      this.operacao = (id == null) ? 'Cadastrar' : 'Consultar'; //se fizer edição troca por Editar
-    }
+    this.operacao = (id == null) ? 'Cadastrar' : 'Consultar'; //se fizer edição troca por Editar
+
     if (this.operacao != 'Consultar'){
       this.displayedColumns.push('actions');
     } else {
