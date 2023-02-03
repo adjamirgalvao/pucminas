@@ -14,6 +14,7 @@ exports.get = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
+  // https://stackoverflow.com/questions/9216185/nodejs-passport-display-username
   console.log('username', req.user);
   try {
     const registros = await UsuarioService.getAllUsuarios();
