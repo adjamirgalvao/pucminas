@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const FornecedorController = require("../controllers/fornecedorController");
+const FornecedorController = require("../controllers/FornecedorController");
 
 //get
 router.get("/", FornecedorController.getAll);

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const VendedorController = require("../controllers/vendedorController");
+const VendedorController = require("../controllers/VendedorController");
 
 //get
 router.get("/", VendedorController.getAll);

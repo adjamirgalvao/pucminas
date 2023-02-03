@@ -1,12 +1,18 @@
 const express = require('express');
 const cors = require('cors');
-const session = require('express-session');
+
+//Autentenciacao
+const PassportStrategy = require('./auth/Passport');
+const passport = require('passport');
+//
 const bodyParser = require('body-parser');
 
 const app = express();
 
 app.use(cors());
-app.use(session({secret: 'teste'}));
+// Apply strategy to passport
+PassportStrategy.applyPassportStrategy(passport);
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -22,5 +28,6 @@ app.use("/api/clientes", require('./routers/clienteRouter'));
 app.use("/api/vendedores", require('./routers/vendedorRouter'));
 app.use("/api/itensVendas", require('./routers/itemVendaRouter'));
 app.use("/api/vendas", require('./routers/vendaRouter'));
+app.use("/api/usuarios", require('./routers/usuarioRouter'));
 
 module.exports = app;
