@@ -4,6 +4,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
 
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -12,7 +13,8 @@ import { catchError, switchMap } from 'rxjs/operators';
 export class HttpRequestInterceptor implements HttpInterceptor {
  
   constructor(
-    private tokenService : TokenService
+    private tokenService : TokenService,
+    private router: Router
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -21,7 +23,18 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (token) {
         const cloned = req.clone({headers: req.headers.set("Authorization","Bearer " + token)});
 
-        return next.handle(cloned);
+        return next.handle(cloned).pipe(
+            catchError((error) => {
+              //https://stackoverflow.com/questions/64110465/redirect-and-cancel-request-using-interceptor-when-httpstatus-is-202
+              if (error instanceof HttpErrorResponse && !req.url.includes('api/login') && error.status === 401) {
+                this.tokenService.removeToken();
+                this.router.navigate(['/home']);
+                throw new Error('Precisa autenticar');
+              }
+      
+              return throwError(() => error);
+            })
+          );
     }
     else {
         return next.handle(req);
