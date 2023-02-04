@@ -56,6 +56,8 @@ import { ListarVendedoresComponent } from './componentes/vendedores/listar-vende
 import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedor/editar-vendedor.component';
 import { ListarVendasComponent } from './componentes/vendas/listar-vendas/listar-vendas.component';
 import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-venda.component';
+import { httpInterceptorProviders } from './autenticacao/httpInterceptor/HttpRequestInterceptor';
+import { LoginComponent } from './componentes/login/login/login.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -91,6 +93,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     EditarVendedorComponent,
     ListarVendasComponent,
     EditarVendaComponent,
+    LoginComponent,
    
   ],
   imports: [
@@ -124,6 +127,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 
   ],
   providers: [
+    httpInterceptorProviders, 
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
     // application's root module. We provide it at the component level here, due to limitations of
@@ -141,7 +145,4 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-function provideNgxPipe(): import("@angular/core").Provider | import("@angular/core").EnvironmentProviders {
-  throw new Error('Function not implemented.');
-}
 
