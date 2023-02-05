@@ -13,7 +13,7 @@ import { Venda } from 'src/app/interfaces/Venda';
 import { Vendedor } from 'src/app/interfaces/Vendedor';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
 import { VendaService } from 'src/app/services/venda/venda.service';
-import { VendedorService } from 'src/app/services/vendedor.service';
+import { VendedorService } from 'src/app/services/vendedor/vendedor.service';
 import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-confirmacao.component';
 import { Location } from '@angular/common';
 
@@ -260,7 +260,7 @@ export class EditarVendaComponent implements OnInit {
       itensVenda: this.itensVenda
     };
 
-    this.salvando = true;
+    this.salvandoFormulario(true);
     this.cadastrarVenda(venda);
   }
 
@@ -384,12 +384,12 @@ export class EditarVendaComponent implements OnInit {
   private cadastrarVenda(venda: Venda) {
     this.vendaService.criar(venda).pipe(catchError(
       err => {
-        this.salvando = false;
+        this.salvandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar venda!' });
         throw 'Erro ao cadastrar venda. Detalhes: ' + err;
       })).subscribe(
         () => {
-          this.salvando = false;
+          this.salvandoFormulario(false);
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `Venda cadastrada com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
@@ -461,6 +461,15 @@ export class EditarVendaComponent implements OnInit {
         return 1;
       }
       return 0;});
+  }
+
+  private salvandoFormulario(salvando: boolean){
+    this.salvando = salvando;
+    if (salvando) {
+      this.formulario.disable();
+    } else {
+      this.formulario.enable();
+    }
   }
 }
 

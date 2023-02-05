@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Vendedor } from 'src/app/interfaces/Vendedor';
-import { VendedorService } from 'src/app/services/vendedor.service';
+import { VendedorService } from 'src/app/services/vendedor/vendedor.service';
 import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-confirmacao.component';
 
 @Component({

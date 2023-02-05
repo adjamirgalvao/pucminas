@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Vendedor } from 'src/app/interfaces/Vendedor';
-import { VendedorService } from 'src/app/services/vendedor.service';
+import { VendedorService } from 'src/app/services/vendedor/vendedor.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -101,7 +101,7 @@ export class EditarVendedorComponent implements OnInit {
       }
     };
 
-    this.salvando = true;
+    this.salvandoFormulario(true);
     if (this.operacao == 'Cadastrar') {
       this.cadastrarVendedor(vendedor);
     } else {
@@ -145,12 +145,12 @@ export class EditarVendedorComponent implements OnInit {
   private cadastrarVendedor(vendedor: Vendedor) {
     this.service.criar(vendedor).pipe(catchError(
       err => {
-        this.salvando = false;
+        this.salvandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar vendedor! Detalhes: ${err.error.error}` });
         throw 'Erro ao cadastrar vendedor. Detalhes: ' + err.error.error;
       })).subscribe(
         () => {
-          this.salvando = false;
+          this.salvandoFormulario(false);
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `Vendedor "${vendedor.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
@@ -163,19 +163,27 @@ export class EditarVendedorComponent implements OnInit {
   }
 
   private editarVendedor(vendedor: Vendedor) {
-    this.salvando = true;
+    this.salvandoFormulario(true);
     this.service.editar(vendedor).pipe(catchError(
       err => {
-        this.salvando = false;
+        this.salvandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar vendedor! Detalhes: ${err.error.error}` });
         throw 'Erro ao editar vendedor. Detalhes: ' + err.error.error;
       })).subscribe(
         () => {
-          this.salvando = false;
+          this.salvandoFormulario(false);
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
           this.router.navigate(['/vendedores'],  {state: {alerta: {tipo: 'success', mensagem: `Vendedor "${vendedor.nome}" salvo com sucesso!`} }});
         });
   }
 
+  private salvandoFormulario(salvando: boolean){
+    this.salvando = salvando;
+    if (salvando) {
+      this.formulario.disable();
+    } else {
+      this.formulario.enable();
+    }
+  }
 
 }

@@ -10,7 +10,6 @@ import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { Produto } from 'src/app/interfaces/Produto';
 import { CompraService } from 'src/app/services/compra/compra.service';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
-import { ItemCompraService } from 'src/app/services/itemCompra/item-compra.service';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
 
 // Alterar o formato de data do picker https://material.angular.io/components/datepicker/overview
@@ -149,7 +148,7 @@ export class CriarCompraProdutoComponent implements OnInit {
   }
 
   comprarProduto(): void {
-    this.salvando = true;
+    this.salvandoFormulario(true);
     const itemCompra: ItemCompra = {
       id_produto: this.produto._id!,
       quantidade: this.formulario.value.quantidade,
@@ -166,12 +165,12 @@ export class CriarCompraProdutoComponent implements OnInit {
 
     this.compraService.criar(compra).pipe(catchError(
       err => {
-        this.salvando = false;
+        this.salvandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao salvar compra do produto! Detalhes: ${err.error.error}` });
         throw 'Erro ao salvar compra do produto. Detalhes: ' + err.error.error;
       })).subscribe(
         () => {
-          this.salvando = false;
+          this.salvandoFormulario(false);
           let extras = {state: {alerta: {tipo: 'success', mensagem: `Compra do "${this.produto.nome}" cadastrada com sucesso!`} }};
           if (this.listar) {
             this.router.navigate(['/produtos/' + this.produto._id + '/listarComprasProduto'], extras);
@@ -181,7 +180,6 @@ export class CriarCompraProdutoComponent implements OnInit {
         });
   }
 
-
   cancelar(): void {
       if (this.listar) {
          this.router.navigate(['/produtos/' + this.produto._id + '/listarComprasProduto']);
@@ -189,4 +187,13 @@ export class CriarCompraProdutoComponent implements OnInit {
          this.router.navigate(['/produtos/']);
       }
   }
+
+  private salvandoFormulario(salvando: boolean){
+    this.salvando = salvando;
+    if (salvando) {
+      this.formulario.disable();
+    } else {
+      this.formulario.enable();
+    }
+  }  
 }
