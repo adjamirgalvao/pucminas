@@ -41,6 +41,12 @@ npm install ng2-currency-mask --save  mascara de numero CurrencyMaskModule
 
  npm install --save ngx-mask    https://github.com/JsDaddy/ngx-mask mascara para cnpj cpf
  depois que instalei reclamou de vulnerabilidade e rodei npm audit fix
+ 
+npm i bootstrap-icons  -- icones do boostrap
+ai depois no styles.css tem que colocar
+
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
 --- extensoes para o vscode
 Auto Import ---> fazer import do typescript
 Angular Language service
