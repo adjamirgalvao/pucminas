@@ -8,9 +8,7 @@ import { AuthService } from 'src/app/autenticacao/services/auth/auth.service';
 })
 export class HomeComponent {
   constructor(
-    private authService: AuthService){
+    public authService: AuthService){
  }
-  usuarioLogado(): boolean {
-    return this.authService.isLogado();
-  }
+
 }

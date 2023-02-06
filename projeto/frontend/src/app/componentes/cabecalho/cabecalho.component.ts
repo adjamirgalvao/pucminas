@@ -9,14 +9,10 @@ import { AuthService } from 'src/app/autenticacao/services/auth/auth.service';
 export class CabecalhoComponent {
 
   constructor(
-    private authService: AuthService){
+    public authService: AuthService){
  }
   //Resolvendo o problema do toogle no angular https://www.youtube.com/watch?v=m5fdwxB-jIM
   public isCollapsed : boolean = true;
 
-  usuarioLogado(): boolean {
-    return true;
-    return this.authService.isLogado();
-  }
     
 }
