@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     this.service.login(usuario).pipe(catchError(
       err => {
         this.logandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao efetuar login: ${err.error?.error}` });
+        this.alertas.push({ tipo: 'danger', mensagem: `${err.error?.error}` });
         throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {

@@ -1,3 +1,4 @@
+import { LogoutComponent } from './componentes/auth/logout/logout.component';
 import { NotfoundComponent } from './componentes/util/notfound/notfound.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -26,6 +27,14 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'login',
+    component: LogoutComponent //se quer ir para a página de login o sistema já faz o logout
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent
   },
   {
     path: 'produtos',

@@ -62,10 +62,10 @@
                 </div>   
                 -->        
             </ul>
-            <ul class="navbar-nav navbar-right">
+            <ul class="navbar-nav navbar-right ms-auto">
                 <li class="nav-item " ngbDropdown>
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"><span class="text-uppercase"> {{ authService.getUsuario().login }}</span> </a>
-                    <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu" display="dynamic" >
+                    <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu dropdown-menu-end" display="dynamic" >
                         <a ngbDropdownItem routerLink="/logout/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Sair do Sistema</a>
                     </div>
                 </li>   
