@@ -64,8 +64,8 @@ export class ListarClientesComponent  implements OnInit {
     this.clienteService.listar().pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar clientes!' });
-        throw 'Erro ao recuperar clientes! Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar clientes! Detalhes: ${err.error?.error}`});
+        throw 'Erro ao recuperar clientes! Detalhes: ' + err.error?.error;
       })).subscribe(
         (clientes) => {
           this.carregando = false;

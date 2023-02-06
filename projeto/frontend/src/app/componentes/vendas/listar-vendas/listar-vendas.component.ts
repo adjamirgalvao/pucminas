@@ -64,8 +64,8 @@ export class ListarVendasComponent implements OnInit {
     this.vendaService.listar().pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error.error}` });
-        throw 'Erro ao recuperar vendas! Detalhes: ' + err.error.error;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao recuperar vendas! Detalhes: ' + err.error?.error;
       })).subscribe(
         (vendas) => {
           this.carregando = false;
@@ -116,8 +116,8 @@ export class ListarVendasComponent implements OnInit {
     this.vendaService.excluir(venda).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a venda "${venda.numero}"! Detalhes: ${err.error.error}` });
-        throw 'Erro ao excluir a venda. Detalhes: ' + err.error.error;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a venda "${venda.numero}"! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao excluir a venda. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.excluindo = false;

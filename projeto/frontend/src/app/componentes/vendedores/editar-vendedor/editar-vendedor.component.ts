@@ -71,8 +71,8 @@ export class EditarVendedorComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar o vendedor! Detalhes: ${err.error.error}` });
-          throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error.error;
+          this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar o vendedor! Detalhes: ${err.error?.error}` });
+          throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error?.error;
         })).subscribe((vendedor) => {
           this.carregando = false;
           if (vendedor != null) {
@@ -146,8 +146,8 @@ export class EditarVendedorComponent implements OnInit {
     this.service.criar(vendedor).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar vendedor! Detalhes: ${err.error.error}` });
-        throw 'Erro ao cadastrar vendedor. Detalhes: ' + err.error.error;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar vendedor! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao cadastrar vendedor. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
@@ -167,8 +167,8 @@ export class EditarVendedorComponent implements OnInit {
     this.service.editar(vendedor).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar vendedor! Detalhes: ${err.error.error}` });
-        throw 'Erro ao editar vendedor. Detalhes: ' + err.error.error;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar vendedor! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao editar vendedor. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);

@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const passport = require('passport');
 const ClienteController = require("../controllers/ClienteController");
 
 //get
-router.get("/", ClienteController.getAll);
-router.get("/:id", ClienteController.get);
+router.get("/", passport.authenticate('jwt', { session: false }), ClienteController.getAll);
+router.get("/:id", passport.authenticate('jwt', { session: false }), ClienteController.get);
 //post
-router.post("/", ClienteController.add);
+router.post("/", passport.authenticate('jwt', { session: false }), ClienteController.add);
 //update
-router.put("/:id", ClienteController.update);
+router.put("/:id", passport.authenticate('jwt', { session: false }), ClienteController.update);
 //delete
-router.delete("/:id", ClienteController.delete);
+router.delete("/:id", passport.authenticate('jwt', { session: false }), ClienteController.delete);
 
 module.exports = router;

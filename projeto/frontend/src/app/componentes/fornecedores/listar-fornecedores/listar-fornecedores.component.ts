@@ -64,8 +64,8 @@ export class ListarFornecedoresComponent implements OnInit {
     this.fornecedorService.listar().pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar fornecedores!' });
-        throw 'Erro ao recuperar fornecedores! Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar fornecedores! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao recuperar fornecedores! Detalhes: ' + err.error?.error;
       })).subscribe(
         (fornecedores) => {
           this.carregando = false;

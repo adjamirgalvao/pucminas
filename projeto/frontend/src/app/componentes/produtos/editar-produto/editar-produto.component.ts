@@ -68,8 +68,8 @@ export class EditarProdutoComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error.error}` });
-          throw 'Erro ao recuperar o produto! Detalhes: ' + err.error.error;
+          this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error?.error}` });
+          throw 'Erro ao recuperar o produto! Detalhes: ' + err.error?.error;
           ;
         })).subscribe((produto) => {
           this.carregando = false;
@@ -137,8 +137,8 @@ export class EditarProdutoComponent implements OnInit {
     this.service.criar(produto).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar produto! Detalhes: ${err.error.error}` });
-        throw 'Erro ao cadastrar produto. Detalhes: ' + err.error.error;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar produto! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao cadastrar produto. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
@@ -158,8 +158,8 @@ export class EditarProdutoComponent implements OnInit {
     this.service.editar(produto).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar produto! Detalhes: ${err.error.error}` });
-        throw 'Erro ao editar produto. Detalhes: ' + err.error.error;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar produto! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao editar produto. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);

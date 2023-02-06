@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const passport = require('passport');
 const FornecedorController = require("../controllers/FornecedorController");
 
 //get
-router.get("/", FornecedorController.getAll);
-router.get("/:id", FornecedorController.get);
+router.get("/", passport.authenticate('jwt', { session: false }), FornecedorController.getAll);
+router.get("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.get);
 //post
-router.post("/", FornecedorController.add);
+router.post("/", passport.authenticate('jwt', { session: false }), FornecedorController.add);
 //update
-router.put("/:id", FornecedorController.update);
+router.put("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.update);
 //delete
-router.delete("/:id", FornecedorController.delete);
+router.delete("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.delete);
 
 module.exports = router;

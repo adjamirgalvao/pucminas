@@ -84,9 +84,13 @@ exports.login = async (req, res) => {
           const token = jwt.sign({ login }, Config.passport.secret, {
             expiresIn: Config.passport.expiresIn,
           });
-          const userToReturn = { ...usuarios[0].toJSON(), ...{ token } };
-          delete userToReturn.senha;
-          res.status(200).json(userToReturn);
+
+          //https://stackoverflow.com/questions/23342558/why-cant-i-delete-a-mongoose-models-object-properties
+          let retorno = {usuario: usuarios[0].toObject()};
+          retorno.token = token;
+          delete retorno.usuario.senha;
+          delete retorno.usuario._id;
+          res.status(200).json(retorno);
     } else {
       res.status(404).json({error: 'Usuario não encontrado'});      
     }

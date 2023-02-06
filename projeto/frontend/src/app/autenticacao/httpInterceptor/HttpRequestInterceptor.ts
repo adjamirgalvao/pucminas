@@ -19,26 +19,24 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.tokenService.getToken();
-
+    let requisicao = req;
     if (token) {
-        const cloned = req.clone({headers: req.headers.set("Authorization","Bearer " + token)});
-
-        return next.handle(cloned).pipe(
+      requisicao = req.clone({headers: req.headers.set("Authorization","Bearer " + token)});
+    }
+    return next.handle(requisicao).pipe(
             catchError((error) => {
               //https://stackoverflow.com/questions/64110465/redirect-and-cancel-request-using-interceptor-when-httpstatus-is-202
               if (error instanceof HttpErrorResponse && !req.url.includes('api/login') && error.status === 401) {
+                console.log('vai para o login');
                 this.tokenService.removeToken();
                 this.router.navigate(['/home']);
                 throw new Error('Precisa autenticar');
               }
+              console.log('vai para o login');
       
               return throwError(() => error);
             })
           );
-    }
-    else {
-        return next.handle(req);
-    }
   }
 }
 

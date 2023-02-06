@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const produtoController = require("../controllers/ProdutoController");
+const passport = require('passport');
+const ProdutoController = require("../controllers/ProdutoController");
 
 //get
-router.get("/", produtoController.getAll);
-router.get("/:id", produtoController.get);
-router.get("/:id/listarItensCompras", produtoController.getAllItensCompras);
+router.get("/", passport.authenticate('jwt', { session: false }), ProdutoController.getAll);
+router.get("/:id", passport.authenticate('jwt', { session: false }), ProdutoController.get);
+router.get("/:id/listarItensCompras", passport.authenticate('jwt', { session: false }), ProdutoController.getAllItensCompras);
 //post
-router.post("/", produtoController.add);
+router.post("/", passport.authenticate('jwt', { session: false }), ProdutoController.add);
 //update
-router.put("/:id", produtoController.update);
+router.put("/:id", passport.authenticate('jwt', { session: false }), ProdutoController.update);
 //delete
-router.delete("/:id", produtoController.delete);
+router.delete("/:id", passport.authenticate('jwt', { session: false }), ProdutoController.delete);
 
 module.exports = router;

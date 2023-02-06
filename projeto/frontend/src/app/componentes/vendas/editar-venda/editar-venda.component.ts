@@ -203,8 +203,8 @@ export class EditarVendaComponent implements OnInit {
       err => {
         this.erroCarregando = true;
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar produtos!' });
-        throw 'Erro ao recuperar produtos! Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar produtos! Detalhes ${err.error?.error}` });
+        throw 'Erro ao recuperar produtos! Detalhes: ' + err.error?.error;
       })).subscribe((produtos) => {
         this.produtos = produtos;
         this.ordernarNome(this.produtos);
@@ -214,8 +214,8 @@ export class EditarVendaComponent implements OnInit {
           err => {
             this.erroCarregando = true;
             this.carregando = false;
-            this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar vendedores!' });
-            throw 'Erro ao recuperar vendedores! Detalhes: ' + err;
+            this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes ${err.error?.error}` });
+            throw 'Erro ao recuperar vendedores! Detalhes: ' + err.error?.error;
           })).subscribe((vendedores) => {
             this.vendedores = vendedores;
             this.ordernarNome(this.vendedores);
@@ -385,8 +385,8 @@ export class EditarVendaComponent implements OnInit {
     this.vendaService.criar(venda).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar venda!' });
-        throw 'Erro ao cadastrar venda. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar venda! Detalhes: ${err.error?.error}`});
+        throw 'Erro ao cadastrar venda. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);

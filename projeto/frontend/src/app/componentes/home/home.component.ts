@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UsuarioAutenticadoService } from 'src/app/autenticacao/services/usuario-autenticado/usuario-autenticado.service';
+import { AuthService } from 'src/app/autenticacao/services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +8,9 @@ import { UsuarioAutenticadoService } from 'src/app/autenticacao/services/usuario
 })
 export class HomeComponent {
   constructor(
-    private usuarioAutenticadoService: UsuarioAutenticadoService){
+    private authService: AuthService){
  }
   usuarioLogado(): boolean {
-    return this.usuarioAutenticadoService.isLogado();
+    return this.authService.isLogado();
   }
 }

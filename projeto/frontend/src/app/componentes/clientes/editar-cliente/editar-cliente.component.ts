@@ -99,7 +99,7 @@ export class EditarClienteComponent implements OnInit {
       }
     };
 
-    this.salvando = true;
+    this.salvandoFormulario(true);
     if (this.operacao == 'Cadastrar') {
       this.cadastrarCliente(cliente);
     } else {
@@ -138,12 +138,12 @@ export class EditarClienteComponent implements OnInit {
   private cadastrarCliente(cliente: Cliente) {
     this.service.criar(cliente).pipe(catchError(
       err => {
-        this.salvando = false;
+        this.salvandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar cliente!' });
         throw 'Erro ao cadastrar cliente. Detalhes: ' + err;
       })).subscribe(
         () => {
-          this.salvando = false;
+          this.salvandoFormulario(false);
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `Cliente "${cliente.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
@@ -156,20 +156,28 @@ export class EditarClienteComponent implements OnInit {
   }
 
   private editarCliente(cliente: Cliente) {
-    this.salvando = true;
+    this.salvandoFormulario(true);
     this.service.editar(cliente).pipe(catchError(
       err => {
-        this.salvando = false;
+        this.salvandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar cliente!' });
         throw 'Erro ao editar cliente. Detalhes: ' + err;
       })).subscribe(
         () => {
-          this.salvando = false;
+          this.salvandoFormulario(false);
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
           this.router.navigate(['/clientes'],  {state: {alerta: {tipo: 'success', mensagem: `Cliente "${cliente.nome}" salvo com sucesso!`} }});
         });
   }
 
+  private salvandoFormulario(salvando: boolean){
+    this.salvando = salvando;
+    if (salvando) {
+      this.formulario.disable();
+    } else {
+      this.formulario.enable();
+    }
+  }    
 
 }
 

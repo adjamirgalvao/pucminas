@@ -64,8 +64,8 @@ export class ListarVendedoresComponent implements OnInit {
     this.vendedorService.listar().pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes: ${err.error.error}` });
-        throw 'Erro ao recuperar vendedores! Detalhes: ' + err.error.error;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao recuperar vendedores! Detalhes: ' + err.error?.error;
       })).subscribe(
         (vendedores) => {
           this.carregando = false;
@@ -101,8 +101,8 @@ export class ListarVendedoresComponent implements OnInit {
     this.vendedorService.excluir(vendedor).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o vendedor "${vendedor.nome}"! Detalhes: ${err.error.error}` });
-        throw 'Erro ao excluir o vendedor. Detalhes: ' + err.error.error;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o vendedor "${vendedor.nome}"! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao excluir o vendedor. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.excluindo = false;

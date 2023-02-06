@@ -6,7 +6,7 @@ const usuario = 'admin';
 
 router.post("/", (req, res) => {
   if ((req.body.senha == senha) && (req.body.usuario == usuario)) {
-    req.session.login = usuario;
+    console.log('user', req.user);
     res.render('index');
   } else {
     res.render('login');
@@ -14,7 +14,8 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  if (req.session.login) {
+
+  if (req.user) {
     res.render('index');
   } else {
     res.render('login');

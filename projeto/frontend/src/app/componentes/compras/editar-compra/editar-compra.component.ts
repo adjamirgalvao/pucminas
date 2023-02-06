@@ -222,7 +222,7 @@ export class EditarCompraComponent implements OnInit {
       itensCompra: this.itensCompra
     };
 
-    this.salvando = true;
+    this.salvandoFormulario(true);
     this.cadastrarCompra(compra);
   }
 
@@ -322,12 +322,12 @@ export class EditarCompraComponent implements OnInit {
   private cadastrarCompra(compra: Compra) {
     this.compraService.criar(compra).pipe(catchError(
       err => {
-        this.salvando = false;
+        this.salvandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar compra!' });
         throw 'Erro ao cadastrar compra. Detalhes: ' + err;
       })).subscribe(
         () => {
-          this.salvando = false;
+          this.salvandoFormulario(false);
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `Compra cadastrada com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
@@ -391,4 +391,13 @@ export class EditarCompraComponent implements OnInit {
       }
       return 0;});
   }
+
+  private salvandoFormulario(salvando: boolean){
+    this.salvando = salvando;
+    if (salvando) {
+      this.formulario.disable();
+    } else {
+      this.formulario.enable();
+    }
+  }  
 }
