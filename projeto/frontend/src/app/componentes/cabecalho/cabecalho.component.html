@@ -41,17 +41,35 @@
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <!-- https://stackoverflow.com/questions/55587975/routerlinkactive-route-for-child-and-parent -->
                         <a ngbDropdownItem routerLink="/compras/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Compras</a>
-                        <a ngbDropdownItem routerLink="/compras/criarCompra" routerLinkActive="active">Nova compra</a>
+                        <a ngbDropdownItem routerLink="/compras/criarCompra" routerLinkActive="active">Nova Compra</a>
                     </div>
                 </li>
                 <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isMaster()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Vendas </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem routerLink="/vendas/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Vendas</a>
-                        <a ngbDropdownItem routerLink="/vendas/criarVenda" routerLinkActive="active">Nova venda</a>
+                        <a ngbDropdownItem routerLink="/vendas/criarVenda" routerLinkActive="active">Nova Venda</a>
                     </div>
                 </li>
+                <!--
+                <div>
+                <li class="nav-item " ngbDropdown>
+                    <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"><span class="text-uppercase"> {{ authService.getUsuario().login }}</span> </a>
+                    <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                        <a ngbDropdownItem routerLink="/logout/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Sair do Sistema</a>
+                    </div>
+                </li>     
+                </div>   
+                -->        
+            </ul>
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item " ngbDropdown>
+                    <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"><span class="text-uppercase"> {{ authService.getUsuario().login }}</span> </a>
+                    <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu" display="dynamic" >
+                        <a ngbDropdownItem routerLink="/logout/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Sair do Sistema</a>
+                    </div>
+                </li>   
             </ul>
         </div>
-    </div>
+</div>
 </nav>
