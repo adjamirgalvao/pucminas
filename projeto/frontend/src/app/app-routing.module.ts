@@ -1,4 +1,4 @@
-import { LogoutComponent } from './componentes/auth/logout/logout.component';
+import { LogoutComponent } from './componentes/autenticacao/logout/logout.component';
 import { NotfoundComponent } from './componentes/util/notfound/notfound.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
