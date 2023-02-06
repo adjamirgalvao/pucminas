@@ -5,11 +5,11 @@ import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioToken } from 'src/app/interfaces/UsuarioToken';
 import { TokenService } from '../token/token.service';
 
-const ADMIN = 'ADMINISTRADOR';
-const VENDEDOR = 'VENDEDOR';
-const ESTOQUE = 'ESTOQUE';
-const CLIENTE = 'CLIENTE';
-const MASTER = 'MASTER';
+export const ADMIN = 'ADMINISTRADOR';
+export const VENDEDOR = 'VENDEDOR';
+export const ESTOQUE = 'ESTOQUE';
+export const CLIENTE = 'CLIENTE';
+export const MASTER = 'MASTER';
 
 
 @Injectable({
@@ -17,7 +17,7 @@ const MASTER = 'MASTER';
 })
 
 export class AuthService {
-
+  
   private readonly API_USUARIO = 'http://localhost:8090/api/usuarios/login';
 
 
@@ -32,9 +32,6 @@ export class AuthService {
     return this.http.post<UsuarioToken>(this.API_USUARIO, usuario).pipe(tap(
       res => {
           this.tokenService.setToken(res);
-          console.log(res);
-          console.log(res.usuario);
-          console.log(res.token);
           return res;
     }));
   }
@@ -121,4 +118,21 @@ export class AuthService {
 
     return retorno;
   }
+
+  validarRoles(roles: any): boolean {
+    let  retorno = false;
+
+    if (roles && roles.length > 0) {
+      let usuario = this.getUsuario();
+
+      if (usuario && usuario.roles) {
+        for (let i in roles) {
+           retorno = retorno || usuario.roles.indexOf(roles[i]) > -1; 
+        } 
+      }   
+    }  
+
+    return retorno;
+}
+
 }  

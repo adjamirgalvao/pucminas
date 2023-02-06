@@ -17,7 +17,11 @@ import { ListarVendedoresComponent } from './componentes/vendedores/listar-vende
 import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedor/editar-vendedor.component';
 import { ListarVendasComponent } from './componentes/vendas/listar-vendas/listar-vendas.component';
 import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-venda.component';
+import { AuthGuard } from './autenticacao/services/auth/auth-guard.service';
+import { ESTOQUE, MASTER, VENDEDOR, ADMIN } from './autenticacao/services/auth/auth.service';
 
+//https://stackoverflow.com/questions/50624086/how-to-pass-parameters-to-constructor-of-canactivate
+  
 const routes: Routes = [
   {
     path: '',
@@ -39,99 +43,147 @@ const routes: Routes = [
   {
     path: 'produtos',
     component: ListarProdutosComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },
   {
     path: 'produtos/criarProduto',
     component: EditarProdutoComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },
    // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
   {
     path: 'produtos/:id',
-    component: EditarProdutoComponent 
+    component: EditarProdutoComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },
   {
     path: 'produtos/:id/editarProduto',
-    component: EditarProdutoComponent 
+    component: EditarProdutoComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]} 
   },
   {
     path: 'produtos/:id/cadastrarCompraProduto',
-    component: CriarCompraProdutoComponent
+    component: CriarCompraProdutoComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },  
   {
     path: 'produtos/:id/listarComprasProduto',
-    component: ListarComprasProdutoComponent
+    component: ListarComprasProdutoComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },  
   {
     path: 'fornecedores',
     component: ListarFornecedoresComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },
   {
     path: 'fornecedores/criarFornecedor',
-    component: EditarFornecedorComponent,
+    component: EditarFornecedorComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },
   {
     path: 'fornecedores/:id',
-    component: EditarFornecedorComponent 
+    component: EditarFornecedorComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]} 
   },
   {
     path: 'fornecedores/:id/editarFornecedor',
-    component: EditarFornecedorComponent 
+    component: EditarFornecedorComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]} 
   },
   {
     path: 'clientes',
-    component: ListarClientesComponent,
+    component: ListarClientesComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]}
   },
   {
     path: 'clientes/criarCliente',
-    component: EditarClienteComponent,
+    component: EditarClienteComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]}
   },
   {
     path: 'clientes/:id',
-    component: EditarClienteComponent 
+    component: EditarClienteComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]} 
   },
   {
     path: 'clientes/:id/editarCliente',
-    component: EditarClienteComponent 
+    component: EditarClienteComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]} 
   },
   {
     path: 'vendedores',
-    component: ListarVendedoresComponent,
+    component: ListarVendedoresComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ADMIN]}
   },
   {
     path: 'vendedores/criarVendedor',
-    component: EditarVendedorComponent,
+    component: EditarVendedorComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]}
   },
   {
     path: 'vendedores/:id',
-    component: EditarVendedorComponent 
+    component: EditarVendedorComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]} 
   },
   {
     path: 'vendedores/:id/editarVendedor',
-    component: EditarVendedorComponent 
+    component: EditarVendedorComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]} 
   },
   {
     path: 'compras',
-    component: ListarComprasComponent,
+    component: ListarComprasComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },
   {
     path: 'compras/criarCompra',
-    component: EditarCompraComponent,
+    component: EditarCompraComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]}
   },
   {
     path: 'compras/:id',
-    component: EditarCompraComponent 
+    component: EditarCompraComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ESTOQUE]} 
   },
   {
     path: 'vendas',
-    component: ListarVendasComponent,
+    component: ListarVendasComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]}
   },
   {
     path: 'vendas/criarVenda',
-    component: EditarVendaComponent,
+    component: EditarVendaComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]}
   },
   {
     path: 'vendas/:id',
-    component: EditarVendaComponent 
+    component: EditarVendaComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, VENDEDOR]} 
   },
   {
      path: '404', 
