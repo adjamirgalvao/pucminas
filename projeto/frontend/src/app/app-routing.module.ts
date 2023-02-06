@@ -19,6 +19,7 @@ import { ListarVendasComponent } from './componentes/vendas/listar-vendas/listar
 import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-venda.component';
 import { AuthGuard } from './autenticacao/services/auth/auth-guard.service';
 import { ESTOQUE, MASTER, VENDEDOR, ADMIN } from './autenticacao/services/auth/auth.service';
+import { LoginComponent } from './componentes/autenticacao/login/login.component';
 
 //https://stackoverflow.com/questions/50624086/how-to-pass-parameters-to-constructor-of-canactivate
   
@@ -34,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LogoutComponent //se quer ir para a página de login o sistema já faz o logout
+    component: LoginComponent //se quer ir para a página de login o sistema já faz o logout
   },
   {
     path: 'logout',

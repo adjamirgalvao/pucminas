@@ -1,7 +1,7 @@
 import { AuthService } from 'src/app/autenticacao/services/auth/auth.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Usuario } from 'src/app/interfaces/Usuario';
@@ -16,6 +16,12 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private service: AuthService,
     private router: Router) {
+      // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
+      // não pode ficar no OnInit 
+      let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
+      if (alerta) {
+         this.alertas.push(alerta);
+      }
     }
   formulario!: FormGroup;
 

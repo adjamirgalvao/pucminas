@@ -1,4 +1,4 @@
-
+<app-alerta [alertas]="alertas"></app-alerta>
 <app-login *ngIf="!authService.isLogado()"></app-login>
 <br/>
 <span *ngIf="authService.isLogado()"><p class="ms-5">Seja bem-vindo <span class="fw-bold text-capitalize">{{ authService.getUsuario()?.nome }}</span>!</span> 

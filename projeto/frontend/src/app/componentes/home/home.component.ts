@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/autenticacao/services/auth/auth.service';
+import { Alerta } from 'src/app/interfaces/Alerta';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,17 @@ import { AuthService } from 'src/app/autenticacao/services/auth/auth.service';
 })
 export class HomeComponent {
   constructor(
+    private router: Router,
     public authService: AuthService){
+      // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
+      // não pode ficar no OnInit 
+      let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
+      if (alerta) {
+         this.alertas.push(alerta);
+      }
  }
+
+ alertas: Alerta[] = [];
+
 
 }

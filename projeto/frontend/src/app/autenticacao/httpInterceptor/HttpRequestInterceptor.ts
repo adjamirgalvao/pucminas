@@ -27,12 +27,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             catchError((error) => {
               //https://stackoverflow.com/questions/64110465/redirect-and-cancel-request-using-interceptor-when-httpstatus-is-202
               if (error instanceof HttpErrorResponse && !req.url.includes('api/login') && error.status === 401) {
-                console.log('vai para o login');
                 this.tokenService.removeToken();
-                this.router.navigate(['/home']);
+                this.router.navigate(['/login'], {state: {alerta: {tipo: 'danger', mensagem: `Usuário não está logado. Efetue o login!`} }});
                 throw new Error('Precisa autenticar');
               }
-              console.log('vai para o login');
       
               return throwError(() => error);
             })

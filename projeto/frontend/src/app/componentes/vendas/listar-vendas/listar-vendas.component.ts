@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Venda } from 'src/app/interfaces/Venda';
@@ -18,7 +18,6 @@ import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-co
 export class ListarVendasComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private vendaService: VendaService,
     public confirmacao: MatDialog) {
