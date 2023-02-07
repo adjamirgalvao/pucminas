@@ -18,7 +18,7 @@ export const MASTER = 'MASTER';
 
 export class AuthService {
   
-  private readonly API_USUARIO = 'http://localhost:8090/api/usuarios/login';
+  private readonly API_AUTENTICACAO = 'http://localhost:8090/api/autenticacao/login';
 
 
 
@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   login(usuario: Usuario){
-    return this.http.post<UsuarioToken>(this.API_USUARIO, usuario).pipe(tap(
+    return this.http.post<UsuarioToken>(this.API_AUTENTICACAO, usuario).pipe(tap(
       res => {
           this.tokenService.setToken(res);
           return res;

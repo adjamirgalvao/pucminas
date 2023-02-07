@@ -12,7 +12,5 @@ router.post("/", passport.authenticate('jwt', { session: false }), UsuarioContro
 router.put("/:id", passport.authenticate('jwt', { session: false }), UsuarioController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), UsuarioController.delete);
-//login
-router.post("/login", UsuarioController.login);
 
 module.exports = router;

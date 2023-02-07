@@ -26,10 +26,15 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     return next.handle(requisicao).pipe(
             catchError((error) => {
               //https://stackoverflow.com/questions/64110465/redirect-and-cancel-request-using-interceptor-when-httpstatus-is-202
-              if (error instanceof HttpErrorResponse && !req.url.includes('api/login') && error.status === 401) {
-                this.tokenService.removeToken();
-                this.router.navigate(['/login'], {state: {alerta: {tipo: 'danger', mensagem: `Usuário não está logado. Efetue o login!`} }});
-                throw new Error('Precisa autenticar');
+              if (error instanceof HttpErrorResponse && !req.url.includes('api/login')) {
+                 if (error.status === 401) {
+                    this.tokenService.removeToken();
+                    this.router.navigate(['/login'], {state: {alerta: {tipo: 'danger', mensagem: `Usuário não está logado. Efetue o login!`} }});
+                    throw new Error('Precisa autenticar');
+                 } else if (error.status === 403) {
+                    this.router.navigate(['/home'], {state: {alerta: {tipo: 'danger', mensagem: `Usuário não possui permissão! `} }});
+                    throw new Error('Sem permissão');
+               }   
               }
       
               return throwError(() => error);
