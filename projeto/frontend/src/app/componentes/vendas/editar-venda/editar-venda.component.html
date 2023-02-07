@@ -12,10 +12,9 @@
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <header>
-            <h2 class="mat-h2">{{ operacao }} Venda <i *ngIf="this.formulario">{{this.formulario.get('numero')?.value}}</i></h2>
-        </header>
+    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <legend class="float-none w-auto">&nbsp;{{ operacao }} Venda <i *ngIf="this.formulario">{{this.formulario.get('numero')?.value}}</i>&nbsp;</legend>
+
         <form [formGroup]="formulario" *ngIf="!carregando" #formDirective="ngForm">
             <div>
                 <mat-form-field appearance="fill" class="me-3 mb-3">
@@ -98,9 +97,9 @@
                     </div>
                 </div>
                 <!-- Listagem de produtos da venda -->
-                <div class="grid gap-3 border rounded px-3 mt-3 mb-3">
-                    <h3>Produtos</h3>
-                    <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto adicionado a venda.</strong>
+                <fieldset class="grid gap-3 border rounded px-3 mt-3 mb-3">
+                    <legend class="float-none w-auto">&nbsp;Produtos&nbsp;</legend>
+                    <div class="mb-3 mt-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto adicionado a venda.</strong>
                     </div>
                     <div class="grid gap-3 border rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
                         <mat-table [dataSource]="dataSource" matSort>
@@ -152,7 +151,7 @@
                         <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]"
                             showFirstLastButtons></mat-paginator>
                     </div>
-                </div>
+                </fieldset>
 
             </mat-expansion-panel>
 
@@ -167,5 +166,5 @@
                     color="{{ leitura ? 'primary' : 'warn' }}" [disabled]="salvando">Voltar</button>
             </div>
         </form>
-    </div>
+    </fieldset>
 </section>

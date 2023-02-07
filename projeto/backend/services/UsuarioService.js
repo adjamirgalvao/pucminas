@@ -1,11 +1,12 @@
 const UsuarioModel = require("../models/UsuarioModel");
+const { ROLES } = require("../services/AutorizacaoService");
 
 module.exports = class UsuarioService {
 
   static async getAllUsuarios() {
     try {
       const todos = await UsuarioModel.find();
-      
+
       return todos;
     } catch (error) {
       console.log(`Erro ao recuperar Usuarios ${error.message}`);
@@ -16,14 +17,14 @@ module.exports = class UsuarioService {
   static async addUsuario(data, session) {
     try {
 
-      const novo =  {
+      const novo = {
         nome: data.nome,
         login: data.login,
         email: data.email,
         senha: data.senha,
-        roles: data.roles
-    };
-    const registro = await new UsuarioModel(novo).save({session});
+        roles: data.roles,
+      };
+      const registro = await new UsuarioModel(novo).save({ session });
 
       return registro;
     } catch (error) {
@@ -49,7 +50,7 @@ module.exports = class UsuarioService {
 
   static async updateUsuario(id, usuario, session) {
     try {
-      const registro = await UsuarioModel.updateOne({ _id: id} , {... usuario}, {session});
+      const registro = await UsuarioModel.updateOne({ _id: id }, { ...usuario }, { session });
 
       return registro;
     } catch (error) {
@@ -60,7 +61,7 @@ module.exports = class UsuarioService {
 
   static async deleteUsuario(id, session) {
     try {
-      const registro = await UsuarioModel.findOneAndDelete({ _id: id }, {session});
+      const registro = await UsuarioModel.findOneAndDelete({ _id: id }, { session });
 
       return registro;
     } catch (error) {

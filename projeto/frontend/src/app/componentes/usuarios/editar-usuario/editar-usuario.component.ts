@@ -6,6 +6,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { Location } from '@angular/common';
+import { ADMIN, MASTER, ESTOQUE, VENDEDOR, CLIENTE } from 'src/app/services/autenticacao/auth/auth.service';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -35,12 +36,15 @@ export class EditarUsuarioComponent implements OnInit {
   carregando: boolean = false;
   leitura: boolean = false;
 
+  rolesDisponiveis: string[] = [ADMIN, MASTER, ESTOQUE, VENDEDOR, CLIENTE];
+
   inicial: Usuario = {
     nome: '',
     login: '',
     email: '',
     senha: '',
     confirmacaoSenha: '',
+    roles: [],
   };
 
   operacao!: string;
@@ -90,8 +94,9 @@ export class EditarUsuarioComponent implements OnInit {
       login: this.formulario.value.login,
       email: this.formulario.value.email,
       senha: this.formulario.value.senha,
+      roles: this.formulario.value.roles,
     };
-
+    
     if (this.formulario.value.senha.length > 0){
       usuario.senha = this.formulario.value.senha;
     }
@@ -130,6 +135,7 @@ export class EditarUsuarioComponent implements OnInit {
         login: [{value: this.inicial.login, disabled: true}, Validators.required],
         senha: [{value: '', disabled: this.readOnly()}, Validators.required],
         confirmacaoSenha: [{value: '', disabled: this.readOnly()}, Validators.required],
+        roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
     });
     } else {  
        this.formulario = this.formBuilder.group({
@@ -143,7 +149,8 @@ export class EditarUsuarioComponent implements OnInit {
          login: [{value: this.inicial.login, disabled: this.readOnly()}, Validators.required],
          senha: [{value: '', disabled: this.readOnly()}, Validators.required],
          confirmacaoSenha: [{value: '', disabled: this.readOnly()}, Validators.required],
-      });
+         roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
+        });
     }
   }
 

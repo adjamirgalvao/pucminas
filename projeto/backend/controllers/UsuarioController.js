@@ -50,15 +50,30 @@ exports.add = async (req, res) => {
 exports.update = async (req, res) => {
   let id = req.params.id;
 
-  if (AutorizacaoService.isMesmoUsuario(req, id) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  let mesmoUsuario = AutorizacaoService.isMesmoUsuario(req, id);
+  let admin = AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER]);
+
+  if (mesmoUsuario || admin) {
     try {
-      const usuario = {
+      let usuario = {
         nome: req.body.nome,
         login: req.body.cpf,
         email: req.body.email,
-        senha: req.body.senha,
-        roles: req.body.roles
       };
+
+      let usuarioCorrente = await UsuarioService.getUsuariobyId(id);
+      //Só troca a senha se pedir para trocar a senha
+      if (req.body.senha){
+        usuario.senha = req.body.senha;
+      } else {
+        usuario.senha = usuarioCorrente.senha;
+      }
+      //Só troca as roles se for admin
+      if (admin){
+        usuario.roles = req.body.roles;
+      } else {
+        usuario.roles = usuarioCorrente.roles;
+      }
 
       console.log(usuario, id);
       const registro = await UsuarioService.updateUsuario(id, usuario);

@@ -32,7 +32,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from './constantes/Mydata';
-import { NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask} from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask} from 'ngx-mask';
+import { MatListModule } from '@angular/material/list';
 
 // Meus componentes
 import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
@@ -128,9 +129,9 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MatRadioModule,
     MatExpansionModule,
     MatAutocompleteModule,
+    MatListModule, 
     NgxMaskDirective,
-    NgxMaskPipe
-
+    NgxMaskPipe,
   ],
   providers: [
     httpInterceptorProviders, 
@@ -145,8 +146,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     },
 
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    provideEnvironmentNgxMask()
-
+    provideEnvironmentNgxMask(),
 ],
   bootstrap: [AppComponent]
 })

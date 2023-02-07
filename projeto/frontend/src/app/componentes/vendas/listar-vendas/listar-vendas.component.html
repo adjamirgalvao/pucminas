@@ -12,10 +12,8 @@
 <section class="pt-1 px-3 pb-3">
     <app-alerta [alertas]="alertas"></app-alerta>
 
-    <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <header class="header">
-            <h2 class="mat-h2">Listar Vendas</h2>
-        </header>
+    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <legend class="float-none w-auto">&nbsp;Listar Vendas&nbsp;</legend>
         <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhuma venda cadastrada.</strong>
         </div>
         <div class="grid gap-3 border rounded  px-3" *ngIf="dataSource.data.length > 0">
@@ -72,5 +70,5 @@
         <button mat-stroked-button [routerLink]="['/vendas/criarVenda']" [queryParams]="{ listar: true }"
             matTooltip="Nova Venda" color="primary">Nova Venda </button>  &nbsp;
         <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
-</div>
+    </fieldset>
 </section>

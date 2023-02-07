@@ -13,10 +13,9 @@
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <header class="header">
-            <h2 class="mat-h2">{{ operacao }} Vendedor <i *ngIf="this.formulario">{{this.formulario.get('nome')?.value}}</i></h2>
-        </header>
+    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <legend class="float-none w-auto">&nbsp;{{ operacao }} Vendedor <i *ngIf="this.formulario">{{this.formulario.get('nome')?.value}}</i>&nbsp;</legend>
+
         <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando" #formDirective="ngForm">
             <div class="mb-3">
                 <mat-form-field style="width: 70%;">
@@ -82,5 +81,5 @@
                     color="{{ leitura ? 'primary' : 'warn' }}" [disabled]="salvando">Voltar</button>
             </div>
         </form>
-    </div>
+    </fieldset>
 </section>
