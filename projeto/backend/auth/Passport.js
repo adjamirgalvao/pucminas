@@ -13,7 +13,6 @@ exports.applyPassportStrategy = (passport) => {
         if (err) {
           return done(err, false);
         } else if (usuarios && (usuarios.length == 1)) {
-          console.log('login ok');
           return done(null, {
             _id: usuarios[0]._id,
             email: usuarios[0].email,

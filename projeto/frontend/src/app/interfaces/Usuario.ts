@@ -3,6 +3,6 @@ export interface Usuario {
     email?: string,
     login?: string,
     nome?: string,
-    senha?: number,
+    senha?: string,
     roles?: String[],
   }

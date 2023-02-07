@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioToken } from 'src/app/interfaces/UsuarioToken';
 import { TokenService } from '../token/token.service';

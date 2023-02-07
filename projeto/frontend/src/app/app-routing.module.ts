@@ -17,8 +17,8 @@ import { ListarVendedoresComponent } from './componentes/vendedores/listar-vende
 import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedor/editar-vendedor.component';
 import { ListarVendasComponent } from './componentes/vendas/listar-vendas/listar-vendas.component';
 import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-venda.component';
-import { AuthGuard } from './autenticacao/services/auth/auth-guard.service';
-import { ESTOQUE, MASTER, VENDEDOR, ADMIN } from './autenticacao/services/auth/auth.service';
+import { AuthGuard } from './services/autenticacao/auth/auth-guard.service';
+import { ESTOQUE, MASTER, VENDEDOR, ADMIN } from './services/autenticacao/auth/auth.service';
 import { LoginComponent } from './componentes/autenticacao/login/login.component';
 import { ListarUsuariosComponent } from './componentes/usuarios/listar-usuarios/listar-usuarios.component';
 import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/editar-usuario.component';
