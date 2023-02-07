@@ -57,22 +57,16 @@ exports.update = async (req, res) => {
     try {
       let usuario = {
         nome: req.body.nome,
-        login: req.body.cpf,
         email: req.body.email,
       };
 
-      let usuarioCorrente = await UsuarioService.getUsuariobyId(id);
       //Só troca a senha se pedir para trocar a senha
       if (req.body.senha){
         usuario.senha = req.body.senha;
-      } else {
-        usuario.senha = usuarioCorrente.senha;
       }
       //Só troca as roles se for admin
       if (admin){
         usuario.roles = req.body.roles;
-      } else {
-        usuario.roles = usuarioCorrente.roles;
       }
 
       console.log(usuario, id);
