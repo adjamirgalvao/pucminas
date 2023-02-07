@@ -253,7 +253,7 @@ export class EditarVendaComponent implements OnInit {
 
   salvar(): void {
     // Criação da venda
-    const venda: Venda = {
+    let venda: Venda = {
       data: this.formulario.value.data,
       numero: this.formulario.value.numero,
       id_vendedor : this.formulario.value.vendedor._id,

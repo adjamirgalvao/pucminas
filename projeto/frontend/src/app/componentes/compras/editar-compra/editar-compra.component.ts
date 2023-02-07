@@ -215,7 +215,7 @@ export class EditarCompraComponent implements OnInit {
 
   salvar(): void {
     // Criação da compra
-    const compra: Compra = {
+    let compra: Compra = {
       data: this.formulario.value.data,
       numero: this.formulario.value.numero,
       id_fornecedor : this.formulario.value.fornecedor._id,

@@ -89,7 +89,7 @@ export class EditarVendedorComponent implements OnInit {
 
   salvar(): void {
     // Criação do vendedor
-    const vendedor: Vendedor = {
+    let vendedor: Vendedor = {
       nome: this.formulario.value.nome,
       cpf: this.formulario.value.cpf,
       salario: this.formulario.value.salario,

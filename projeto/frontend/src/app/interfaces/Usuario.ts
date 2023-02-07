@@ -4,5 +4,6 @@ export interface Usuario {
     login?: string,
     nome?: string,
     senha?: string,
+    confirmacaoSenha?: string,
     roles?: String[],
   }

@@ -89,7 +89,7 @@ export class EditarFornecedorComponent implements OnInit {
 
   salvar(): void {
     // Criação do fornecedor
-    const fornecedor: Fornecedor = {
+    let fornecedor: Fornecedor = {
       nome: this.formulario.value.nome,
       tipo: this.formulario.value.tipo,
       identificacao: this.formulario.value.identificacao,

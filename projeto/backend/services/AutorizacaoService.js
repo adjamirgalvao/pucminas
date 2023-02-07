@@ -12,6 +12,7 @@ class AutorizacaoService {
     let usuario = req.user;
     let retorno = false;
 
+    console.log('validarRoles', usuario);
     if (roles && roles.length > 0) {
      if (usuario && usuario.roles) {
        for (let i in roles) {
@@ -23,9 +24,8 @@ class AutorizacaoService {
    return retorno;
   };
 
-  static isMesmoUsuario= (req, id) => {
+  static isMesmoUsuario = (req, id) => {
     let usuario = req.user;
-    console.log('mesmo usuario', id,usuario._id, id == usuario._id);
 
     return id == usuario._id;
   };

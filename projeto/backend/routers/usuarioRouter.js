@@ -5,7 +5,7 @@ const UsuarioController = require("../controllers/UsuarioController");
 
 //get
 router.get("/", passport.authenticate('jwt', { session: false }), UsuarioController.getAll);
-router.get("/:id", UsuarioController.get);
+router.get("/:id", passport.authenticate('jwt', { session: false }), UsuarioController.get);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), UsuarioController.add);
 //update

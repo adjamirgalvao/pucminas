@@ -88,7 +88,7 @@ export class EditarClienteComponent implements OnInit {
 
   salvar(): void {
     // Criação do cliente
-    const cliente: Cliente = {
+    let cliente: Cliente = {
       nome: this.formulario.value.nome,
       dataNascimento: this.formulario.value.dataNascimento,
       cpf: this.formulario.value.cpf,

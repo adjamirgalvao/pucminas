@@ -87,7 +87,7 @@ export class EditarProdutoComponent implements OnInit {
 
   salvar(): void {
     // Criação do produto
-    const produto: Produto = {
+    let produto: Produto = {
       nome: this.formulario.value.nome,
       quantidade: this.formulario.value.quantidade,
       preco: this.formulario.value.preco,
