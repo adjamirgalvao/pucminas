@@ -13,13 +13,12 @@
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <header class="header">
-            <h2 class="mat-h2">Nova Compra do Produto <i>{{this.produto.nome}}</i></h2>
-        </header>
+    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <legend class="float-none w-auto">&nbsp;Nova Compra do Produto <i>{{this.produto.nome}}</i>&nbsp;</legend>
+
         <form [formGroup]="formulario" (ngSubmit)="comprarProduto()">
             <div class="mb-3">
-                <mat-form-field appearance="fill"  class="me-3" >
+                <mat-form-field appearance="fill" class="me-3" >
                     <mat-label>Data de compra</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="data">
                     <mat-error *ngIf="formulario.get('data')?.hasError('required') && formulario.get('data')?.touched">O campo é obrigatório!</mat-error>
@@ -72,5 +71,5 @@
                     color="warn" [disabled]="salvando">Voltar</button>
             </div>
         </form>
-    </div>
+    </fieldset>
 </section>

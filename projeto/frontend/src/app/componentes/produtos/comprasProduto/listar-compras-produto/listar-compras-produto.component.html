@@ -12,11 +12,8 @@
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="pt-1 px-3 pb-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-
-    <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <header class="header">
-            <h2 class="mat-h2">Gerenciar Compras do Produto <i> {{ produto.nome }}</i> </h2>
-        </header>
+    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <legend class="float-none w-auto h4">&nbsp;Gerenciar Compras do Produto <i> {{ produto.nome }}</i> &nbsp;</legend>
         <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhuma compra cadastrada para o produto.</strong>
         </div>
         <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
@@ -52,5 +49,5 @@
         <button mat-stroked-button [routerLink]="['/produtos/' + produto._id + '/cadastrarCompraProduto']" [queryParams]="{ listar: true }"
             matTooltip="Nova Compra" color="primary">Nova Compra </button>  &nbsp;
         <button mat-stroked-button routerLink="/produtos" matTooltip="Voltar" color="warn">Voltar</button>
-</div>
+    </fieldset>
 </section>
