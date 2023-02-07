@@ -20,7 +20,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ListarProdutosComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private produtoService: ProdutoService,
     public confirmacao: MatDialog) {

@@ -1,1 +1,63 @@
-<p>listar-usuarios works!</p>
+<div class="pt-1 ps-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item">Usuários</li>
+            <li class="breadcrumb-item active" aria-current="page">Listar Usuários</li>
+        </ol>
+    </nav>
+</div>
+<mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
+<section class="pt-1 px-3">
+    <app-alerta [alertas]="alertas"></app-alerta>
+
+    <div class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <header class="header">
+            <h2 class="mat-h2">Listar Usuários</h2>
+        </header>
+        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum usuário cadastrado.</strong>
+        </div>
+        <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
+            <mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="nome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+                    <mat-cell *matCellDef="let usuario">{{ usuario.nome }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="login">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Login</mat-header-cell>
+                    <mat-cell *matCellDef="let usuario">{{ usuario.login }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>E-mail</mat-header-cell>
+                    <mat-cell *matCellDef="let usuario">{{ usuario.email }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                    <mat-cell *matCellDef="let usuario">
+                        <div>
+                        <button mat-icon-button [routerLink]="['/usuarios/' + usuario._id]"
+                            matTooltip="Detalhar Usuário" [state]="{ operacao: 'Consultar' }">
+                            <mat-icon color="secondary">receipt</mat-icon>
+                        </button>
+                        <button mat-icon-button [routerLink]="['/usuarios/' + usuario._id + '/editarUsuario']"
+                            matTooltip="Editar Usuário">
+                            <mat-icon color="secondary">create</mat-icon>
+                        </button>
+                        <button mat-icon-button matTooltip="Excluir Usuario" (click)="confirmarExcluirUsuario(usuario)"
+                            [disabled]="excluindo" [class.spinner]="excluindo && (usuario._id == usuarioExcluido._id)">
+                            <mat-icon color="secondary">delete</mat-icon>
+                        </button>
+                    </div>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <br>
+        <button mat-stroked-button routerLink="/usuarios/criarUsuario" [queryParams]="{ listar: true }"
+            matTooltip="Novo Usuário" color="primary">Novo</button>  &nbsp;
+        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
+   </div>
+</section>

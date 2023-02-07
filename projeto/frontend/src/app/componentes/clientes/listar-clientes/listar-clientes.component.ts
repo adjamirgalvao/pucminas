@@ -15,7 +15,7 @@ import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-co
   templateUrl: './listar-clientes.component.html',
   styleUrls: ['./listar-clientes.component.css']
 })
-export class ListarClientesComponent  implements OnInit {
+export class ListarClientesComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,

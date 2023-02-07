@@ -18,7 +18,6 @@ import { CompraService } from 'src/app/services/compra/compra.service';
 export class ListarComprasComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private compraService: CompraService,
     public confirmacao: MatDialog) {

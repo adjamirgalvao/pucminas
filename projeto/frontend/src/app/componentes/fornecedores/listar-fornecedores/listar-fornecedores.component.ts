@@ -18,7 +18,6 @@ import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-co
 export class ListarFornecedoresComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private fornecedorService: FornecedorService,
     public confirmacao: MatDialog) {
