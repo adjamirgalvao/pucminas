@@ -59,6 +59,8 @@ import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-v
 import { httpInterceptorProviders } from './autenticacao/httpInterceptor/HttpRequestInterceptor';
 import { LoginComponent } from './componentes/autenticacao/login/login.component';
 import { LogoutComponent } from './componentes/autenticacao/logout/logout.component';
+import { ListarUsuariosComponent } from './componentes/usuarios/listar-usuarios/listar-usuarios.component';
+import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/editar-usuario.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -96,6 +98,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     EditarVendaComponent,
     LoginComponent,
     LogoutComponent,
+    ListarUsuariosComponent,
+    EditarUsuarioComponent,
    
   ],
   imports: [

@@ -20,6 +20,8 @@ import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-v
 import { AuthGuard } from './autenticacao/services/auth/auth-guard.service';
 import { ESTOQUE, MASTER, VENDEDOR, ADMIN } from './autenticacao/services/auth/auth.service';
 import { LoginComponent } from './componentes/autenticacao/login/login.component';
+import { ListarUsuariosComponent } from './componentes/usuarios/listar-usuarios/listar-usuarios.component';
+import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/editar-usuario.component';
 
 //https://stackoverflow.com/questions/50624086/how-to-pass-parameters-to-constructor-of-canactivate
   
@@ -40,6 +42,30 @@ const routes: Routes = [
   {
     path: 'logout',
     component: LogoutComponent
+  },
+  {
+    path: 'usuarios',
+    component: ListarUsuariosComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ADMIN]}
+  },
+  {
+    path: 'usuarios/criarUsuario',
+    component: EditarUsuarioComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ADMIN]}
+  },
+  {
+    path: 'usuarios/:id',
+    component: EditarUsuarioComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ADMIN]} 
+  },
+  {
+    path: 'usuarios/:id/editarUsuario',
+    component: EditarUsuarioComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER, ADMIN]} 
   },
   {
     path: 'produtos',
@@ -136,19 +162,19 @@ const routes: Routes = [
     path: 'vendedores/criarVendedor',
     component: EditarVendedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]}
+    data: {roles: [MASTER, ADMIN]}
   },
   {
     path: 'vendedores/:id',
     component: EditarVendedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]} 
+    data: {roles: [MASTER, ADMIN]} 
   },
   {
     path: 'vendedores/:id/editarVendedor',
     component: EditarVendedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]} 
+    data: {roles: [MASTER, ADMIN]} 
   },
   {
     path: 'compras',
