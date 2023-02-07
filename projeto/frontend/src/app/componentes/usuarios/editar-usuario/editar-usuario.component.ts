@@ -136,12 +136,12 @@ export class EditarUsuarioComponent implements OnInit {
         senha: [{value: '', disabled: this.readOnly()}, Validators.required],
         confirmacaoSenha: [{value: '', disabled: this.readOnly()}, Validators.required],
         roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
-    });
+      });
     } else {  
        this.formulario = this.formBuilder.group({
           nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
             Validators.required,
-           Validators.pattern(/(.|\s)*\S(.|\s)*/)
+            Validators.pattern(/(.|\s)*\S(.|\s)*/)
          ])],
          email: [{value: this.inicial.email, disabled: this.readOnly()}, Validators.compose([
            Validators.required,

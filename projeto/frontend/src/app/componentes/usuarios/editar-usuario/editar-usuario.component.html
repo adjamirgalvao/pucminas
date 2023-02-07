@@ -56,10 +56,10 @@
                 </mat-form-field>
             </div>
             <fieldset class="border rounded p-2 mb-3">
-                <legend class="float-none w-auto how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29">&nbsp;Perfis do Usuário&nbsp;</legend>
-                <mat-selection-list formControlName="roles">
+                <legend class="float-none w-auto h6">&nbsp;Perfis do Usuário&nbsp;</legend>
+                <mat-selection-list formControlName="roles" color="primary">
                     <mat-list-option *ngFor="let role of rolesDisponiveis" [value]="role">
-                      {{ role }}
+                      {{ role | titlecase }}
                     </mat-list-option>
                   </mat-selection-list> 
              </fieldset>
