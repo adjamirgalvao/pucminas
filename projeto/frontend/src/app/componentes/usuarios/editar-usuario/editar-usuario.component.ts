@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
@@ -133,10 +133,14 @@ export class EditarUsuarioComponent implements OnInit {
           Validators.required,
           Validators.email])],
         login: [{value: this.inicial.login, disabled: true}, Validators.required],
-        senha: [{value: '', disabled: this.readOnly()}, Validators.required],
-        confirmacaoSenha: [{value: '', disabled: this.readOnly()}, Validators.required],
+        senha: [{value: '', disabled: this.readOnly()}, Validators.compose([
+          Validators.pattern(/(.|\s)*\S(.|\s)*/),
+        ])],
+        confirmacaoSenha: [{value: '', disabled: this.readOnly()}, Validators.compose([
+          Validators.pattern(/(.|\s)*\S(.|\s)*/),
+        ])],
         roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
-      });
+      }, { validator: this.senhaValidator });
     } else {  
        this.formulario = this.formBuilder.group({
           nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
@@ -147,10 +151,46 @@ export class EditarUsuarioComponent implements OnInit {
            Validators.required,
            Validators.email])],
          login: [{value: this.inicial.login, disabled: this.readOnly()}, Validators.required],
-         senha: [{value: '', disabled: this.readOnly()}, Validators.required],
-         confirmacaoSenha: [{value: '', disabled: this.readOnly()}, Validators.required],
+         senha: [{value: '', disabled: this.readOnly()},  Validators.compose([
+          Validators.required,
+          Validators.pattern(/(.|\s)*\S(.|\s)*/),
+        ])],
+         confirmacaoSenha: [{value: '', disabled: this.readOnly()},  Validators.compose([
+          Validators.required,
+          Validators.pattern(/(.|\s)*\S(.|\s)*/),
+        ])],
          roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
-        });
+        }, { validator: this.senhaValidator });
+    }
+  }
+
+  // https://stackoverflow.com/questions/46181312/angular-form-validation-compare-two-fields
+  senhaValidator(c: AbstractControl) {
+    //safety check
+    console.log('aqui');
+    if (!c.get('senha')?.value && !c.get('confirmacaoSenha')?.value) { 
+      c.get('confirmacaoSenha')?.setErrors(null);
+      return null; 
+    } else if (!c.get('senha')?.value != !c.get('confirmacaoSenha')?.value) { 
+      c.get('confirmacaoSenha')?.setErrors({confirmacao: true});
+      return {'confirmacao': true} ;
+    } else if (c.get('senha')?.value != c.get('confirmacaoSenha')?.value) {
+      c.get('confirmacaoSenha')?.setErrors({confirmacao: true});
+      return {'confirmacao': true} ;
+    } else {
+      c.get('confirmacaoSenha')?.setErrors(null);
+      return null;
+    }
+  }
+
+
+  confirmacaoValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      console.log('validação', control.value, this.formulario?.value.senha);
+      if ((control.value !== undefined) && this.formulario && (this.formulario.value.senha != control.value)) {
+        return { 'confirmacao': true };
+      }
+      return null;
     }
   }
 

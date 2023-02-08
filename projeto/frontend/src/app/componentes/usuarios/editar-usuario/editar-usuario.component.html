@@ -51,7 +51,7 @@
                     <mat-label>Confirme a senha</mat-label>
                     <input formControlName="confirmacaoSenha" matInput type="password" placeholder="Digite a senha novamente">
                     <mat-error *ngIf="formulario.get('confirmacaoSenha')?.hasError('required')">O campo é obrigatório!</mat-error>
-                    <mat-error *ngIf="!formulario.get('senha')?.hasError('required') && !formulario.get('confirmacaoSenha')?.hasError('required') && formulario.get('confirmacaoSenha')?.hasError('diferente')">Senha diferente!</mat-error>
+                    <mat-error *ngIf="!formulario.get('senha')?.hasError('required') && !formulario.get('confirmacaoSenha')?.hasError('required') && formulario.get('confirmacaoSenha')?.hasError('confirmacao')">A confirmação da senha é diferente da senha!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Consultar')">Digite a senha novamente.</mat-hint>
                 </mat-form-field>
             </div>
@@ -61,8 +61,9 @@
                     <mat-list-option *ngFor="let role of rolesDisponiveis" [value]="role">
                       {{ role | titlecase }}
                     </mat-list-option>
-                  </mat-selection-list> 
-             </fieldset>
+                </mat-selection-list> 
+                <mat-error class="me-3" *ngIf="formulario.get('roles')?.touched && formulario.get('roles')?.hasError('required')">O campo é obrigatório!</mat-error>
+            </fieldset>
             <div class="acoes">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
                 <button *ngIf="!leitura" type="submit" mat-stroked-button matTooltip="Salvar o usuário" color="primary"
