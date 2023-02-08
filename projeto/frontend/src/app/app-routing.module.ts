@@ -48,6 +48,10 @@ const routes: Routes = [
     component: EditarUsuarioComponent, 
   },
   {
+    path: 'atualizarPerfil',
+    component: EditarUsuarioComponent, 
+  },
+  {
     path: 'usuarios',
     component: ListarUsuariosComponent, 
     canActivate: [AuthGuard],

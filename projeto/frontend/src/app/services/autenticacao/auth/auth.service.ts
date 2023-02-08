@@ -20,8 +20,6 @@ export class AuthService {
   
   private readonly API_AUTENTICACAO = 'http://localhost:8090/api/autenticacao/login';
 
-
-
   constructor(
     private http: HttpClient,
     private tokenService: TokenService,) { 
@@ -47,6 +45,10 @@ export class AuthService {
   getUsuario(): any {
     return this.tokenService.getUsuario();
   }  
+
+  setUsuario(usuario: Usuario) {
+    this.tokenService.setUsuario(usuario);
+  }
 
   isAdmin() : boolean{
     let retorno = false;

@@ -62,7 +62,7 @@ module.exports = class UsuarioService {
     let erro = false;
     try {
       let usuarios = await UsuarioModel.find({ email: usuario.email });
-      if ((usuarios.length > 0) && (usuarios[0]._id != usuario._id)) {
+      if ((usuarios.length > 0) && (usuarios[0]._id !=  id)) {
         erro = true;
         throw new Error('Usuário não pode ser alterado pois já existe um usuário com mesmo email.');
       }
