@@ -62,7 +62,7 @@ exports.update = async (req, res) => {
 
       //Só troca a senha se pedir para trocar a senha
       if (req.body.senha){
-        usuario.senha = req.body.senha;
+        usuario.senha = AutorizacaoService.criptografar(req.body.senha);
       }
       //Só troca as roles se for admin
       if (admin){

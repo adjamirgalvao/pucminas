@@ -1,3 +1,5 @@
+const SHAJS = require("sha.js");
+
 const ROLES = Object.freeze({
     ADMIN: 'ADMINISTRADOR',
     VENDEDOR: 'VENDEDOR',
@@ -30,9 +32,13 @@ class AutorizacaoService {
     return id == usuario._id;
   };
 
-  static isNovoUsuarioCliente= (body) => {
+  static isNovoUsuarioCliente = (body) => {
     let roles = body.roles;
     return (roles && (roles.length == 1) && (roles.indexOf(ROLES.CLIENTE) > -1));
+  };
+
+  static criptografar = (dado) => {
+    return SHAJS('sha256').update(dado).digest('hex');
   };
 }
 

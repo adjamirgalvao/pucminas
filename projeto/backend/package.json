@@ -20,7 +20,8 @@
     "mongoose": "^6.8.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "sha.js": "^2.4.11"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

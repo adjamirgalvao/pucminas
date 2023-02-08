@@ -1,4 +1,5 @@
 const UsuarioModel = require("../models/UsuarioModel");
+const { AutorizacaoService } = require("../services/AutorizacaoService");
 
 module.exports = class UsuarioService {
 
@@ -21,7 +22,7 @@ module.exports = class UsuarioService {
         nome: data.nome,
         login: data.login,
         email: data.email,
-        senha: data.senha,
+        senha: AutorizacaoService.criptografar(data.senha),
         roles: data.roles,
       };
       //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions

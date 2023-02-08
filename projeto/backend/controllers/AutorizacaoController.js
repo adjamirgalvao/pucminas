@@ -1,13 +1,14 @@
 const UsuarioService = require("../services/UsuarioService");
 const jwt = require('jsonwebtoken');
 const Config = require('../config/config');
+const { AutorizacaoService } = require("../services/AutorizacaoService");
 
 exports.login = async (req, res) => {
   try {
     let {login, senha} = req.body;
     const usuarios = await UsuarioService.find({login: login});
 
-    if (usuarios && (usuarios.length == 1) && (usuarios[0].senha == senha)) {
+    if (usuarios && (usuarios.length == 1) && (usuarios[0].senha == AutorizacaoService.criptografar(senha))) {
           // Sign token
           const token = jwt.sign({ login }, Config.passport.secret, {
             expiresIn: Config.passport.expiresIn,
