@@ -44,6 +44,10 @@ const routes: Routes = [
     component: LogoutComponent
   },
   {
+    path: 'registrar',
+    component: EditarUsuarioComponent, 
+  },
+  {
     path: 'usuarios',
     component: ListarUsuariosComponent, 
     canActivate: [AuthGuard],

@@ -26,6 +26,9 @@ export class EditarUsuarioComponent implements OnInit {
       if (modo) {
          this.operacao = modo;
       }
+      if (this.router.url.indexOf('/registrar') > -1) {
+        this.operacao = 'Registrar';
+      }
     }
   formulario!: FormGroup;
 
@@ -57,14 +60,16 @@ export class EditarUsuarioComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
+    if (!this.operacao) {
+      this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
+    }
 
     if (this.operacao == 'Consultar'){
       this.leitura = true;
     }
 
     this.criarFormulario();
-    if (this.operacao != 'Cadastrar') {
+    if ((this.operacao == 'Consultar') || (this.operacao == 'Editar')){
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
@@ -94,15 +99,19 @@ export class EditarUsuarioComponent implements OnInit {
       login: this.formulario.value.login,
       email: this.formulario.value.email,
       senha: this.formulario.value.senha,
-      roles: this.formulario.value.roles,
     };
+    if (this.operacao != 'Registrar') {
+      usuario.roles = this.formulario.value.roles;
+    } else {
+      usuario.roles = [CLIENTE];
+    }
     
     if (this.formulario.value.senha.length > 0){
       usuario.senha = this.formulario.value.senha;
     }
 
     this.salvandoFormulario(true);
-    if (this.operacao == 'Cadastrar') {
+    if (this.operacao != 'Editar') {
       this.cadastrarUsuario(usuario);
     } else {
       usuario._id = this.inicial._id!;
@@ -141,7 +150,7 @@ export class EditarUsuarioComponent implements OnInit {
         ])],
         roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
       }, { validator: this.senhaValidator });
-    } else {  
+    } if ((this.operacao == 'Cadastrar') || (this.operacao == 'Consultar')) {
        this.formulario = this.formBuilder.group({
           nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
             Validators.required,
@@ -161,6 +170,25 @@ export class EditarUsuarioComponent implements OnInit {
         ])],
          roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
         }, { validator: this.senhaValidator });
+    } else {
+      this.formulario = this.formBuilder.group({
+        nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
+          Validators.required,
+          Validators.pattern(/(.|\s)*\S(.|\s)*/)
+       ])],
+       email: [{value: this.inicial.email, disabled: this.readOnly()}, Validators.compose([
+         Validators.required,
+         Validators.email])],
+       login: [{value: this.inicial.login, disabled: this.readOnly()}, Validators.required],
+       senha: [{value: '', disabled: this.readOnly()},  Validators.compose([
+        Validators.required,
+        Validators.pattern(/(.|\s)*\S(.|\s)*/),
+      ])],
+       confirmacaoSenha: [{value: '', disabled: this.readOnly()},  Validators.compose([
+        Validators.required,
+        Validators.pattern(/(.|\s)*\S(.|\s)*/),
+      ])],
+      }, { validator: this.senhaValidator });      
     }
   }
 
@@ -195,18 +223,22 @@ export class EditarUsuarioComponent implements OnInit {
   }
 
   private cadastrarUsuario(usuario: Usuario) {
-    this.service.criar(usuario).pipe(catchError(
+    this.service.criar(usuario, this.operacao).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar usuário! Detalhes: ${err.error?.error}` });
         throw 'Erro ao cadastrar usuário. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
-          this.salvandoFormulario(false);
-          this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Usuário "${usuario.nome}" cadastrado com sucesso!` });
-          //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
-          this.formDirective.resetForm(this.inicial);
+          if (this.operacao != 'Registrar') {
+            this.salvandoFormulario(false);
+            this.alertas = [];
+            this.alertas.push({ tipo: 'success', mensagem: `Usuário "${usuario.nome}" cadastrado com sucesso!` });
+            //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
+            this.formDirective.resetForm(this.inicial);
+          } else {
+            this.router.navigate(['/home'],  {state: {alerta: {tipo: 'success', mensagem: `Usuário "${usuario.nome}" registrado com sucesso!`} }});
+          }  
         });
   }
 
@@ -235,7 +267,9 @@ export class EditarUsuarioComponent implements OnInit {
       this.formulario.disable();
     } else {
       this.formulario.enable();
-      this.formulario.get('login')?.disable();
+      if (this.operacao == 'Editar') {
+        this.formulario.get('login')?.disable();
+      }
     }
   }
 

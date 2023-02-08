@@ -18,9 +18,13 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(this.API_USUARIO);
   }
 
-  criar(usuario: Usuario): Observable<Usuario> {
+  criar(usuario: Usuario, operacao: string): Observable<Usuario> {
     console.log(usuario);
-    return this.http.post<Usuario>(this.API_USUARIO, usuario);
+    if (operacao == 'Cadastrar') {
+      return this.http.post<Usuario>(this.API_USUARIO, usuario);
+    } else {
+      return this.http.post<Usuario>(this.API_USUARIO + '/registrar', usuario);
+    }
   }
 
   buscarPorId(id: string): Observable<Usuario> {
