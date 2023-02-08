@@ -64,7 +64,7 @@ export class EditarUsuarioComponent implements OnInit {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     let id = this.route.snapshot.paramMap.get('id');
 
-    if (this.operacao = 'Editar Perfil do') {
+    if (this.operacao == 'Editar Perfil do') {
       id = this.authService.getUsuario()._id;
     }
 
@@ -238,7 +238,7 @@ export class EditarUsuarioComponent implements OnInit {
             //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
             this.formDirective.resetForm(this.inicial);
           } else {
-            this.router.navigate(['/home'],  {state: {alerta: {tipo: 'success', mensagem: `Usuário "${usuario.nome}" registrado com sucesso!`} }});
+            this.router.navigate(['/home'],  {state: {alerta: {tipo: 'success', mensagem: `Usuário "${usuario.nome}" registrado com sucesso! Efetue o login.`} }});
           }  
         });
   }
