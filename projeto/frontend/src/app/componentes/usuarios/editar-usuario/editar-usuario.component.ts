@@ -235,6 +235,7 @@ export class EditarUsuarioComponent implements OnInit {
       this.formulario.disable();
     } else {
       this.formulario.enable();
+      this.formulario.get('login')?.disable();
     }
   }
 

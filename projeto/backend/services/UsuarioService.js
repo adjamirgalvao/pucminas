@@ -1,5 +1,4 @@
 const UsuarioModel = require("../models/UsuarioModel");
-const { ROLES } = require("../services/AutorizacaoService");
 
 module.exports = class UsuarioService {
 
@@ -15,6 +14,7 @@ module.exports = class UsuarioService {
   }
 
   static async addUsuario(data, session) {
+    let erro = false;
     try {
 
       const novo = {
@@ -24,12 +24,22 @@ module.exports = class UsuarioService {
         senha: data.senha,
         roles: data.roles,
       };
+      //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
+      let usuarios = await UsuarioModel.find({ $or: [{ login: novo.login }, { email: novo.email }] });
+      if (usuarios.length > 0) {
+        erro = true;
+        throw new Error('Usuário não pode ser criado pois já existe um usuário com mesmo login ou email.');
+      }
       const registro = await new UsuarioModel(novo).save({ session });
 
       return registro;
     } catch (error) {
       console.log(error);
-      throw new Error(`Usuario não pode ser criado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(`Usuario não pode ser criado ${error.message}`);
+      }
     }
   }
 
@@ -49,13 +59,23 @@ module.exports = class UsuarioService {
   }
 
   static async updateUsuario(id, usuario, session) {
+    let erro = false;
     try {
+      let usuarios = await UsuarioModel.find({ email: usuario.email });
+      if ((usuarios.length > 0) && (usuarios[0]._id != usuario._id)) {
+        erro = true;
+        throw new Error('Usuário não pode ser alterado pois já existe um usuário com mesmo email.');
+      }
       const registro = await UsuarioModel.updateOne({ _id: id }, { ...usuario }, { session });
 
       return registro;
     } catch (error) {
       console.log(`Usuario ${id} não pode ser atualizado ${error.message}`);
-      throw new Error(`Usuario ${id} não pode ser atualizado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(`Usuario ${id} não pode ser atualizado ${error.message}`);
+      }
     }
   }
 

@@ -32,7 +32,7 @@ class AutorizacaoService {
 
   static isNovoUsuarioCliente= (body) => {
     let roles = body.roles;
-    return (roles && (roles.length == 1) && (usuario.roles.indexOf(ROLES.CLIENTE) > -1));
+    return (roles && (roles.length == 1) && (roles.indexOf(ROLES.CLIENTE) > -1));
   };
 }
 
