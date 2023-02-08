@@ -6,7 +6,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { Location } from '@angular/common';
-import { ADMIN, MASTER, ESTOQUE, VENDEDOR, CLIENTE } from 'src/app/services/autenticacao/auth/auth.service';
+import { ADMIN, MASTER, ESTOQUE, VENDEDOR, CLIENTE, AuthService } from 'src/app/services/autenticacao/auth/auth.service';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -19,7 +19,8 @@ export class EditarUsuarioComponent implements OnInit {
     private service: UsuarioService,
     private location: Location,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private authService: AuthService,) {
       // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
       // não pode ficar no OnInit 
       let modo = this.router.getCurrentNavigation()?.extras.state?.['operacao'];
@@ -29,6 +30,9 @@ export class EditarUsuarioComponent implements OnInit {
       // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
       if (this.router.url.indexOf('/registrar') > -1) {
         this.operacao = 'Registrar';
+      }
+      if (this.router.url.indexOf('/atualizarPerfil') > -1) {
+        this.operacao = 'Editar Perfil do';
       }
     }
   formulario!: FormGroup;
@@ -58,7 +62,11 @@ export class EditarUsuarioComponent implements OnInit {
   
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
-    const id = this.route.snapshot.paramMap.get('id');
+    let id = this.route.snapshot.paramMap.get('id');
+
+    if (this.operacao = 'Editar Perfil do') {
+      id = this.authService.getUsuario()._id;
+    }
 
     console.log('id ', id);
     if (!this.operacao) {
@@ -70,7 +78,7 @@ export class EditarUsuarioComponent implements OnInit {
     }
 
     this.criarFormulario();
-    if ((this.operacao == 'Consultar') || (this.operacao == 'Editar')){
+    if ((this.operacao == 'Consultar') || (this.operacao == 'Editar') || (this.operacao == 'Editar Perfil do')){
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
@@ -101,10 +109,13 @@ export class EditarUsuarioComponent implements OnInit {
       email: this.formulario.value.email,
       senha: this.formulario.value.senha,
     };
-    if (this.operacao != 'Registrar') {
-      usuario.roles = this.formulario.value.roles;
-    } else {
-      usuario.roles = [CLIENTE];
+
+    if (this.operacao != 'Editar Perfil do'){
+      if (this.operacao != 'Registrar') {
+        usuario.roles = this.formulario.value.roles;
+      } else {
+        usuario.roles = [CLIENTE];
+      }
     }
     
     if (this.formulario.value.senha.length > 0){
@@ -112,10 +123,11 @@ export class EditarUsuarioComponent implements OnInit {
     }
 
     this.salvandoFormulario(true);
-    if (this.operacao != 'Editar') {
+    if ((this.operacao != 'Editar') && (this.operacao != 'Editar Perfil do')) {
       this.cadastrarUsuario(usuario);
     } else {
       usuario._id = this.inicial._id!;
+      console.log('editar', usuario);
       this.editarUsuario(usuario);
     }
   }
@@ -133,7 +145,7 @@ export class EditarUsuarioComponent implements OnInit {
 
   private criarFormulario() {
     //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
-    if (this.operacao == 'Editar') {
+    if ((this.operacao == 'Editar') || (this.operacao == 'Editar Perfil do')) {
       this.formulario = this.formBuilder.group({
         nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
           Validators.required,
@@ -196,7 +208,6 @@ export class EditarUsuarioComponent implements OnInit {
   // https://stackoverflow.com/questions/46181312/angular-form-validation-compare-two-fields
   senhaValidator(c: AbstractControl) {
     //safety check
-    console.log('aqui');
     if (!c.get('senha')?.value && !c.get('confirmacaoSenha')?.value) { 
       c.get('confirmacaoSenha')?.setErrors(null);
       return null; 
@@ -208,17 +219,6 @@ export class EditarUsuarioComponent implements OnInit {
       return {'confirmacao': true} ;
     } else {
       c.get('confirmacaoSenha')?.setErrors(null);
-      return null;
-    }
-  }
-
-
-  confirmacaoValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      console.log('validação', control.value, this.formulario?.value.senha);
-      if ((control.value !== undefined) && this.formulario && (this.formulario.value.senha != control.value)) {
-        return { 'confirmacao': true };
-      }
       return null;
     }
   }
@@ -256,9 +256,19 @@ export class EditarUsuarioComponent implements OnInit {
         throw 'Erro ao editar usuário. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
+          let alerta = {tipo: 'success', mensagem: `Usuário "${usuario.nome}" salvo com sucesso!`};
           this.salvandoFormulario(false);
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
-          this.router.navigate(['/usuarios'],  {state: {alerta: {tipo: 'success', mensagem: `Usuário "${usuario.nome}" salvo com sucesso!`} }});
+          if (this.operacao == 'Editar') {
+            this.router.navigate(['/usuarios'],  {state: { alerta }});
+          } else {
+            // Como estes campos não estão habilitados eles vem como undefined na hora de salvar o formulário
+            usuario.login = this.inicial.login;
+            usuario.roles = this.inicial.roles;
+            //Atualizo o token local para mostrar o usuário logado corretamente.
+            this.authService.setUsuario(usuario);
+            this.router.navigate(['/home'],  {state: { alerta }});
+          }
         });
   }
 
@@ -268,7 +278,7 @@ export class EditarUsuarioComponent implements OnInit {
       this.formulario.disable();
     } else {
       this.formulario.enable();
-      if (this.operacao == 'Editar') {
+      if ((this.operacao == 'Editar') || (this.operacao == 'Editar Perfil do')) {
         this.formulario.get('login')?.disable();
       }
     }
