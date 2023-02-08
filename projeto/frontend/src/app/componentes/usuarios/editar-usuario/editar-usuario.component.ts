@@ -26,6 +26,7 @@ export class EditarUsuarioComponent implements OnInit {
       if (modo) {
          this.operacao = modo;
       }
+      // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
       if (this.router.url.indexOf('/registrar') > -1) {
         this.operacao = 'Registrar';
       }
@@ -150,7 +151,7 @@ export class EditarUsuarioComponent implements OnInit {
         ])],
         roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
       }, { validator: this.senhaValidator });
-    } if ((this.operacao == 'Cadastrar') || (this.operacao == 'Consultar')) {
+    } else if ((this.operacao == 'Cadastrar') || (this.operacao == 'Consultar')) {
        this.formulario = this.formBuilder.group({
           nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
             Validators.required,
