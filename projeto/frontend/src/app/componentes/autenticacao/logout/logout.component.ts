@@ -14,11 +14,19 @@ export class LogoutComponent implements OnInit{
     private authService : AuthService,
     private router: Router
   ) {}
+  
+  logadoGoogle = false;
 
   ngOnInit(): void {
+    this.socialAuthService.authState.subscribe((user) => {
+      this.logadoGoogle = (user != null);
+    });    
+
     this.authService.logout();
-    console.log('state', this.socialAuthService.authState);
-    this.socialAuthService.signOut();
+    if (this.logadoGoogle){
+      this.socialAuthService.signOut();
+    }  
+
     this.router.navigate(['/home']);
   }
 

@@ -56,7 +56,7 @@ exports.loginGoogle = async (req, res) => {
         roles: [ROLES.CLIENTE],
       };
 
-      usuario = await UsuarioService.addUsuario(usuario);
+      usuario = await UsuarioService.addUsuario(novo);
     } else if (usuarios && (usuarios.length == 1)) {
 
       //https://stackoverflow.com/questions/23342558/why-cant-i-delete-a-mongoose-models-object-properties

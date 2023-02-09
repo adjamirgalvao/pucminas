@@ -33,10 +33,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.criarFormulario();
     this.socialAuthService.authState.subscribe((user) => {
-      //this.user = user;
-      //this.loggedIn = (user != null);
-      console.log('logado google', user);
-      if (user) {
+      if ((user) && !this.logando){
+        console.log('login google');
         this.logandoFormulario(true);
         this.logarGoogle(user);
       }
@@ -70,7 +68,6 @@ export class LoginComponent implements OnInit {
         throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
-          this.logandoFormulario(false);
           this.alertas = [];
           this.router.navigate(['/home']);
         });
@@ -84,7 +81,6 @@ export class LoginComponent implements OnInit {
         throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
-          this.logandoFormulario(false);
           this.alertas = [];
           this.router.navigate(['/home']);
         });
