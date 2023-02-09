@@ -65,7 +65,7 @@ export class EditarUsuarioComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get('id');
 
     if (this.operacao == 'Editar Perfil do') {
-      id = this.authService.getUsuario()._id;
+      id = this.authService.getUsuario()._id!;
     }
 
     console.log('id ', id);

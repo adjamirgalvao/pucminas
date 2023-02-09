@@ -16,6 +16,25 @@ exports.get = async (req, res) => {
   }  
 };
 
+exports.getByEmail = async (req, res) => {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.MASTER])) {
+    let email = req.params.email;
+
+    try {
+      const registro = await VendedorService.getVendedorbyEmail(email);
+      if (registro) {
+        res.json(registro);
+      } else {
+        res.status(404).json({ error: 'Vendedor não encontrado.' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  } else {
+    res.status(403).json({ error: 'Acesso negado' });
+  }  
+};
+
 exports.getAll = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
     try {

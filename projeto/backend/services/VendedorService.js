@@ -43,6 +43,21 @@ module.exports = class VendedorService {
     }
   }
 
+  static async getVendedorbyEmail(email) {
+    let registro = null;
+    try {
+      const registros = await VendedorModel.find({ email: email });
+
+      if (registros && registros.length == 1){
+        registro = registros[0];
+      }
+      return registro;
+    } catch (error) {
+      console.log(`Vendedor ${vendedorId} não encontrado ${error.message}`);
+      throw new Error(`Vendedor ${vendedorId} não encontrado ${error.message}`);
+    }
+  }
+
   static async updateVendedor(id, vendedor, session) {
     try {
       const registro = await VendedorModel.updateOne({ _id: id} , {... vendedor}, {session});

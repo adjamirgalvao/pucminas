@@ -27,6 +27,10 @@ export class VendedorService {
     return this.http.get<Vendedor>(this.API_CLIENTE + '' + id);
   }
 
+  buscarPorEmail(email: string): Observable<Vendedor> {
+    return this.http.get<Vendedor>(this.API_CLIENTE + 'email/' + email);
+  }  
+
   editar(vendedor: Vendedor): Observable<Vendedor> {
     return this.http.put<Vendedor>(this.API_CLIENTE + '' + vendedor._id, vendedor);
   }

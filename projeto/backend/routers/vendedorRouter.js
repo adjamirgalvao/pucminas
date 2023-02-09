@@ -6,6 +6,7 @@ const VendedorController = require("../controllers/VendedorController");
 //get
 router.get("/", passport.authenticate('jwt', { session: false }), VendedorController.getAll);
 router.get("/:id", passport.authenticate('jwt', { session: false }), VendedorController.get);
+router.get("/email/:email", passport.authenticate('jwt', { session: false }), VendedorController.getByEmail);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), VendedorController.add);
 //update

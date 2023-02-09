@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/autenticacao/auth/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, ValidatorFn, AbstractControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,6 +29,7 @@ export class EditarVendaComponent implements OnInit {
     private vendaService: VendaService,
     private produtoService: ProdutoService,
     private vendedorService: VendedorService,
+    private authService: AuthService,
     private location: Location,
     private router: Router,
     private route: ActivatedRoute,
@@ -194,6 +196,20 @@ export class EditarVendaComponent implements OnInit {
       this.displayedColumns.push('actions');
     } else {
       this.leitura = true;
+    }
+    if (this.authService.isLogado() && this.authService.isVendedor()){
+      this.vendedorService.buscarPorEmail(this.authService.getUsuario().email!).pipe(catchError(
+        err => {
+          //this.erroCarregando = true;
+          this.carregando = false;
+          if (err.status == 404){
+            this.alertas.push({ tipo: 'warning', mensagem: `Aviso: O usuário não não possui cadastro de vendedor` });
+          } 
+            throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error?.error;
+        })).subscribe((vendedor) => {
+          console.log('vendedor encontrado', vendedor);
+          this.inicial.vendedor = vendedor;
+        });  
     }
 
     this.criarFormulario();

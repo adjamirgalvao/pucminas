@@ -52,7 +52,7 @@ export class AuthService {
     return this.tokenService.hasToken();
   }
 
-  getUsuario(): any {
+  getUsuario(): Usuario {
     return this.tokenService.getUsuario();
   }  
 
