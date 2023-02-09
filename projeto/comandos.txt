@@ -19,6 +19,8 @@ para fazer hash de senha (sha256 is depreccated)
 npm install sha.js
 
 npm install google-auth-library -- autenticacao do token do google
+
+npm i puppeteer -- para gerar pdf é um headless browser
 >> frontend passos iniciais
 ng new meuApp -- cria o projeto angular
 ng serve --open roda o projeto e abre o browser

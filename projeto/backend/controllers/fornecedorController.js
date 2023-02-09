@@ -1,5 +1,6 @@
 const FornecedorService = require("../services/FornecedorService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
+const PDFService = require("../services/PDFService");
 
 exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
@@ -84,6 +85,29 @@ exports.delete = async (req, res) => {
       res.json(registro);
     } catch (error) {
       res.status(500).json({ error: error.message });
+    }
+  } else {
+    res.status(403).json({ error: 'Acesso negado' });
+  }
+};
+
+
+exports.getRelatorioListagem = async (req, res) => {
+  if (true/*AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])*/) {
+    try {
+      const html = '<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"></head><body><p class="text-lowercase">HTML from page3</p></body></html>'; //await FornecedorService.getRelatorioListagem();
+      const pdf = await PDFService.gerarPDF(html);
+
+      res.contentType("application/pdf");
+      res.send(pdf);
+
+      /*if (!registros) {
+        return res.status(404).json("Não existem fornecedores cadastrados!");
+      }
+
+      res.json(registros);*/
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });

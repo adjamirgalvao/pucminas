@@ -21,6 +21,7 @@
     "mongoose": "^6.8.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+    "puppeteer": "^19.6.3",
     "request": "^2.88.2",
     "sha.js": "^2.4.11"
   },
