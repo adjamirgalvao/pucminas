@@ -6,7 +6,7 @@ const Config = require('../config/config');
 exports.applyPassportStrategy = (passport) => {
   const options = {};
   options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-  options.secretOrKey = Config.passport.secret;
+  options.secretOrKey = Config.PASSPORT.SECRET;
   passport.use(
     new Strategy(options, (payload, done) => {
         UsuarioModel.find({ login: payload.login }, (err, usuarios) => {

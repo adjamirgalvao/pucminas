@@ -1,6 +1,7 @@
+import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { AuthService } from 'src/app/services/autenticacao/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
@@ -14,22 +15,32 @@ import { Usuario } from 'src/app/interfaces/Usuario';
 export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private service: AuthService,
+    private jwtAuthService: AuthService,
+    private socialAuthService: SocialAuthService,
     private router: Router) {
-      // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
-      // não pode ficar no OnInit 
-      let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
-      if (alerta) {
-         this.alertas.push(alerta);
-      }
+    // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
+    // não pode ficar no OnInit 
+    let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
+    if (alerta) {
+      this.alertas.push(alerta);
     }
+  }
   formulario!: FormGroup;
 
   alertas: Alerta[] = [];
   logando: boolean = false;
-  
+
   ngOnInit(): void {
     this.criarFormulario();
+    this.socialAuthService.authState.subscribe((user) => {
+      //this.user = user;
+      //this.loggedIn = (user != null);
+      console.log('logado google', user);
+      if (user) {
+        this.logandoFormulario(true);
+        this.logarGoogle(user);
+      }
+    });
   }
 
   login(): void {
@@ -40,19 +51,19 @@ export class LoginComponent implements OnInit {
     };
 
     this.logandoFormulario(true);
-    this.logar(usuario);
+    this.logarJwt(usuario);
   }
 
   private criarFormulario() {
     //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
     this.formulario = this.formBuilder.group({
-      login: [{value: '', disabled: this.readOnly()}, Validators.required],
-      senha: [{value: '', disabled: this.readOnly()}, Validators.required],
+      login: [{ value: '', disabled: this.readOnly() }, Validators.required],
+      senha: [{ value: '', disabled: this.readOnly() }, Validators.required],
     });
   }
 
-  private logar(usuario: Usuario) {
-    this.service.login(usuario).pipe(catchError(
+  private logarGoogle(usuario: SocialUser) {
+    this.jwtAuthService.loginGoogle(usuario).pipe(catchError(
       err => {
         this.logandoFormulario(false);
         this.alertas.push({ tipo: 'danger', mensagem: `${err.error?.error}` });
@@ -60,17 +71,30 @@ export class LoginComponent implements OnInit {
       })).subscribe(
         () => {
           this.logandoFormulario(false);
-         console.log('aqui no login');
           this.alertas = [];
           this.router.navigate(['/home']);
         });
   }
 
-  readOnly(){
+  private logarJwt(usuario: Usuario) {
+    this.jwtAuthService.loginJwt(usuario).pipe(catchError(
+      err => {
+        this.logandoFormulario(false);
+        this.alertas.push({ tipo: 'danger', mensagem: `${err.error?.error}` });
+        throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
+      })).subscribe(
+        () => {
+          this.logandoFormulario(false);
+          this.alertas = [];
+          this.router.navigate(['/home']);
+        });
+  }
+
+  readOnly() {
     return this.logando;
   }
 
-  private logandoFormulario(logando: boolean){
+  private logandoFormulario(logando: boolean) {
     this.logando = logando;
     if (logando) {
       this.formulario.disable();

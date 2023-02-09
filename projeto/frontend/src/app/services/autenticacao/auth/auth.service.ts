@@ -1,3 +1,4 @@
+import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
@@ -10,7 +11,7 @@ export const VENDEDOR = 'VENDEDOR';
 export const ESTOQUE = 'ESTOQUE';
 export const CLIENTE = 'CLIENTE';
 export const MASTER = 'MASTER';
-
+export const GOOGLE_CLIENT_ID = '29293112369-dsdrjt1o361s0oajmoiqsjcjcqes7o0v.apps.googleusercontent.com';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export const MASTER = 'MASTER';
 
 export class AuthService {
   
-  private readonly API_AUTENTICACAO = 'http://localhost:8090/api/autenticacao/login';
+  private readonly API_AUTENTICACAO = 'http://localhost:8090/api/autenticacao/';
 
   constructor(
     private http: HttpClient,
@@ -26,8 +27,17 @@ export class AuthService {
 
   }
 
-  login(usuario: Usuario){
-    return this.http.post<UsuarioToken>(this.API_AUTENTICACAO, usuario).pipe(tap(
+  loginJwt(usuario: Usuario){
+    return this.http.post<UsuarioToken>(this.API_AUTENTICACAO + 'login', usuario).pipe(tap(
+      res => {
+          this.tokenService.setToken(res);
+          return res;
+    }));
+  }
+
+  
+  loginGoogle(usuario: SocialUser){
+    return this.http.post<UsuarioToken>(this.API_AUTENTICACAO + 'loginGoogle', usuario).pipe(tap(
       res => {
           this.tokenService.setToken(res);
           return res;

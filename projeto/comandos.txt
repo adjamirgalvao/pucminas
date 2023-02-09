@@ -15,6 +15,10 @@ para resolver o problema de Access to XMLHttpRequest at 'http://localhost:8090/p
 para fazer autenticacao
 npm i passport passport-jwt jsonwebtoken   --para fazer a instação do passport e da extensao para jwt e jsonwebtoken para ter o token
 
+para fazer hash de senha (sha256 is depreccated)
+npm install sha.js
+
+npm install google-auth-library -- autenticacao do token do google
 >> frontend passos iniciais
 ng new meuApp -- cria o projeto angular
 ng serve --open roda o projeto e abre o browser
@@ -46,6 +50,17 @@ npm i bootstrap-icons  -- icones do boostrap
 ai depois no styles.css tem que colocar
 
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+
+npm install @abacritt/angularx-social-login -- frontend para autenticacao google, o é para angular mais antigo angularx-social-login -- 
+depois reclamou de vulnerabilidade e fiz npm audit fix
+
+tem que ir em https://console.developers.google.com/ e gerar GOOGLE_CLIENT_ID 
+ 1) redirecionou para https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid?hl=pt-br
+ 2) criei um projeto
+ 3) configurei a tela de credencial com um usuario tipo externo
+ 4) depois entrei na opção de credenciais -> criar credenciais -> 'ID do cliente do OAuth'
+ 5) escolhi a opção de 'aplicativo da web'
+ 6) em 'Origens JavaScript autorizadas' coloquei http://localhost:4200 e http://localhost (sem a segunda não funciona)
 
 --- extensoes para o vscode
 Auto Import ---> fazer import do typescript

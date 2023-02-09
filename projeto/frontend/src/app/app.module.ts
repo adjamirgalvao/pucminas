@@ -34,7 +34,9 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { MY_FORMATS } from './constantes/Mydata';
 import { NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask} from 'ngx-mask';
 import { MatListModule } from '@angular/material/list';
-
+//Autenticacao google https://www.npmjs.com/package/@abacritt/angularx-social-login
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 // Meus componentes
 import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
 import { AlertaComponent } from './componentes/util/alerta/alerta.component';
@@ -62,6 +64,7 @@ import { LoginComponent } from './componentes/autenticacao/login/login.component
 import { LogoutComponent } from './componentes/autenticacao/logout/logout.component';
 import { ListarUsuariosComponent } from './componentes/usuarios/listar-usuarios/listar-usuarios.component';
 import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/editar-usuario.component';
+import { GOOGLE_CLIENT_ID } from './services/autenticacao/auth/auth.service';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -132,6 +135,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MatListModule, 
     NgxMaskDirective,
     NgxMaskPipe,
+    SocialLoginModule,
   ],
   providers: [
     httpInterceptorProviders, 
@@ -147,6 +151,21 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     provideEnvironmentNgxMask(),
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(GOOGLE_CLIENT_ID)
+          },
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }    
 ],
   bootstrap: [AppComponent]
 })
