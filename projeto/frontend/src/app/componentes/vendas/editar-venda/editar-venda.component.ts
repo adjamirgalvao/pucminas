@@ -197,7 +197,7 @@ export class EditarVendaComponent implements OnInit {
     } else {
       this.leitura = true;
     }
-    if (this.authService.isLogado() && this.authService.isVendedor()){
+    if ((this.operacao == 'Cadastrar') && this.authService.isLogado() && this.authService.isVendedor()){
       this.vendedorService.buscarPorEmail(this.authService.getUsuario().email!).pipe(catchError(
         err => {
           //this.erroCarregando = true;
