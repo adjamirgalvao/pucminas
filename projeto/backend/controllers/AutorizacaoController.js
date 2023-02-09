@@ -15,7 +15,7 @@ exports.login = async (req, res) => {
     let { login, senha } = req.body;
     const usuarios = await UsuarioService.find({ login: login });
 
-    if (usuarios && (usuarios.length == 1) && (usuarios[0].senha == AutorizacaoService.criptografar(senha))) {
+    if (senha && usuarios && (usuarios.length == 1) && (usuarios[0].senha == AutorizacaoService.criptografar(senha))) {
       // Sign token
       const token = gerarToken(login);
 
