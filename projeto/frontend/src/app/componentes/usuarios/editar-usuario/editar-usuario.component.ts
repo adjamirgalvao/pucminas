@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
@@ -162,7 +162,7 @@ export class EditarUsuarioComponent implements OnInit {
           Validators.pattern(/(.|\s)*\S(.|\s)*/),
         ])],
         roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
-      }, { validator: this.senhaValidator });
+      }, { validator: this.senhaValidator } as AbstractControlOptions);
     } else if ((this.operacao == 'Cadastrar') || (this.operacao == 'Consultar')) {
        this.formulario = this.formBuilder.group({
           nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
@@ -182,7 +182,7 @@ export class EditarUsuarioComponent implements OnInit {
           Validators.pattern(/(.|\s)*\S(.|\s)*/),
         ])],
          roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
-        }, { validator: this.senhaValidator });
+        }, { validator: this.senhaValidator } as AbstractControlOptions);
     } else {
       this.formulario = this.formBuilder.group({
         nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
@@ -201,7 +201,7 @@ export class EditarUsuarioComponent implements OnInit {
         Validators.required,
         Validators.pattern(/(.|\s)*\S(.|\s)*/),
       ])],
-      }, { validator: this.senhaValidator });      
+      }, { validator: this.senhaValidator } as AbstractControlOptions);      
     }
   }
 
