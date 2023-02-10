@@ -12,7 +12,7 @@ module.exports = class RelatorioUtilService {
     let retorno = '';
 
     retorno += '<div class="grid gap-3 px-3 pb-3 pt-3 me-3 mb-3">';
-    retorno += '<table class="table">';
+    retorno += '<table class="table fs-6">';
     retorno += '<thead>';
     retorno += '<tr>';
     retorno += '<th scope="col">#</th>';

@@ -93,7 +93,7 @@ exports.delete = async (req, res) => {
 
 
 exports.getRelatorioListagem = async (req, res) => {
-  if (true/*AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])*/) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
     try {
       let html = await FornecedorService.getRelatorioListagem();
 

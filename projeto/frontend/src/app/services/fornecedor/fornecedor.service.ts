@@ -36,4 +36,8 @@ export class FornecedorService {
     return this.http.delete<Fornecedor>(this.API_FORNECEDOR + '' + fornecedor._id);
   }
 
+  getRelatorioListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_FORNECEDOR + 'relatorios/listagem', {responseType: 'blob'});
+  }
 }
