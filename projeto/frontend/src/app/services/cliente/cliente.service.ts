@@ -36,4 +36,8 @@ export class ClienteService {
     return this.http.delete<Cliente>(this.API_CLIENTE + '' + cliente._id);
   }
 
+  getRelatorioListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_CLIENTE + 'relatorios/listagem', {responseType: 'blob'});
+  }
 }

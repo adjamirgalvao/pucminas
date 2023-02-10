@@ -1,4 +1,5 @@
 const ClienteModel = require("../models/ClienteModel");
+const RelatorioUtilService = require("./RelatorioUtilService");
 
 module.exports = class ClienteService {
 
@@ -63,4 +64,17 @@ module.exports = class ClienteService {
       throw new Error(`Cliente ${id} não pode ser deletado ${error.message}`);
     }
   }
+
+  static async getRelatorioListagem() {
+    try {
+      let registros = await this.getAllClientes();
+      let html = RelatorioUtilService.gerarCabecalho('Listagem de Clientes');
+      html += RelatorioUtilService.gerarTabela(registros, ['nome', 'cpf', 'dataNascimento'], ['Nome', 'CPF', 'Data de Nascimento'], [null, RelatorioUtilService.getMascaraCPFCNPJ, RelatorioUtilService.getDataFormatada]);
+      html += RelatorioUtilService.gerarFim();
+
+      return html;
+    } catch (error) {
+      throw new Error(`Erro ao gerar relatório de listagem ${error.message}`);
+    }
+  };
 };

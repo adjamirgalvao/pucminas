@@ -1,5 +1,5 @@
 const FornecedorModel = require("../models/FornecedorModel");
-const RelatorioUtilService = require("../services/RelatorioUtilService");
+const RelatorioUtilService = require("./RelatorioUtilService");
 
 function getTipo(tipo) {
   if (tipo) {
@@ -7,21 +7,6 @@ function getTipo(tipo) {
       return 'Pessoa Física';
     } else {
       return 'Pessoa Jurídica';
-    }
-  } else {
-    return '';
-  }
-}
-
-//https://pt.stackoverflow.com/questions/77505/formatar-mascara-para-cnpj
-function getMascaraCPFCNPJ(identificacao) {
-  if (identificacao) {
-    if (identificacao.length == 11) {
-      return identificacao.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-    } else if (identificacao.length == 14) {
-      return identificacao.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
-    } else {
-      return identificacao;
     }
   } else {
     return '';
@@ -92,12 +77,11 @@ module.exports = class FornecedorService {
     }
   }
 
-
   static async getRelatorioListagem() {
     try {
       let registros = await this.getAllFornecedores();
       let html = RelatorioUtilService.gerarCabecalho('Listagem de Fornecedores');
-      html += RelatorioUtilService.gerarTabela(registros, ['nome', 'tipo', 'identificacao'], ['Nome', 'Tipo', 'Identificação'], [null, getTipo, getMascaraCPFCNPJ]);
+      html += RelatorioUtilService.gerarTabela(registros, ['nome', 'tipo', 'identificacao'], ['Nome', 'Tipo', 'Identificação'], [null, getTipo, RelatorioUtilService.getMascaraCPFCNPJ]);
       html += RelatorioUtilService.gerarFim();
 
       return html;

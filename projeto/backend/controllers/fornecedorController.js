@@ -91,7 +91,6 @@ exports.delete = async (req, res) => {
   }
 };
 
-
 exports.getRelatorioListagem = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
     try {

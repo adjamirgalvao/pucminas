@@ -12,5 +12,6 @@ router.post("/", passport.authenticate('jwt', { session: false }), ClienteContro
 router.put("/:id", passport.authenticate('jwt', { session: false }), ClienteController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), ClienteController.delete);
+router.get("/relatorios/listagem", passport.authenticate('jwt', { session: false }), ClienteController.getRelatorioListagem);
 
 module.exports = router;

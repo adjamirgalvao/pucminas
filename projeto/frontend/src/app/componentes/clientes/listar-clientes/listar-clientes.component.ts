@@ -34,6 +34,7 @@ export class ListarClientesComponent implements OnInit {
   clientes: Cliente[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
+  imprimindo: boolean = false;
   clienteExcluido!: Cliente;
 
   // Campos para a tabela
@@ -114,5 +115,24 @@ export class ListarClientesComponent implements OnInit {
           this.alertas.push({ tipo: 'success', mensagem: `O Cliente "${cliente.nome}" foi excluído com sucesso!` });
         });
   }
+
+
+  abrirRelatorio(){
+    this.imprimindo = true;
+    this.clienteService.getRelatorioListagem().pipe(catchError(
+      err => {
+        console.log(err);
+        this.imprimindo = false;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar relatório` });
+        throw 'Erro ao recuperar relatório. Detalhes: ' + err;
+      })).subscribe(
+        (data) => {
+            // https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+            this.imprimindo = false;
+            var file = new Blob([data], {type: 'application/pdf'});
+            var fileURL = URL.createObjectURL(file);
+            window.open(fileURL);
+        });
+  }  
 }
 
