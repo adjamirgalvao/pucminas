@@ -9,26 +9,31 @@ import { Venda } from 'src/app/interfaces/Venda';
 export class VendaService {
 
 
-  private readonly API_COMPRA = 'http://localhost:8090/api/vendas/';
+  private readonly API_VENDA = 'http://localhost:8090/api/vendas/';
 
   constructor(private http: HttpClient) { 
 
   }
 
   criar(venda: Venda): Observable<Venda> {
-    return this.http.post<Venda>(this.API_COMPRA, venda);
+    return this.http.post<Venda>(this.API_VENDA, venda);
   }
   
   buscarPorId(id: string): Observable<Venda> {
-    return this.http.get<Venda>(this.API_COMPRA + '' + id);
+    return this.http.get<Venda>(this.API_VENDA + '' + id);
   }
 
   listar() : Observable<Venda[]> {
-    return this.http.get<Venda[]>(this.API_COMPRA);
+    return this.http.get<Venda[]>(this.API_VENDA);
   }
 
   excluir(venda: Venda): Observable<Venda> {
     console.log(venda);
-    return this.http.delete<Venda>(this.API_COMPRA + '' + venda._id);
+    return this.http.delete<Venda>(this.API_VENDA + '' + venda._id);
   }
+
+  getRelatorioListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_VENDA + 'relatorios/listagem', {responseType: 'blob'});
+  }  
 }

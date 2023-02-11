@@ -42,7 +42,7 @@
                 <ng-container matColumnDef="lucro">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Lucro</mat-header-cell>
                     <mat-cell *matCellDef="let venda"><span [ngClass]="{'text-danger': (venda.total - venda.custoTotal) <=0}"> {{ venda.total - venda.custoTotal | dinheiroPipe }}</span></mat-cell>
-                    <mat-footer-cell *matFooterCellDef>  {{getLucroTotal() | dinheiroPipe}}  </mat-footer-cell>
+                    <mat-footer-cell *matFooterCellDef><span [ngClass]="{'text-danger': getLucroTotal() <=0}">  {{getLucroTotal() | dinheiroPipe}} </span> </mat-footer-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
@@ -69,6 +69,7 @@
         <br>
         <button mat-stroked-button [routerLink]="['/vendas/criarVenda']" [queryParams]="{ listar: true }"
             matTooltip="Nova Venda" color="primary">Nova Venda </button>  &nbsp;
-        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
+        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
+        <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button>
     </fieldset>
 </section>

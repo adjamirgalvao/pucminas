@@ -12,5 +12,7 @@ router.post("/", passport.authenticate('jwt', { session: false }), VendaControll
 router.put("/:id", passport.authenticate('jwt', { session: false }), VendaController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), VendaController.delete);
+//relatorio
+router.get("/relatorios/listagem", passport.authenticate('jwt', { session: false }), VendaController.getRelatorioListagem);
 
 module.exports = router;

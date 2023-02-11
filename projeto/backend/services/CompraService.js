@@ -1,6 +1,7 @@
 const { CompraModel, Mongoose } = require("../models/CompraModel");
 const ItemCompraService = require("../services/ItemCompraService");
 const RelatorioUtilService = require("./RelatorioUtilService");
+
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
 const allComprasFornecedorInnerJoin = [
   {

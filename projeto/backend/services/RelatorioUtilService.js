@@ -41,7 +41,7 @@ module.exports = class RelatorioUtilService {
     return '</body></html>';
   }
 
-  static gerarTabela = (registros, campos, titulos, transformacoes) => {
+  static gerarTabela = (registros, campos, titulos, transformacoes, rodape) => {
     let retorno = '';
 
     retorno += '<div class="grid gap-3 px-3 pb-3 pt-3 me-3 mb-3">';
@@ -56,8 +56,9 @@ module.exports = class RelatorioUtilService {
     retorno += '</thead>';
     retorno += '<tbody>';
     for (let i in registros) {
+      let linha = parseInt(i) + 1;
       retorno += '<tr>';
-      retorno += `<th scope="row">${i+1}</th>`;
+      retorno += `<th scope="row">${(linha)}</th>`;
       for (let j in campos) {
         let valor = registros[i][campos[j]];
         if (transformacoes[j]) {
@@ -66,6 +67,9 @@ module.exports = class RelatorioUtilService {
         retorno += `<td>${valor}</td>`;
       }
       retorno += '</tr>';
+    }
+    if (rodape) {
+      retorno += rodape(registros);
     }
     retorno += '</tbody>';
     retorno += '</table>';
