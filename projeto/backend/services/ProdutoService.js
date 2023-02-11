@@ -1,6 +1,6 @@
 const ProdutoModel = require("../models/ProdutoModel");
 const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
-
+const RelatorioUtilService = require("./RelatorioUtilService");
 
 function itemCompraInnerJoinCompra(id) {
   return  [
@@ -150,4 +150,18 @@ module.exports = class ProdutoService {
       throw new Error(`Erro ao recuperar Compras ${error.message}`);
     }
   }
+
+  static async getRelatorioListagem() {
+    try {
+      let registros = await this.getAllProdutos();
+      let html = RelatorioUtilService.gerarCabecalho('Listagem de Produtos');
+      html += RelatorioUtilService.gerarTabela(registros, ['nome', 'quantidade', 'preco', 'precoCusto'], ['Nome', 'Qtd. Estoque', 'Preço Unitário', 'Preço de Custo'], [null, null, RelatorioUtilService.getDinheiro, RelatorioUtilService.getDinheiro]);
+      html += RelatorioUtilService.gerarFim();
+
+      return html;
+    } catch (error) {
+      throw new Error(`Erro ao gerar relatório de listagem ${error.message}`);
+    }
+  }
 };
+

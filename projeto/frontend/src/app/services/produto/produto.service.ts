@@ -45,4 +45,9 @@ export class ProdutoService {
   listarItensCompras(id: string): Observable<ItemCompra[]> {
     return this.http.get<ItemCompra[]>(this.API_PRODUTO + '' + id + '/listarItensCompras');
   }
+
+  getRelatorioListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_PRODUTO + 'relatorios/listagem', {responseType: 'blob'});
+  }  
 }

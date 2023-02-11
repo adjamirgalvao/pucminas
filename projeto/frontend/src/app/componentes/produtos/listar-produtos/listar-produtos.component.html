@@ -27,7 +27,7 @@
                     <mat-cell *matCellDef="let produto">{{ produto.quantidade }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="preco">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Preço</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Unitário</mat-header-cell>
                     <mat-cell *matCellDef="let produto">{{ produto.preco | dinheiroPipe }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
@@ -65,6 +65,7 @@
         <br>
         <button mat-stroked-button routerLink="/produtos/criarProduto" [queryParams]="{ listar: true }"
             matTooltip="Novo Produto" color="primary">Novo</button>  &nbsp;
-        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>
+        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
+        <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button>
    </fieldset>
 </section>
