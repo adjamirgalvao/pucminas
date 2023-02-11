@@ -14,7 +14,6 @@ class AutorizacaoService {
     let usuario = req.user;
     let retorno = false;
 
-    console.log('validarRoles', usuario);
     if (roles && roles.length > 0) {
      if (usuario && usuario.roles) {
        for (let i in roles) {
