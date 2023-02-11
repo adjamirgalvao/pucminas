@@ -38,6 +38,7 @@ export class EditarClienteComponent implements OnInit {
   inicial: Cliente = {
     nome: '',
     cpf: '',
+    email: '',
     dataNascimento: new Date(),
     endereco: {
       rua: '',
@@ -91,6 +92,7 @@ export class EditarClienteComponent implements OnInit {
     let cliente: Cliente = {
       nome: this.formulario.value.nome,
       dataNascimento: this.formulario.value.dataNascimento,
+      email: this.formulario.value.email,
       cpf: this.formulario.value.cpf,
       endereco : {
         rua : this.formulario.value.rua,
@@ -127,6 +129,9 @@ export class EditarClienteComponent implements OnInit {
         Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
       cpf: [{value: this.inicial.cpf, disabled: this.readOnly()}, Validators.required],
+      email: [{value: this.inicial.email, disabled: this.readOnly()}, Validators.compose([
+        Validators.required,
+        Validators.email])],
       dataNascimento: [{value: this.inicial.dataNascimento, disabled: this.readOnly()}, Validators.required],
       rua: [{value: this.inicial.endereco.rua, disabled: this.readOnly()}, Validators.required],
       numero: [{value: this.inicial.endereco.numero, disabled: this.readOnly()}, Validators.required],

@@ -1,4 +1,5 @@
 const VendedorModel = require("../models/VendedorModel");
+const RelatorioUtilService = require("./RelatorioUtilService");
 
 module.exports = class VendedorService {
 
@@ -79,4 +80,18 @@ module.exports = class VendedorService {
       throw new Error(`Vendedor ${id} não pode ser deletado ${error.message}`);
     }
   }
+
+  static async getRelatorioListagem() {
+    try {
+      let registros = await this.getAllVendedores();
+      let html = RelatorioUtilService.gerarCabecalho('Listagem de Vendedores');
+      html += RelatorioUtilService.gerarTabela(registros, ['nome', 'email', 'cpf', 'salario'], ['Nome', 'E-mail', 'CPF', 'Salário'], [null, null, RelatorioUtilService.getMascaraCPFCNPJ, RelatorioUtilService.getDinheiro]);
+      html += RelatorioUtilService.gerarFim();
+
+      return html;
+    } catch (error) {
+      throw new Error(`Erro ao gerar relatório de listagem ${error.message}`);
+    }
+  };
+
 };

@@ -116,7 +116,6 @@ export class ListarClientesComponent implements OnInit {
         });
   }
 
-
   abrirRelatorio(){
     this.imprimindo = true;
     this.clienteService.getRelatorioListagem().pipe(catchError(

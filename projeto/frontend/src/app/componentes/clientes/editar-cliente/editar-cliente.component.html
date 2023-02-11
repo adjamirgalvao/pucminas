@@ -36,14 +36,21 @@
                 </mat-form-field>
             </div>    
             <div class="mb-3">
-                <mat-form-field>
+                <mat-form-field class="me-3">
                     <mat-label>CPF</mat-label>
                     <input formControlName="cpf" matInput placeholder="Digite o CPF" mask="CPF_CNPJ" maxlength="14">
                     <mat-error *ngIf="formulario.get('cpf')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="!formulario.get('cpf')?.hasError('required') && formulario.get('cpf')?.hasError('mask')">CPF inválido!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Consultar')">Digite o CPF</mat-hint>
                 </mat-form-field>
-            </div>
+                <mat-form-field appearance="fill" class="me-3 mb-3">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput placeholder="Digite o E-mail" formControlName="email">
+                    <mat-error *ngIf="formulario.get('email')?.hasError('required') && formulario.get('email')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="!formulario.get('email')?.hasError('required') && formulario.get('email')?.hasError('email')">E-mail inválido!</mat-error>
+                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o e-mail</mat-hint>
+                </mat-form-field>
+           </div>
             <div class="mb-3">
                 <mat-form-field  style="width: 80%;">
                     <mat-label>Logradouro</mat-label>

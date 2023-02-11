@@ -1,5 +1,6 @@
 const VendedorService = require("../services/VendedorService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
+const PDFService = require("../services/PDFService");
 
 exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
@@ -108,4 +109,21 @@ exports.delete = async (req, res) => {
   } else {
     res.status(403).json({ error: 'Acesso negado' });
   }  
+};
+
+exports.getRelatorioListagem = async (req, res) => {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+    try {
+      let html = await VendedorService.getRelatorioListagem();
+
+      const pdf = await PDFService.gerarPDF(html);
+
+      res.contentType("application/pdf");
+      res.send(pdf);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  } else {
+    res.status(403).json({ error: 'Acesso negado' });
+  }
 };

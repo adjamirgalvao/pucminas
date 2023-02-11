@@ -20,6 +20,7 @@ module.exports = class ClienteService {
       const novo =  {
         nome: data.nome,
         dataNascimento: data.dataNascimento,
+        email: data.email,
         cpf: data.cpf,
         endereco: data.endereco
     };
@@ -69,7 +70,7 @@ module.exports = class ClienteService {
     try {
       let registros = await this.getAllClientes();
       let html = RelatorioUtilService.gerarCabecalho('Listagem de Clientes');
-      html += RelatorioUtilService.gerarTabela(registros, ['nome', 'cpf', 'dataNascimento'], ['Nome', 'CPF', 'Data de Nascimento'], [null, RelatorioUtilService.getMascaraCPFCNPJ, RelatorioUtilService.getDataFormatada]);
+      html += RelatorioUtilService.gerarTabela(registros, ['nome', 'email', 'cpf', 'dataNascimento'], ['Nome', 'E-mail', 'CPF', 'Data de Nascimento'], [null, null, RelatorioUtilService.getMascaraCPFCNPJ, RelatorioUtilService.getDataFormatada]);
       html += RelatorioUtilService.gerarFim();
 
       return html;
