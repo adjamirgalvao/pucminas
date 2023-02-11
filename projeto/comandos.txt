@@ -100,6 +100,8 @@ export class HomeComponent {
   }
 }
 
+[ngClass]="{'text-danger': getPrecoFinalItemVenda_() <=0}" 
+
 
 ------ ngIf com else
 Isso aí. O elemento que recebeu a diretiva, caso a condicional for verdadeira, irá incluir o elemento no template, caso contrário, ele poderá excluir o elemento ou incluir um elemento declarado usando o elemento do Angular <ng-template>.

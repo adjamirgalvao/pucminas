@@ -341,12 +341,15 @@ export class EditarVendaComponent implements OnInit {
       produto: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.produtoValidator()
       ])],
+      precoUnitario: [{value: '', disabled: true}],      
       quantidade: [{value: 0, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01), this.quantidadeValidator()
       ])],
+      precoTotal: [{value: '', disabled: true}],      
       desconto: [{value: 0, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0)
-      ])]
+      ])],
+      precoFinal: [{value: '', disabled: true}],         
     });
 
     //Faz o filtro de produtos e garante que o valor do campo produto é um objeto
@@ -366,7 +369,10 @@ export class EditarVendaComponent implements OnInit {
           produto = value;
         } 
         if (produto) {
-           //atribuindo o valor do produto
+          this.formulario.get('precoUnitario')!.patchValue(produto.preco, { emitEvent: false });
+          console.log('preço unitário', produto.preco, this.formulario.value.quantidade);
+          this.formulario.get('precoTotal')?.patchValue(produto.preco * this.formulario.value.quantidade);
+          //atribuindo o valor do produto
            //this.formulario.get('preco')!.patchValue(produto.preco, { emitEvent: false });
            this.formulario.controls['quantidade'].enable();
            this.formulario.controls['desconto'].enable();
@@ -378,6 +384,18 @@ export class EditarVendaComponent implements OnInit {
         return nome ? this._filterProduto(nome as string) : this.produtos.slice();
       }),
     );
+
+    this.formulario.valueChanges.subscribe(value => {
+      console.log(value);
+      console.log('quantidade', this.formulario.value.produto, value);
+      if (this.formulario.get('produto')!.valid && this.formulario.get('quantidade')!.valid){
+        this.formulario.get('precoTotal')?.patchValue(value.produto.preco * value.quantidade, { emitEvent: false });
+
+        if (this.formulario.get('desconto')!.valid){
+          this.formulario.get('precoFinal')?.patchValue((value.produto.preco * value.quantidade) - value.desconto, { emitEvent: false });
+        }
+      }
+    });
 
     //Faz o filtro de vendedores e garante que o valor do campo vendedor é um objeto
     this.vendedoresFiltrados = this.formulario.controls['vendedor'].valueChanges.pipe(
@@ -485,6 +503,9 @@ export class EditarVendaComponent implements OnInit {
       this.formulario.disable();
     } else {
       this.formulario.enable();
+      this.formulario.get('precoUnitario')?.disable();
+      this.formulario.get('precoTotal')?.disable();
+      this.formulario.get('precoFinal')?.disable();
     }
   }
 }

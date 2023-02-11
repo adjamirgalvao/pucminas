@@ -50,7 +50,7 @@
                 <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled *ngIf="(operacao != 'Consultar')">
                     <legend class="float-none w-auto h6">&nbsp;Adicionar Produto&nbsp;</legend>
                     <div class="mb-3">
-                        <mat-form-field class="me-3" style="width: 50%;">
+                        <mat-form-field class="me-3"  style="width: 60%;">
                             <mat-label>Produto</mat-label>
                             <input type="text" formControlName="produto" [matAutocomplete]="autoProduto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
                             <mat-autocomplete #autoProduto="matAutocomplete" [displayWith]="displayFnProduto">
@@ -59,22 +59,27 @@
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-error *ngIf="formulario.get('produto')?.hasError('required') && formulario.get('produto')?.touched">O campo é obrigatório!</mat-error>
-                            <mat-error  *ngIf="!formulario.get('produto')?.hasError('required') && formulario.get('produto')?.hasError('produtoCadastrado')  && formulario.get('produto')?.touched">O produto não está cadastrado ou não tem estoque!</mat-error>
+                            <mat-error *ngIf="!formulario.get('produto')?.hasError('required') && formulario.get('produto')?.hasError('produtoCadastrado')  && formulario.get('produto')?.touched">O produto não está cadastrado ou não tem estoque!</mat-error>
                             <mat-hint>Escolha o produto</mat-hint>
                         </mat-form-field>
-                        <span class="me-3" *ngIf="formulario.get('produto')!.valid">* Preço unitário {{ getPrecoUnitario_() | dinheiroPipe}} </span>
+                        <mat-form-field class="me-3 mt-3" *ngIf="formulario.get('produto')!.valid">
+                            <mat-label>Preço Unitário</mat-label>
+                                <input type="string" formControlName="precoUnitario" currencyMask matInput placeholder="Digite o preço unitário" [readonly]="salvando || erroCarregando">
+                        </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field class="me-3">
                             <mat-label>Quantidade</mat-label>
-                            <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
-                                [readonly]="salvando || erroCarregando">
+                            <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade" [readonly]="salvando || erroCarregando">
                             <mat-error *ngIf="formulario.get('quantidade')?.hasError('required')  && formulario.get('quantidade')?.touched">O campo é obrigatório!</mat-error>
                             <mat-error *ngIf="formulario.get('quantidade')?.hasError('min') && formulario.get('quantidade')?.touched">O valor deve ser maior que zero!</mat-error>
                             <mat-error *ngIf="!formulario.get('quantidade')?.hasError('required') && formulario.get('quantidade')?.hasError('quantidadeProduto')  && formulario.get('quantidade')?.touched">A quantidade é maior que o estoque do produto!</mat-error>
                             <mat-hint>Digite a quantidade</mat-hint>
                         </mat-form-field>
-                        <span class="me-3" *ngIf="formulario.get('produto')!.valid && formulario.get('quantidade')!.valid"> * Preço total {{getPrecoItemVenda_() | dinheiroPipe}}</span>
+                        <mat-form-field class="me-3 mt-3" *ngIf="formulario.get('produto')!.valid && formulario.get('quantidade')!.valid">
+                            <mat-label>Preço Total</mat-label>
+                                <input type="string" formControlName="precoTotal" currencyMask matInput placeholder="Digite o preço unitário" [readonly]="salvando || erroCarregando">
+                        </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field class="me-3 mb-3">
@@ -84,7 +89,12 @@
                             <mat-error *ngIf="formulario.get('desconto')?.hasError('min') && formulario.get('desconto')?.touched">O valor deve ser maior ou igual que zero!</mat-error>
                             <mat-hint>Digite o desconto</mat-hint>
                         </mat-form-field>
-                        <span class="me-3 fw-bold" [ngClass]="{'text-danger': getPrecoFinalItemVenda_() <=0}"  *ngIf="formulario.get('produto')!.valid && formulario.get('quantidade')!.valid && formulario.get('desconto')!.valid"> * Preço Final {{getPrecoFinalItemVenda_() | dinheiroPipe}}</span>
+                        <mat-form-field class="me-3 mt-3" *ngIf="formulario.get('produto')!.valid && formulario.get('quantidade')!.valid && formulario.get('desconto')!.valid">
+                            <mat-label>Preço Final</mat-label>
+                                <input type="string" formControlName="precoFinal" currencyMask matInput placeholder="Digite o preço unitário" [readonly]="salvando || erroCarregando">
+                                <mat-hint class="text-danger" *ngIf="formulario.get('precoFinal')!.value <0">Aviso: Valor negativo!</mat-hint>
+                                <mat-hint class="text-warning" *ngIf="formulario.get('precoFinal')!.value ==0">Aviso: Produto de graça!</mat-hint>
+                            </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <button mat-stroked-button matTooltip="Adicionar" color="primary"
