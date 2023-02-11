@@ -31,4 +31,9 @@ export class CompraService {
     console.log(compra);
     return this.http.delete<Compra>(this.API_COMPRA + '' + compra._id);
   }
+
+  getRelatorioListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_COMPRA + 'relatorios/listagem', {responseType: 'blob'});
+  }
 }

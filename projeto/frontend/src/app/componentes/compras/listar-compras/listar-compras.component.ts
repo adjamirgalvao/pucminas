@@ -33,6 +33,7 @@ export class ListarComprasComponent implements OnInit {
   compras: Compra[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
+  imprimindo: boolean = false;
   compraExcluida!: Compra;
 
   // Campos para a tabela
@@ -117,6 +118,25 @@ export class ListarComprasComponent implements OnInit {
           this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
           this.alertas.push({ tipo: 'success', mensagem: `A compra "${compra.numero}" foi excluída com sucesso!` });
+        });
+  }
+
+
+  abrirRelatorio(){
+    this.imprimindo = true;
+    this.compraService.getRelatorioListagem().pipe(catchError(
+      err => {
+        console.log(err);
+        this.imprimindo = false;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar relatório` });
+        throw 'Erro ao recuperar relatório. Detalhes: ' + err;
+      })).subscribe(
+        (data) => {
+            // https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+            this.imprimindo = false;
+            var file = new Blob([data], {type: 'application/pdf'});
+            var fileURL = URL.createObjectURL(file);
+            window.open(fileURL);
         });
   }
 }

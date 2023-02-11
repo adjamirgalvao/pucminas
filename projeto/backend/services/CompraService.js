@@ -1,6 +1,6 @@
 const { CompraModel, Mongoose } = require("../models/CompraModel");
 const ItemCompraService = require("../services/ItemCompraService");
-
+const RelatorioUtilService = require("./RelatorioUtilService");
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
 const allComprasFornecedorInnerJoin = [
   {
@@ -127,6 +127,10 @@ function umaCompraItensFornecedorInnerJoinconst (id) {
   },
 ]};
 
+function getFornecedor(data, registro){
+  return registro.fornecedor.nome;
+}
+
 module.exports = class CompraService {
   static async getAllCompras() {
     try {
@@ -233,6 +237,18 @@ module.exports = class CompraService {
     } finally {
       session.endSession();
     }
-    
   }
+
+  static async getRelatorioListagem() {
+    try {
+      let registros = await this.getAllCompras();
+      let html = RelatorioUtilService.gerarCabecalho('Listagem de Compras');
+      html += RelatorioUtilService.gerarTabela(registros, ['data', 'numero', 'fornecedor.nome', 'total'], ['Data', 'Nota Fiscal', 'Fornecedor', 'Preço'], [RelatorioUtilService.getDataFormatada, null, getFornecedor, RelatorioUtilService.getDinheiro]);
+      html += RelatorioUtilService.gerarFim();
+
+      return html;
+    } catch (error) {
+      throw new Error(`Erro ao gerar relatório de listagem ${error.message}`);
+    }
+  };  
 };

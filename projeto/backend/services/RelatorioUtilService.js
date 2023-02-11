@@ -57,11 +57,11 @@ module.exports = class RelatorioUtilService {
     retorno += '<tbody>';
     for (let i in registros) {
       retorno += '<tr>';
-      retorno += `<th scope="row">${i}</th>`;
+      retorno += `<th scope="row">${i+1}</th>`;
       for (let j in campos) {
         let valor = registros[i][campos[j]];
         if (transformacoes[j]) {
-          valor = transformacoes[j](valor);
+          valor = transformacoes[j](valor, registros[i]);
         };
         retorno += `<td>${valor}</td>`;
       }
