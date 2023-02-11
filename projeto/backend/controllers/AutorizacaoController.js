@@ -13,14 +13,14 @@ function gerarToken(login) {
 exports.login = async (req, res) => {
   try {
     let { login, senha } = req.body;
-    const usuarios = await UsuarioService.find({ login: login });
+    const usuario = await UsuarioService.findOne({ login: login });
 
-    if (senha && usuarios && (usuarios.length == 1) && (usuarios[0].senha == AutorizacaoService.criptografar(senha))) {
+    if (senha && usuario && (usuario.senha == AutorizacaoService.criptografar(senha))) {
       // Sign token
       const token = gerarToken(login);
 
       //https://stackoverflow.com/questions/23342558/why-cant-i-delete-a-mongoose-models-object-properties
-      let retorno = { usuario: usuarios[0].toObject() };
+      let retorno = { usuario: usuario.toObject() };
       retorno.token = token;
       delete retorno.usuario.senha;
       res.status(200).json(retorno);

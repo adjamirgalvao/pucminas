@@ -36,7 +36,6 @@ exports.getAll = async (req, res) => {
   }
 };
 
-
 exports.add = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
     try {

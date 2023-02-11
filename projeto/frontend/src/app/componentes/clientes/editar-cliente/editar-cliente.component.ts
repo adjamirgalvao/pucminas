@@ -144,8 +144,8 @@ export class EditarClienteComponent implements OnInit {
     this.service.criar(cliente).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar cliente!' });
-        throw 'Erro ao cadastrar cliente. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar vendedor! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao cadastrar cliente. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
@@ -165,8 +165,8 @@ export class EditarClienteComponent implements OnInit {
     this.service.editar(cliente).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar cliente!' });
-        throw 'Erro ao editar cliente. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar cliente! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao editar cliente. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);

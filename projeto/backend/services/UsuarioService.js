@@ -26,10 +26,10 @@ module.exports = class UsuarioService {
         roles: data.roles,
       };
       //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
-      let usuarios = await UsuarioModel.find({ $or: [{ login: novo.login }, { email: novo.email }] });
-      if (usuarios.length > 0) {
+      let usuario = await UsuarioModel.findOne({ $or: [{ login: novo.login.trim() }, { email: novo.email.trim() }] });
+      if (usuario) {
         erro = true;
-        throw new Error('Usuário não pode ser criado pois já existe um usuário com mesmo login ou email.');
+        throw new Error('Usuário não pode ser criado pois já existe um usuário com mesmo login ou e-mail.');
       }
       const registro = await new UsuarioModel(novo).save({ session });
 
@@ -59,13 +59,17 @@ module.exports = class UsuarioService {
     return await UsuarioModel.find(consulta);
   }
 
+  static async findOne(consulta) {
+    return await UsuarioModel.findOne(consulta);
+  }
+
   static async updateUsuario(id, usuario, session) {
     let erro = false;
     try {
-      let usuarios = await UsuarioModel.find({ email: usuario.email });
-      if ((usuarios.length > 0) && (usuarios[0]._id !=  id)) {
+      let usuarioAntigo = await UsuarioModel.findOne({ email: usuario.email.trim() });
+      if (usuarioAntigo && (usuarioAntigo._id != id)) {
         erro = true;
-        throw new Error('Usuário não pode ser alterado pois já existe um usuário com mesmo email.');
+        throw new Error('Usuário não pode ser alterado pois já existe um usuário com mesmo e-mail.');
       }
       const registro = await UsuarioModel.updateOne({ _id: id }, { ...usuario }, { session });
 

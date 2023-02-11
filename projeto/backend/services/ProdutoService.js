@@ -85,20 +85,31 @@ module.exports = class ProdutoService {
   }
 
   static async addProduto(data, session) {
+    let erro = false;
     try {
       const novo = {
-        nome: data.nome,
+        nome: data.nome.trim(),
         quantidade: data.quantidade,
         preco: data.preco,
         precoCusto: data.precoCusto,
         precoCustoInicial: data.precoCusto
       };
+      //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
+      let produto = await ProdutoModel.findOne({ nome: novo.nome.trim() });
+      if (produto) {
+        erro = true;
+        throw new Error('Produto não pode ser criado pois já existe um produto com o mesmo nome.');
+      } 
       const registro = await new ProdutoModel(novo).save({session});
 
       return registro;
     } catch (error) {
       console.log(error);
-      throw new Error(`Produto não pode ser criado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(`Produto não pode ser criado ${error.message}`);
+      }  
     }
   }
 
@@ -114,7 +125,13 @@ module.exports = class ProdutoService {
   }
 
   static async updateProduto(id, produto, session) {
+    let erro = false;
     try {
+      let produtoAntigo = await ProdutoModel.findOne({ nome: produto.nome.trim() });
+      if (produtoAntigo && (produtoAntigo._id != id)) {
+        erro = true;
+        throw new Error('Produto não pode ser alterado pois já existe um produto com mesmo nome.');
+      }
       // Aqui eu tenho que criar o objeto porque essa função também é chamada de outro lugar
       const registro = await ProdutoModel.updateOne(
         { _id: id} , {nome : produto.nome, 
@@ -125,7 +142,11 @@ module.exports = class ProdutoService {
       return registro;
     } catch (error) {
       console.log(`Produto ${id} não pode ser atualizado ${error.message}`);
-      throw new Error(`Produto ${id} não pode ser atualizado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {      
+        throw new Error(`Produto ${id} não pode ser atualizado ${error.message}`);
+      }  
     }
   }
 

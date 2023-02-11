@@ -6,7 +6,7 @@ module.exports = class ClienteService {
   static async getAllClientes() {
     try {
       const todos = await ClienteModel.find();
-      
+
       return todos;
     } catch (error) {
       console.log(`Erro ao recuperar Clientes ${error.message}`);
@@ -15,21 +15,32 @@ module.exports = class ClienteService {
   }
 
   static async addCliente(data, session) {
+    let erro = false;
     try {
 
-      const novo =  {
-        nome: data.nome,
+      const novo = {
+        nome: data.nome.trim(),
         dataNascimento: data.dataNascimento,
-        email: data.email,
-        cpf: data.cpf,
+        email: data.email.trim(),
+        cpf: data.cpf.trim(),
         endereco: data.endereco
-    };
-    const registro = await new ClienteModel(novo).save({session});
+      };
+      //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
+      let cliente = await ClienteModel.findOne({ $or: [{ nome: novo.nome.trim() }, { email: novo.email.trim() }, { cpf: novo.cpf.trim() }] });
+      if (cliente) {
+        erro = true;
+        throw new Error('Cliente não pode ser criado pois já existe um cliente com o mesmo nome, cpf ou e-mail.');
+      } 
+      const registro = await new ClienteModel(novo).save({ session });
 
       return registro;
     } catch (error) {
       console.log(error);
-      throw new Error(`Cliente não pode ser criado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(`Cliente não pode ser criado ${error.message}`);
+      }  
     }
   }
 
@@ -45,19 +56,33 @@ module.exports = class ClienteService {
   }
 
   static async updateCliente(id, cliente, session) {
+    let erro = false;
     try {
-      const registro = await ClienteModel.updateOne({ _id: id} , {... cliente}, {session});
+      let clientes = await ClienteModel.find({ $or: [{ nome: cliente.nome.trim() }, { email: cliente.email.trim() }, { cpf: cliente.cpf.trim() }] });
+      if (clientes) {
+        for (let i in clientes){
+          if (clientes[i]._id != id) {
+            erro = true;
+            throw new Error('Cliente não pode ser alterado pois já existe um cliente com o mesmo nome, cpf ou e-mail.');
+          }
+        }
+      }
+      const registro = await ClienteModel.updateOne({ _id: id }, { ...cliente }, { session });
 
       return registro;
     } catch (error) {
       console.log(`Cliente ${id} não pode ser atualizado ${error.message}`);
-      throw new Error(`Cliente ${id} não pode ser atualizado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {   
+        throw new Error(`Cliente ${id} não pode ser atualizado ${error.message}`);
+      }  
     }
   }
 
   static async deleteCliente(id, session) {
     try {
-      const registro = await ClienteModel.findOneAndDelete({ _id: id }, {session});
+      const registro = await ClienteModel.findOneAndDelete({ _id: id }, { session });
 
       return registro;
     } catch (error) {

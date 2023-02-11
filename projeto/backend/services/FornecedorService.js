@@ -27,15 +27,22 @@ module.exports = class FornecedorService {
   }
 
   static async addFornecedor(data, session) {
+    let erro = false;
     try {
 
       const novo = {
-        nome: data.nome,
-        tipo: data.tipo,
+        nome: data.nome.trim(),
+        tipo: data.tipo.trim(),
         identificacao: data.identificacao,
         endereco: data.endereco
       };
-      const registro = await new FornecedorModel(novo).save({ session });
+        //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
+        let fornecedor = await FornecedorModel.findOne({ $or: [{ nome: novo.nome.trim() }, { identificacao: novo.identificacao.trim() }] });
+        if (fornecedor) {
+          erro = true;
+          throw new Error('Fornecedor não pode ser criado pois já existe um fornecedor com mesmo nome ou cpf/cpf.');
+        } 
+        const registro = await new FornecedorModel(novo).save({ session });
 
       return registro;
     } catch (error) {

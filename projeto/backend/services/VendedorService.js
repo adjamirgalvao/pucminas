@@ -15,21 +15,32 @@ module.exports = class VendedorService {
   }
 
   static async addVendedor(data, session) {
+    let erro = false;
     try {
 
       const novo =  {
-        nome: data.nome,
-        cpf: data.cpf,
-        email: data.email,
+        nome: data.nome.trim(),
+        cpf: data.cpf.trim(),
+        email: data.email.trim(),
         salario: data.salario,
         endereco: data.endereco
-    };
-    const registro = await new VendedorModel(novo).save({session});
+      };
+      //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
+      let vendedor = await VendedorModel.findOne({ $or: [{ nome: novo.nome.trim() }, { email: novo.email.trim() }, { cpf: novo.cpf.trim() }] });
+      if (vendedor) {
+        erro = true;
+        throw new Error('Vendedor não pode ser criado pois já existe um vendedor com o mesmo nome, cpf ou e-mail.');
+      } 
+      const registro = await new VendedorModel(novo).save({session});
 
       return registro;
     } catch (error) {
       console.log(error);
-      throw new Error(`Vendedor não pode ser criado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(`Vendedor não pode ser criado ${error.message}`);
+      }  
     }
   }
 
@@ -47,11 +58,8 @@ module.exports = class VendedorService {
   static async getVendedorbyEmail(email) {
     let registro = null;
     try {
-      const registros = await VendedorModel.find({ email: email });
+      const registro = await VendedorModel.findOne({ email: email });
 
-      if (registros && registros.length == 1){
-        registro = registros[0];
-      }
       return registro;
     } catch (error) {
       console.log(`Vendedor ${vendedorId} não encontrado ${error.message}`);
@@ -60,13 +68,27 @@ module.exports = class VendedorService {
   }
 
   static async updateVendedor(id, vendedor, session) {
+    let erro = false;
     try {
+      let vendedores = await VendedorModel.find({ $or: [{ nome: vendedor.nome.trim() }, { email: vendedor.email.trim() }, { cpf: vendedor.cpf.trim() }] });
+      if (vendedores) {
+        for (let i in vendedores){
+          if (vendedores[i]._id != id) {
+            erro = true;
+            throw new Error('Vendedor não pode ser alterado pois já existe um vendedor com o mesmo nome, cpf ou e-mail.');
+          }
+        }
+      }
       const registro = await VendedorModel.updateOne({ _id: id} , {... vendedor}, {session});
 
       return registro;
     } catch (error) {
       console.log(`Vendedor ${id} não pode ser atualizado ${error.message}`);
-      throw new Error(`Vendedor ${id} não pode ser atualizado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {      
+        throw new Error(`Vendedor ${id} não pode ser atualizado ${error.message}`);
+      }  
     }
   }
 
