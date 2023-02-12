@@ -1,0 +1,12 @@
+/*https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries*/
+@media (min-width: 1250px) {
+.chart-wrapper {
+   /* display: inline-block;
+    position: relative;*/
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    margin-left: 15% 
+  }
+}

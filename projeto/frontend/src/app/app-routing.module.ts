@@ -1,3 +1,4 @@
+import { IndicadoresComponent } from './componentes/graficos/indicadores/indicadores.component';
 import { LogoutComponent } from './componentes/autenticacao/logout/logout.component';
 import { NotfoundComponent } from './componentes/util/notfound/notfound.component';
 import { NgModule } from '@angular/core';
@@ -220,6 +221,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [MASTER, VENDEDOR]} 
   },
+  {
+    path: 'indicadores',
+    component: IndicadoresComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [MASTER]} 
+  },  
   {
      path: '404', 
     component: NotfoundComponent

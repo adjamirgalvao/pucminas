@@ -20,7 +20,8 @@ exports.get = async (req, res) => {
 exports.getAll = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
     try {
-      const registros = await VendaService.getAllVendas();
+      //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
+      const registros = await VendaService.getAllVendas(req.query.ano, req.query.agrupar);
 
       if (!registros) {
         return res.status(404).json("Não existem vendas cadastradas!");

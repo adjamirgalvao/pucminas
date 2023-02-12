@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { VendaAgrupada } from './../../interfaces/VendaAgrupada';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Venda } from 'src/app/interfaces/Venda';
@@ -25,6 +26,14 @@ export class VendaService {
 
   listar() : Observable<Venda[]> {
     return this.http.get<Venda[]>(this.API_VENDA);
+  }
+
+  listarIndicador(ano: number) : Observable<VendaAgrupada[]> {
+    let queryParams = new HttpParams();
+    
+    queryParams = queryParams.append("ano", ano).append("agrupar", true);
+
+    return this.http.get<VendaAgrupada[]>(this.API_VENDA, { params:queryParams });
   }
 
   excluir(venda: Venda): Observable<Venda> {

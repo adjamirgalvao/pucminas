@@ -3,60 +3,85 @@ const ItemVendaService = require("./ItemVendaService");
 const RelatorioUtilService = require("./RelatorioUtilService");
 
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
-const allVendasVendedorInnerJoin = [
-  {
-    '$lookup': {
-      'from': 'vendedores',
-      'localField': 'id_vendedor',
-      'foreignField': '_id',
-      'as': 'vendedor'
-    }
-  },
-  { // para fazer com que fique um campo e não uma lista
-    '$addFields': {
-      'vendedor': {
-        '$arrayElemAt': [
-          '$vendedor', 0
-        ]
+function allVendasVendedorInnerJoin(ano, agrupar) {
+  let retorno =  [
+    {
+      '$lookup': {
+        'from': 'vendedores',
+        'localField': 'id_vendedor',
+        'foreignField': '_id',
+        'as': 'vendedor'
       }
-    }
-  },
-  {
-    '$lookup': {
-      'from': 'itensvendas',
-      'localField': '_id',
-      'foreignField': 'id_venda',
-      'as': 'itensVenda'
-    }
-  },
-  //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
-  {
-    '$addFields': {
-      'total': {
-        '$sum': {
-          '$map': {
-            'input': "$itensVenda",
-            'as': "itemvenda",
-            'in': "$$itemvenda.preco",
+    },
+    { // para fazer com que fique um campo e não uma lista
+      '$addFields': {
+        'vendedor': {
+          '$arrayElemAt': [
+            '$vendedor', 0
+          ]
+        }
+      }
+    },
+    {
+      '$lookup': {
+        'from': 'itensvendas',
+        'localField': '_id',
+        'foreignField': 'id_venda',
+        'as': 'itensVenda'
+      }
+    },
+    //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
+    {
+      '$addFields': {
+        'total': {
+          '$sum': {
+            '$map': {
+              'input': "$itensVenda",
+              'as': "itemvenda",
+              'in': "$$itemvenda.preco",
+            }
           }
         }
       }
-    }
-  },
-  {
-    '$addFields': {
-      'custoTotal': {
-        '$sum': {
-          '$map': {
-            'input': "$itensVenda",
-            'as': "itemvenda",
-            'in': { "$multiply": ['$$itemvenda.precoCusto', '$$itemvenda.quantidade'] },
+    },
+    {
+      '$addFields': {
+        'custoTotal': {
+          '$sum': {
+            '$map': {
+              'input': "$itensVenda",
+              'as': "itemvenda",
+              'in': { "$multiply": ['$$itemvenda.precoCusto', '$$itemvenda.quantidade'] },
+            }
           }
         }
       }
-    }
-  },
-];
+    },
+  ];
+
+  // https://stackoverflow.com/questions/70289720/aggregate-query-by-year-and-month-in-mongodb
+  if (ano) {
+    retorno = [...retorno,   {
+        $match: {
+                  data: { $gte: new Date(ano +"-01-01"), $lte: new Date(ano + "-12-31") }
+              }      
+      }];
+  }
+  if (agrupar) {
+    retorno = [...retorno, 
+        //https://stackoverflow.com/questions/27366209/group-and-count-by-month
+        {$group: {
+          _id: {$month: "$data"}, 
+          custoTotal: {$sum: "$custoTotal"}, 
+          vendasTotal: {$sum: "$total"}, 
+         //https://stackoverflow.com/questions/16676170/is-it-possible-to-sum-2-fields-in-mongodb-using-the-aggregation-framework
+         lucroTotal: {$sum: { $subtract : [ '$total', '$custoTotal' ]}}, 
+       }
+      },
+      {$sort : { _id : 1 }}  ];
+  }
+  return retorno;
+}
 
 function umaVendaItensVendedorInnerJoinconst(id) {
   return [
@@ -178,9 +203,9 @@ function getRodape(registros) {
 }
 
 module.exports = class VendaService {
-  static async getAllVendas() {
+  static async getAllVendas(ano, agrupar) {
     try {
-      const todos = await VendaModel.aggregate(allVendasVendedorInnerJoin);
+      const todos = await VendaModel.aggregate(allVendasVendedorInnerJoin(ano, agrupar));
 
       return todos;
     } catch (error) {

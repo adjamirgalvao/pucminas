@@ -64,6 +64,12 @@ tem que ir em https://console.developers.google.com/ e gerar GOOGLE_CLIENT_ID
  5) escolhi a opção de 'aplicativo da web'
  6) em 'Origens JavaScript autorizadas' coloquei http://localhost:4200 e http://localhost (sem a segunda não funciona)
 
+
+---- gráficos
+https://www.npmjs.com/package/ng2-charts?activeTab=readme
+ng add ng2-charts
+npm i chartjs-plugin-annotation
+
 --- extensoes para o vscode
 Auto Import ---> fazer import do typescript
 Angular Language service

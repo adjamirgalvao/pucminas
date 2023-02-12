@@ -58,6 +58,12 @@
                         <a ngbDropdownItem routerLink="/vendas/criarVenda" routerLinkActive="active">Nova Venda</a>
                     </div>
                 </li>
+                <li class="nav-item" ngbDropdown *ngIf="authService.isMaster()">
+                    <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Gestão </a>
+                    <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                        <a ngbDropdownItem routerLink="/indicadores/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Indicadores</a>
+                    </div>
+                </li> 
             </ul>
             <ul class="navbar-nav navbar-right ms-auto">
                 <li class="nav-item " ngbDropdown>
