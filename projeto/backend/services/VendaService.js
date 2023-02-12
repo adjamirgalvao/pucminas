@@ -75,10 +75,17 @@ function allVendasVendedorInnerJoin(ano, agrupar) {
           custoTotal: {$sum: "$custoTotal"}, 
           vendasTotal: {$sum: "$total"}, 
          //https://stackoverflow.com/questions/16676170/is-it-possible-to-sum-2-fields-in-mongodb-using-the-aggregation-framework
-         lucroTotal: {$sum: { $subtract : [ '$total', '$custoTotal' ]}}, 
+          lucroTotal: {$sum: { $subtract : [ '$total', '$custoTotal' ]}}, 
+          numeroVendas: {$sum: 1 }, 
        }
       },
-      {$sort : { _id : 1 }}  ];
+      {
+      $addFields: {
+        ticketMedio: { $divide : [ '$vendasTotal', '$numeroVendas' ]}
+      }  
+    },
+    //ordenação
+    {$sort : { _id : 1 }}  ];
   }
   return retorno;
 }

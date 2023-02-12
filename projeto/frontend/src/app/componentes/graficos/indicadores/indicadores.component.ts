@@ -59,10 +59,16 @@ export class IndicadoresComponent implements OnInit{
           borderColor: 'rgba(0, 164, 0, 0.96)',
         },        
         {
+          data: this.getDataSetTicketMedio(),
+          label: 'Ticket Médio',
+          backgroundColor: 'rgba(114, 37, 128, 0.8)',
+          borderColor: 'rgba(114, 37, 128, 0.8)',
+        },     
+        {
           data: this.getDataSetLucro(),
           label: 'Lucro',
-          backgroundColor: 'rgba(234, 202, 41, 0.96)',
-          borderColor: 'rgba(234, 202, 41, 0.96)',
+          backgroundColor: 'rgba(240, 150, 0, 0.95)',
+          borderColor: 'rgba(240, 150, 0, 0.95)',
         }
       ],
       labels: this.listaMesesSelecionada,
@@ -110,6 +116,10 @@ export class IndicadoresComponent implements OnInit{
   getDataSetVendas() {
     return this.getValores('vendasTotal');
   }
+
+  getDataSetTicketMedio() {
+    return this.getValores('ticketMedio');
+  }  
 
   getDataSetLucro() {
     return this.getValores('lucroTotal');
