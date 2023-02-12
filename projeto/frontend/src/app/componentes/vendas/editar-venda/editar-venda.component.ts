@@ -203,7 +203,7 @@ export class EditarVendaComponent implements OnInit {
           //this.erroCarregando = true;
           this.carregando = false;
           if (err.status == 404){
-            this.alertas.push({ tipo: 'warning', mensagem: `Aviso: O usuário não não possui cadastro de vendedor` });
+            this.alertas.push({ tipo: 'warning', mensagem: `Aviso: O usuário não possui cadastro de vendedor` });
           } 
             throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error?.error;
         })).subscribe((vendedor) => {
