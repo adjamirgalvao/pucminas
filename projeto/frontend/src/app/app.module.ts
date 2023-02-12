@@ -110,7 +110,6 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     EditarUsuarioComponent,
     IndicadoresVendasComponent,
     IndicadoresEstoqueComponent,
-   
   ],
   imports: [
     BrowserModule,

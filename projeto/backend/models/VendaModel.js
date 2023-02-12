@@ -14,6 +14,10 @@ const vendaSchema = Schema({
     type: Schema.ObjectId,
     required: false
   },
+  id_cliente: {
+    type: Schema.ObjectId,
+    required: false
+  },  
 });
 
 module.exports = {

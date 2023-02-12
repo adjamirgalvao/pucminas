@@ -2,8 +2,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
-            <li class="breadcrumb-item">Vendas</li>
-            <li class="breadcrumb-item">Listar Vendas</li>
+            <li class="breadcrumb-item">{{ operacao == 'Listar Vendas' ? 'Vendas' : 'Compras' }}</li>
+            <li class="breadcrumb-item">{{ operacao }}</li>
         </ol>
     </nav>
 </div>
@@ -13,7 +13,7 @@
     <app-alerta [alertas]="alertas"></app-alerta>
 
     <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto h4">&nbsp;Listar Vendas&nbsp;</legend>
+        <legend class="float-none w-auto h4">&nbsp;{{ operacao }}&nbsp;</legend>
         <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhuma venda cadastrada.</strong>
         </div>
         <div class="grid gap-3 border rounded  px-3" *ngIf="dataSource.data.length > 0">
@@ -39,7 +39,7 @@
                     <mat-cell *matCellDef="let venda">{{ venda.total | dinheiroPipe }}</mat-cell>
                     <mat-footer-cell *matFooterCellDef>  {{getValorTotal() | dinheiroPipe}}  </mat-footer-cell>
                 </ng-container>
-                <ng-container matColumnDef="lucro">
+                <ng-container matColumnDef="lucro" *ngIf="operacao == 'Listar Vendas'">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Lucro</mat-header-cell>
                     <mat-cell *matCellDef="let venda"><span [ngClass]="{'text-danger': (venda.total - venda.custoTotal) <=0}"> {{ venda.total - venda.custoTotal | dinheiroPipe }}</span></mat-cell>
                     <mat-footer-cell *matFooterCellDef><span [ngClass]="{'text-danger': getLucroTotal() <=0}">  {{getLucroTotal() | dinheiroPipe}} </span> </mat-footer-cell>
@@ -49,12 +49,16 @@
                     <mat-cell *matCellDef="let venda">
                         <div>
                         <button mat-icon-button [routerLink]="['/vendas/' + venda._id]"
-                            matTooltip="Detalhar Venda" [state]="{ operacao: 'Consultar' }">
+                            matTooltip="Detalhar Venda" [state]="{ operacao: 'Consultar' }" *ngIf="operacao == 'Listar Vendas'">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
-                       <button mat-icon-button matTooltip="Excluir Venda" (click)="confirmarExcluirVenda(venda)"
+                        <button mat-icon-button [routerLink]="['/compras/meusPedidos/' + venda._id]"
+                            matTooltip="Detalhar Pedido" [state]="{ operacao: 'Consultar' }" *ngIf="operacao != 'Listar Vendas'">
+                            <mat-icon color="secondary">receipt</mat-icon>
+                        </button>
+                        <button mat-icon-button matTooltip="Excluir Venda" (click)="confirmarExcluirVenda(venda)"
                             [disabled]="excluindo" [class.spinner]="excluindo && (venda._id == vendaExcluida._id)">
-                            <mat-icon color="secondary">delete</mat-icon>
+                            <mat-icon color="secondary" *ngIf="operacao == 'Listar Vendas'">delete</mat-icon>
                         </button>
                         </div>
                     </mat-cell>
@@ -68,8 +72,8 @@
         </div>
         <br>
         <button mat-stroked-button [routerLink]="['/vendas/criarVenda']" [queryParams]="{ listar: true }"
-            matTooltip="Nova Venda" color="primary">Nova Venda </button>  &nbsp;
+            matTooltip="Nova Venda" color="primary" *ngIf="operacao == 'Listar Vendas'">Nova Venda </button>  &nbsp;
         <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
-        <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button>
+        <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary" *ngIf="operacao == 'Listar Vendas'">Imprimir</button>
     </fieldset>
 </section>

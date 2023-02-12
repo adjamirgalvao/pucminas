@@ -1,14 +1,31 @@
 const VendaService = require("../services/VendaService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
+const ClienteService = require("../services/ClienteService");
 const PDFService = require("../services/PDFService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.MASTER])) {
     let id = req.params.id;
-
+    let erro = true;
     try {
-      const registro = await VendaService.getVendabyId(id);
-      res.json(registro);
+      let registro = await VendaService.getVendabyId(id);
+      // Se for apenas cliente só pode recuperar a própria compra
+      if ((registro) && (!AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER]))){
+        let email = AutorizacaoService.getEmail(req);
+        let cliente = await ClienteService.findOne({email: email});
+        if (cliente) {
+          console.log('teste', registro.id_cliente, cliente._id, !cliente._id.equals(registro.id_cliente));
+          //https://stackoverflow.com/questions/11637353/comparing-mongoose-id-and-strings
+          erro = !cliente._id.equals(registro.id_cliente);
+        }  
+      } else {
+        erro = false;
+      }
+      if (erro) {
+        res.status(403).json({ error: 'Acesso negado' });
+      } else {
+        res.json(registro);
+      }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -18,14 +35,27 @@ exports.get = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
-    try {
-      //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
-      const registros = await VendaService.getAllVendas(req.query.ano, req.query.agrupar);
+  let filtroCliente = req.query.filtroCliente;
+  let id_cliente = null;
+  let erro = false;
 
-      if (!registros) {
-        return res.status(404).json("Não existem vendas cadastradas!");
+  if ((AutorizacaoService.validarRoles(req, [ROLES.CLIENTE]) && filtroCliente) || (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER]))) {
+    try {
+      //Se está fazendo filtro por cliente só pode recuperar os registros do cliente que é o usuário logado
+      if (filtroCliente) {
+         let email = AutorizacaoService.getEmail(req);
+         let cliente = await ClienteService.findOne({email: email});
+         if (cliente) {
+           id_cliente = cliente._id;
+         } else {
+           erro = true;
+         }
       }
+      let registros = [];
+      if (!erro){
+         //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
+         registros = await VendaService.getAllVendas(id_cliente, req.query.ano, req.query.agrupar);
+      }  
 
       res.json(registros);
     } catch (err) {
@@ -84,26 +114,6 @@ exports.delete = async (req, res) => {
       res.json(registro);
     } catch (error) {
       res.status(500).json({ error: error.message });
-    }
-  } else {
-    res.status(403).json({ error: 'Acesso negado' });
-  }
-};
-
-exports.getAllVendas = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
-    let id = req.params.id;
-
-    try {
-      const registros = await VendaService.getAllVendas(id);
-
-      if (!registros) {
-        return res.status(404).json(`Não existem vendas cadastradas para o produto ${id}!`);
-      }
-
-      res.json(registros);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });

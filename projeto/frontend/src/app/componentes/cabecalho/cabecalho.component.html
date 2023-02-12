@@ -43,12 +43,17 @@
                         <a ngbDropdownItem href="#" routerLink="/clientes/criarCliente" routerLinkActive="active">Cadastrar Clientes</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isMaster() || authService.isCliente()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Compras </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <!-- https://stackoverflow.com/questions/55587975/routerlinkactive-route-for-child-and-parent -->
-                        <a ngbDropdownItem routerLink="/compras/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Compras</a>
-                        <a ngbDropdownItem routerLink="/compras/criarCompra" routerLinkActive="active">Nova Compra</a>
+                        <div *ngIf="authService.isEstoque() || authService.isMaster()">
+                            <a ngbDropdownItem routerLink="/compras/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Compras</a>
+                            <a ngbDropdownItem routerLink="/compras/criarCompra" routerLinkActive="active">Nova Compra</a>
+                        </div>
+                        <div *ngIf="authService.isCliente()">
+                            <a ngbDropdownItem routerLink="/compras/meusPedidos" routerLinkActive="active">Meus Pedidos</a>
+                        </div>
                     </div>
                 </li>
                 <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isMaster()">

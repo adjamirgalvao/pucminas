@@ -54,6 +54,10 @@ module.exports = class ClienteService {
       throw new Error(`Cliente ${clienteId} não encontrado ${error.message}`);
     }
   }
+ 
+  static async findOne(consulta) {
+    return await ClienteModel.findOne(consulta);
+  }
 
   static async updateCliente(id, cliente, session) {
     let erro = false;

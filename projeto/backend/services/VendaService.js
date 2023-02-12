@@ -3,8 +3,20 @@ const ItemVendaService = require("./ItemVendaService");
 const RelatorioUtilService = require("./RelatorioUtilService");
 
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
-function allVendasVendedorInnerJoin(ano, agrupar) {
-  let retorno =  [
+function allVendasVendedorInnerJoin(id_cliente, ano, agrupar) {
+  let retorno = [];
+
+  if (id_cliente){
+    retorno = [...retorno,     
+    // Para localizar por id tem que ser pelo tipo. Neste caso pode ser assim pq o id_cliente já vem como objeto mongoose.  
+    {
+      '$match': {
+        'id_cliente': id_cliente
+      }
+    },];
+  }
+  retorno = [...retorno, 
+
     {
       '$lookup': {
         'from': 'vendedores',
@@ -18,6 +30,23 @@ function allVendasVendedorInnerJoin(ano, agrupar) {
         'vendedor': {
           '$arrayElemAt': [
             '$vendedor', 0
+          ]
+        }
+      }
+    },
+    {
+      '$lookup': {
+        'from': 'clientes',
+        'localField': 'id_cliente',
+        'foreignField': '_id',
+        'as': 'cliente'
+      }
+    },
+    { // para fazer com que fique um campo e não uma lista
+      '$addFields': {
+        'cliente': {
+          '$arrayElemAt': [
+            '$cliente', 0
           ]
         }
       }
@@ -210,9 +239,9 @@ function getRodape(registros) {
 }
 
 module.exports = class VendaService {
-  static async getAllVendas(ano, agrupar) {
+  static async getAllVendas(id_cliente, ano, agrupar) {
     try {
-      const todos = await VendaModel.aggregate(allVendasVendedorInnerJoin(ano, agrupar));
+      const todos = await VendaModel.aggregate(allVendasVendedorInnerJoin(id_cliente, ano, agrupar));
 
       return todos;
     } catch (error) {

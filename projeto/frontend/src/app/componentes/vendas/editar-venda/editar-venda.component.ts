@@ -17,6 +17,8 @@ import { VendaService } from 'src/app/services/venda/venda.service';
 import { VendedorService } from 'src/app/services/vendedor/vendedor.service';
 import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-confirmacao.component';
 import { Location } from '@angular/common';
+import { Cliente } from 'src/app/interfaces/Cliente';
+import { ClienteService } from 'src/app/services/cliente/cliente.service';
 
 @Component({
   selector: 'app-editar-venda',
@@ -29,6 +31,7 @@ export class EditarVendaComponent implements OnInit {
     private vendaService: VendaService,
     private produtoService: ProdutoService,
     private vendedorService: VendedorService,
+    private clienteService: ClienteService,
     private authService: AuthService,
     private location: Location,
     private router: Router,
@@ -78,6 +81,10 @@ export class EditarVendaComponent implements OnInit {
   //Filtro de vendedores
   vendedores: Vendedor[] = [];
   vendedoresFiltrados!: Observable<Vendedor[]>;
+  
+  //Filtro de clientes
+  clientes: Cliente[] = [];
+  clientesFiltrados!: Observable<Cliente[]>;
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
@@ -185,6 +192,17 @@ export class EditarVendaComponent implements OnInit {
     return this.vendedores.filter(vendedor => vendedor.nome.toLowerCase().includes(filterValue));
   }
 
+
+  displayFnCliente(cliente: Cliente): string {
+    return cliente && cliente.nome ? cliente.nome : '';
+  }
+
+  private _filterCliente(nome: string): Cliente[] {
+    const filterValue = nome.toLowerCase();
+
+    return this.clientes.filter(cliente => cliente.nome.toLowerCase().includes(filterValue));
+  }
+
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     const id = this.route.snapshot.paramMap.get('id');
@@ -238,8 +256,6 @@ export class EditarVendaComponent implements OnInit {
             console.log(vendedores);
 
             if (this.operacao != 'Cadastrar') {
-              this.erroCarregando = false;
-              this.carregando = true;
               this.vendaService.buscarPorId(id!).pipe(catchError(
                 err => {
                   this.erroCarregando = true;

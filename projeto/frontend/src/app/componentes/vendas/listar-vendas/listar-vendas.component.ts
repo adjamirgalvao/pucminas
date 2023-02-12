@@ -27,6 +27,13 @@ export class ListarVendasComponent implements OnInit {
       if (alerta) {
          this.alertas.push(alerta);
       }
+      // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
+      if (this.router.url.indexOf('/meusPedidos') > -1) {
+        this.operacao = 'Meus Pedidos';
+      } else{
+        this.displayedColumns.push('lucro');
+      } 
+      this.displayedColumns.push('actions');
   }
 
   alertas: Alerta[] = [];
@@ -35,9 +42,10 @@ export class ListarVendasComponent implements OnInit {
   excluindo: boolean = false;
   imprimindo: boolean = false;
   vendaExcluida!: Venda;
+  operacao = 'Listar Vendas';
 
   // Campos para a tabela
-  displayedColumns: string[] = ['data', 'numero', 'vendedor', 'total', 'lucro', 'actions'];
+  displayedColumns: string[] = ['data', 'numero', 'vendedor', 'total'];
   dataSource: MatTableDataSource<Venda> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -61,7 +69,8 @@ export class ListarVendasComponent implements OnInit {
 
   ngOnInit(): void {
     //Recuperando os dados
-    this.vendaService.listar().pipe(catchError(
+    let filtroCliente = this.operacao != 'Listar Vendas';
+    this.vendaService.listar(filtroCliente).pipe(catchError(
       err => {
         this.carregando = false;
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });

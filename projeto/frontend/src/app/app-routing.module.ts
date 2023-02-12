@@ -19,7 +19,7 @@ import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedo
 import { ListarVendasComponent } from './componentes/vendas/listar-vendas/listar-vendas.component';
 import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-venda.component';
 import { AuthGuard } from './services/autenticacao/auth/auth-guard.service';
-import { ESTOQUE, MASTER, VENDEDOR, ADMIN } from './services/autenticacao/auth/auth.service';
+import { ESTOQUE, MASTER, VENDEDOR, ADMIN, CLIENTE } from './services/autenticacao/auth/auth.service';
 import { LoginComponent } from './componentes/autenticacao/login/login.component';
 import { ListarUsuariosComponent } from './componentes/usuarios/listar-usuarios/listar-usuarios.component';
 import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/editar-usuario.component';
@@ -198,6 +198,18 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [MASTER, ESTOQUE]}
   },
+  {
+    path: 'compras/meusPedidos',
+    component: ListarVendasComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [CLIENTE]}
+  }, 
+  {
+    path: 'compras/meusPedidos/:id',
+    component: EditarVendaComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [CLIENTE]}
+  },   
   {
     path: 'compras/:id',
     component: EditarCompraComponent, 

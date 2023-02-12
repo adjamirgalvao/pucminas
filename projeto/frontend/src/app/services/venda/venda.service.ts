@@ -24,8 +24,15 @@ export class VendaService {
     return this.http.get<Venda>(this.API_VENDA + '' + id);
   }
 
-  listar() : Observable<Venda[]> {
-    return this.http.get<Venda[]>(this.API_VENDA);
+  listar(filtroCliente: boolean) : Observable<Venda[]> {
+    if (filtroCliente){ 
+      let queryParams = new HttpParams();
+    
+      queryParams = queryParams.append("filtroCliente", true);    
+      return this.http.get<Venda[]>(this.API_VENDA, { params:queryParams });
+    } else {
+      return this.http.get<Venda[]>(this.API_VENDA);
+    }
   }
 
   listarIndicador(ano: number) : Observable<VendaAgrupada[]> {

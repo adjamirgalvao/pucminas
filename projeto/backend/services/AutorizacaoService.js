@@ -30,6 +30,16 @@ class AutorizacaoService {
 
     return id == usuario._id;
   };
+ 
+  static getEmail = (req) => {
+    let usuario = req.user;
+    let retorno = null;
+
+    if (usuario) {
+      retorno = usuario.email;
+    }
+    return retorno;
+  }; 
 
   static isNovoUsuarioCliente = (body) => {
     let roles = body.roles;
