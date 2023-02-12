@@ -1,6 +1,6 @@
 import { VendaService } from 'src/app/services/venda/venda.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { ChartConfiguration, ChartType } from 'chart.js';
+import { BubbleDataPoint, ChartConfiguration, ChartDataset, ChartType, ChartTypeRegistry, ScatterDataPoint } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
@@ -29,6 +29,7 @@ export class IndicadoresComponent implements OnInit{
   graficos = [{texto: 'Linhas', valor: 'line'}, {texto:'Barras', valor: 'bar'}];
   listaMeses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   tipoGrafico: ChartType  = 'line';
+  listaMesesSelecionada = this.listaMeses;
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
@@ -44,8 +45,27 @@ export class IndicadoresComponent implements OnInit{
 
   public lineChartData(): ChartConfiguration['data'] {
     return {
-      datasets: [this.getDataSetCompras(), this.getDataSetVendas(), this.getDataSetLucro()],
-      labels: this.formulario.value.meses,
+      datasets: [
+        {
+          data: this.getDataSetCustos(),
+          label: 'Custos',
+          backgroundColor: 'rgba(22, 22, 134, 0.8)',
+          borderColor: 'rgba(22, 22, 134, 0.8)',
+        }, 
+        {
+          data: this.getDataSetVendas(),
+          label: 'Vendas',
+          backgroundColor: 'rgba(0, 164, 0, 0.96)',
+          borderColor: 'rgba(0, 164, 0, 0.96)',
+        },        
+        {
+          data: this.getDataSetLucro(),
+          label: 'Lucro',
+          backgroundColor: 'rgba(234, 202, 41, 0.96)',
+          borderColor: 'rgba(234, 202, 41, 0.96)',
+        }
+      ],
+      labels: this.listaMesesSelecionada,
     };
   }
 
@@ -74,6 +94,7 @@ export class IndicadoresComponent implements OnInit{
       })).subscribe(
         (vendas) => {
           this.tipoGrafico = this.formulario.value.grafico;
+          this.listaMesesSelecionada = this.formulario.value.meses;
           this.carregando = false;
           this.carregado = true;
           console.log(vendas);
@@ -81,31 +102,17 @@ export class IndicadoresComponent implements OnInit{
         });
   };
 
-  getDataSetCompras() {
-    return {
-      data: this.getValores('custoTotal'),
-      label: 'Compras',
-      backgroundColor: 'rgba(22, 22, 134, 0.8)',
-      borderColor: 'rgba(22, 22, 134, 0.8)',
-    };
+  getDataSetCustos() {
+    return this.getValores('custoTotal');
+
   }
 
   getDataSetVendas() {
-    return {
-      data: this.getValores('vendasTotal'),
-      label: 'Vendas',
-      backgroundColor: 'rgba(0, 164, 0, 0.96)',
-      borderColor: 'rgba(0, 164, 0, 0.96)',
-    };
+    return this.getValores('vendasTotal');
   }
 
   getDataSetLucro() {
-    return {
-      data: this.getValores('lucroTotal'),
-      label: 'Lucro',
-      backgroundColor: 'rgba(234, 202, 41, 0.96)',
-      borderColor: 'rgba(234, 202, 41, 0.96)',
-    };
+    return this.getValores('lucroTotal');
   }
 
 
@@ -123,7 +130,7 @@ export class IndicadoresComponent implements OnInit{
     }
     let retorno = [];
     for (let i in data) {
-      if (this.formulario.value.meses.indexOf(this.listaMeses[i]) >= 0) {
+      if (this.listaMesesSelecionada.indexOf(this.listaMeses[i]) >= 0) {
         retorno.push(data[i]);
       }
     }
