@@ -11,7 +11,7 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
     <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto h4">&nbsp;Indicadores&nbsp;</legend>
+        <legend class="float-none w-auto h4">&nbsp;Indicadores de Custos e Rentabilidade&nbsp;</legend>
 
         <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
             <legend class="float-none w-auto h6">&nbsp;Filtros&nbsp;</legend>
@@ -39,6 +39,8 @@
                         <mat-select formControlName="meses" multiple>
                           <mat-option *ngFor="let mes of listaMeses" [value]="mes">{{mes}}</mat-option>
                         </mat-select>
+                        <mat-error *ngIf="formulario.get('meses')?.hasError('required')">O campo é obrigatório!</mat-error>
+                        <mat-hint>Escolha os meses para o gráfico</mat-hint>
                       </mat-form-field>
                       <button (click)="$event.preventDefault(); recuperarDados();" mat-stroked-button matTooltip="Salvar o fornecedor" color="primary"
                         [disabled]="carregando || !formulario.valid"
@@ -46,7 +48,7 @@
                 </div>
             </form>
         </fieldset>    
-        <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled *ngIf="carregado">
+        <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3 mt-3" aria-disabled *ngIf="carregado">
             <legend class="float-none w-auto h6">&nbsp;Resultado&nbsp;</legend>
             <div class="chart-wrapper border rounded">
                 <canvas baseChart class="chart" 

@@ -222,7 +222,7 @@ const routes: Routes = [
     data: {roles: [MASTER, VENDEDOR]} 
   },
   {
-    path: 'indicadores',
+    path: 'indicadoresCustosRentabilidade',
     component: IndicadoresComponent, 
     canActivate: [AuthGuard],
     data: {roles: [MASTER]} 
