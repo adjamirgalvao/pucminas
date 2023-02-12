@@ -66,8 +66,9 @@ import { ListarUsuariosComponent } from './componentes/usuarios/listar-usuarios/
 import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/editar-usuario.component';
 import { GOOGLE_CLIENT_ID } from './services/autenticacao/auth/auth.service';
 import { NgChartsModule } from 'ng2-charts';
-import { IndicadoresComponent } from './componentes/graficos/indicadores/indicadores.component';
 import { MatSelectModule } from '@angular/material/select';
+import { IndicadoresVendasComponent } from './componentes/indicadores/indicadores-vendas/indicadores-vendas.component';
+import { IndicadoresEstoqueComponent } from './componentes/indicadores/indicadores-estoque/indicadores-estoque.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -107,7 +108,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     LogoutComponent,
     ListarUsuariosComponent,
     EditarUsuarioComponent,
-    IndicadoresComponent,
+    IndicadoresVendasComponent,
+    IndicadoresEstoqueComponent,
    
   ],
   imports: [

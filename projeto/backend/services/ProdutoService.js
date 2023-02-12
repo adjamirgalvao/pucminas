@@ -2,8 +2,8 @@ const ProdutoModel = require("../models/ProdutoModel");
 const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
 const RelatorioUtilService = require("./RelatorioUtilService");
 
-function itemCompraInnerJoinCompra(id) {
-  return  [
+function itemCompraInnerJoinCompra(id, ano, agrupar) {
+  let retorno =  [
   {
     '$match':{
       'id_produto': new Mongoose.Types.ObjectId(id)}
@@ -16,7 +16,9 @@ function itemCompraInnerJoinCompra(id) {
       'foreignField': '_id', 
       'as': 'compra'
     }
-  }, { // para fazer com que fique um campo e não uma lista
+  }, 
+  // para fazer com que fique um campo e não uma lista
+  { 
      '$addFields': {
         'compra': {
             '$arrayElemAt': [
@@ -24,14 +26,49 @@ function itemCompraInnerJoinCompra(id) {
             ]
         }
     }
-  }, { // para virar inner join e não left join
+  }, 
+  // para virar inner join e não left join
+  { 
     '$match': {
       'compra': {
           '$exists': true
       }
     }
+  }, 
+  // Colocando a data para facilitar na hora de fazer o group by
+  { 
+    '$addFields': {
+       'data':  '$compra.data'
+    }
+   },  
+ ];
+  // https://stackoverflow.com/questions/70289720/aggregate-query-by-year-and-month-in-mongodb
+  if (ano) {
+    retorno = [...retorno,   {
+        $match: {
+                  data: { $gte: new Date(ano +"-01-01"), $lte: new Date(ano + "-12-31") }
+              }      
+      }];
   }  
-];
+  if (agrupar) {
+    retorno = [...retorno, 
+        //https://stackoverflow.com/questions/27366209/group-and-count-by-month
+        {$group: {
+          _id: {$month: "$data"}, 
+          custoTotal: {$sum: "$preco"}, 
+          quantidadeTotal: {$sum: "$quantidade"}, 
+          numeroCompras: {$sum: 1 }, 
+       }
+      },
+      {
+      $addFields: {
+        custoMedio: { $divide : [ '$custoTotal', '$quantidadeTotal' ]}
+      }  
+    },
+    //ordenação
+    {$sort : { _id : 1 }}  ];
+  }     
+  return retorno;
 }
 
 module.exports = class ProdutoService {
@@ -161,9 +198,9 @@ module.exports = class ProdutoService {
     }
   }
 
-  static async getAllItensCompras(id) {
+  static async getAllItensCompras(id, ano, agrupar) {
     try {
-      const todos = await ItemCompraModel.aggregate(itemCompraInnerJoinCompra(id));
+      const todos = await ItemCompraModel.aggregate(itemCompraInnerJoinCompra(id, ano, agrupar));
       
       return todos;
     } catch (error) {

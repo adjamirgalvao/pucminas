@@ -120,7 +120,7 @@ exports.getAllItensCompras = async (req, res) => {
     let id = req.params.id;
 
     try {
-      const todos = await ProdutoService.getAllItensCompras(id);
+      const todos = await ProdutoService.getAllItensCompras(id, req.query.ano, req.query.agrupar);
 
       if (!todos) {
         return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);

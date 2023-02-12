@@ -10,7 +10,9 @@ const allItensCompraProdutoInnerJoin = [
       'foreignField': '_id', 
       'as': 'produto'
     }
-  }, { // para fazer com que fique um campo e não uma lista
+  }, 
+  // para fazer com que fique um campo e não uma lista  
+  { 
      '$addFields': {
         'produto': {
             '$arrayElemAt': [
@@ -18,7 +20,9 @@ const allItensCompraProdutoInnerJoin = [
             ]
         }
     }
-  }, { // para virar inner join e não left join
+  }, 
+  // para virar inner join e não left join
+  { 
     '$match': {
       'produto': {
           '$exists': true
@@ -33,7 +37,9 @@ const allItensCompraProdutoInnerJoin = [
       'foreignField': '_id', 
       'as': 'compra'
     }
-  }, { // para fazer com que fique um campo e não uma lista
+  }, 
+  // para fazer com que fique um campo e não uma lista
+  { 
      '$addFields': {
         'compra': {
             '$arrayElemAt': [
@@ -41,13 +47,21 @@ const allItensCompraProdutoInnerJoin = [
             ]
         }
     }
-  }, { // para virar inner join e não left join
+  },
+  // para virar inner join e não left join 
+  { 
     '$match': {
       'compra': {
           '$exists': true
       }
     }
-  }  
+  },  
+  // Colocando a data para facilitar na hora de fazer o group by
+  { 
+    '$addFields': {
+       'data':  '$compra.data'
+    }
+   },  
 ];
 
 module.exports = class ItemCompraService {

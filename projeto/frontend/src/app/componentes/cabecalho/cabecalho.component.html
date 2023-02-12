@@ -61,7 +61,8 @@
                 <li class="nav-item" ngbDropdown *ngIf="authService.isMaster()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Gestão </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
-                        <a ngbDropdownItem routerLink="/indicadoresCustosRentabilidade/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Indicadores para Vendas</a>
+                        <a ngbDropdownItem routerLink="/indicadoresVendas/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Indicadores para Vendas</a>
+                        <a ngbDropdownItem routerLink="/indicadoresEstoque/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Indicadores para Estoque</a>
                     </div>
                 </li> 
             </ul>
