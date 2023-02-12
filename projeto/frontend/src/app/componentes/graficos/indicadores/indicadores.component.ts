@@ -7,6 +7,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { VendaAgrupada } from 'src/app/interfaces/VendaAgrupada';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+// https://valor-software.com/ng2-charts/#LineChart
 @Component({
   selector: 'app-indicadores',
   templateUrl: './indicadores.component.html',
@@ -44,7 +45,7 @@ export class IndicadoresComponent implements OnInit{
   public lineChartData(): ChartConfiguration['data'] {
     return {
       datasets: [this.getDataSetCompras(), this.getDataSetVendas(), this.getDataSetLucro()],
-      labels: this.listaMeses,
+      labels: this.formulario.value.meses,
     };
   }
 
@@ -54,46 +55,9 @@ export class IndicadoresComponent implements OnInit{
         tension: 0.5
       }
     },
-    /*scales: {
-      // We use this empty structure as a placeholder for dynamic theming.
-      y:
-        {
-          position: 'left',
-        },
-      /*y1: {
-        position: 'right',
-        grid: {
-          color: 'rgba(255,0,0,0.3)',
-        },
-        ticks: {
-          color: 'red'
-        }
-      }
-    },*/
-
 
     plugins: {
       legend: { display: true },
-      /*annotation: {
-        annotations: [
-          {
-            type: 'line',
-            scaleID: 'x',
-            value: 'March',
-            borderColor: 'orange',
-            borderWidth: 2,
-            label: {
-              display: true,
-              position: 'center',
-              color: 'orange',
-              content: 'LineAnno',
-              font: {
-                weight: 'bold'
-              }
-            }
-          },
-        ],
-      }*/
     }
   };
 
@@ -119,45 +83,51 @@ export class IndicadoresComponent implements OnInit{
 
   getDataSetCompras() {
     return {
-      data: this.vendas.map(venda => venda.custoTotal),
+      data: this.getValores('custoTotal'),
       label: 'Compras',
       backgroundColor: 'rgba(22, 22, 134, 0.8)',
       borderColor: 'rgba(22, 22, 134, 0.8)',
-     /* pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-      fill: 'origin',*/
     };
   }
 
   getDataSetVendas() {
     return {
-      data: this.vendas.map(venda => venda.vendasTotal),
+      data: this.getValores('vendasTotal'),
       label: 'Vendas',
       backgroundColor: 'rgba(0, 164, 0, 0.96)',
       borderColor: 'rgba(0, 164, 0, 0.96)',
-      /*pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)',
-      fill: 'origin',*/
     };
   }
 
   getDataSetLucro() {
     return {
-      data: this.vendas.map(venda => venda.lucroTotal),
+      data: this.getValores('lucroTotal'),
       label: 'Lucro',
-      // yAxisID: 'y1',
       backgroundColor: 'rgba(234, 202, 41, 0.96)',
       borderColor: 'rgba(234, 202, 41, 0.96)',
-      /*pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-      fill: 'origin',*/
     };
   }
+
+
+  private getValores(campo: string) {
+    let data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    
+    for (let i in this.vendas) {
+      let venda = this.vendas[i];
+      //https://bobbyhadz.com/blog/typescript-access-object-property-dynamically
+      type ObjectKey = keyof typeof venda;
+      const myVar = campo as ObjectKey;
+
+      let valor = venda[myVar];
+      data[parseInt(venda._id) - 1] = parseFloat('' + valor);
+    }
+    let retorno = [];
+    for (let i in data) {
+      if (this.formulario.value.meses.indexOf(this.listaMeses[i]) >= 0) {
+        retorno.push(data[i]);
+      }
+    }
+    return retorno;
+  }  
 }
 
