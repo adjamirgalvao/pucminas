@@ -136,7 +136,7 @@ export class IndicadoresEstoqueComponent implements OnInit{
         },   
         {
           data: this.getDataSetQuantidade(),
-          label: 'Quantidade',
+          label: 'Qtd. Compra',
           backgroundColor: 'rgba(0, 164, 0, 0.96)',
           borderColor: 'rgba(0, 164, 0, 0.96)',
         },        
