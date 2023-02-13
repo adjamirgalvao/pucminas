@@ -56,7 +56,7 @@
         <br>
         <button mat-stroked-button routerLink="/fornecedores/criarFornecedor" [queryParams]="{ listar: true }"
             matTooltip="Novo Fornecedor" color="primary">Novo</button>  &nbsp;
-        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
-        <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button>
+            <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button> &nbsp;
+            <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
    </fieldset>
 </section>

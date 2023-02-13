@@ -87,7 +87,7 @@
         <br>
         <button mat-stroked-button [routerLink]="['/vendas/criarVenda']" [queryParams]="{ listar: true }"
             matTooltip="Nova Venda" color="primary" *ngIf="operacao == 'Listar Vendas'">Nova Venda </button>  &nbsp;
-        <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
-        <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary" *ngIf="operacao == 'Listar Vendas'">Imprimir</button>
+            <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary" *ngIf="operacao == 'Listar Vendas'">Imprimir</button>&nbsp;
+            <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
     </fieldset>
 </section>
