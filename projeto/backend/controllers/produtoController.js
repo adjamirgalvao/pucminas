@@ -3,7 +3,7 @@ const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 const PDFService = require("../services/PDFService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -18,7 +18,7 @@ exports.get = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN])) {
     try {
       let registros;
 
@@ -43,7 +43,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getAllComSaldo = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     try {
       const registros = await ProdutoService.getAllProdutosComSaldo();
 
@@ -61,7 +61,7 @@ exports.getAllComSaldo = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     try {
       const registro = await ProdutoService.addProduto(req.body);
       res.status(201).json(registro);
@@ -74,7 +74,7 @@ exports.add = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -101,7 +101,7 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -116,7 +116,7 @@ exports.delete = async (req, res) => {
 };
 
 exports.getAllItensCompras = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -136,7 +136,7 @@ exports.getAllItensCompras = async (req, res) => {
 };
 
 exports.getRelatorioListagem = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     try {
       let html = await ProdutoService.getRelatorioListagem();
 

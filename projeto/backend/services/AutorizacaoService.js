@@ -5,7 +5,7 @@ const ROLES = Object.freeze({
     VENDEDOR: 'VENDEDOR',
     ESTOQUE: 'ESTOQUE',
     CLIENTE: 'CLIENTE',
-    MASTER: 'MASTER',
+    GESTOR: 'GESTOR',
 });
 
 class AutorizacaoService {

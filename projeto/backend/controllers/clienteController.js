@@ -3,7 +3,7 @@ const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 const PDFService = require("../services/PDFService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -19,7 +19,7 @@ exports.get = async (req, res) => {
 
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN])) {
     try {
       const registros = await ClienteService.getAllClientes();
 
@@ -37,7 +37,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     try {
       const registro = await ClienteService.addCliente(req.body);
       res.status(201).json(registro);
@@ -51,7 +51,7 @@ exports.add = async (req, res) => {
 
 
 exports.update = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -80,7 +80,7 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -95,7 +95,7 @@ exports.delete = async (req, res) => {
 };
 
 exports.getRelatorioListagem = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     try {
       let html = await ClienteService.getRelatorioListagem();
 

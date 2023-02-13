@@ -4,13 +4,13 @@ const ClienteService = require("../services/ClienteService");
 const PDFService = require("../services/PDFService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN])) {
     let id = req.params.id;
     let erro = true;
     try {
       let registro = await VendaService.getVendabyId(id);
       // Se for apenas cliente só pode recuperar a própria compra
-      if ((registro) && (!AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER]))){
+      if ((registro) && (!AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN]))){
         let email = AutorizacaoService.getEmail(req);
         let cliente = await ClienteService.findOne({email: email});
         if (cliente) {
@@ -38,7 +38,7 @@ exports.getAll = async (req, res) => {
   let id_cliente = null;
   let erro = false;
 
-  if ((AutorizacaoService.validarRoles(req, [ROLES.CLIENTE]) && filtroCliente) || (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER]))) {
+  if ((AutorizacaoService.validarRoles(req, [ROLES.CLIENTE]) && filtroCliente) || (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN]))) {
     try {
       //Se está fazendo filtro por cliente só pode recuperar os registros do cliente que é o usuário logado
       if (filtroCliente) {
@@ -66,7 +66,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     try {
       const registro = await VendaService.addVenda(req.body);
       res.status(201).json(registro);
@@ -79,7 +79,7 @@ exports.add = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -106,7 +106,7 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -121,7 +121,7 @@ exports.delete = async (req, res) => {
 };
 
 exports.getRelatorioListagem = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     try {
       let html = await VendaService.getRelatorioListagem();
 

@@ -2,7 +2,7 @@ const ItemVendaService = require("../services/ItemVendaService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -17,7 +17,7 @@ exports.get = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     try {
       const registros = await ItemVendaService.getAllItensVendas();
 
@@ -35,7 +35,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     try {
       const registro = await ItemVendaService.addItemVenda(req.body);
       res.status(201).json(registro);
@@ -48,7 +48,7 @@ exports.add = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {

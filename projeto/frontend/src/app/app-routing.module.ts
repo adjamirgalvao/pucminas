@@ -19,7 +19,7 @@ import { EditarVendedorComponent } from './componentes/vendedores/editar-vendedo
 import { ListarVendasComponent } from './componentes/vendas/listar-vendas/listar-vendas.component';
 import { EditarVendaComponent } from './componentes/vendas/editar-venda/editar-venda.component';
 import { AuthGuard } from './services/autenticacao/auth/auth-guard.service';
-import { ESTOQUE, MASTER, VENDEDOR, ADMIN, CLIENTE } from './services/autenticacao/auth/auth.service';
+import { ESTOQUE, GESTOR, VENDEDOR, ADMIN, CLIENTE } from './services/autenticacao/auth/auth.service';
 import { LoginComponent } from './componentes/autenticacao/login/login.component';
 import { ListarUsuariosComponent } from './componentes/usuarios/listar-usuarios/listar-usuarios.component';
 import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/editar-usuario.component';
@@ -57,146 +57,146 @@ const routes: Routes = [
     path: 'usuarios',
     component: ListarUsuariosComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN]}
+    data: {roles: [ADMIN]}
   },
   {
     path: 'usuarios/criarUsuario',
     component: EditarUsuarioComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN]}
+    data: {roles: [ADMIN]}
   },
   {
     path: 'usuarios/:id',
     component: EditarUsuarioComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN]} 
+    data: {roles: [ADMIN]} 
   },
   {
     path: 'usuarios/:id/editarUsuario',
     component: EditarUsuarioComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN]} 
+    data: {roles: [ADMIN]} 
   },
   {
     path: 'produtos',
     component: ListarProdutosComponent,
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },
   {
     path: 'produtos/criarProduto',
     component: EditarProdutoComponent,
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },
    // https://stackoverflow.com/questions/67106539/angular-routing-param-in-the-middle
   {
     path: 'produtos/:id',
     component: EditarProdutoComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },
   {
     path: 'produtos/:id/editarProduto',
     component: EditarProdutoComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]} 
+    data: {roles: [ADMIN, ESTOQUE]} 
   },
   {
     path: 'produtos/:id/cadastrarCompraProduto',
     component: CriarCompraProdutoComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },  
   {
     path: 'produtos/:id/listarComprasProduto',
     component: ListarComprasProdutoComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },  
   {
     path: 'fornecedores',
     component: ListarFornecedoresComponent,
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },
   {
     path: 'fornecedores/criarFornecedor',
     component: EditarFornecedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },
   {
     path: 'fornecedores/:id',
     component: EditarFornecedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]} 
+    data: {roles: [ADMIN, ESTOQUE]} 
   },
   {
     path: 'fornecedores/:id/editarFornecedor',
     component: EditarFornecedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]} 
+    data: {roles: [ADMIN, ESTOQUE]} 
   },
   {
     path: 'clientes',
     component: ListarClientesComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN, VENDEDOR]}
+    data: {roles: [ADMIN, VENDEDOR]}
   },
   {
     path: 'clientes/criarCliente',
     component: EditarClienteComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN,  VENDEDOR]}
+    data: {roles: [ADMIN,  VENDEDOR]}
   },
   {
     path: 'clientes/:id',
     component: EditarClienteComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN,  VENDEDOR]} 
+    data: {roles: [ADMIN,  VENDEDOR]} 
   },
   {
     path: 'clientes/:id/editarCliente',
     component: EditarClienteComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN, VENDEDOR]} 
+    data: {roles: [ADMIN, VENDEDOR]} 
   },
   {
     path: 'vendedores',
     component: ListarVendedoresComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN]}
+    data: {roles: [ADMIN]}
   },
   {
     path: 'vendedores/criarVendedor',
     component: EditarVendedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN]}
+    data: {roles: [ADMIN]}
   },
   {
     path: 'vendedores/:id',
     component: EditarVendedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN]} 
+    data: {roles: [ADMIN]} 
   },
   {
     path: 'vendedores/:id/editarVendedor',
     component: EditarVendedorComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ADMIN]} 
+    data: {roles: [ADMIN]} 
   },
   {
     path: 'compras',
     component: ListarComprasComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },
   {
     path: 'compras/criarCompra',
     component: EditarCompraComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE]}
   },
   {
     path: 'compras/meusPedidos',
@@ -214,37 +214,37 @@ const routes: Routes = [
     path: 'compras/:id',
     component: EditarCompraComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, ESTOQUE]} 
+    data: {roles: [ADMIN, ESTOQUE]} 
   },
   {
     path: 'vendas',
     component: ListarVendasComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]}
+    data: {roles: [ADMIN, VENDEDOR]}
   },
   {
     path: 'vendas/criarVenda',
     component: EditarVendaComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]}
+    data: {roles: [ADMIN, VENDEDOR]}
   },
   {
     path: 'vendas/:id',
     component: EditarVendaComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]} 
+    data: {roles: [ADMIN, VENDEDOR]} 
   },
   {
     path: 'indicadoresVendas',
     component: IndicadoresVendasComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER]} 
+    data: {roles: [GESTOR]} 
   },  
   {
     path: 'indicadoresEstoque',
     component: IndicadoresEstoqueComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER]} 
+    data: {roles: [GESTOR]} 
   },  
   {
      path: '404', 

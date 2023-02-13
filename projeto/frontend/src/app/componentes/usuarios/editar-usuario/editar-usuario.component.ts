@@ -6,7 +6,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { Location } from '@angular/common';
-import { ADMIN, MASTER, ESTOQUE, VENDEDOR, CLIENTE, AuthService } from 'src/app/services/autenticacao/auth/auth.service';
+import { ADMIN, GESTOR, ESTOQUE, VENDEDOR, CLIENTE, AuthService } from 'src/app/services/autenticacao/auth/auth.service';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -44,7 +44,7 @@ export class EditarUsuarioComponent implements OnInit {
   carregando: boolean = false;
   leitura: boolean = false;
 
-  rolesDisponiveis: string[] = [ADMIN, MASTER, ESTOQUE, VENDEDOR, CLIENTE];
+  rolesDisponiveis: string[] = [ADMIN, GESTOR, ESTOQUE, VENDEDOR, CLIENTE];
 
   inicial: Usuario = {
     nome: '',

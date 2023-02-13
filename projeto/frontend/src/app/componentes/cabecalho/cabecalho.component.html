@@ -7,21 +7,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed" *ngIf="authService.isLogado()">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin() || authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Usuários </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/usuarios/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Usuários</a>
                         <a ngbDropdownItem href="#" routerLink="/usuarios/criarUsuario" routerLinkActive="active">Cadastrar Usuários</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Fornecedores </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/fornecedores/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Fornecedores</a>
                         <a ngbDropdownItem href="#" routerLink="/fornecedores/criarFornecedor" routerLinkActive="active">Cadastrar Fornecedores</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Produtos </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <!-- https://stackoverflow.com/questions/55587975/routerlinkactive-route-for-child-and-parent -->
@@ -29,25 +29,25 @@
                         <a ngbDropdownItem routerLink="/produtos/criarProduto" routerLinkActive="active">Cadastrar Produtos</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin() || authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Vendedores </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/vendedores/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Vendedores</a>
                         <a ngbDropdownItem href="#" routerLink="/vendedores/criarVendedor" routerLinkActive="active">Cadastrar Vendedores</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isAdmin() || authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Clientes </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/clientes/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Clientes</a>
                         <a ngbDropdownItem href="#" routerLink="/clientes/criarCliente" routerLinkActive="active">Cadastrar Clientes</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isMaster() || authService.isCliente()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isAdmin() || authService.isCliente()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Compras </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <!-- https://stackoverflow.com/questions/55587975/routerlinkactive-route-for-child-and-parent -->
-                        <div *ngIf="authService.isEstoque() || authService.isMaster()">
+                        <div *ngIf="authService.isEstoque() || authService.isAdmin()">
                             <a ngbDropdownItem routerLink="/compras/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Compras</a>
                             <a ngbDropdownItem routerLink="/compras/criarCompra" routerLinkActive="active">Nova Compra</a>
                         </div>
@@ -56,14 +56,14 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Vendas </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem routerLink="/vendas/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Vendas</a>
                         <a ngbDropdownItem routerLink="/vendas/criarVenda" routerLinkActive="active">Nova Venda</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isGestor()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Gestão </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem routerLink="/indicadoresVendas/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Indicadores para Vendas</a>

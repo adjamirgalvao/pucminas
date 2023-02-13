@@ -4,7 +4,7 @@ const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 exports.get = async (req, res) => {
   let id = req.params.id;
 
-  if (AutorizacaoService.isMesmoUsuario(req, id) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.isMesmoUsuario(req, id) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
       const registro = await UsuarioService.getUsuariobyId(id);
       res.json(registro);
@@ -17,7 +17,7 @@ exports.get = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
       const registros = await UsuarioService.getAllUsuarios();
 
@@ -35,7 +35,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-  if (AutorizacaoService.isNovoUsuarioCliente(req.body) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.isNovoUsuarioCliente(req.body) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
       const registro = await UsuarioService.addUsuario(req.body);
       res.status(201).json(registro);
@@ -51,7 +51,7 @@ exports.update = async (req, res) => {
   let id = req.params.id;
 
   let mesmoUsuario = AutorizacaoService.isMesmoUsuario(req, id);
-  let admin = AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER]);
+  let admin = AutorizacaoService.validarRoles(req, [ROLES.ADMIN]);
 
   if (mesmoUsuario || admin) {
     try {
@@ -87,7 +87,7 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {

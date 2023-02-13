@@ -10,7 +10,7 @@ export const ADMIN = 'ADMINISTRADOR';
 export const VENDEDOR = 'VENDEDOR';
 export const ESTOQUE = 'ESTOQUE';
 export const CLIENTE = 'CLIENTE';
-export const MASTER = 'MASTER';
+export const GESTOR = 'GESTOR';
 export const GOOGLE_CLIENT_ID = '29293112369-dsdrjt1o361s0oajmoiqsjcjcqes7o0v.apps.googleusercontent.com';
 
 @Injectable({
@@ -117,14 +117,14 @@ export class AuthService {
   }
 
 
-  isMaster() : boolean{
+  isGestor() : boolean{
     let retorno = false;
 
     if (this.isLogado()) {
       let usuario = this.getUsuario();
 
       if (usuario && usuario.roles) {
-        retorno = (usuario.roles.indexOf(MASTER) > -1);
+        retorno = (usuario.roles.indexOf(GESTOR) > -1);
       }
     }
 

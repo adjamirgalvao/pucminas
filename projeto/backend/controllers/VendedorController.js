@@ -3,7 +3,7 @@ const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 const PDFService = require("../services/PDFService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -18,7 +18,7 @@ exports.get = async (req, res) => {
 };
 
 exports.getByEmail = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let email = req.params.email;
 
     try {
@@ -37,7 +37,7 @@ exports.getByEmail = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.VENDEDOR, ROLES.CLIENTE])) {
     try {
       const registros = await VendedorService.getAllVendedores();
 
@@ -55,7 +55,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
       const registro = await VendedorService.addVendedor(req.body);
       res.status(201).json(registro);
@@ -68,7 +68,7 @@ exports.add = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -97,7 +97,7 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {
@@ -112,7 +112,7 @@ exports.delete = async (req, res) => {
 };
 
 exports.getRelatorioListagem = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
       let html = await VendedorService.getRelatorioListagem();
 
