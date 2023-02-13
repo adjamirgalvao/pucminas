@@ -19,15 +19,15 @@
             <mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="nome">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
-                    <mat-cell *matCellDef="let usuario">{{ usuario.nome }}</mat-cell>
+                    <mat-cell *matCellDef="let usuario" class="word-break text-break">{{ usuario.nome }}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="login">
+                <ng-container matColumnDef="login" >
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Login</mat-header-cell>
-                    <mat-cell *matCellDef="let usuario">{{ usuario.login }} </mat-cell>
+                    <mat-cell *matCellDef="let usuario" class="text-break">{{ usuario.login }}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="email">
+                <ng-container matColumnDef="email" >
                     <mat-header-cell *matHeaderCellDef mat-sort-header>E-mail</mat-header-cell>
-                    <mat-cell *matCellDef="let usuario">{{ usuario.email }}</mat-cell>
+                    <mat-cell *matCellDef="let usuario" class="text-break">{{ usuario.email }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>

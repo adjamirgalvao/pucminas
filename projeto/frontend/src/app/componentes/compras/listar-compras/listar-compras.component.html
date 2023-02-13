@@ -22,7 +22,7 @@
                 <ng-container matColumnDef="data">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Data da Compra</mat-header-cell>
                     <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
-                    <mat-cell *matCellDef="let compra">{{ compra.data  | date: 'dd/MM/yyyy'}}</mat-cell>
+                    <mat-cell *matCellDef="let compra" class="text-break">{{ compra.data  | date: 'dd/MM/yyyy'}}</mat-cell>
                     <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
                 </ng-container>
                 <ng-container matColumnDef="numero">
