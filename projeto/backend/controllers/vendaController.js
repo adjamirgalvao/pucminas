@@ -14,7 +14,6 @@ exports.get = async (req, res) => {
         let email = AutorizacaoService.getEmail(req);
         let cliente = await ClienteService.findOne({email: email});
         if (cliente) {
-          console.log('teste', registro.id_cliente, cliente._id, !cliente._id.equals(registro.id_cliente));
           //https://stackoverflow.com/questions/11637353/comparing-mongoose-id-and-strings
           erro = !cliente._id.equals(registro.id_cliente);
         }  
@@ -88,6 +87,7 @@ exports.update = async (req, res) => {
       venda.data = req.body.data;
       venda.numero = req.body.numero;
       venda.id_vendedor = req.body.id_vendedor;
+      venda.id_cliente = req.body.id_cliente;
 
       console.log(venda, id);
       const registro = await VendaService.updateVenda(id, venda);

@@ -260,7 +260,8 @@ module.exports = class VendaService {
       const novo = {
         data: data.data,
         numero: data.numero,
-        id_vendedor: data.id_vendedor
+        id_vendedor: data.id_vendedor,
+        id_cliente : data.id_cliente,
       };
 
       let registro = await new VendaModel(novo).save({ session });

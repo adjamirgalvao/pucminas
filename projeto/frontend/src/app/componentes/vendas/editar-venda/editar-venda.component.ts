@@ -43,6 +43,10 @@ export class EditarVendaComponent implements OnInit {
     if (modo) {
       this.operacao = modo;
     }
+    // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
+    if (this.router.url.indexOf('/meusPedidos') > -1) {
+        this.operacao = 'Detalhar';  
+    }      
   }
 
   formulario!: FormGroup;
@@ -64,7 +68,6 @@ export class EditarVendaComponent implements OnInit {
 
   @ViewChild('formDirective')
   private formDirective!: NgForm;
-
 
   // Campos para a tabela
   displayedColumns: string[] = ['produto.nome', 'quantidade', 'precoUnitario', 'precoTotal', 'desconto', 'precoFinal'];
@@ -208,9 +211,11 @@ export class EditarVendaComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    this.operacao = (id == null) ? 'Cadastrar' : 'Consultar'; //se fizer edição troca por Editar
+    if (!this.operacao){
+      this.operacao = (id == null) ? 'Cadastrar' : 'Consultar'; //se fizer edição troca por Editar
+    }
 
-    if (this.operacao != 'Consultar'){
+    if ((this.operacao != 'Consultar') && (this.operacao != 'Detalhar')){
       this.displayedColumns.push('actions');
     } else {
       this.leitura = true;
@@ -225,7 +230,6 @@ export class EditarVendaComponent implements OnInit {
           } 
             throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error?.error;
         })).subscribe((vendedor) => {
-          console.log('vendedor encontrado', vendedor);
           this.inicial.vendedor = vendedor;
         });  
     }
@@ -255,31 +259,43 @@ export class EditarVendaComponent implements OnInit {
             this.ordernarNome(this.vendedores);
             console.log(vendedores);
 
-            if (this.operacao != 'Cadastrar') {
-              this.vendaService.buscarPorId(id!).pipe(catchError(
-                err => {
-                  this.erroCarregando = true;
-                  this.carregando = false;
-                  this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar a venda!' });
-                  throw 'Erro ao recuperar a venda! Detalhes: ' + err;
-                })).subscribe((venda) => {
-                  this.carregando = false;
-                  if (venda != null) {
-                    this.inicial = venda;
-                    this.itensVenda = venda.itensVenda!;
-                    this.criarFormulario();
-                    this.atualizarTabela();
-                  } else {
-                    this.alertas.push({ tipo: 'danger', mensagem: 'Venda não encontrada!' });
-                    this.erroCarregando = true;
-                  }
-                });
-            } else {
-              this.criarFormulario();
-              this.carregando = false;
+            this.clienteService.listar().pipe(catchError(
+              err => {
+                this.erroCarregando = true;
+                this.carregando = false;
+                this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar clientes! Detalhes ${err.error?.error}` });
+                throw 'Erro ao recuperar clientes! Detalhes: ' + err.error?.error;
+              })).subscribe((clientes) => {
+                this.clientes = clientes;
+                this.ordernarNome(this.clientes);
+                console.log(clientes);
+
+                if (this.operacao != 'Cadastrar') {
+                    this.vendaService.buscarPorId(id!).pipe(catchError(
+                      err => {
+                        this.erroCarregando = true;
+                        this.carregando = false;
+                        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar a venda!' });
+                         throw 'Erro ao recuperar a venda! Detalhes: ' + err;
+                   })).subscribe((venda) => {
+                      this.carregando = false;
+                      if (venda != null) {
+                        this.inicial = venda;
+                        this.itensVenda = venda.itensVenda!;
+                        this.criarFormulario();
+                        this.atualizarTabela();
+                      } else {
+                      this.alertas.push({ tipo: 'danger', mensagem: 'Venda não encontrada!' });
+                      this.erroCarregando = true;
+                    }
+                  });
+              } else {
+                this.criarFormulario();
+                this.carregando = false;
             }
           });
       });
+    });
 
   }
 
@@ -291,6 +307,9 @@ export class EditarVendaComponent implements OnInit {
       id_vendedor : this.formulario.value.vendedor._id,
       itensVenda: this.itensVenda
     };
+    if (this.formulario.get('cliente')?.valid) {
+      venda.id_cliente = this.formulario.value.cliente._id;
+    }
 
     this.salvandoFormulario(true);
     this.cadastrarVenda(venda);
@@ -300,7 +319,11 @@ export class EditarVendaComponent implements OnInit {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
     if ((this.operacao != 'Cadastrar') || this.listar) {
-      this.router.navigate(['/vendas']);
+      if (this.operacao == 'Detalhar') {
+        this.router.navigate(['/compras/meusPedidos']);
+      } else {  
+        this.router.navigate(['/vendas']);
+      }  
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
       this.location.back();
@@ -319,6 +342,17 @@ export class EditarVendaComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       if ((control.value !== undefined) && !(typeof control.value != 'string')) {
         return { 'vendedorCadastrado': true };
+      }
+      return null;
+    }
+  }
+
+  clienteValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      //aqui eu deixo o cliente ficar vazio.
+      if ((control.value !== undefined) && (control.value != '') && !(typeof control.value != 'string')) {
+        console.log("valor cliente", control.value);
+        return { 'clienteCadastrado': true };
       }
       return null;
     }
@@ -353,6 +387,7 @@ export class EditarVendaComponent implements OnInit {
       vendedor: [{value: this.inicial.vendedor, disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.vendedorValidator()
       ])],
+      cliente: [{value: this.inicial.cliente, disabled: this.readOnly()}, this.clienteValidator()],
       numero: [{value: this.inicial.numero, disabled: this.readOnly()}],
       produto: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.produtoValidator()
@@ -429,6 +464,23 @@ export class EditarVendaComponent implements OnInit {
         return nome ? this._filterVendedor(nome as string) : this.vendedores.slice();
       }),
     );
+
+    //Faz o filtro de clientes e garante que o valor do campo vendedor é um objeto
+    this.clientesFiltrados = this.formulario.controls['cliente'].valueChanges.pipe(
+      startWith(''), map(value => {
+        let ehString = typeof value === 'string';
+        const nome = typeof value === 'string' ? value : value?.nome;
+
+        if (ehString && nome && (nome != '') && this.clientes && (this.clientes.length > 0)) {
+          //https://stackoverflow.com/questions/45241103/patchvalue-with-emitevent-false-triggers-valuechanges-on-angular-4-formgrou
+          let cliente = this.clientes.find(cliente => cliente.nome.toLowerCase() == nome.toLowerCase());
+          if (cliente) {
+            this.formulario.get('cliente')!.patchValue(cliente, { emitEvent: false });
+          }
+        }
+        return nome ? this._filterCliente(nome as string) : this.clientes.slice();
+      }),
+    );    
   }
 
   private cadastrarVenda(venda: Venda) {

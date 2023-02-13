@@ -19,7 +19,7 @@ exports.get = async (req, res) => {
 
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.MASTER])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.MASTER])) {
     try {
       const registros = await ClienteService.getAllClientes();
 

@@ -30,10 +30,10 @@ export class ListarVendasComponent implements OnInit {
       // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
       if (this.router.url.indexOf('/meusPedidos') > -1) {
         this.operacao = 'Meus Pedidos';
+        this.displayedColumns = [...this.displayedColumns, 'total', 'actions'];
       } else{
-        this.displayedColumns.push('lucro');
+        this.displayedColumns = [...this.displayedColumns, 'vendedor', 'total', 'actions'];
       } 
-      this.displayedColumns.push('actions');
   }
 
   alertas: Alerta[] = [];
@@ -45,7 +45,7 @@ export class ListarVendasComponent implements OnInit {
   operacao = 'Listar Vendas';
 
   // Campos para a tabela
-  displayedColumns: string[] = ['data', 'numero', 'vendedor', 'total'];
+  displayedColumns: string[] = ['data', 'numero'];
   dataSource: MatTableDataSource<Venda> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
