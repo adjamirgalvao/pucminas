@@ -142,25 +142,25 @@ const routes: Routes = [
     path: 'clientes',
     component: ListarClientesComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]}
+    data: {roles: [MASTER, ADMIN, VENDEDOR]}
   },
   {
     path: 'clientes/criarCliente',
     component: EditarClienteComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]}
+    data: {roles: [MASTER, ADMIN,  VENDEDOR]}
   },
   {
     path: 'clientes/:id',
     component: EditarClienteComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]} 
+    data: {roles: [MASTER, ADMIN,  VENDEDOR]} 
   },
   {
     path: 'clientes/:id/editarCliente',
     component: EditarClienteComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [MASTER, VENDEDOR]} 
+    data: {roles: [MASTER, ADMIN, VENDEDOR]} 
   },
   {
     path: 'vendedores',

@@ -36,7 +36,7 @@
                         <a ngbDropdownItem href="#" routerLink="/vendedores/criarVendedor" routerLinkActive="active">Cadastrar Vendedores</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isMaster()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isAdmin() || authService.isMaster()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Clientes </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/clientes/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Listar Clientes</a>

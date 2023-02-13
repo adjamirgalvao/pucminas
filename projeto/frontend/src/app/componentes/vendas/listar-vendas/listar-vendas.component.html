@@ -14,7 +14,7 @@
 
     <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
         <legend class="float-none w-auto h4">&nbsp;{{ operacao }}&nbsp;</legend>
-        <div *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhuma venda cadastrada.</strong>
+        <div class="ms-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>{{ operacao == 'Listar Vendas' ? 'Nenhuma venda cadastrada' : 'Nenhum pedido cadastrado.' }}</strong>
         </div>
         <div class="grid gap-3 border rounded  px-3" *ngIf="dataSource.data.length > 0">
             <mat-table [dataSource]="dataSource" matSort>
