@@ -66,10 +66,10 @@
                 <li class="nav-item" ngbDropdown *ngIf="authService.isGestor()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Gestão </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
-                        <a ngbDropdownItem routerLink="/indicadoresVendas/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Indicadores para Vendas</a>
-                        <a ngbDropdownItem routerLink="/indicadoresEstoque/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Indicadores para Compras</a>
+                        <a ngbDropdownItem routerLink="/indicadoresVendas/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-bar-chart-fill"></i>&nbsp;Indicadores para Vendas</a>
+                        <a ngbDropdownItem routerLink="/indicadoresEstoque/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-bar-chart-fill"></i>&nbsp;Indicadores para Compras</a>
                         <li><hr class="dropdown-divider"></li>
-                        <a ngbDropdownItem routerLink="/produtosMaisVendidos/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Produtos Mais Vendidos</a>
+                        <a ngbDropdownItem routerLink="/produtosMaisVendidos/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-trophy-fill"></i>&nbsp;Produtos Mais Vendidos</a>
                     </div>
                 </li> 
             </ul>

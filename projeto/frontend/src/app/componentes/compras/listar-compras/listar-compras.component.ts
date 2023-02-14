@@ -57,6 +57,16 @@ export class ListarComprasComponent implements OnInit {
   setDataSourceAttributes() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    // para ordernar subcampo
+    // https://stackoverflow.com/questions/55030357/angular-matsort-not-working-when-using-object-inside-datasource
+    // e aqui descobri que tinha que colocar o item: any https://technology.amis.nl/frontend/sorting-an-angular-material-table/
+    this.dataSource.sortingDataAccessor = (item: any, property) => {
+      switch (property) {
+         case 'fornecedor': return  item.fornecedor!.nome;
+         default: return item[property];
+      }
+   }    
   }
 
   ngOnInit(): void {

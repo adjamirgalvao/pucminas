@@ -9,7 +9,6 @@ import { Venda } from 'src/app/interfaces/Venda';
 })
 export class VendaService {
 
-
   private readonly API_VENDA = 'http://localhost:8090/api/vendas/';
 
   constructor(private http: HttpClient) { 
@@ -52,4 +51,9 @@ export class VendaService {
     //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
     return this.http.get(this.API_VENDA + 'relatorios/listagem', {responseType: 'blob'});
   }  
+
+  listarProdutosMaisVendidos(ano: any) {
+    throw new Error('Method not implemented.');
+  }
+
 }

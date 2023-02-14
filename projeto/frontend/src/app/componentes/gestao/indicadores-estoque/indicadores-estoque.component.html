@@ -11,7 +11,7 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
     <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto h4">&nbsp;Indicadores para Compras&nbsp;</legend>
+        <legend class="float-none w-auto h4"><i class="bi bi-bar-chart-fill"></i>&nbsp;Indicadores para Compras&nbsp;</legend>
 
         <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
             <legend class="float-none w-auto h6">&nbsp;Filtros&nbsp;</legend>
@@ -72,7 +72,7 @@
         </fieldset>
         <div class="acoes mt-3">
             <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
-            <button routerLink="/home" mat-stroked-button matTooltip="Voltar" color="warn">Voltar</button>
+            <button routerLink="/home" mat-stroked-button matTooltip="Voltar" color="primary">Voltar</button>
         </div>
 </fieldset>
 </section>

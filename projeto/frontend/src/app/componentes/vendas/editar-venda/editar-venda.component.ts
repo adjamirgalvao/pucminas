@@ -307,7 +307,7 @@ export class EditarVendaComponent implements OnInit {
       id_vendedor : this.formulario.value.vendedor._id,
       itensVenda: this.itensVenda
     };
-    if (this.formulario.get('cliente')?.valid) {
+    if (this.formulario.get('cliente')?.valid && (this.formulario.value.cliente) && !(typeof this.formulario.value.cliente === 'string')) {
       venda.id_cliente = this.formulario.value.cliente._id;
     }
 

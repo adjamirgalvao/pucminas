@@ -14,8 +14,8 @@ export class ItemCompraService {
 
   }
   
-  listarItemCompra() : Observable<ItemCompra> {
-    return this.http.get<ItemCompra>(this.API_ITEM_COMPRA);
+  listarItemCompra() : Observable<ItemCompra[]> {
+    return this.http.get<ItemCompra[]>(this.API_ITEM_COMPRA);
   }
 
   excluirItemCompra(itemCompra: ItemCompra): Observable<ItemCompra> {
