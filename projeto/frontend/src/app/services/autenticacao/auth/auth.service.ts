@@ -2,6 +2,7 @@ import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
+import { PORTA_BACKEND } from 'src/app/constantes/Config';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioToken } from 'src/app/interfaces/UsuarioToken';
 import { TokenService } from '../token/token.service';
@@ -19,7 +20,7 @@ export const GOOGLE_CLIENT_ID = '29293112369-dsdrjt1o361s0oajmoiqsjcjcqes7o0v.ap
 
 export class AuthService {
   
-  private readonly API_AUTENTICACAO = 'http://localhost:8090/api/autenticacao/';
+  private readonly API_AUTENTICACAO = 'http://localhost:' + PORTA_BACKEND + '/api/autenticacao/';
 
   constructor(
     private http: HttpClient,

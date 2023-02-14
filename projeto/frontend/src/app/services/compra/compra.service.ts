@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PORTA_BACKEND } from 'src/app/constantes/Config';
 import { Compra } from 'src/app/interfaces/Compra';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Compra } from 'src/app/interfaces/Compra';
 export class CompraService {
 
 
-  private readonly API_COMPRA = 'http://localhost:8090/api/compras/';
+  private readonly API_COMPRA = 'http://localhost:' + PORTA_BACKEND + '/api/compras/';
 
   constructor(private http: HttpClient) { 
 

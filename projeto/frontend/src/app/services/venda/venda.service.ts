@@ -3,13 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Venda } from 'src/app/interfaces/Venda';
+import { PORTA_BACKEND } from 'src/app/constantes/Config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VendaService {
 
-  private readonly API_VENDA = 'http://localhost:8090/api/vendas/';
+  private readonly API_VENDA = 'http://localhost:' + PORTA_BACKEND + '/api/vendas/';
 
   constructor(private http: HttpClient) { 
 

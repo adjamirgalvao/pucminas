@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PORTA_BACKEND } from 'src/app/constantes/Config';
 import { Cliente } from 'src/app/interfaces/Cliente';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Cliente } from 'src/app/interfaces/Cliente';
 })
 export class ClienteService {
 
-  private readonly API_CLIENTE = 'http://localhost:8090/api/clientes/';
+  private readonly API_CLIENTE = 'http://localhost:' + PORTA_BACKEND + '/api/clientes/';
 
   constructor(private http: HttpClient) { 
 

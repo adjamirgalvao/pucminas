@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PORTA_BACKEND } from 'src/app/constantes/Config';
 import { Vendedor } from '../../interfaces/Vendedor';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Vendedor } from '../../interfaces/Vendedor';
 })
 export class VendedorService {
 
-  private readonly API_VENDEDOR = 'http://localhost:8090/api/vendedores/';
+  private readonly API_VENDEDOR = 'http://localhost:' + PORTA_BACKEND + '/api/vendedores/';
 
   constructor(private http: HttpClient) { 
 

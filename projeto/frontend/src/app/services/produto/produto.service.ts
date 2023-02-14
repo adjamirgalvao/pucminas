@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Produto } from '../../interfaces/Produto';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
+import { PORTA_BACKEND } from 'src/app/constantes/Config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 export class ProdutoService {
 
 
-  private readonly API_PRODUTO = 'http://localhost:8090/api/produtos/';
+  private readonly API_PRODUTO = 'http://localhost:' + PORTA_BACKEND + '/api/produtos/';
 
   constructor(private http: HttpClient) { 
 
