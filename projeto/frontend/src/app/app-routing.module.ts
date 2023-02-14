@@ -1,4 +1,3 @@
-import { IndicadoresVendasComponent } from './componentes/indicadores/indicadores-vendas/indicadores-vendas.component';
 import { LogoutComponent } from './componentes/autenticacao/logout/logout.component';
 import { NotfoundComponent } from './componentes/util/notfound/notfound.component';
 import { NgModule } from '@angular/core';
@@ -23,7 +22,9 @@ import { ESTOQUE, GESTOR, VENDEDOR, ADMIN, CLIENTE } from './services/autenticac
 import { LoginComponent } from './componentes/autenticacao/login/login.component';
 import { ListarUsuariosComponent } from './componentes/usuarios/listar-usuarios/listar-usuarios.component';
 import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/editar-usuario.component';
-import { IndicadoresEstoqueComponent } from './componentes/indicadores/indicadores-estoque/indicadores-estoque.component';
+import { IndicadoresEstoqueComponent } from './componentes/gestao/indicadores-estoque/indicadores-estoque.component';
+import { IndicadoresVendasComponent } from './componentes/gestao/indicadores-vendas/indicadores-vendas.component';
+import { ProdutosMaisVendidosComponent } from './componentes/gestao/produtos-mais-vendidos/produtos-mais-vendidos.component';
 
 //https://stackoverflow.com/questions/50624086/how-to-pass-parameters-to-constructor-of-canactivate
   
@@ -245,7 +246,13 @@ const routes: Routes = [
     component: IndicadoresEstoqueComponent, 
     canActivate: [AuthGuard],
     data: {roles: [GESTOR]} 
-  },  
+  }, 
+  {
+    path: 'produtosMaisVendidos',
+    component: ProdutosMaisVendidosComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [GESTOR]} 
+  },     
   {
      path: '404', 
     component: NotfoundComponent

@@ -67,8 +67,9 @@ import { EditarUsuarioComponent } from './componentes/usuarios/editar-usuario/ed
 import { GOOGLE_CLIENT_ID } from './services/autenticacao/auth/auth.service';
 import { NgChartsModule } from 'ng2-charts';
 import { MatSelectModule } from '@angular/material/select';
-import { IndicadoresVendasComponent } from './componentes/indicadores/indicadores-vendas/indicadores-vendas.component';
-import { IndicadoresEstoqueComponent } from './componentes/indicadores/indicadores-estoque/indicadores-estoque.component';
+import { IndicadoresVendasComponent } from './componentes/gestao/indicadores-vendas/indicadores-vendas.component';
+import { IndicadoresEstoqueComponent } from './componentes/gestao/indicadores-estoque/indicadores-estoque.component';
+import { ProdutosMaisVendidosComponent } from './componentes/gestao/produtos-mais-vendidos/produtos-mais-vendidos.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -110,6 +111,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     EditarUsuarioComponent,
     IndicadoresVendasComponent,
     IndicadoresEstoqueComponent,
+    ProdutosMaisVendidosComponent,
   ],
   imports: [
     BrowserModule,
