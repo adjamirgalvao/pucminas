@@ -100,13 +100,13 @@ function allVendasVendedorInnerJoin(id_cliente, ano, agrupar) {
     retorno = [...retorno, 
         //https://stackoverflow.com/questions/27366209/group-and-count-by-month
         {$group: {
-          _id: {$month: "$data"}, 
-          custoTotal: {$sum: "$custoTotal"}, 
-          vendasTotal: {$sum: "$total"}, 
-         //https://stackoverflow.com/questions/16676170/is-it-possible-to-sum-2-fields-in-mongodb-using-the-aggregation-framework
-          lucroTotal: {$sum: { $subtract : [ '$total', '$custoTotal' ]}}, 
-          numeroVendas: {$sum: 1 }, 
-       }
+            _id: {$month: "$data"}, 
+            custoTotal: {$sum: "$custoTotal"}, 
+            vendasTotal: {$sum: "$total"}, 
+          //https://stackoverflow.com/questions/16676170/is-it-possible-to-sum-2-fields-in-mongodb-using-the-aggregation-framework
+           lucroTotal: {$sum: { $subtract : [ '$total', '$custoTotal' ]}}, 
+           numeroVendas: {$sum: 1 }, 
+        }
       },
       {
       $addFields: {

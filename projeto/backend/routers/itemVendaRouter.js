@@ -10,5 +10,7 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), ItemVendaCo
 router.post("/", passport.authenticate('jwt', { session: false }), ItemVendaController.add);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), ItemVendaController.delete);
+//consultas
+router.get("/consultas/produtosMaisVendidos", passport.authenticate('jwt', { session: false }), ItemVendaController.getProdutosMaisVendidos);
 
 module.exports = router;

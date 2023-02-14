@@ -58,13 +58,13 @@ function itemCompraInnerJoinCompra(id, ano, agrupar) {
           custoTotal: {$sum: "$preco"}, 
           quantidadeTotal: {$sum: "$quantidade"}, 
           numeroCompras: {$sum: 1 }, 
-       }
+        }
       },
       {
       $addFields: {
         custoMedio: { $divide : [ '$custoTotal', '$quantidadeTotal' ]}
-      }  
-    },
+        }  
+      },
     //ordenação
     {$sort : { _id : 1 }}  ];
   }     

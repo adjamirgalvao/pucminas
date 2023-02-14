@@ -1,6 +1,84 @@
 const { ItemVendaModel, Mongoose } = require("../models/ItemVendaModel");
 const ProdutoService = require("./ProdutoService");
 
+function getMaisVendidos(ano) {
+  let retorno =  [
+    //venda
+    {
+      '$lookup': {
+        'from': 'vendas', 
+        'localField': 'id_venda', 
+       'foreignField': '_id', 
+        'as': 'venda'
+     }
+   }, 
+   { // para fazer com que fique um campo e não uma lista
+     '$addFields': {
+        'venda': {
+            '$arrayElemAt': [
+                '$venda', 0
+            ]
+        }
+      }
+    }, 
+    { // para virar inner join e não left join
+      '$match': {
+        'venda': {
+            '$exists': true
+        }
+      }
+    },      
+    {
+      $match: {
+                'venda.data': { $gte: new Date(ano +"-01-01"), $lte: new Date(ano + "-12-31") }
+            }      
+    },
+    {
+      $group: {
+        _id: "$id_produto", 
+        precoTotal: {$sum: "$preco"}, 
+        quantidade: {$sum: "$quantidade"}, 
+        descontoTotal: {$sum: "$desconto"}, 
+        precoFinalTotal: {$sum: { $subtract : [ '$preco', '$desconto' ]}}, 
+      }
+    }, 
+    // tive que fazer esse arredondamento porque 0.7 - 0.3 estava dando 0.3999999999999997
+    {
+      $addFields: {
+        precoFinalTotal: { $round : [ '$precoFinalTotal', 2]}
+      }  
+    },  
+    {
+      '$lookup': {
+        'from': 'produtos', 
+        'localField': '_id', 
+        'foreignField': '_id', 
+        'as': 'produto'
+      }
+    }, 
+    { // para fazer com que fique um campo e não uma lista
+       '$addFields': {
+          'produto': {
+              '$arrayElemAt': [
+                  '$produto', 0
+              ]
+          }
+      }
+    }, 
+    { // para virar inner join e não left join
+      '$match': {
+        'produto': {
+            '$exists': true
+        }
+      }
+    },
+    //ordenação
+    {$sort : { _id : -1 }}    
+  ];
+
+  return retorno;
+  }
+
 // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
 const allItensVendaProdutoInnerJoin = [
   {
@@ -10,7 +88,8 @@ const allItensVendaProdutoInnerJoin = [
       'foreignField': '_id', 
       'as': 'produto'
     }
-  }, { // para fazer com que fique um campo e não uma lista
+  }, 
+  { // para fazer com que fique um campo e não uma lista
      '$addFields': {
         'produto': {
             '$arrayElemAt': [
@@ -18,7 +97,8 @@ const allItensVendaProdutoInnerJoin = [
             ]
         }
     }
-  }, { // para virar inner join e não left join
+  }, 
+  { // para virar inner join e não left join
     '$match': {
       'produto': {
           '$exists': true
@@ -33,7 +113,8 @@ const allItensVendaProdutoInnerJoin = [
       'foreignField': '_id', 
       'as': 'venda'
     }
-  }, { // para fazer com que fique um campo e não uma lista
+  }, 
+  { // para fazer com que fique um campo e não uma lista
      '$addFields': {
         'venda': {
             '$arrayElemAt': [
@@ -41,7 +122,8 @@ const allItensVendaProdutoInnerJoin = [
             ]
         }
     }
-  }, { // para virar inner join e não left join
+  }, 
+  { // para virar inner join e não left join
     '$match': {
       'venda': {
           '$exists': true
@@ -161,4 +243,18 @@ module.exports = class ItemVendaService {
       }  
     }
   }
+
+  static async getProdutosMaisVendidos(ano) {
+    try {
+
+      const todos = await ItemVendaModel.aggregate(getMaisVendidos(ano));
+      
+      return todos;
+    } catch (error) {
+      console.log(`Erro ao recuperar ItensVendas ${error.message}`);
+      throw new Error(`Erro ao recuperar ItensVendas ${error.message}`);
+    }
+  }
 };
+
+

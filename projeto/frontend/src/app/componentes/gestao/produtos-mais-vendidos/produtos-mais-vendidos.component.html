@@ -36,15 +36,19 @@
             </div>
             <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
                 <mat-table [dataSource]="dataSource" matSort>
-                    <ng-container matColumnDef="nome">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
-                        <mat-cell *matCellDef="let produto">{{ produto.nome }}</mat-cell>
+                    <ng-container matColumnDef="produto">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>
+                        <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.produto.nome }}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="quantidade">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Quantidade</mat-header-cell>
-                        <mat-cell *matCellDef="let produto">{{ produto.quantidade }}</mat-cell>
+                        <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.quantidade }}</mat-cell>
                     </ng-container>
-                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <ng-container matColumnDef="precoFinalTotal">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Final (Total)</mat-header-cell>
+                        <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.precoFinalTotal  | dinheiroPipe }}</mat-cell>
+                    </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
                 </mat-table>
                     <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>

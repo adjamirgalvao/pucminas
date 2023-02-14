@@ -61,3 +61,21 @@ exports.delete = async (req, res) => {
     res.status(403).json({ error: 'Acesso negado' });
   }
 };
+
+exports.getProdutosMaisVendidos = async (req, res) => {
+  if (AutorizacaoService.validarRoles(req, [ROLES.GESTOR])) {
+    try {
+      const registros = await ItemVendaService.getProdutosMaisVendidos(req.query.ano);
+
+      if (!registros) {
+        return res.status(404).json("Não existem itens de vendas cadastradas!");
+      }
+
+      res.json(registros);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  } else {
+    res.status(403).json({ error: 'Acesso negado' });
+  }
+};
