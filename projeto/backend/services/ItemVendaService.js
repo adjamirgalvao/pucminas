@@ -97,7 +97,8 @@ module.exports = class ItemVendaService {
          if (produto.quantidade < 0){
           throw new Error(`Produto ${data.id_produto} sem estoque suficiente para a venda`); 
          }
-         await ProdutoService.updateProduto(produto._id, produto, session);
+         //sem isso dá problema na comparação do id
+         await ProdutoService.updateProduto(produto._id + '', produto, session);
          if (!sessionPassada) {
             await session.commitTransaction();
          } 
@@ -140,7 +141,8 @@ module.exports = class ItemVendaService {
 
       if (produto != null) {
          produto.quantidade = produto.quantidade + itemVendaRemovida.quantidade;
-        await ProdutoService.updateProduto(produto._id, produto, session);
+         //sem isso dá problema na comparação do id 
+         await ProdutoService.updateProduto(produto._id + '', produto, session);
       }
       if (!sessionPassada) {
         await session.commitTransaction();

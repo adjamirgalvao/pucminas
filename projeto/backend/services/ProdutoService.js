@@ -80,7 +80,8 @@ module.exports = class ProdutoService {
     produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (entrada.quantidade * (entrada.preco / entrada.quantidade))) / produto.quantidade;
     produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
   
-    await ProdutoService.updateProduto(produto._id, produto, session);
+    //sem o '' caso passe um id como ObjectId dá erro na comparação de produtos
+    await ProdutoService.updateProduto(produto._id + '', produto, session);
   }
   
   static async atualizarPrecoCustoAposSaida(produto, saida, session) {
@@ -96,7 +97,8 @@ module.exports = class ProdutoService {
     }  else {
       throw new Error(`O produto '${produto.nome}' não pode ser atualizado, pois o saldo ficará negativo!`)
     }
-    await ProdutoService.updateProduto(produto._id, produto, session);
+    //sem o '' caso passe um id como ObjectId dá erro na comparação de produtos
+    await ProdutoService.updateProduto(produto._id + '', produto, session);
   }
   
   static async getAllProdutos() {
