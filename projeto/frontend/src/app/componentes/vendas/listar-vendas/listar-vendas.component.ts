@@ -32,7 +32,7 @@ export class ListarVendasComponent implements OnInit {
         this.operacao = 'Meus Pedidos';
         this.displayedColumns = [...this.displayedColumns, 'total', 'actions'];
       } else{
-        this.displayedColumns = [...this.displayedColumns, 'vendedor', 'total', 'actions'];
+        this.displayedColumns = [...this.displayedColumns, 'vendedor', 'total', 'lucro', 'actions'];
       } 
   }
 
