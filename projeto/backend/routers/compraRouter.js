@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require('passport');
-const CompraController = require("../controllers/CompraController");
+const CompraController = require("../controllers/CompraController_");
 
 //get
 router.get("/", passport.authenticate('jwt', { session: false }), CompraController.getAll);
