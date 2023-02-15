@@ -22,7 +22,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "path": "^0.12.7",
-    "puppeteer": "^19.6.3",
+    "puppeteer": "^18.2.1",
     "request": "^2.88.2",
     "sha.js": "^2.4.11"
   },
