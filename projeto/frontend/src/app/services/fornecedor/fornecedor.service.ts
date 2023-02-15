@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PORTA_BACKEND } from 'src/app/constantes/Config';
 import { Fornecedor } from 'src/app/interfaces/Fornecedor';
 
 @Injectable({
@@ -9,7 +8,7 @@ import { Fornecedor } from 'src/app/interfaces/Fornecedor';
 })
 export class FornecedorService {
 
-  private readonly API_FORNECEDOR = 'http://localhost:' + PORTA_BACKEND + '/api/fornecedores/';
+  private readonly API_FORNECEDOR = '/api/fornecedores/';
 
   constructor(private http: HttpClient) { 
 

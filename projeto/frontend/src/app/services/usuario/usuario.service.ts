@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PORTA_BACKEND } from 'src/app/constantes/Config';
 import { Usuario } from 'src/app/interfaces/Usuario';
 
 @Injectable({
@@ -9,7 +8,7 @@ import { Usuario } from 'src/app/interfaces/Usuario';
 })
 export class UsuarioService {
 
-  private readonly API_USUARIO = 'http://localhost:' + PORTA_BACKEND + '/api/usuarios/';
+  private readonly API_USUARIO = '/api/usuarios/';
 
   constructor(private http: HttpClient) { 
 

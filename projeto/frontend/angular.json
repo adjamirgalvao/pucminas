@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Projeto": {
+    "Loja": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/projeto",
+		  "allowedCommonJsDependencies": [
+				"moment"
+			],
+            "outputPath": "dist/loja",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -36,8 +39,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -60,12 +63,16 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+		  "options": {
+		  "browserTarget": "Loja:build",
+		  "proxyConfig": "proxy.conf.json"
+		},		  
           "configurations": {
             "production": {
-              "browserTarget": "Projeto:build:production"
+              "browserTarget": "Loja:build:production"
             },
             "development": {
-              "browserTarget": "Projeto:build:development"
+              "browserTarget": "Loja:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Projeto:build"
+            "browserTarget": "Loja:build"
           }
         },
         "test": {

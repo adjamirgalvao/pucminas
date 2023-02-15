@@ -117,3 +117,41 @@ Isso aí. O elemento que recebeu a diretiva, caso a condicional for verdadeira, 
 XsdDxedCvHNWjXZh
 
 mongodb+srv://adjamirgalvao:XsdDxedCvHNWjXZh@cluster0.4jedpjg.mongodb.net/?retryWrites=true&w=majority
+
+-- colocando a aplicação em produção
+	adicionei a porta 3000 no https://console.developers.google.com/
+ 
+
+
+
+no backend
+	-- instalei o path no backend com https://community.umbler.com/br/t/hospedando-angularjs-na-umbler/455
+		npm i path
+   alterei o arquivo index.js para server.js e coloquei para rodar na porta 3000
+   alterei o backend para apontar para a build gerada pelo angular
+   adicionei no package.json
+   	"postinstall": "npm run build",
+	"build": "ng build --prod",
+	
+no frontend
+   
+    ng build
+	// tem esse warning, mas não dei atenção https://stackoverflow.com/questions/72584084/warning-1-rules-skipped-due-to-selector-errors-legend-cannot-read-prope
+	editei o angular.json para em budgets aumentar o tamanho do arquivo // https://stackoverflow.com/questions/68523451/angular-error-initial-exceeded-maximum-budget-budget-5-00-mb-was-not-met-by
+
+	https://angular.io/guide/build#configuring-commonjs-dependencies
+	criei o arquivo proxy.conf.json
+	alterei o angular.json colocando o código abaixo em serv - builder para não ter que alterar o npm start escrevendo  'ng serve --proxy-config proxy.conf.json'
+			  "options": {
+		  "browserTarget": "Projeto:build",
+		  "proxyConfig": "proxy.conf.json"
+		},	
+	
+	ajuste os services para a url começar em /api e não em http://localhost:XXXX//api
+
+	resolvi o warning de commmon dependences alterando o angular.json
+	Warning: C:\Adjamir\pucminas\projeto\frontend\node_modules\@angular\material-moment-adapter\fesm2020\material-moment-adapter.mjs depends on 'moment'. CommonJS or AMD dependencies can cause optimization bailouts.
+		
+	"allowedCommonJsDependencies": [
+			"moment"
+     ]	

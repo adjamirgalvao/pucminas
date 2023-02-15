@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ItemCompra } from '../../interfaces/ItemCompra';
-import { PORTA_BACKEND } from 'src/app/constantes/Config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemCompraService {
 
-  private readonly API_ITEM_COMPRA = 'http://localhost:' + PORTA_BACKEND + '/api/itensCompras/';
+  private readonly API_ITEM_COMPRA = '/api/itensCompras/';
 
   constructor(private http: HttpClient) { 
 

@@ -5,5 +5,5 @@ const port = process.env.PORT || 3000;
 db.init();
 
 app.listen(port, function () {
-  console.log(`Backend executando na port ${port}`);
+  console.log(`Loja On-line executando na port ${port}`);
 });

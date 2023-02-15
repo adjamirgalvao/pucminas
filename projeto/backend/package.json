@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "desenv": "nodemon index.js",
+    "start": "node server",
+	"postinstall": "npm run build",
+	"build": "ng build --prod",
+    "desenv": "nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Adjamir de Moura Galvão",
@@ -21,6 +23,7 @@
     "mongoose": "^6.8.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+    "path": "^0.12.7",
     "puppeteer": "^19.6.3",
     "request": "^2.88.2",
     "sha.js": "^2.4.11"
