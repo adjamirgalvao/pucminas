@@ -129,15 +129,13 @@ no backend
 		npm i path
    alterei o arquivo index.js para server.js e coloquei para rodar na porta 3000
    alterei o backend para apontar para a build gerada pelo angular
-   adicionei no package.json
-   	"postinstall": "npm run build",
-	"build": "ng build --prod",
+
 	
 no frontend
    
     ng build
 	// tem esse warning, mas não dei atenção https://stackoverflow.com/questions/72584084/warning-1-rules-skipped-due-to-selector-errors-legend-cannot-read-prope
-	editei o angular.json para em budgets aumentar o tamanho do arquivo // https://stackoverflow.com/questions/68523451/angular-error-initial-exceeded-maximum-budget-budget-5-00-mb-was-not-met-by
+	Depois resolvi editando o angular.json para em budgets aumentar o tamanho do arquivo // https://stackoverflow.com/questions/68523451/angular-error-initial-exceeded-maximum-budget-budget-5-00-mb-was-not-met-by
 
 	https://angular.io/guide/build#configuring-commonjs-dependencies
 	criei o arquivo proxy.conf.json
