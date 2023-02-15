@@ -155,3 +155,14 @@ no frontend
 	"allowedCommonJsDependencies": [
 			"moment"
      ]	
+	 
+	 M@buJuZxi96VPHC
+	 
+	 www.adjamir.kinghost.net
+	 
+	 -- renomeei o git main para master
+	 depois tive que executar isso
+	 git branch -m main master
+git fetch origin
+git branch -u origin/master master
+git remote set-head origin -a
