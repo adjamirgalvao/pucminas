@@ -127,9 +127,17 @@ export class ListarFornecedoresComponent implements OnInit {
         (data) => {
             // https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
             this.imprimindo = false;
-            var file = new Blob([data], {type: 'application/pdf'});
-            var fileURL = URL.createObjectURL(file);
-            window.open(fileURL);
+           // var file = new Blob([data], {type: 'application/pdf'});
+           // var fileURL = URL.createObjectURL(file);
+           // window.open(fileURL);
+           //https://medium.com/@danilodev.silva/download-de-pdf-com-angular-13-d2e2286ea966
+           let url = window.URL.createObjectURL(data);
+           let a = document.createElement('a');
+           a.href = url;
+           a.download = 'Fornecedores';
+           a.click();
+           window.URL.revokeObjectURL(url);
+           a.remove();
         });
   }
 }
