@@ -162,14 +162,14 @@ no frontend
 	 
 	 -- renomeei o git main para master
 	 depois tive que executar isso 	
-	 git branch -m main master
-git fetch origin
-git branch -u origin/master master 
-git remote set-head origin -a
+		git branch -m main master
+		git fetch origin
+		git branch -u origin/master master 
+		git remote set-head origin -a
 
 corrigi os arquivos de minusculo para maiusculo
 ajuste o puppeter para uma versão mais antiga
 alterei a porta da aplicação
-mas ainda tenho 
+crie as pastas de cache do puppeteer .cache/puppeteer (não sei se de fato precisava fazer)
 
-para rodar o npm install no servidor vc loga em ftp.adjamir.kinghost.net e faz no diretorio
+para rodar o npm install no servidor vc loga em ftp.adjamir.kinghost.net e faz no diretorio do backend
