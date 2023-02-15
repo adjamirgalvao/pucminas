@@ -166,3 +166,10 @@ no frontend
 git fetch origin
 git branch -u origin/master master 
 git remote set-head origin -a
+
+corrigi os arquivos de minusculo para maiusculo
+ajuste o puppeter para uma versão mais antiga
+alterei a porta da aplicação
+mas ainda tenho 
+
+para rodar o npm install no servidor vc loga em ftp.adjamir.kinghost.net e faz no diretorio

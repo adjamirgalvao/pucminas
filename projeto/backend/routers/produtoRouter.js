@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require('passport');
-const ProdutoController = require("../controllers/ProdutoController_js");
+const ProdutoController = require("../controllers/ProdutoController.js");
 
 //get
 router.get("/", passport.authenticate('jwt', { session: false }), ProdutoController.getAll);

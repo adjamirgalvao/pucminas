@@ -39,13 +39,12 @@ function getMaisVendidos(ano) {
         precoTotal: {$sum: "$preco"}, 
         quantidade: {$sum: "$quantidade"}, 
         descontoTotal: {$sum: "$desconto"}, 
-        precoFinalTotal: {$sum: { $subtract : [ '$preco', '$desconto' ]}}, 
       }
     }, 
     // tive que fazer esse arredondamento porque 0.7 - 0.3 estava dando 0.3999999999999997
     {
       $addFields: {
-        precoFinalTotal: { $round : [ '$precoFinalTotal', 2]}
+        precoTotal: { $round : [ '$precoTotal', 2]}
       }  
     },  
     {

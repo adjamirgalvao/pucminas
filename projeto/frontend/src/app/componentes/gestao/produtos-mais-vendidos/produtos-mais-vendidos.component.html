@@ -45,8 +45,8 @@
                         <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.quantidade }}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="precoFinalTotal">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Final (Total)</mat-header-cell>
-                        <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.precoFinalTotal  | dinheiroPipe }}</mat-cell>
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Vendas (Total)</mat-header-cell>
+                        <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.precoTotal  | dinheiroPipe }}</mat-cell>
                     </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
