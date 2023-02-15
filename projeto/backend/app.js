@@ -18,12 +18,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 
-/*
- essa parte foi apenas de teste
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-app.use("/", require('./routers/routers'));
-*/
 app.use("/api/produtos", require('./routers/produtoRouter'));
 app.use("/api/fornecedores", require('./routers/fornecedorRouter'));
 app.use("/api/itensCompras", require('./routers/itemCompraRouter'));
