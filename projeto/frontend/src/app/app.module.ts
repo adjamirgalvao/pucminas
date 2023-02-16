@@ -25,7 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -70,6 +70,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { IndicadoresVendasComponent } from './componentes/gestao/indicadores-vendas/indicadores-vendas.component';
 import { IndicadoresEstoqueComponent } from './componentes/gestao/indicadores-estoque/indicadores-estoque.component';
 import { ProdutosMaisVendidosComponent } from './componentes/gestao/produtos-mais-vendidos/produtos-mais-vendidos.component';
+import { MyCustomPaginatorIntl } from './componentes/util/paginacao/MyCustomPaginatorIntl';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -147,6 +148,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     NgChartsModule,
   ],
   providers: [
+    { provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl },
+
     httpInterceptorProviders, 
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
