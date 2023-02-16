@@ -104,7 +104,7 @@ module.exports = class FornecedorService {
       for (let i in registros){
         retorno.push({nome: registros[i].nome, 
                       tipo: getTipo(registros[i].tipo), 
-                      identificacao: RelatorioUtilService.getMascaraCPFCNPJ(registros[i].identificacao),
+                      cpf_cnpj: RelatorioUtilService.getMascaraCPFCNPJ(registros[i].identificacao),
                       logradouro: registros[i].endereco.rua,
                       numero: registros[i].endereco.numero,
                       complemento:registros[i].endereco.complemento,

@@ -26,7 +26,7 @@
                     <mat-cell *matCellDef="let fornecedor">{{ fornecedor.tipo == 'pf' ? 'Pessoa Física' : 'Pessoa Jurídica'}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="identificacao">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header class="text-break">Identificação</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="text-break">CPF/CNPJ</mat-header-cell>
                     <mat-cell *matCellDef="let fornecedor" class="text-break">{{ fornecedor.identificacao | mask:'CPF_CNPJ'}} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="actions">
