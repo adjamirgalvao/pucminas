@@ -317,6 +317,9 @@ ISC
 
 ng2-currency-mask
 
+ngx-device-detector
+MIT
+
 ngx-mask
 MIT
 MIT License
