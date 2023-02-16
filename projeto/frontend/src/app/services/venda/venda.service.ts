@@ -53,6 +53,11 @@ export class VendaService {
     return this.http.get(this.API_VENDA + 'relatorios/listagem', {responseType: 'blob'});
   }  
 
+  getExcelListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_VENDA + 'exportar/listagem', {responseType: 'blob'});
+  }   
+
   listarProdutosMaisVendidos(ano: any) {
     throw new Error('Method not implemented.');
   }

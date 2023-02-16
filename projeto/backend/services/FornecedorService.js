@@ -36,13 +36,13 @@ module.exports = class FornecedorService {
         identificacao: data.identificacao,
         endereco: data.endereco
       };
-        //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
-        let fornecedor = await FornecedorModel.findOne({ $or: [{ nome: novo.nome.trim() }, { identificacao: novo.identificacao.trim() }] });
-        if (fornecedor) {
-          erro = true;
-          throw new Error('Fornecedor não pode ser criado pois já existe um fornecedor com mesmo nome ou cpf/cpf.');
-        } 
-        const registro = await new FornecedorModel(novo).save({ session });
+      //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
+      let fornecedor = await FornecedorModel.findOne({ $or: [{ nome: novo.nome.trim() }, { identificacao: novo.identificacao.trim() }] });
+      if (fornecedor) {
+        erro = true;
+        throw new Error('Fornecedor não pode ser criado pois já existe um fornecedor com mesmo nome ou cpf/cpf.');
+      }
+      const registro = await new FornecedorModel(novo).save({ session });
 
       return registro;
     } catch (error) {
@@ -96,4 +96,23 @@ module.exports = class FornecedorService {
       throw new Error(`Erro ao gerar relatório de listagem ${error.message}`);
     }
   };
-};
+
+  static async getExcelListagem() {
+    try {
+      let retorno = [];
+      let registros = await this.getAllFornecedores();
+      for (let i in registros){
+        retorno.push({nome: registros[i].nome, 
+                      tipo: getTipo(registros[i].tipo), 
+                      identificacao: RelatorioUtilService.getMascaraCPFCNPJ(registros[i].identificacao),
+                      logradouro: registros[i].endereco.rua,
+                      numero: registros[i].endereco.numero,
+                      complemento:registros[i].endereco.complemento,
+                      });
+      }
+      return retorno;
+    } catch (error) {
+      throw new Error(`Erro ao gerar dados de listagem ${error.message}`);
+    }
+  };
+}

@@ -252,4 +252,22 @@ module.exports = class CompraService {
       throw new Error(`Erro ao gerar relatório de listagem ${error.message}`);
     }
   };  
+
+  static async getExcelListagem() {
+    try {
+      let retorno = [];
+      let registros = await this.getAllCompras();
+      for (let i in registros){
+        retorno.push({data: RelatorioUtilService.getDataFormatada(registros[i].data), 
+                      notaFiscal: registros[i].numero, 
+                      fornecedor: registros[i].fornecedor.nome,
+                      preco: registros[i].total,
+                      });
+      }
+      return retorno;
+    } catch (error) {
+      throw new Error(`Erro ao gerar dados de listagem ${error.message}`);
+    }
+  };    
 };
+

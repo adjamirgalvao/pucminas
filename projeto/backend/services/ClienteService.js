@@ -107,4 +107,24 @@ module.exports = class ClienteService {
       throw new Error(`Erro ao gerar relatório de listagem ${error.message}`);
     }
   };
+
+  static async getExcelListagem() {
+    try {
+      let retorno = [];
+      let registros = await this.getAllClientes();
+      for (let i in registros){
+        retorno.push({nome: registros[i].nome, 
+                      email: registros[i].email, 
+                      cpf: RelatorioUtilService.getMascaraCPFCNPJ(registros[i].cpf),
+                      dataNascimento: RelatorioUtilService.getDataFormatada(registros[i].dataNascimento),  
+                      logradouro: registros[i].endereco.rua,
+                      numero: registros[i].endereco.numero,
+                      complemento:registros[i].endereco.complemento,
+                      });
+      }
+      return retorno;
+    } catch (error) {
+      throw new Error(`Erro ao gerar dados de listagem ${error.message}`);
+    }
+  };  
 };

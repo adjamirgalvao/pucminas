@@ -15,5 +15,7 @@ router.put("/:id", passport.authenticate('jwt', { session: false }), ProdutoCont
 router.delete("/:id", passport.authenticate('jwt', { session: false }), ProdutoController.delete);
 //relatorio
 router.get("/relatorios/listagem", passport.authenticate('jwt', { session: false }), ProdutoController.getRelatorioListagem);
+//excel
+router.get("/exportar/listagem", passport.authenticate('jwt', { session: false }), ProdutoController.getExcelListagem);
 
 module.exports = router;

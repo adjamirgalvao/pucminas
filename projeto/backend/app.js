@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+var json2xls = require('json2xls');
 
 //Autentenciacao
 const PassportStrategy = require('./auth/Passport');
@@ -10,7 +11,10 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+//Cors
 app.use(cors());
+//Conversão de json para xlsx
+app.use(json2xls.middleware);
 // Apply strategy to passport
 PassportStrategy.applyPassportStrategy(passport);
 
@@ -31,5 +35,6 @@ app.use("/api/autenticacao", require('./routers/autenticacaoRouter'));
 
 //Levantando o angular
 app.use(express.static(path.join(__dirname, '../frontend/dist', 'loja')));
+
 app.get('/*', function (req, res) {res.sendFile(path.join(__dirname, '../frontend/dist', 'loja', 'index.html'))});
 module.exports = app;

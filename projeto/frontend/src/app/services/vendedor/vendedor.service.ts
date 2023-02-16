@@ -45,4 +45,8 @@ export class VendedorService {
     return this.http.get(this.API_VENDEDOR + 'relatorios/listagem', {responseType: 'blob'});
   }
 
+  getExcelListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_VENDEDOR + 'exportar/listagem', {responseType: 'blob'});
+  }   
 }

@@ -40,4 +40,9 @@ export class ClienteService {
     //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
     return this.http.get(this.API_CLIENTE + 'relatorios/listagem', {responseType: 'blob'});
   }
+
+  getExcelListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_CLIENTE + 'exportar/listagem', {responseType: 'blob'});
+  }  
 }

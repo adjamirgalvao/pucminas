@@ -7,8 +7,6 @@ import { Compra } from 'src/app/interfaces/Compra';
   providedIn: 'root'
 })
 export class CompraService {
-
-
   private readonly API_COMPRA = '/api/compras/';
 
   constructor(private http: HttpClient) { 
@@ -36,4 +34,9 @@ export class CompraService {
     //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
     return this.http.get(this.API_COMPRA + 'relatorios/listagem', {responseType: 'blob'});
   }
+
+  getExcelListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_COMPRA + 'exportar/listagem', {responseType: 'blob'});
+  }    
 }

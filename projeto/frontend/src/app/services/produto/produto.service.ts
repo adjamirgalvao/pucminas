@@ -57,5 +57,10 @@ export class ProdutoService {
     
     queryParams = queryParams.append("ano", ano).append("agrupar", true);    
     return this.http.get<CompraAgrupada[]>(this.API_PRODUTO + '' + id + '/listarItensCompras', { params:queryParams });
-  }  
+  } 
+
+  getExcelListagem(): Observable<any> {
+    //https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+    return this.http.get(this.API_PRODUTO + 'exportar/listagem', {responseType: 'blob'});
+  }   
 }

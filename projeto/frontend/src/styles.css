@@ -7,6 +7,11 @@
     margin-right: auto;
     margin-left: auto;
   }
+  
+  /* desabilitando a parte de pdf proque o puppetter precisa de muita memoria no servidor e não achei um que tenha */
+  .tempdf {
+    display: none;
+  }
 
   .header {
     margin: 1rem auto 2rem;

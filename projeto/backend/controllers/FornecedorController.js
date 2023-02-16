@@ -107,3 +107,18 @@ exports.getRelatorioListagem = async (req, res) => {
     res.status(403).json({ error: 'Acesso negado' });
   }
 };
+
+exports.getExcelListagem = async (req, res) => {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
+    try {
+      let registros = await FornecedorService.getExcelListagem();
+
+      res.contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.xls('Fornecedores.xlsx', registros);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  } else {
+    res.status(403).json({ error: 'Acesso negado' });
+  }
+};

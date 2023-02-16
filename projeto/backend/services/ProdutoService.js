@@ -223,5 +223,22 @@ module.exports = class ProdutoService {
       throw new Error(`Erro ao gerar relatório de listagem ${error.message}`);
     }
   }
+
+  static async getExcelListagem() {
+    try {
+      let retorno = [];
+      let registros = await this.getAllProdutos();
+      for (let i in registros){
+        retorno.push({nome: registros[i].nome, 
+                      estoque: registros[i].quantidade, 
+                      preco: registros[i].preco,
+                      precoCusto: registros[i].precoCusto,
+                      });
+      }
+      return retorno;
+    } catch (error) {
+      throw new Error(`Erro ao gerar dados de listagem ${error.message}`);
+    }
+  };  
 };
 

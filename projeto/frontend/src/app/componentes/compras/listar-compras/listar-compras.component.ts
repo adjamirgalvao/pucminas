@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { catchError } from 'rxjs';
 import { ModalConfirmacaoComponent } from 'src/app/componentes/util/modal-confirmacao/modal-confirmacao.component';
 import { Alerta } from 'src/app/interfaces/Alerta';
@@ -18,6 +19,7 @@ import { CompraService } from 'src/app/services/compra/compra.service';
 export class ListarComprasComponent implements OnInit {
 
   constructor(
+    private deviceService: DeviceDetectorService,    
     private router: Router,
     private compraService: CompraService,
     public confirmacao: MatDialog) {
@@ -34,10 +36,11 @@ export class ListarComprasComponent implements OnInit {
   carregando: boolean = true;
   excluindo: boolean = false;
   imprimindo: boolean = false;
+  exportando: boolean = false;
   compraExcluida!: Compra;
 
   // Campos para a tabela
-  displayedColumns: string[] = ['data', 'numero', 'fornecedor', 'total', 'actions'];
+  displayedColumns = [{ def: 'data', showMobile: true}, { def: 'numero', showMobile: false}, { def: 'fornecedor', showMobile: false}, { def: 'total', showMobile: true}, { def: 'actions', showMobile: true}];
   dataSource: MatTableDataSource<Compra> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -53,6 +56,16 @@ export class ListarComprasComponent implements OnInit {
     this.paginator = mp;
     this.setDataSourceAttributes();
   }
+
+  //https://stackoverflow.com/questions/47077302/angular2-material-table-hide-column
+  //https://stackoverflow.com/questions/41432533/how-to-detect-if-device-is-desktop-and-or-mobile-and-if-connection-is-wifi-or-n
+   getdisplayedColumns() : string[] {
+      const isMobile = this.deviceService.isMobile();
+      return this.displayedColumns
+        .filter(cd => !isMobile || cd.showMobile)
+        .map(cd => cd.def);
+    }
+   
 
   setDataSourceAttributes() {
     this.dataSource.paginator = this.paginator;
@@ -131,6 +144,33 @@ export class ListarComprasComponent implements OnInit {
         });
   }
 
+  abrirExcel(){
+    this.exportando = true;
+    this.compraService.getExcelListagem().pipe(catchError(
+      err => {
+        console.log(err);
+        this.exportando = false;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar excel` });
+        throw 'Erro ao recuperar excel. Detalhes: ' + err;
+      })).subscribe(
+        (data) => {
+            // https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+            this.exportando = false;
+           // var file = new Blob([data], {type: 'application/pdf'});
+           // var fileURL = URL.createObjectURL(file);
+           // window.open(fileURL);
+           //https://medium.com/@danilodev.silva/download-de-pdf-com-angular-13-d2e2286ea966
+           //https://stackoverflow.com/questions/58335807/how-to-download-an-excel-file-in-angular-8-as-an-api-response
+           var file = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+           let url = window.URL.createObjectURL(file);
+           let a = document.createElement('a');
+           a.href = url;
+           a.download = 'Compras';
+           a.click();
+           window.URL.revokeObjectURL(url);
+           a.remove();
+        });
+  } 
 
   abrirRelatorio(){
     this.imprimindo = true;

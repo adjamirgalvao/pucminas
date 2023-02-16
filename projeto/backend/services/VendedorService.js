@@ -116,4 +116,25 @@ module.exports = class VendedorService {
     }
   };
 
+  static async getExcelListagem() {
+    try {
+      let retorno = [];
+      let registros = await this.getAllVendedores();
+      console.log(registros);
+      for (let i in registros){
+        retorno.push({nome: registros[i].nome, 
+                      email: registros[i].email, 
+                      cpf: RelatorioUtilService.getMascaraCPFCNPJ(registros[i].cpf),
+                      salario: registros[i].salario,  
+                      logradouro: registros[i].endereco.rua,
+                      numero: registros[i].endereco.numero,
+                      complemento:registros[i].endereco.complemento,
+                      });
+      }
+      return retorno;
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Erro ao gerar dados de listagem ${error.message}`);
+    }
+  };  
 };

@@ -35,6 +35,7 @@ export class ListarClientesComponent implements OnInit {
   carregando: boolean = true;
   excluindo: boolean = false;
   imprimindo: boolean = false;
+  exportando: boolean = false;
   clienteExcluido!: Cliente;
 
   // Campos para a tabela
@@ -115,6 +116,35 @@ export class ListarClientesComponent implements OnInit {
           this.alertas.push({ tipo: 'success', mensagem: `O Cliente "${cliente.nome}" foi excluído com sucesso!` });
         });
   }
+
+ 
+  abrirExcel(){
+    this.exportando = true;
+    this.clienteService.getExcelListagem().pipe(catchError(
+      err => {
+        console.log(err);
+        this.exportando = false;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar excel` });
+        throw 'Erro ao recuperar excel. Detalhes: ' + err;
+      })).subscribe(
+        (data) => {
+            // https://stackoverflow.com/questions/51509190/angular-6-responsecontenttype
+            this.exportando = false;
+           // var file = new Blob([data], {type: 'application/pdf'});
+           // var fileURL = URL.createObjectURL(file);
+           // window.open(fileURL);
+           //https://medium.com/@danilodev.silva/download-de-pdf-com-angular-13-d2e2286ea966
+           //https://stackoverflow.com/questions/58335807/how-to-download-an-excel-file-in-angular-8-as-an-api-response
+           var file = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+           let url = window.URL.createObjectURL(file);
+           let a = document.createElement('a');
+           a.href = url;
+           a.download = 'Clientes';
+           a.click();
+           window.URL.revokeObjectURL(url);
+           a.remove();
+        });
+  } 
 
   abrirRelatorio(){
     this.imprimindo = true;

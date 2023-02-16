@@ -30,6 +30,7 @@
     "chartjs-plugin-annotation": "^2.1.2",
     "ng2-charts": "^4.1.1",
     "ng2-currency-mask": "^13.0.3",
+    "ngx-device-detector": "^5.0.1",
     "ngx-mask": "^15.0.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
