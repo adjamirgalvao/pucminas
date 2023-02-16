@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Fornecedor } from 'src/app/interfaces/Fornecedor';
@@ -15,9 +16,10 @@ import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-co
   templateUrl: './listar-fornecedores.component.html',
   styleUrls: ['./listar-fornecedores.component.css']
 })
-export class ListarFornecedoresComponent implements OnInit {
+export class ListarFornecedoresComponent implements OnInit, OnDestroy {
 
   constructor(
+    private deviceService: DeviceDetectorService,   
     private router: Router,
     private fornecedorService: FornecedorService,
     public confirmacao: MatDialog) {
@@ -38,12 +40,28 @@ export class ListarFornecedoresComponent implements OnInit {
   fornecedorExcluido!: Fornecedor;
 
   // Campos para a tabela
-  displayedColumns: string[] = ['nome', 'tipo', 'identificacao', 'actions'];
+  displayedColumns = [{ def: 'nome', showMobile: true} , { def: 'tipo', showMobile: false}, { def: 'identificacao', showMobile: true}, { def: 'actions', showMobile: true}];
   dataSource: MatTableDataSource<Fornecedor> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
   private paginator!: MatPaginator;
   private sort!: MatSort;
+
+  handlerOrientation: any;
+  
+  ngOnDestroy(): void {
+    console.log('on destroy');
+    //https://stackoverflow.com/questions/46906763/how-to-remove-eventlisteners-in-angular-4
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.landscape.removeEventListener("change", this.handlerOrientation, true);
+  }
+
+  private onChangeOrientation() {
+    console.log('landscape orientation');
+  }
+
+  //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+  landscape = window.matchMedia("(orientation: landscape)");
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
@@ -55,12 +73,26 @@ export class ListarFornecedoresComponent implements OnInit {
     this.setDataSourceAttributes();
   }
 
+  isPortrait() {
+    return !this.landscape.matches;
+  }  
+  
+  //https://stackoverflow.com/questions/47077302/angular2-material-table-hide-column
+  //https://stackoverflow.com/questions/41432533/how-to-detect-if-device-is-desktop-and-or-mobile-and-if-connection-is-wifi-or-n
+  getDisplayedColumns() : string[] {
+    let exibir = !this.isPortrait();
+    return this.displayedColumns.filter(cd => exibir || cd.showMobile).map(cd => cd.def);
+  }
+
   setDataSourceAttributes() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.handlerOrientation = this.onChangeOrientation.bind(this);
+    this.landscape.addEventListener("change", this.handlerOrientation, true);   
     //Recuperando os dados
     this.fornecedorService.listar().pipe(catchError(
       err => {

@@ -53,6 +53,9 @@ ai depois no styles.css tem que colocar
 
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
+-- descobrir o dispositivo (depois não utilizei, mas vou deixar no código. Pode ser útil no futuro)
+npm install ngx-device-detector
+
 npm install @abacritt/angularx-social-login -- frontend para autenticacao google, o é para angular mais antigo angularx-social-login -- 
 depois reclamou de vulnerabilidade e fiz npm audit fix
 

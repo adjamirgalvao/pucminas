@@ -48,10 +48,10 @@
                     </div>
                     </mat-cell>
                 </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: getDisplayedColumns()"></mat-row>
             </mat-table>
-                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]"  [hidePageSize]="isPortrait()" showFirstLastButtons></mat-paginator>
         </div>
         <br>
         <button mat-stroked-button routerLink="/fornecedores/criarFornecedor" [queryParams]="{ listar: true }"

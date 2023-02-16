@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { catchError } from 'rxjs';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Venda } from 'src/app/interfaces/Venda';
@@ -15,9 +16,10 @@ import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-co
   templateUrl: './listar-vendas.component.html',
   styleUrls: ['./listar-vendas.component.css']
 })
-export class ListarVendasComponent implements OnInit {
+export class ListarVendasComponent implements OnInit, OnDestroy{
 
   constructor(
+    private deviceService: DeviceDetectorService,   
     private router: Router,
     private vendaService: VendaService,
     public confirmacao: MatDialog) {
@@ -30,11 +32,27 @@ export class ListarVendasComponent implements OnInit {
       // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
       if (this.router.url.indexOf('/meusPedidos') > -1) {
         this.operacao = 'Meus Pedidos';
-        this.displayedColumns = [...this.displayedColumns, 'total', 'actions'];
+        this.displayedColumns = [...this.displayedColumns, { def: 'total', showMobile: true}, { def: 'actions', showMobile: true}];
       } else{
-        this.displayedColumns = [...this.displayedColumns, 'vendedor', 'total', 'lucro', 'actions'];
+        this.displayedColumns = [...this.displayedColumns, { def: 'vendedor', showMobile: false}, { def: 'total', showMobile: true}, { def: 'lucro', showMobile: true}, { def: 'actions', showMobile: true}];
       } 
   }
+
+  handlerOrientation: any;
+  
+  ngOnDestroy(): void {
+    console.log('on destroy');
+    //https://stackoverflow.com/questions/46906763/how-to-remove-eventlisteners-in-angular-4
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.landscape.removeEventListener("change", this.handlerOrientation, true);
+  }
+
+  private onChangeOrientation() {
+    console.log('landscape orientation');
+  }
+
+  //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+  landscape = window.matchMedia("(orientation: landscape)");
 
   alertas: Alerta[] = [];
   vendas: Venda[] = [];
@@ -46,7 +64,7 @@ export class ListarVendasComponent implements OnInit {
   operacao = 'Listar Vendas';
 
   // Campos para a tabela
-  displayedColumns: string[] = ['data', 'numero'];
+  displayedColumns = [{ def: 'data', showMobile: true}, { def: 'numero', showMobile: false}];
   dataSource: MatTableDataSource<Venda> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -61,6 +79,17 @@ export class ListarVendasComponent implements OnInit {
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
     this.setDataSourceAttributes();
+  }
+
+  isPortrait() {
+    return !this.landscape.matches;
+  }  
+  
+  //https://stackoverflow.com/questions/47077302/angular2-material-table-hide-column
+  //https://stackoverflow.com/questions/41432533/how-to-detect-if-device-is-desktop-and-or-mobile-and-if-connection-is-wifi-or-n
+  getDisplayedColumns() : string[] {
+    let exibir = !this.isPortrait();
+    return this.displayedColumns.filter(cd => exibir || cd.showMobile).map(cd => cd.def);
   }
 
   setDataSourceAttributes() {
@@ -79,6 +108,9 @@ export class ListarVendasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.handlerOrientation = this.onChangeOrientation.bind(this);
+    this.landscape.addEventListener("change", this.handlerOrientation, true);   
     //Recuperando os dados
     let filtroCliente = this.operacao != 'Listar Vendas';
     this.vendaService.listar(filtroCliente).pipe(catchError(

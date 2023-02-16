@@ -7,15 +7,13 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Produto } from 'src/app/interfaces/Produto';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MyCustomPaginatorIntl } from '../../util/paginacao/MyCustomPaginatorIntl';
+import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-listar-produtos',
   templateUrl: './listar-produtos.component.html',
   styleUrls: ['./listar-produtos.component.css'],
-  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }]
 })
 export class ListarProdutosComponent implements OnInit {
 

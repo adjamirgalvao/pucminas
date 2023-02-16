@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -16,7 +16,7 @@ import { CompraService } from 'src/app/services/compra/compra.service';
   templateUrl: './listar-compras.component.html',
   styleUrls: ['./listar-compras.component.css']
 })
-export class ListarComprasComponent implements OnInit {
+export class ListarComprasComponent implements OnInit, OnDestroy {
 
   constructor(
     private deviceService: DeviceDetectorService,    
@@ -47,6 +47,22 @@ export class ListarComprasComponent implements OnInit {
   private paginator!: MatPaginator;
   private sort!: MatSort;
 
+  handlerOrientation: any;
+  
+  ngOnDestroy(): void {
+    console.log('on destroy');
+    //https://stackoverflow.com/questions/46906763/how-to-remove-eventlisteners-in-angular-4
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.landscape.removeEventListener("change", this.handlerOrientation, true);
+  }
+
+  private onChangeOrientation() {
+    console.log('landscape orientation');
+  }
+
+  //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+  landscape = window.matchMedia("(orientation: landscape)");
+
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.setDataSourceAttributes();
@@ -57,15 +73,16 @@ export class ListarComprasComponent implements OnInit {
     this.setDataSourceAttributes();
   }
 
+  isPortrait() {
+    return !this.landscape.matches;
+  }  
+  
   //https://stackoverflow.com/questions/47077302/angular2-material-table-hide-column
   //https://stackoverflow.com/questions/41432533/how-to-detect-if-device-is-desktop-and-or-mobile-and-if-connection-is-wifi-or-n
-   getdisplayedColumns() : string[] {
-      const isMobile = this.deviceService.isMobile();
-      return this.displayedColumns
-        .filter(cd => !isMobile || cd.showMobile)
-        .map(cd => cd.def);
-    }
-   
+  getDisplayedColumns() : string[] {
+    let exibir = !this.isPortrait();
+    return this.displayedColumns.filter(cd => exibir || cd.showMobile).map(cd => cd.def);
+  }
 
   setDataSourceAttributes() {
     this.dataSource.paginator = this.paginator;
@@ -83,6 +100,9 @@ export class ListarComprasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.handlerOrientation = this.onChangeOrientation.bind(this);
+    this.landscape.addEventListener("change", this.handlerOrientation, true);       
     //Recuperando os dados
     this.compraService.listar().pipe(catchError(
       err => {

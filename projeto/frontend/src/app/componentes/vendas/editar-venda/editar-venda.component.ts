@@ -1,5 +1,5 @@
 import { AuthService } from './../../../services/autenticacao/auth/auth.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, ValidatorFn, AbstractControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -19,14 +19,16 @@ import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-co
 import { Location } from '@angular/common';
 import { Cliente } from 'src/app/interfaces/Cliente';
 import { ClienteService } from 'src/app/services/cliente/cliente.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-editar-venda',
   templateUrl: './editar-venda.component.html',
   styleUrls: ['./editar-venda.component.css']
 })
-export class EditarVendaComponent implements OnInit {
-  constructor(
+export class EditarVendaComponent implements OnInit, OnDestroy {
+  constructor(     
+    private deviceService: DeviceDetectorService,   
     private formBuilder: FormBuilder,
     private vendaService: VendaService,
     private produtoService: ProdutoService,
@@ -46,8 +48,24 @@ export class EditarVendaComponent implements OnInit {
     // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
     if (this.router.url.indexOf('/meusPedidos') > -1) {
         this.operacao = 'Detalhar';  
-    }      
+    }   
   }
+
+  handlerOrientation: any;
+  
+  ngOnDestroy(): void {
+    console.log('on destroy');
+    //https://stackoverflow.com/questions/46906763/how-to-remove-eventlisteners-in-angular-4
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.landscape.removeEventListener("change", this.handlerOrientation, true);
+  }
+
+  private onChangeOrientation() {
+    console.log('landscape orientation');
+  }
+
+  //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+  landscape = window.matchMedia("(orientation: landscape)");
 
   formulario!: FormGroup;
 
@@ -70,7 +88,7 @@ export class EditarVendaComponent implements OnInit {
   private formDirective!: NgForm;
 
   // Campos para a tabela
-  displayedColumns: string[] = ['produto.nome', 'quantidade', 'precoUnitario', 'precoTotal', 'desconto', 'precoFinal'];
+  displayedColumns = [{ def: 'produto.nome', showMobile: true}, { def: 'quantidade', showMobile: true}, { def: 'precoUnitario', showMobile: false}, { def: 'precoTotal', showMobile: false}, { def: 'desconto', showMobile: false}, { def: 'precoFinal', showMobile: true}];
   dataSource: MatTableDataSource<ItemVenda> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -89,6 +107,7 @@ export class EditarVendaComponent implements OnInit {
   clientes: Cliente[] = [];
   clientesFiltrados!: Observable<Cliente[]>;
 
+
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.setDataSourceAttributes();
@@ -97,6 +116,16 @@ export class EditarVendaComponent implements OnInit {
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
     this.setDataSourceAttributes();
+  }
+
+  isPortrait() {
+    return !this.landscape.matches;
+  }  
+  
+  //https://stackoverflow.com/questions/47077302/angular2-material-table-hide-column
+  getDisplayedColumns() : string[] {
+    let exibir = !this.isPortrait();
+    return this.displayedColumns.filter(cd => exibir || cd.showMobile).map(cd => cd.def);
   }
 
   setDataSourceAttributes() {
@@ -207,6 +236,10 @@ export class EditarVendaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.handlerOrientation = this.onChangeOrientation.bind(this);
+    this.landscape.addEventListener("change", this.handlerOrientation, true);   
+        
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     const id = this.route.snapshot.paramMap.get('id');
 
@@ -216,7 +249,7 @@ export class EditarVendaComponent implements OnInit {
     }
 
     if ((this.operacao != 'Consultar') && (this.operacao != 'Detalhar')){
-      this.displayedColumns.push('actions');
+      this.displayedColumns.push({ def: 'actions', showMobile: true});
     } else {
       this.leitura = true;
     }

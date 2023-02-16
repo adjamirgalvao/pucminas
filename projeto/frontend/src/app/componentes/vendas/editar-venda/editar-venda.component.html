@@ -168,12 +168,11 @@
                                 </mat-cell>
                                 <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
                             </ng-container>
-                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-                            <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
+                            <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: getDisplayedColumns()"></mat-row>
+                            <mat-footer-row *matFooterRowDef="getDisplayedColumns()"></mat-footer-row>
                         </mat-table>
-                        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]"
-                            showFirstLastButtons></mat-paginator>
+                        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" [hidePageSize]="isPortrait()" showFirstLastButtons></mat-paginator>
                     </div>
                 </fieldset>
 
