@@ -54,10 +54,11 @@
                 <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]"  [hidePageSize]="isPortrait()" showFirstLastButtons></mat-paginator>
         </div>
         <br>
-        <button mat-stroked-button routerLink="/fornecedores/criarFornecedor" [queryParams]="{ listar: true }"
-            matTooltip="Novo Fornecedor" color="primary">Novo</button>  &nbsp;
+        <div class="grid gap-3">
+        <button mat-stroked-button routerLink="/fornecedores/criarFornecedor" [queryParams]="{ listar: true }" matTooltip="Novo Fornecedor" color="primary">Novo</button>  &nbsp;
             <button mat-stroked-button [class.spinner]="exportando" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirExcel();" matTooltip="Exportar" color="primary">Exportar</button> &nbsp;
-            <div class="tempdf"><button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button> &nbsp;</div>
+            <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button> &nbsp;
             <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
-   </fieldset>
+        </div>
+        </fieldset>
 </section>
