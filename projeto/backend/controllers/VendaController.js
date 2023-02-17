@@ -1,7 +1,8 @@
 const VendaService = require("../services/VendaService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 const ClienteService = require("../services/ClienteService");
-const PDFService = require("../services/PDFService");
+const PDFService = require("../services/PDFKitService");
+const RelatorioUtilService = require("../services/RelatorioUtilService");
 
 exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN])) {
@@ -123,12 +124,15 @@ exports.delete = async (req, res) => {
 exports.getRelatorioListagem = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     try {
-      let html = await VendaService.getRelatorioListagem();
+      let dados = await VendaService.getExcelListagem();
 
-      const pdf = await PDFService.gerarPDF(html);
-
-      res.contentType("application/pdf");
-      res.send(pdf);
+      //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
+      await PDFService.gerarPDF(res, 'Vendas', [
+        { label: 'Data', property: 'data', width: 70, renderer: null },
+        { label: 'Nota Fiscal', property: 'notaFiscal', width: 70, renderer: null },
+        { label: 'Vendedor', property: 'vendedor', width: 200, renderer: null },
+        { label: 'Valor', property: 'valor', width: 70, renderer: (value) => {return RelatorioUtilService.getDinheiro(value)} },
+        { label: 'Lucro', property: 'lucro', width: 70, renderer: (value) => {return RelatorioUtilService.getDinheiro(value, true)} },], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

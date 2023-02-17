@@ -1,6 +1,7 @@
 const VendedorService = require("../services/VendedorService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
-const PDFService = require("../services/PDFService");
+const PDFService = require("../services/PDFKitService");
+const RelatorioUtilService = require("../services/RelatorioUtilService");
 
 exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
@@ -114,12 +115,13 @@ exports.delete = async (req, res) => {
 exports.getRelatorioListagem = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
-      let html = await VendedorService.getRelatorioListagem();
+      let dados = await VendedorService.getExcelListagem();
 
-      const pdf = await PDFService.gerarPDF(html);
-
-      res.contentType("application/pdf");
-      res.send(pdf);
+      //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
+      await PDFService.gerarPDF(res, 'Vendedores', [
+        { label: 'Nome', property: 'nome', width: 300, renderer: null },
+        { label: 'CPF', property: 'cpf', width: 70, renderer: null },
+        { label: 'Salário', property: 'salario', width: 120, renderer: (value) => {return RelatorioUtilService.getDinheiro(value)} }], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

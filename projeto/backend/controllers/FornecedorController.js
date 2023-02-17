@@ -1,6 +1,6 @@
 const FornecedorService = require("../services/FornecedorService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
-const PDFKitService = require("../services/PDFKitService");
+const PDFService = require("../services/PDFKitService");
 
 exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
@@ -97,11 +97,10 @@ exports.getRelatorioListagem = async (req, res) => {
       let dados = await FornecedorService.getExcelListagem();
 
       //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
-      await PDFKitService.gerarPDF(res, 'Fornecedores', [
+      await PDFService.gerarPDF(res, 'Fornecedores', [
         { label: 'Nome', property: 'nome', width: 300, renderer: null },
         { label: 'Tipo', property: 'tipo', width: 70, renderer: null },
         { label: 'CPF/CNPJ', property: 'cpf_cnpj', width: 120, renderer: null }], dados);
-
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: err.message });

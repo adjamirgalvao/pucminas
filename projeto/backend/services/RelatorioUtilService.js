@@ -26,7 +26,7 @@ module.exports = class RelatorioUtilService {
   }  
 
   static getDinheiro(data) {
-    if (data) {
+    if (data || data ==0) {
       return data.toLocaleString('pt-BR',{style: 'currency', currency: 'BRL'});
     } else {
       return '';

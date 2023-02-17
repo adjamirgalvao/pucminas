@@ -1,6 +1,7 @@
 const CompraService = require("../services/CompraService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
-const PDFService = require("../services/PDFService");
+const PDFService = require("../services/PDFKitService");
+const RelatorioUtilService = require("../services/RelatorioUtilService");
 
 exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
@@ -112,12 +113,14 @@ exports.getAllCompras = async (req, res) => {
 exports.getRelatorioListagem = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     try {
-      let html = await CompraService.getRelatorioListagem();
+      let dados = await CompraService.getExcelListagem();
 
-      const pdf = await PDFService.gerarPDF(html);
-
-      res.contentType("application/pdf");
-      res.send(pdf);
+      //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
+      await PDFService.gerarPDF(res, 'Compras', [
+        { label: 'Data da Compra', property: 'data', width: 70, renderer: null },
+        { label: 'Nota Fiscal', property: 'notaFiscal', width: 90, renderer: null },
+        { label: 'Fornecedor', property: 'fornecedor', width: 280, renderer: null },
+        { label: 'Preço', property: 'preco', width: 70, renderer: (value) => {return RelatorioUtilService.getDinheiro(value)} },], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

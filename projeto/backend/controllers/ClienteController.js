@@ -1,6 +1,6 @@
 const ClienteService = require("../services/ClienteService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
-const PDFService = require("../services/PDFService");
+const PDFService = require("../services/PDFKitService");
 
 exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
@@ -97,12 +97,13 @@ exports.delete = async (req, res) => {
 exports.getRelatorioListagem = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     try {
-      let html = await ClienteService.getRelatorioListagem();
+      let dados = await ClienteService.getExcelListagem();
 
-      const pdf = await PDFService.gerarPDF(html);
-
-      res.contentType("application/pdf");
-      res.send(pdf);
+      //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
+      await PDFService.gerarPDF(res, 'Clientes', [
+        { label: 'Nome', property: 'nome', width: 300, renderer: null },
+        { label: 'CPF', property: 'cpf', width: 70, renderer: null },
+        { label: 'Data de Nascimento', property: 'dataNascimento', width: 80, renderer: null }], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
