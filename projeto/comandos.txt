@@ -174,3 +174,6 @@ alterei a porta da aplicação
 crie as pastas de cache do puppeteer .cache/puppeteer (não sei se de fato precisava fazer)
 
 para rodar o npm install no servidor vc loga em ftp.adjamir.kinghost.net e faz no diretorio do backend
+
+diretorio no integrator
+applications/pucminas-master/projeto/backend

@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-var json2xls = require('json2xls');
+const json2xls = require('json2xls');
+const jsonServer = require('json-server');
 
 //Autentenciacao
 const PassportStrategy = require('./auth/Passport');
@@ -33,6 +34,26 @@ app.use("/api/vendas", require('./routers/vendaRouter'));
 app.use("/api/usuarios", require('./routers/usuarioRouter'));
 app.use("/api/autenticacao", require('./routers/autenticacaoRouter'));
 
+//Levantando o mock
+//https://www.npmjs.com/package/json-server
+//https://github.com/typicode/json-server/issues/253
+const router = jsonServer.router(path.join(__dirname, 'db.json'));  
+const idFieldName = '_id';
+// Middleware para modificar o nome do campo ID
+router.render = (req, res) => {
+    if (Array.isArray(res.locals.data)) {
+        res.jsonp(
+          res.locals.data.map(item => {
+            const { id, ...dataWithoutId } = item;
+            return { ...dataWithoutId, [idFieldName]: id };
+          })
+        );
+      } else {
+        const { id, ...dataWithoutId } = res.locals.data;
+        res.jsonp({ ...dataWithoutId, [idFieldName]: id });
+      }
+  };
+app.use('/mock/api', router);
 //Levantando o angular
 app.use(express.static(path.join(__dirname, '../frontend/dist', 'loja')));
 
