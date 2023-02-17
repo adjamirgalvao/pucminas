@@ -1,0 +1,17 @@
+Product Discovery (Design Thinking | Lean Inception)
+
+Definição do Framework de trabalho (Front End, Back End e Persistência)
+Projeto API First (API RESTful ou GraphQL)
+   Especificação ( Swagger | OAS - Open API Specification) 
+   Deploy do Mock (Backend Simulado) 
+
+
+
+
+------------------
+Diagrama de Classe ou Modelo de Dados
+Requisitos e Casos de Uso
+Projeto de Interface - Wireframes e protótipo Interativo 2.4 Projeto de Interface
+Business Model Canvas   1.1 Contexto
+Arquitetura da Solução (C4 Model) - 3.1 Arquitetura de Software
+
