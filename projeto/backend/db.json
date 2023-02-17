@@ -1,7 +1,7 @@
 {
   "produtos": [
     {
-        "_id": "63cf0c3978fa75fe3c95ecf5",
+        "id": "63cf0c3978fa75fe3c95ecf5",
         "precoCustoInicial": 0,
         "__v": 0,
         "nome": "Produto 1",
@@ -10,7 +10,7 @@
         "quantidade": 1
     },
     {
-        "_id": "63cf0c4978fa75fe3c95ecf8",
+        "id": "63cf0c4978fa75fe3c95ecf8",
         "nome": "Produto 2",
         "quantidade": 0,
         "preco": 10,
@@ -19,7 +19,7 @@
         "__v": 0
     },
     {
-        "_id": "63cf0cc478fa75fe3c95ecfb",
+        "id": "63cf0cc478fa75fe3c95ecfb",
         "nome": "Produto 3",
         "quantidade": 1,
         "preco": 2,
@@ -28,7 +28,7 @@
         "__v": 0
     },
     {
-        "_id": "63cf169d78fa75fe3c95ed42",
+        "id": "63cf169d78fa75fe3c95ed42",
         "nome": "Produto 4",
         "quantidade": 0,
         "preco": 10,
@@ -37,7 +37,7 @@
         "__v": 0
     },
     {
-        "_id": "63cf18fa78fa75fe3c95ed5d",
+        "id": "63cf18fa78fa75fe3c95ed5d",
         "nome": "Produto 5",
         "quantidade": 1,
         "preco": 1,
@@ -46,7 +46,7 @@
         "__v": 0
     },
     {
-        "_id": "63dffe84afbed74cc58ce0a1",
+        "id": "63dffe84afbed74cc58ce0a1",
         "nome": "SquickMellon",
         "quantidade": 0,
         "preco": 100,

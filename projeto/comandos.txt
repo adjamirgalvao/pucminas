@@ -177,3 +177,5 @@ para rodar o npm install no servidor vc loga em ftp.adjamir.kinghost.net e faz n
 
 diretorio no integrator
 applications/pucminas-master/projeto/backend
+ps aux | grep .pm2| grep -v grep | awk '{ print $2 }' | xargs kill -9
+pm2 list
