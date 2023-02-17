@@ -54,8 +54,9 @@ router.render = (req, res) => {
       }
   };
 app.use('/mock/api', router);
+
 //Levantando o angular
 app.use(express.static(path.join(__dirname, '../frontend/dist', 'loja')));
-
 app.get('/*', function (req, res) {res.sendFile(path.join(__dirname, '../frontend/dist', 'loja', 'index.html'))});
+
 module.exports = app;

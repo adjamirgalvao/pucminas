@@ -1,6 +1,6 @@
 const app = require("./app");
 const db = require("./models/mongoosedb");
-const port = process.env.PORT || 21035;
+const port = process.env.PORT || 3000;
 
 db.init();
 
