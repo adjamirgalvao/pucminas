@@ -86,7 +86,6 @@ exports.update = async (req, res) => {
     try {
       const venda = {};
       venda.data = req.body.data;
-      venda.numero = req.body.numero;
       venda.id_vendedor = req.body.id_vendedor;
       venda.id_cliente = req.body.id_cliente;
 
@@ -129,7 +128,6 @@ exports.getRelatorioListagem = async (req, res) => {
       //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
       await PDFService.gerarPDF(res, 'Vendas', [
         { label: 'Data', property: 'data', width: 70, renderer: null },
-        { label: 'Nota Fiscal', property: 'notaFiscal', width: 70, renderer: null },
         { label: 'Vendedor', property: 'vendedor', width: 200, renderer: null },
         { label: 'Valor', property: 'valor', width: 70, renderer: (value) => {return RelatorioUtilService.getDinheiro(value)} },
         { label: 'Lucro', property: 'lucro', width: 70, renderer: (value) => {return RelatorioUtilService.getDinheiro(value, true)} },], dados);

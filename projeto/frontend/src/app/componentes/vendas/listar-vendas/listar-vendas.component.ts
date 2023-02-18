@@ -64,7 +64,7 @@ export class ListarVendasComponent implements OnInit, OnDestroy{
   operacao = 'Listar Vendas';
 
   // Campos para a tabela
-  displayedColumns = [{ def: 'data', showMobile: true}, { def: 'numero', showMobile: false}];
+  displayedColumns = [{ def: 'data', showMobile: true}];
   dataSource: MatTableDataSource<Venda> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -145,7 +145,7 @@ export class ListarVendasComponent implements OnInit, OnDestroy{
   confirmarExcluirVenda(venda: Venda) {
     const confirmacaoRef = this.confirmacao.open(ModalConfirmacaoComponent, {
       data: {
-        mensagem: `Confirma a exclusão da venda '${venda.numero}'?`,
+        mensagem: `Confirma a exclusão da venda ?`,
         titulo: 'Confirmação de Exclusão de Venda'
       },
     });
@@ -159,16 +159,13 @@ export class ListarVendasComponent implements OnInit, OnDestroy{
   }
 
   excluirVenda(venda: Venda) {
-    console.log('excluindo', venda);
-
-
     //Excluindo os dados 
     this.excluindo = true;
     this.vendaExcluida = venda;
     this.vendaService.excluir(venda).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a venda "${venda.numero}"! Detalhes: ${err.error?.error}` });
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a venda! Detalhes: ${err.error?.error}` });
         throw 'Erro ao excluir a venda. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -178,7 +175,7 @@ export class ListarVendasComponent implements OnInit, OnDestroy{
           this.dataSource = new MatTableDataSource(this.vendas);
           this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `A venda "${venda.numero}" foi excluída com sucesso!` });
+          this.alertas.push({ tipo: 'success', mensagem: `A venda foi excluída com sucesso!` });
         });
   }
 

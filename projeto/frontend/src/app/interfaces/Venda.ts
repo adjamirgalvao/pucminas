@@ -5,7 +5,6 @@ import { Cliente } from './Cliente';
 export interface Venda { 
     _id?: string
     data: Date
-    numero?: string
     total?: number
     custoTotal?: number
     id_vendedor?: string

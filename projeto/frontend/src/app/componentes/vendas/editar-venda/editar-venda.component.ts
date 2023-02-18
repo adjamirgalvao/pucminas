@@ -77,7 +77,6 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
   leitura: boolean = false;
 
   inicial: Venda = {
-    numero: '',
     data: new Date(),
   };
 
@@ -336,7 +335,6 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     // Criação da venda
     let venda: Venda = {
       data: this.formulario.value.data,
-      numero: this.formulario.value.numero,
       id_vendedor : this.formulario.value.vendedor._id,
       itensVenda: this.itensVenda
     };
@@ -364,7 +362,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
   }
 
   formularioValido(): boolean {
-    return this.formulario.get('data')!.valid && this.formulario.get('vendedor')!.valid && this.formulario.get('numero')!.valid && this.itensVenda.length > 0;
+    return this.formulario.get('data')!.valid && this.formulario.get('vendedor')!.valid && this.itensVenda.length > 0;
   }
 
   formularioIncluirValido(): boolean {
@@ -421,7 +419,6 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
         Validators.required, this.vendedorValidator()
       ])],
       cliente: [{value: this.inicial.cliente, disabled: this.readOnly()}, this.clienteValidator()],
-      numero: [{value: this.inicial.numero, disabled: this.readOnly()}],
       produto: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.produtoValidator()
       ])],

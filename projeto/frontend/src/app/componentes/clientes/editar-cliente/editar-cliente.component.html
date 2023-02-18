@@ -28,8 +28,9 @@
             <div class="mb-3">
                 <mat-form-field appearance="fill" class="me-3">
                     <mat-label>Data de Nascimento</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
-                    <mat-error *ngIf="formulario.get('dataNascimento')?.hasError('required') && formulario.get('data')?.touched">O campo é obrigatório!</mat-error>
+                    <input type="text" matInput [matDatepicker]="picker" formControlName="dataNascimento">
+                    <mat-error *ngIf="formulario.get('dataNascimento')?.hasError('required') && !formulario.get('dataNascimento')?.hasError('matDatepickerParse')">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="formulario.get('dataNascimento')?.hasError('matDatepickerParse')">O campo é inválido!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Consultar')">DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>

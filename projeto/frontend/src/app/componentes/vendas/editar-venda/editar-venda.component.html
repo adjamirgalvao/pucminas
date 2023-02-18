@@ -14,23 +14,18 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
     <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto h4">&nbsp;{{ operacao + ((operacao == 'Detalhar') ? ' Pedido' : ' Venda') }} <i *ngIf="this.formulario">{{this.formulario.get('numero')?.value}}</i>&nbsp;</legend>
+        <legend class="float-none w-auto h4">&nbsp;{{ operacao + ((operacao == 'Detalhar') ? ' Pedido' : ' Venda') }} <i *ngIf="this.formulario">{{  this.formulario.get('data')?.value  | date: 'dd/MM/yyyy' }}</i>&nbsp;</legend>
 
         <form [formGroup]="formulario" *ngIf="!carregando" #formDirective="ngForm">
             <div>
                 <mat-form-field appearance="fill" class="me-3 mb-3">
                     <mat-label>Data de venda</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="data">
-                    <mat-error *ngIf="formulario.get('data')?.hasError('required') && formulario.get('data')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="formulario.get('data')?.hasError('required') && !formulario.get('data')?.hasError('matDatepickerParse')">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="formulario.get('data')?.hasError('matDatepickerParse')">O campo é inválido!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field class="me-3 mb-3">
-                    <mat-label>Nota Fiscal</mat-label>
-                    <input type="string" formControlName="numero" matInput placeholder="Digite a Nota Fiscal"
-                        [readonly]="salvando || erroCarregando">
-                    <mat-hint *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">Digite a Nota Fiscal</mat-hint>
                 </mat-form-field>
             </div>
             <div class="me-3 mb-3" *ngIf="(operacao != 'Detalhar')">

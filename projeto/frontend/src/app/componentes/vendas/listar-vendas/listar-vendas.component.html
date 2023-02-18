@@ -26,13 +26,6 @@
                         <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
                     </div>
                 </ng-container>
-                <ng-container matColumnDef="numero">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nota Fiscal</mat-header-cell>
-                    <mat-cell *matCellDef="let venda">{{ venda.numero }}</mat-cell>
-                    <div *ngIf="operacao == 'Listar Vendas'">
-                        <mat-footer-cell *matFooterCellDef>  </mat-footer-cell>
-                    </div>    
-                </ng-container>
                 <ng-container matColumnDef="vendedor" *ngIf="operacao == 'Listar Vendas'">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Vendedor</mat-header-cell>
                     <mat-cell *matCellDef="let venda">{{ venda.vendedor?.nome }}</mat-cell>

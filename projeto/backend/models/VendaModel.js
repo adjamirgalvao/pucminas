@@ -6,10 +6,6 @@ const vendaSchema = Schema({
     type: Date,
     required: true,
   },
-  numero: {
-    type: String,
-    required: false,
-  },
   id_vendedor: {
     type: Schema.ObjectId,
     required: false

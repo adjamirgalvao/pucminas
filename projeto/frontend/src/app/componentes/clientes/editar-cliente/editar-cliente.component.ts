@@ -6,6 +6,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { Cliente } from 'src/app/interfaces/Cliente';
 import { ClienteService } from 'src/app/services/cliente/cliente.service';
 import { Location } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-editar-cliente',
@@ -39,7 +40,7 @@ export class EditarClienteComponent implements OnInit {
     nome: '',
     cpf: '',
     email: '',
-    dataNascimento: new Date(),
+    dataNascimentoStr: '',
     endereco: {
       rua: '',
       numero: '',
@@ -77,6 +78,7 @@ export class EditarClienteComponent implements OnInit {
           this.carregando = false;
           if (cliente != null) {
             this.inicial = cliente;
+            //this.inicial.dataNascimentoStr = new Date(cliente.dataNascimento!).toLocaleDateString();
             console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
@@ -112,6 +114,7 @@ export class EditarClienteComponent implements OnInit {
 
   cancelar(): void {
 
+    console.log(this.formulario);
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
     if ((this.operacao != 'Cadastrar') || this.listar) {
         this.router.navigate(['/clientes']);

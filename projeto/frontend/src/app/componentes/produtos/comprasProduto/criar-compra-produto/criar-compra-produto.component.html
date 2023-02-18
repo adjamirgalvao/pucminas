@@ -21,7 +21,8 @@
                 <mat-form-field appearance="fill" class="me-3" >
                     <mat-label>Data de compra</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="data">
-                    <mat-error *ngIf="formulario.get('data')?.hasError('required') && formulario.get('data')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="formulario.get('data')?.hasError('required') && !formulario.get('data')?.hasError('matDatepickerParse')">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="formulario.get('data')?.hasError('matDatepickerParse')">O campo é inválido!</mat-error>
                     <mat-hint>DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>

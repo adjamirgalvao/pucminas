@@ -259,7 +259,6 @@ module.exports = class VendaService {
     try {
       const novo = {
         data: data.data,
-        numero: data.numero,
         id_vendedor: data.id_vendedor,
         id_cliente : data.id_cliente,
       };
@@ -354,7 +353,7 @@ module.exports = class VendaService {
     try {
       let registros = await this.getAllVendas();
       let html = RelatorioUtilService.gerarCabecalho('Listagem de Vendas');
-      html += RelatorioUtilService.gerarTabela(registros, ['data', 'numero', 'vendedor.nome', 'total', 'lucro'], ['Data', 'Nota Fiscal', 'Vendedor', 'Valor', 'Lucro'], [RelatorioUtilService.getDataFormatada, null, getVendedor, RelatorioUtilService.getDinheiro, getLucro], getRodape);
+      html += RelatorioUtilService.gerarTabela(registros, ['data', 'vendedor.nome', 'total', 'lucro'], ['Data', 'Vendedor', 'Valor', 'Lucro'], [RelatorioUtilService.getDataFormatada, null, getVendedor, RelatorioUtilService.getDinheiro, getLucro], getRodape);
       html += RelatorioUtilService.gerarFim();
 
       return html;
@@ -369,7 +368,6 @@ module.exports = class VendaService {
       let registros = await this.getAllVendas();
       for (let i in registros){
         retorno.push({data: RelatorioUtilService.getDataFormatada(registros[i].data), 
-                      notaFiscal: registros[i].numero, 
                       vendedor: registros[i].vendedor.nome,
                       valor: registros[i].total,
                       lucro: registros[i].total - registros[i].custoTotal});
