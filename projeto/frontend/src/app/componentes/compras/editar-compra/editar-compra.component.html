@@ -45,11 +45,9 @@
                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite a Nota Fiscal</mat-hint>
                 </mat-form-field>
             </div>
-            <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
-                <legend class="float-none w-auto h5">&nbsp;Produtos da Compra&nbsp;</legend>
-               <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled *ngIf="(operacao != 'Consultar')">
-                <legend class="float-none w-auto h6">&nbsp;Adicionar Produto&nbsp;</legend>
-                <mat-form-field class="me-3 mb-3" style="width: 50%;">
+               <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled *ngIf="(operacao != 'Consultar')">
+                <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
+                <mat-form-field class="me-3 mb-3" style="width: 45%;">
                     <mat-label>Produto</mat-label>
                     <input type="text" formControlName="produto" [matAutocomplete]="autoProduto" matInput placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
                     <mat-autocomplete #autoProduto="matAutocomplete" [displayWith]="displayFnProduto">
@@ -61,7 +59,7 @@
                     <mat-error *ngIf="!formulario.get('produto')?.hasError('required') && formulario.get('produto')?.hasError('produtoCadastrado')  && formulario.get('produto')?.touched">O produto não está cadastrado!</mat-error>
                     <mat-hint>Escolha o produto</mat-hint>
                 </mat-form-field>
-                <mat-form-field class="me-3 mb-3">
+                <mat-form-field class="me-3 mb-3" style="width: 20%">
                     <mat-label>Quantidade</mat-label>
                     <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
                         [readonly]="salvando || erroCarregando">
@@ -69,7 +67,7 @@
                         <mat-error *ngIf="formulario.get('quantidade')?.hasError('min') && formulario.get('quantidade')?.touched">O valor deve ser maior que zero!</mat-error>
                     <mat-hint>Digite a quantidade</mat-hint>
                 </mat-form-field>
-                <mat-form-field class="me-3 mb-3">
+                <mat-form-field class="me-3 mb-3" style="width: 20%">
                     <mat-label>Preço total</mat-label>
                     <input formControlName="preco" matInput placeholder="Digite o preço" currencyMask
                         [readonly]="salvando || erroCarregando">
@@ -80,15 +78,8 @@
                 <button mat-icon-button matTooltip="Adicionar" color="primary" (click)="$event.preventDefault(); adicionarItem();" [disabled]="salvando || erroCarregando || !formularioIncluirValido()">
                     <mat-icon>add</mat-icon>
                   </button>
-                </fieldset>
-                <!-- Listagem de produtos da compra -->
-                <fieldset class="grid gap-3 fieldset rounded px-3 mt-3 mb-3">
-                    <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
-                    <div class="mb-3 mt-3" *ngIf="!carregando && dataSource.data.length == 0">
-                        <strong>Nenhum produto adicionado a compra.</strong>
-                    </div>
-                <div class="grid gap-3 fieldset rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
-                    <mat-table [dataSource]="dataSource" matSort>
+                <div class="grid gap-3 border rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
+                        <mat-table [dataSource]="dataSource" matSort>
                         <ng-container matColumnDef="produto.nome">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>
                             <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
@@ -121,8 +112,6 @@
                     <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
                 </div>
             </fieldset>
-        
-        </fieldset>
 
             <div class="acoes mt-3">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
