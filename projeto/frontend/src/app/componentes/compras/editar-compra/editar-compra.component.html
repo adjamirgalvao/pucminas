@@ -12,7 +12,7 @@
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+    <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
         <legend class="float-none w-auto h4">&nbsp;{{ operacao }} Compra <i *ngIf="this.formulario">{{this.formulario.get('numero')?.value}}</i>&nbsp;</legend>
 
         <form [formGroup]="formulario" *ngIf="!carregando" #formDirective="ngForm">
@@ -45,9 +45,9 @@
                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite a Nota Fiscal</mat-hint>
                 </mat-form-field>
             </div>
-            <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+            <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
                 <legend class="float-none w-auto h5">&nbsp;Produtos da Compra&nbsp;</legend>
-               <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled *ngIf="(operacao != 'Consultar')">
+               <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled *ngIf="(operacao != 'Consultar')">
                 <legend class="float-none w-auto h6">&nbsp;Adicionar Produto&nbsp;</legend>
                 <mat-form-field class="me-3 mb-3" style="width: 50%;">
                     <mat-label>Produto</mat-label>
@@ -82,12 +82,12 @@
                   </button>
                 </fieldset>
                 <!-- Listagem de produtos da compra -->
-                <fieldset class="grid gap-3 border rounded px-3 mt-3 mb-3">
+                <fieldset class="grid gap-3 fieldset rounded px-3 mt-3 mb-3">
                     <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
                     <div class="mb-3 mt-3" *ngIf="!carregando && dataSource.data.length == 0">
                         <strong>Nenhum produto adicionado a compra.</strong>
                     </div>
-                <div class="grid gap-3 border rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
+                <div class="grid gap-3 fieldset rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
                     <mat-table [dataSource]="dataSource" matSort>
                         <ng-container matColumnDef="produto.nome">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>

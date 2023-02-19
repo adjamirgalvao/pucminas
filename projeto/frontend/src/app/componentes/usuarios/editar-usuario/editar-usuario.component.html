@@ -12,7 +12,7 @@
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+    <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
         <legend class="float-none w-auto h4">&nbsp;{{ operacao }} Usuário <i *ngIf="this.formulario">{{this.formulario.get('nome')?.value}}</i>&nbsp;</legend>
         <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando" #formDirective="ngForm">
             <div class="mb-3">

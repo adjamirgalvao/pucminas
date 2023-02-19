@@ -10,10 +10,10 @@
 <mat-progress-bar *ngIf="carregando" mode="indeterminate"></mat-progress-bar>
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
-    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+    <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
         <legend class="float-none w-auto h4"><i class="bi bi-trophy-fill"></i>&nbsp;Produtos Mais Vendidos&nbsp;</legend>
 
-        <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+        <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
             <legend class="float-none w-auto h6">&nbsp;Filtro&nbsp;</legend>
             <form [formGroup]="formulario" #formDirective="ngForm">
                 <div class="mb-3">
@@ -42,11 +42,11 @@
                 </div>
             </form>
         </fieldset>    
-        <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3 mt-3" aria-disabled *ngIf="carregado">
+        <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3 mt-3" aria-disabled *ngIf="carregado">
             <legend class="float-none w-auto h6">&nbsp;Resultado&nbsp;</legend>
             <div class="ms-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto vendido neste período.</strong>
             </div>
-            <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
+            <div class="grid gap-3 fieldset rounded px-3" *ngIf="dataSource.data.length > 0">
                 <mat-table [dataSource]="dataSource" matSort>
                     <ng-container matColumnDef="produto">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>

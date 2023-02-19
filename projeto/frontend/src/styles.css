@@ -45,4 +45,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-size: 21px;
   line-height: 21px; 
 }
+
+
+.fieldset{
+  border: 2px rgb(146, 179, 223) solid;
+}  
+
 @import "~bootstrap-icons/font/bootstrap-icons.css";

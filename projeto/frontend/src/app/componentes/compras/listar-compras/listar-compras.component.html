@@ -12,12 +12,12 @@
 <section class="pt-1 px-3 pb-3">
     <app-alerta [alertas]="alertas"></app-alerta>
 
-    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+    <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
         <legend class="float-none w-auto h4">&nbsp;Listar Compras &nbsp;</legend>
 
         <div class="ms-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhuma compra cadastrada.</strong>
         </div>
-        <div class="grid gap-3 border rounded  px-3" *ngIf="dataSource.data.length > 0">
+        <div class="grid gap-3 fieldset rounded  px-3" *ngIf="dataSource.data.length > 0">
             <mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="data">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Data da Compra</mat-header-cell>

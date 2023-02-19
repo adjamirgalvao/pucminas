@@ -11,11 +11,11 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
 
-    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+    <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
         <legend class="float-none w-auto h4">&nbsp;Listar Fornecedores &nbsp;</legend>
         <div class="ms-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum fornecedor cadastrado.</strong>
         </div>
-        <div class="grid gap-3 border rounded px-3" *ngIf="dataSource.data.length > 0">
+        <div class="grid gap-3 fieldset rounded px-3" *ngIf="dataSource.data.length > 0">
             <mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="nome">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
