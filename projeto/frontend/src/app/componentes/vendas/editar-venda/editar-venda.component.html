@@ -55,10 +55,8 @@
                     <mat-hint *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">Escolha o cliente</mat-hint>
                 </mat-form-field>
             </div>
-            <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
-                <legend class="float-none w-auto h5">&nbsp;Produtos da Venda&nbsp;</legend>
-                <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">
-                    <legend class="float-none w-auto h6">&nbsp;Adicionar Produto&nbsp;</legend>
+            <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+                <legend class="float-none w-auto h5">&nbsp;Produtos&nbsp;</legend>
                     <div class="mb-3">
                         <mat-form-field class="me-3"  style="width: 60%;">
                             <mat-label>Produto</mat-label>
@@ -113,14 +111,7 @@
                            <!-- <mat-icon>add</mat-icon>-->Adicionar
                         </button>
                     </div>
-                </fieldset>
-                <!-- Listagem de produtos da venda -->
-                <fieldset class="grid gap-3 fieldset rounded px-3 mt-3 mb-3">
-                    <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
-                    <div class="mb-3 mt-3" *ngIf="!carregando && dataSource.data.length == 0">
-                        <strong>Nenhum produto adicionado a venda.</strong>
-                    </div>
-                    <div class="grid gap-3 fieldset rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
+                    <div class="grid gap-3 border rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
                         <mat-table [dataSource]="dataSource" matSort>
                             <ng-container matColumnDef="produto.nome">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>
@@ -170,8 +161,6 @@
                         <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" [hidePageSize]="isPortrait()" showFirstLastButtons></mat-paginator>
                     </div>
                 </fieldset>
-
-            </fieldset>
 
             <div class="acoes mt-3">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
