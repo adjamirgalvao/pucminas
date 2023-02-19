@@ -2,8 +2,6 @@ const { ItemVendaModel, Mongoose } = require("../models/ItemVendaModel");
 const ProdutoService = require("./ProdutoService");
 
 function getMaisVendidos(ano, id_cliente) {
-  console.log('id_cliente', ano, id_cliente)
-
   retorno = [
     //venda
     {
