@@ -335,11 +335,13 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     // Criação da venda
     let venda: Venda = {
       data: this.formulario.value.data,
-      id_vendedor : this.formulario.value.vendedor._id,
       itensVenda: this.itensVenda
     };
-    if (this.formulario.get('cliente')?.valid && (this.formulario.value.cliente) && !(typeof this.formulario.value.cliente === 'string')) {
+    if (this.formulario.get('cliente')?.valid && (this.formulario.value.cliente)) {
       venda.id_cliente = this.formulario.value.cliente._id;
+    }
+    if (this.formulario.get('vendedor')?.valid && (this.formulario.value.vendedor)) {
+      venda.id_vendedor = this.formulario.value.vendedor._id;
     }
 
     this.salvandoFormulario(true);
@@ -415,8 +417,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
       data: [{value: this.inicial.data, disabled: this.readOnly()}, Validators.compose([
         Validators.required
       ])],
-      vendedor: [{value: this.inicial.vendedor, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, this.vendedorValidator()
+      vendedor: [{value: this.inicial.vendedor, disabled: this.readOnly()}, Validators.compose([this.vendedorValidator()
       ])],
       cliente: [{value: this.inicial.cliente, disabled: this.readOnly()}, this.clienteValidator()],
       produto: [{value: '', disabled: this.readOnly()}, Validators.compose([

@@ -65,7 +65,7 @@ exports.delete = async (req, res) => {
 exports.getProdutosMaisVendidos = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.GESTOR])) {
     try {
-      const registros = await ItemVendaService.getProdutosMaisVendidos(req.query.ano);
+      const registros = await ItemVendaService.getProdutosMaisVendidos(req.query.ano, req.query.id_cliente);
 
       if (!registros) {
         return res.status(404).json("Não existem itens de vendas cadastradas!");

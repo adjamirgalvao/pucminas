@@ -1,0 +1,7 @@
+/*https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries*/
+@media (min-width: 1250px) {
+    .cliente {
+        width: 50%;
+      }
+    }
+    

@@ -146,6 +146,25 @@ function umaVendaItensVendedorInnerJoinconst(id) {
         }
       }
     },
+    // lookup de clientes
+    // https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
+    {
+      '$lookup': {
+        'from': 'clientes',
+        'localField': 'id_cliente',
+        'foreignField': '_id',
+        'as': 'cliente'
+      }
+    },
+    { // para fazer com que fique um campo e não uma lista
+      '$addFields': {
+        'cliente': {
+          '$arrayElemAt': [
+            '$cliente', 0
+          ]
+        }
+      }
+    },    
     {
       '$lookup': {
         'from': 'itensvendas',

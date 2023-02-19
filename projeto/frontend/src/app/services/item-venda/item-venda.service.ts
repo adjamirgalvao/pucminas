@@ -1,3 +1,4 @@
+import { Cliente } from './../../interfaces/Cliente';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -14,10 +15,13 @@ export class ItemVendaService {
 
   }
   
-  listarProdutosMaisVendidos(ano: number) : Observable<ItemVendaAgrupada[]> {
+  listarProdutosMaisVendidos(ano: number, cliente: Cliente) : Observable<ItemVendaAgrupada[]> {
     let queryParams = new HttpParams();
     
-      queryParams = queryParams.append("ano", ano);    
+      queryParams = queryParams.append("ano", ano);   
+      if (cliente){
+        queryParams = queryParams.append("id_cliente", cliente._id!);
+      } 
       return this.http.get<ItemVendaAgrupada[]>(this.API_ITEM_VENDA + 'consultas/produtosMaisVendidos', { params:queryParams });    
   }
 

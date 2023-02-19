@@ -3,7 +3,7 @@ const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 const PDFService = require("../services/PDFKitService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.GESTAO, ROLES.ADMIN])) {
     let id = req.params.id;
 
     try {

@@ -24,7 +24,19 @@
                         <mat-error *ngIf="formulario.get('ano')?.hasError('min') && formulario.get('ano')?.touched">O valor deve ser maior que zero!</mat-error>
                         <mat-hint>Digite o ano</mat-hint>
                     </mat-form-field>
-                      <button class="mt-3" (click)="$event.preventDefault(); recuperarDados();" mat-stroked-button matTooltip="Salvar o fornecedor" color="primary"
+                    <mat-form-field class="me-3 mb-3 mt-3" class="cliente">
+                        <mat-label>Cliente</mat-label>
+                        <input type="text" formControlName="cliente" [matAutocomplete]="autoCliente" matInput
+                            placeholder="Escolha o cliente" [readonly]="carregando">
+                        <mat-autocomplete #autoCliente="matAutocomplete" [displayWith]="displayFnCliente">
+                            <mat-option *ngFor="let cliente of clientesFiltrados | async" [value]="cliente">
+                                {{cliente.nome}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="formulario.get('cliente')?.hasError('clienteCadastrado')  && formulario.get('cliente')?.touched">O cliente não está cadastrado!</mat-error>
+                        <mat-hint>Escolha o cliente</mat-hint>
+                    </mat-form-field> &nbsp;
+                    <button (click)="$event.preventDefault(); recuperarDados();" mat-stroked-button matTooltip="Salvar o fornecedor" color="primary"
                         [disabled]="carregando || !formulario.valid"
                     [class.spinner]="carregando">Carregar</button>
                 </div>
