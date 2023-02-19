@@ -51,4 +51,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border: 1px rgb(146, 179, 223) solid;
 }  
 
+.cabecalho{
+  background-color: rgb(21, 96, 156);
+}
+
+.active-menu{
+  background-color: rgb(21, 96, 156);
+}
+
+
 @import "~bootstrap-icons/font/bootstrap-icons.css";
