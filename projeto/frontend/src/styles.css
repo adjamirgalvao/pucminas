@@ -48,7 +48,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .fieldset{
-  border: 2px rgb(146, 179, 223) solid;
+  border: 1px rgb(146, 179, 223) solid;
 }  
 
 @import "~bootstrap-icons/font/bootstrap-icons.css";
