@@ -103,14 +103,14 @@ paths:
       responses:
         '200':
           description: Operacação com sucesso
-        '404':
-          description: Fornecedor não encontrado
+        '400':
+          description: Foi fornecido um ID inválido
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
-        '500':
-          description: Foi fornecido um ID inválido
+        '404':
+          description: Fornecedor não encontrado
       security:
         - loja_auth:
             - write:fornecedores
@@ -135,14 +135,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Fornecedor'           
-        '404':
-          description: Fornecedor não encontrado
+        '400':
+          description: Foi fornecido um ID inválido
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
-        '500':
-          description: Foi fornecido um ID inválido
+        '404':
+          description: Fornecedor não encontrado
       security:
         - loja_auth:
             - write:fornecedores
@@ -273,14 +273,14 @@ paths:
       responses:
         '200':
           description: Operacação com sucesso
-        '404':
-          description: Cliente não encontrado
+        '400':
+          description: Foi fornecido um ID inválido
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
-        '500':
-          description: Foi fornecido um ID inválido
+        '404':
+          description: Cliente não encontrado
       security:
         - loja_auth:
             - write:clientes
@@ -305,14 +305,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Cliente'           
-        '404':
-          description: Cliente não encontrado
+        '400':
+          description: Foi fornecido um ID inválido
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
-        '500':
-          description: Foi fornecido um ID inválido
+        '404':
+          description: Cliente não encontrado
       security:
         - loja_auth:
             - write:clientes
@@ -407,6 +407,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Vendedor'          
+        '400':
+          description: Foi fornecido um ID inválido
         '401':
           description: Usuário não está logado
         '403':
@@ -438,14 +440,14 @@ paths:
       responses:
         '200':
           description: Operacação com sucesso
-        '404':
-          description: Vendedor não encontrado
+        '400':
+          description: Foi fornecido um ID inválido
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
-        '500':
-          description: Foi fornecido um ID inválido
+        '404':
+          description: Vendedor não encontrado
       security:
         - loja_auth:
             - write:vendedores
@@ -470,12 +472,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Vendedor'           
-        '404':
-          description: Vendedor não encontrado
+        '400':
+          description: Foi fornecido um ID inválido
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
+        '404':
+          description: Vendedor não encontrado
         '500':
           description: Foi fornecido um ID inválido
       security:

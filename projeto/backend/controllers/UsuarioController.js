@@ -5,15 +5,19 @@ exports.get = async (req, res) => {
   let id = req.params.id;
 
   if (AutorizacaoService.isMesmoUsuario(req, id) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
-    try {
-      const registro = await UsuarioService.getUsuariobyId(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await UsuarioService.getUsuariobyId(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -58,32 +62,36 @@ exports.update = async (req, res) => {
   let admin = AutorizacaoService.validarRoles(req, [ROLES.ADMIN]);
 
   if (mesmoUsuario || admin) {
-    try {
-      let usuario = {
-        nome: req.body.nome,
-        email: req.body.email,
-      };
+    if (id.length == 24) {
+      try {
+        let usuario = {
+          nome: req.body.nome,
+          email: req.body.email,
+        };
 
-      //Só troca a senha se pedir para trocar a senha
-      if (req.body.senha){
-        usuario.senha = AutorizacaoService.criptografar(req.body.senha);
+        //Só troca a senha se pedir para trocar a senha
+        if (req.body.senha) {
+          usuario.senha = AutorizacaoService.criptografar(req.body.senha);
+        }
+        console.log('usuariosenha', usuario.senha, req.body.senha);
+        //Só troca as roles se for admin
+        if (admin) {
+          usuario.roles = req.body.roles;
+        }
+
+        console.log(usuario, id);
+        const registro = await UsuarioService.updateUsuario(id, usuario);
+
+        if (registro.nModified === 0) {
+          return res.status(404).json({});
+        }
+
+        res.json(registro);
+      } catch (error) {
+        res.status(500).json({ error: error.message });
       }
-      console.log('usuariosenha', usuario.senha, req.body.senha); 
-      //Só troca as roles se for admin
-      if (admin){
-        usuario.roles = req.body.roles;
-      }
-
-      console.log(usuario, id);
-      const registro = await UsuarioService.updateUsuario(id, usuario);
-
-      if (registro.nModified === 0) {
-        return res.status(404).json({});
-      }
-
-      res.json(registro);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -94,15 +102,19 @@ exports.delete = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await UsuarioService.deleteUsuario(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await UsuarioService.deleteUsuario(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });

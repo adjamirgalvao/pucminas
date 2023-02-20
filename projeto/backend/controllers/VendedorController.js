@@ -7,19 +7,23 @@ exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await VendedorService.getVendedorbyId(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        return res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await VendedorService.getVendedorbyId(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          return res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
-  }  
+  }
 };
 
 exports.getByEmail = async (req, res) => {
@@ -38,7 +42,7 @@ exports.getByEmail = async (req, res) => {
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
-  }  
+  }
 };
 
 exports.getAll = async (req, res) => {
@@ -56,7 +60,7 @@ exports.getAll = async (req, res) => {
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
-  }  
+  }
 };
 
 exports.add = async (req, res) => {
@@ -69,55 +73,63 @@ exports.add = async (req, res) => {
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
-  }  
+  }
 };
 
 exports.update = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const vendedor =  {
-        nome: req.body.nome,
-        cpf: req.body.cpf,
-        email: req.body.email,
-        salario: req.body.salario,
-        endereco: req.body.endereco
-      };
+    if (id.length == 24) {
+      try {
+        const vendedor = {
+          nome: req.body.nome,
+          cpf: req.body.cpf,
+          email: req.body.email,
+          salario: req.body.salario,
+          endereco: req.body.endereco
+        };
 
-      console.log(vendedor, id);
-      const registro = await VendedorService.updateVendedor(id, vendedor);
+        console.log(vendedor, id);
+        const registro = await VendedorService.updateVendedor(id, vendedor);
 
-      if (registro.nModified === 0) {
-        return res.status(404).json({});
+        if (registro.nModified === 0) {
+          return res.status(404).json({});
+        }
+
+        res.json(registro);
+      } catch (error) {
+        res.status(500).json({ error: error.message });
       }
-
-      res.json(registro);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
-  }  
+  }
 };
 
 exports.delete = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await VendedorService.deleteVendedor(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await VendedorService.deleteVendedor(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
-  }  
+  }
 };
 
 exports.getRelatorioListagem = async (req, res) => {
@@ -129,7 +141,7 @@ exports.getRelatorioListagem = async (req, res) => {
       await PDFService.gerarPDF(res, 'Vendedores', [
         { label: 'Nome', property: 'nome', width: 300, renderer: null },
         { label: 'CPF', property: 'cpf', width: 70, renderer: null },
-        { label: 'Salário', property: 'salario', width: 120, renderer: (value) => {return RelatorioUtilService.getDinheiro(value)} }], dados);
+        { label: 'Salário', property: 'salario', width: 120, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } }], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -146,7 +158,7 @@ exports.getExcelListagem = async (req, res) => {
       res.set({
         'Content-Disposition': 'attachment; filename=Vendedores.xlsx',
         'Content-Type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      });          
+      });
       res.xls('Vendedores.xlsx', registros);
     } catch (err) {
       return res.status(500).json({ error: err.message });

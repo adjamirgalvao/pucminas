@@ -7,15 +7,19 @@ exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await CompraService.getComprabyId(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await CompraService.getComprabyId(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -57,15 +61,19 @@ exports.delete = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await CompraService.deleteCompra(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await CompraService.deleteCompra(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -76,16 +84,20 @@ exports.getAllCompras = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registros = await CompraService.getAllCompras(id);
+    if (id.length == 24) {
+      try {
+        const registros = await CompraService.getAllCompras(id);
 
-      if (!registros) {
-        return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
+        if (!registros) {
+          return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
+        }
+
+        res.json(registros);
+      } catch (err) {
+        return res.status(500).json({ error: err.message });
       }
-
-      res.json(registros);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -102,7 +114,7 @@ exports.getRelatorioListagem = async (req, res) => {
         { label: 'Data da Compra', property: 'data', width: 70, renderer: null },
         { label: 'Nota Fiscal', property: 'notaFiscal', width: 90, renderer: null },
         { label: 'Fornecedor', property: 'fornecedor', width: 280, renderer: null },
-        { label: 'Preço', property: 'preco', width: 70, renderer: (value) => {return RelatorioUtilService.getDinheiro(value)} },], dados);
+        { label: 'Preço', property: 'preco', width: 70, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -119,7 +131,7 @@ exports.getExcelListagem = async (req, res) => {
       res.set({
         'Content-Disposition': 'attachment; filename=Compras.xlsx',
         'Content-Type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      });         
+      });
       res.xls('Compras.xlsx', registros);
     } catch (err) {
       return res.status(500).json({ error: err.message });

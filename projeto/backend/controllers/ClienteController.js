@@ -6,15 +6,19 @@ exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.GESTAO, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await ClienteService.getClientebyId(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await ClienteService.getClientebyId(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -58,25 +62,29 @@ exports.update = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const cliente = {
-        nome: req.body.nome,
-        dataNascimento: req.body.dataNascimento,
-        email: req.body.email,
-        cpf: req.body.cpf,
-        endereco: req.body.endereco
-      };
+    if (id.length == 24) {
+      try {
+        const cliente = {
+          nome: req.body.nome,
+          dataNascimento: req.body.dataNascimento,
+          email: req.body.email,
+          cpf: req.body.cpf,
+          endereco: req.body.endereco
+        };
 
-      console.log(cliente, id);
-      const registro = await ClienteService.updateCliente(id, cliente);
+        console.log(cliente, id);
+        const registro = await ClienteService.updateCliente(id, cliente);
 
-      if (registro.nModified === 0) {
-        return res.status(404).json({});
+        if (registro.nModified === 0) {
+          return res.status(404).json({});
+        }
+
+        res.json(registro);
+      } catch (error) {
+        res.status(500).json({ error: error.message });
       }
-
-      res.json(registro);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -87,15 +95,19 @@ exports.delete = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await ClienteService.deleteCliente(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await ClienteService.deleteCliente(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -128,7 +140,7 @@ exports.getExcelListagem = async (req, res) => {
       res.set({
         'Content-Disposition': 'attachment; filename=Clientes.xlsx',
         'Content-Type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      });          
+      });
       res.xls('Clientes.xlsx', registros);
     } catch (err) {
       return res.status(500).json({ error: err.message });

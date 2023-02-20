@@ -7,15 +7,19 @@ exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await ProdutoService.getProdutobyId(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await ProdutoService.getProdutobyId(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -82,23 +86,27 @@ exports.update = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const produto = {};
-      produto.nome = req.body.nome;
-      produto.quantidade = req.body.quantidade;
-      produto.preco = req.body.preco;
-      produto.precoCusto = req.body.precoCusto;
+    if (id.length == 24) {
+      try {
+        const produto = {};
+        produto.nome = req.body.nome;
+        produto.quantidade = req.body.quantidade;
+        produto.preco = req.body.preco;
+        produto.precoCusto = req.body.precoCusto;
 
-      console.log(produto, id);
-      const registro = await ProdutoService.updateProduto(id, produto);
+        console.log(produto, id);
+        const registro = await ProdutoService.updateProduto(id, produto);
 
-      if (registro.nModified === 0) {
-        return res.status(404).json({});
+        if (registro.nModified === 0) {
+          return res.status(404).json({});
+        }
+
+        res.json(registro);
+      } catch (error) {
+        res.status(500).json({ error: error.message });
       }
-
-      res.json(registro);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -109,15 +117,19 @@ exports.delete = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const registro = await ProdutoService.deleteProduto(id);
-      if (registro) {
-        res.json(registro);
-      } else {
-        res.status(404).json({});        
-      }  
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (id.length == 24) {
+      try {
+        const registro = await ProdutoService.deleteProduto(id);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -128,16 +140,20 @@ exports.getAllItensCompras = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     let id = req.params.id;
 
-    try {
-      const todos = await ProdutoService.getAllItensCompras(id, req.query.ano, req.query.agrupar);
+    if (id.length == 24) {
+      try {
+        const todos = await ProdutoService.getAllItensCompras(id, req.query.ano, req.query.agrupar);
 
-      if (!todos) {
-        return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
+        if (!todos) {
+          return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
+        }
+
+        res.json(todos);
+      } catch (err) {
+        return res.status(500).json({ error: err.message });
       }
-
-      res.json(todos);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -153,7 +169,7 @@ exports.getRelatorioListagem = async (req, res) => {
       await PDFService.gerarPDF(res, 'Produtos', [
         { label: 'Nome', property: 'nome', width: 200, renderer: null },
         { label: 'Estoque', property: 'estoque', width: 70, renderer: null },
-        { label: 'Preço', property: 'preco', width: 70, renderer: (value) => {return RelatorioUtilService.getDinheiro(value)} },], dados);
+        { label: 'Preço', property: 'preco', width: 70, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -170,7 +186,7 @@ exports.getExcelListagem = async (req, res) => {
       res.set({
         'Content-Disposition': 'attachment; filename=Produtos.xlsx',
         'Content-Type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      });          
+      });
       res.xls('Produtos.xlsx', registros);
     } catch (err) {
       return res.status(500).json({ error: err.message });
