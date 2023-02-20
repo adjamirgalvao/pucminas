@@ -70,7 +70,7 @@ paths:
         - loja_auth:
             - write:fornecedor
             - read:fornecedor
-  /fornecedores/{id}:
+  /fornecedores{id}:            
     put:
       tags:
         - Fornecedor
@@ -80,7 +80,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: Id do fornecedor para consulta
+          description: Id do fornecedor para atualizar
           required: true
           schema:
             type: string
@@ -90,7 +90,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Fornecedor'
-        required: true
       responses:
         '200':
           description: Operacação com sucesso
@@ -105,8 +104,10 @@ paths:
           description: Foi fornecido um ID inválido
         '404':
           description: Fornecedor não encontrado
+        '401':
+          description: Usuário não está logado
         '403':
-          description: Acesso negado
+          description: Acesso negado ao usuário
       security:
         - loja_auth:
             - write:fornecedores
@@ -115,6 +116,7 @@ components:
   schemas:
     Fornecedor:
       required:
+        - _id
         - nome
         - tipo
       type: object
@@ -123,6 +125,7 @@ components:
           type: string
           description: Id do fornecedor
           example: "abcdefg"
+          readOnly: true
         nome:
           type: string
           description: Nome do fornecedor
@@ -152,7 +155,4 @@ components:
             read:fornecedores: read your fornecedores
     api_key:
       type: http
-      name: api_key
-      scheme: bearer,
-      bearerFormat: JWT,      
-      in: header
+      scheme: bearer    

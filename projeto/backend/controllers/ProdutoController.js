@@ -80,7 +80,7 @@ exports.add = async (req, res) => {
 
 exports.update = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
-    let id = req.body._id;
+    let id = req.params.id;
 
     try {
       const produto = {};

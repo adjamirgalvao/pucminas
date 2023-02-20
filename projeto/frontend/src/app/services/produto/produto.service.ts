@@ -35,7 +35,7 @@ export class ProdutoService {
   }
 
   editar(produto: Produto): Observable<Produto> {
-    return this.http.put<Produto>(this.API_PRODUTO, produto);
+    return this.http.put<Produto>(this.API_PRODUTO + '' + produto._id, produto);
   }
  
   excluir(produto: Produto): Observable<Produto> {

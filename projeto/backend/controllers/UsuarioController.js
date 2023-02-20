@@ -52,7 +52,7 @@ exports.add = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  let id = req.body._id;
+  let id = req.params.id;
 
   let mesmoUsuario = AutorizacaoService.isMesmoUsuario(req, id);
   let admin = AutorizacaoService.validarRoles(req, [ROLES.ADMIN]);
