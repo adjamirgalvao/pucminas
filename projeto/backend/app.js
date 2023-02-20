@@ -26,7 +26,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/produtos", require('./routers/produtoRouter'));
 app.use("/api/fornecedores", require('./routers/fornecedorRouter'));
-app.use("/api/itensCompras", require('./routers/itemCompraRouter'));
 app.use("/api/compras", require('./routers/compraRouter'));
 app.use("/api/clientes", require('./routers/clienteRouter'));
 app.use("/api/vendedores", require('./routers/vendedorRouter'));

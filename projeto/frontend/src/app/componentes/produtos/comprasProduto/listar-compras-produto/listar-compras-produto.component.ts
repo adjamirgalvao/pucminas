@@ -12,6 +12,7 @@ import { ItemCompraService } from 'src/app/services/item-compra/item-compra.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { ModalConfirmacaoComponent } from 'src/app/componentes/util/modal-confirmacao/modal-confirmacao.component';
+import { CompraService } from 'src/app/services/compra/compra.service';
 
 @Component({
   selector: 'app-listar-compras-produto',
@@ -24,7 +25,7 @@ export class ListarComprasProdutoComponent implements OnInit {
 
   constructor(
     private produtoService: ProdutoService,
-    private itemCompraService: ItemCompraService,
+    private compraService: CompraService,
     private route: ActivatedRoute,
     private router: Router, 
     public confirmacao: MatDialog,
@@ -135,7 +136,7 @@ export class ListarComprasProdutoComponent implements OnInit {
     //Excluindo os dados 
     this.excluindo = true;
     this.itemCompraExcluida = itemCompra;
-    this.itemCompraService.excluirItemCompra(itemCompra).pipe(catchError(
+    this.compraService.excluirItemCompra(itemCompra).pipe(catchError(
       err => {
         this.excluindo = false;
         console.log(err);
