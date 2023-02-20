@@ -8,7 +8,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { Cliente } from 'src/app/interfaces/Cliente';
 import { ItemVendaAgrupada } from 'src/app/interfaces/ItemVendaAgrupada';
 import { ClienteService } from 'src/app/services/cliente/cliente.service';
-import { ItemVendaService } from 'src/app/services/item-venda/item-venda.service';
+import { VendaService } from 'src/app/services/venda/venda.service';
 
 @Component({
   selector: 'app-produtos-mais-vendidos',
@@ -18,7 +18,7 @@ import { ItemVendaService } from 'src/app/services/item-venda/item-venda.service
 export class ProdutosMaisVendidosComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private itemVendaService: ItemVendaService,
+    private vendaService: VendaService,
     private clienteService: ClienteService,
   ) {
   }
@@ -151,7 +151,7 @@ export class ProdutosMaisVendidosComponent implements OnInit {
     //Recuperando os dados
     this.carregando = true;
     this.carregado = false;
-    this.itemVendaService.listarProdutosMaisVendidos(this.formulario.value.ano, this.formulario.value.cliente).pipe(catchError(
+    this.vendaService.listarProdutosMaisVendidos(this.formulario.value.ano, this.formulario.value.cliente).pipe(catchError(
       err => {
         this.carregando = false;
         this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });

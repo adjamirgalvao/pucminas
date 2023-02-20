@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require('passport');
 const VendaController = require("../controllers/VendaController");
+const ItemVendaController = require("../controllers/ItemVendaController");
 
 //get
 router.get("/", passport.authenticate('jwt', { session: false }), VendaController.getAll);
@@ -14,5 +15,7 @@ router.delete("/:id", passport.authenticate('jwt', { session: false }), VendaCon
 router.get("/relatorios/listagem", passport.authenticate('jwt', { session: false }), VendaController.getRelatorioListagem);
 //excel
 router.get("/exportar/listagem", passport.authenticate('jwt', { session: false }), VendaController.getExcelListagem);
+//consultas
+router.get("/consultas/produtosMaisVendidos", passport.authenticate('jwt', { session: false }), ItemVendaController.getProdutosMaisVendidos);
 
 module.exports = router;

@@ -30,7 +30,6 @@ app.use("/api/itensCompras", require('./routers/itemCompraRouter'));
 app.use("/api/compras", require('./routers/compraRouter'));
 app.use("/api/clientes", require('./routers/clienteRouter'));
 app.use("/api/vendedores", require('./routers/vendedorRouter'));
-app.use("/api/itensVendas", require('./routers/itemVendaRouter'));
 app.use("/api/vendas", require('./routers/vendaRouter'));
 app.use("/api/usuarios", require('./routers/usuarioRouter'));
 app.use("/api/autenticacao", require('./routers/autenticacaoRouter'));

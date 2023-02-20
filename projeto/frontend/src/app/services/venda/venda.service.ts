@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Venda } from 'src/app/interfaces/Venda';
+import { Cliente } from 'src/app/interfaces/Cliente';
+import { ItemVendaAgrupada } from 'src/app/interfaces/ItemVendaAgrupada';
 
 @Injectable({
   providedIn: 'root'
@@ -58,8 +60,15 @@ export class VendaService {
     return this.http.get(this.API_VENDA + 'exportar/listagem', {responseType: 'blob'});
   }   
 
-  listarProdutosMaisVendidos(ano: any) {
-    throw new Error('Method not implemented.');
+  listarProdutosMaisVendidos(ano: number, cliente: Cliente) : Observable<ItemVendaAgrupada[]> {
+    let queryParams = new HttpParams();
+    
+      queryParams = queryParams.append("ano", ano);   
+      if (cliente){
+        queryParams = queryParams.append("id_cliente", cliente._id!);
+      } 
+      return this.http.get<ItemVendaAgrupada[]>(this.API_VENDA + 'consultas/produtosMaisVendidos', { params:queryParams });    
   }
+
 
 }

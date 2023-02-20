@@ -13,10 +13,6 @@ export class ItemCompraService {
   constructor(private http: HttpClient) { 
 
   }
-  
-  listarItemCompra() : Observable<ItemCompra[]> {
-    return this.http.get<ItemCompra[]>(this.API_ITEM_COMPRA);
-  }
 
   excluirItemCompra(itemCompra: ItemCompra): Observable<ItemCompra> {
     console.log(itemCompra);

@@ -78,18 +78,6 @@ module.exports = class ItemCompraService {
     return response;
   }
 
-  static async getAllItensCompras() {
-    try {
-
-      const todos = await ItemCompraModel.aggregate(allItensCompraProdutoInnerJoin);
-      
-      return todos;
-    } catch (error) {
-      console.log(`Erro ao recuperar ItensCompras ${error.message}`);
-      throw new Error(`Erro ao recuperar ItensCompras ${error.message}`);
-    }
-  }
-
   // session no mongoose https://blog.tericcabrel.com/how-to-use-mongodb-transaction-in-node-js/
   static async addItemCompra(data, sessionPassada) {
     const session = sessionPassada != null ? sessionPassada : await Mongoose.startSession();

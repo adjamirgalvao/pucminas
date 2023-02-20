@@ -11,7 +11,7 @@ info:
     - [Definição da API para a Loja On-line](https://github.com/adjamirgalvao/pucminas/blob/master/projeto/documentacao/api.yaml)
     
     Observações:
-    - As rotinas que retornam pdf ou excel, apresentam um problema na visualização da resposta. Existe uma [issue](https://github.com/swagger-api/swagger-ui/issues/5500) no Swagger cadastrada para isso 
+    - As rotinas que retornam pdf ou excel apresentam um problema na visualização da resposta. Existe uma [issue](https://github.com/swagger-api/swagger-ui/issues/5500) no Swagger cadastrada para este problema. 
   contact:
     name: desenvolvedor
     email: adjamir@gmail.com
@@ -26,7 +26,11 @@ tags:
   - name: Fornecedor
     description: API relativa a funcionalidade de fornecedores
   - name: Cliente
-    description: API relativa a funcionalidade de clientes    
+    description: API relativa a funcionalidade de clientes  
+  - name: Vendedor
+    description: API relativa a funcionalidade de vendedores  
+  - name: Usuário
+    description: API relativa a funcionalidade de usuários  
 paths:
   /fornecedores:
     get:
@@ -59,7 +63,7 @@ paths:
       description: Adiciona um novo fornecedor
       operationId: addFornecedor
       requestBody:
-        description: Cria um novo fornecedor
+        description: Dados do fornecedor para ser criado
         content:
           application/json:
             schema:
@@ -95,7 +99,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Atualiza o fornecedor informado pelo id
+        description: Dados do fornecedor para ser atualizado
         content:
           application/json:
             schema:
@@ -229,7 +233,7 @@ paths:
       description: Adiciona um novo cliente
       operationId: addCliente
       requestBody:
-        description: Cria um novo cliente
+        description: Dados do cliente para ser criado
         content:
           application/json:
             schema:
@@ -265,7 +269,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Atualiza o cliente informado pelo id
+        description: Dados do cliente para ser atualizado
         content:
           application/json:
             schema:
@@ -394,7 +398,7 @@ paths:
       description: Adiciona um novo vendedor
       operationId: addVendedor
       requestBody:
-        description: Cria um novo vendedor
+        description: Dados do vendedor para ser criado
         content:
           application/json:
             schema:
@@ -432,7 +436,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Atualiza o vendedor informado pelo id
+        description: Dados do vendedor para ser atualizado
         content:
           application/json:
             schema:
@@ -531,7 +535,126 @@ paths:
       security:
         - loja_auth:
             - write:vendedor
-            - read:vendedor              
+            - read:vendedor   
+  /usuarios:
+    get:
+      tags:
+        - Usuário
+      summary: Retorna a lista de todos os usuários
+      description: Retorna a lista de todos os usuários
+      operationId: gettAllUsuarios
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'         
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:usuario
+            - read:usuario  
+    post:
+      tags:
+        - Usuário
+      summary: Adiciona um novo usuário
+      description: Adiciona um novo usuário
+      operationId: addUsuario
+      requestBody:
+        description: Dados do usuário para ser criado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      responses:
+        '200':
+          description: Atualização com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'          
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:usuario
+            - read:usuario
+  /usuarios/{id}:            
+    put:
+      tags:
+        - Usuário
+      summary: Atualiza um usuário
+      description: Atualiza o usuário informado pelo id
+      operationId: updateUsuario
+      parameters:
+        - name: id
+          in: path
+          description: Id do usuário para atualizar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Dados do usuário para ser atualizado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: Operacação com sucesso
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Usuário não encontrado
+      security:
+        - loja_auth:
+            - write:usuarios
+            - read:usuarios
+    delete:
+      tags:
+        - Usuário
+      summary: Exclui um usuário
+      description: Exclui um usuário pelo id
+      operationId: deleteUsuario
+      parameters:
+        - name: id
+          in: path
+          description: Id do usuário para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operacação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Usuário não encontrado
+      security:
+        - loja_auth:
+            - write:usuarios
+            - read:usuarios             
 components:
   schemas:
     Fornecedor:
@@ -670,7 +793,46 @@ components:
               example: "0"
           required:
             - rua
-            - numero                
+            - numero    
+    Usuario:
+      required:
+        - _id
+        - nome
+        - login
+        - senha
+        - email
+        - roles
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do usuário
+          example: "63cf180478fa75fe3c95ed46"
+          readOnly: true
+        nome:
+          type: string
+          description: Nome do usuário
+          example: "Paulo da Silva"
+        login:
+          type: string
+          description: Login do usuário
+          example: "paulo"
+        senha:
+          type: string
+          description: Senha do usuário
+          example: "1234" 
+        email:
+          type: string
+          description: E-Mail do usuário
+          example: "paulo@gmail.com"
+        roles:
+          type: array
+          description: Perfis do usuário
+          example: ["ADMIN", "CLIENTE"]
+          items:
+            type: string
+            enum: [ADMIN, GESTOR, CLIENTE, ESTOQUE, VENDENDOR]
+              
   securitySchemes:
     loja_auth:
       type: oauth2
