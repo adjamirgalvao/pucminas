@@ -70,7 +70,7 @@ paths:
         - loja_auth:
             - write:fornecedor
             - read:fornecedor
-  /fornecedores{id}:            
+  /fornecedores/{id}:            
     put:
       tags:
         - Fornecedor
@@ -93,13 +93,6 @@ paths:
       responses:
         '200':
           description: Operacação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Fornecedor'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Fornecedor'
         '500':
           description: Foi fornecido um ID inválido
         '404':
@@ -119,12 +112,14 @@ components:
         - _id
         - nome
         - tipo
+        - identificacao
+        - endereco
       type: object
       properties:
         _id:
           type: string
           description: Id do fornecedor
-          example: "abcdefg"
+          example: "63cf180478fa75fe3c95ed48"
           readOnly: true
         nome:
           type: string
@@ -137,6 +132,25 @@ components:
             - pf
             - pj
           example: "pf"
+        identificacao:
+          type: string
+          description: CPF/CNPJ do Fornecedor
+          example: "39629415500" 
+        endereco:
+          type: object
+          properties:
+            rua:
+              type: string
+              example: "Rua dos pedestres"
+            numero:
+              type: string
+              example: "S/N"
+            complemento:
+              type: string
+              example: "Apto 1000"
+          required:
+            - rua
+            - numero          
   requestBodies:
     Fornecedor:
       description: Objeto fornecedor que será adicionado
