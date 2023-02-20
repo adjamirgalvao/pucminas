@@ -67,9 +67,12 @@ function retornarArquivo(res, arquivo, tipo) {
     //https://stackoverflow.com/questions/30470276/node-express-content-disposition
     res.set({
       'Content-Disposition': 'attachment; filename=' + arquivo,
-      'Content-Type': tipo
+      'Content-Type': tipo,
+      'Cache-Control': "no-cache, no-store, must-revalidate",
+      "Pragma": "no-cache",
+      "Expries": "0",
     });    
-    res.send(data);
+    res.status(200).send(data);
   });
 }
 app.use('/mock/api/fornecedores/relatorios/listagem', (req, res) => { retornarArquivo(res, "Fornecedores.pdf", "application/pdf") });
