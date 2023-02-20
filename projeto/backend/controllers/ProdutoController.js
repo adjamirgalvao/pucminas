@@ -167,7 +167,10 @@ exports.getExcelListagem = async (req, res) => {
     try {
       let registros = await ProdutoService.getExcelListagem();
 
-      res.contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.set({
+        'Content-Disposition': 'attachment; filename=Produtos.xlsx',
+        'Content-Type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      });          
       res.xls('Produtos.xlsx', registros);
     } catch (err) {
       return res.status(500).json({ error: err.message });

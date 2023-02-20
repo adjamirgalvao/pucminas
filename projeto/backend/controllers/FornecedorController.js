@@ -123,7 +123,10 @@ exports.getExcelListagem = async (req, res) => {
     try {
       let registros = await FornecedorService.getExcelListagem();
 
-      res.contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.set({
+        'Content-Disposition': 'attachment; filename=Fornecedores.xlsx',
+        'Content-Type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      });          
       res.xls('Fornecedores.xlsx', registros);
     } catch (err) {
       return res.status(500).json({ error: err.message });
