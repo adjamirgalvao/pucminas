@@ -135,7 +135,7 @@ export class EditarUsuarioComponent implements OnInit {
   cancelar(): void {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
-    if ((this.operacao != 'Cadastrar') || this.listar) {
+    if (((this.operacao != 'Cadastrar') && (this.operacao != 'Editar Perfil do') && (this.operacao != 'Registrar')) || this.listar) {
         this.router.navigate(['/usuarios']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
