@@ -38,8 +38,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Fornecedor'         
+        '401':
+          description: Usuário não está logado
         '403':
-          description: Acesso negado
+          description: Acesso negado ao usuário
       security:
         - loja_auth:
             - write:fornecedor
@@ -64,8 +66,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Fornecedor'          
-        '405':
-          description: Invalid input
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
       security:
         - loja_auth:
             - write:fornecedor
@@ -93,14 +97,14 @@ paths:
       responses:
         '200':
           description: Operacação com sucesso
-        '500':
-          description: Foi fornecido um ID inválido
         '404':
           description: Fornecedor não encontrado
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
+        '500':
+          description: Foi fornecido um ID inválido
       security:
         - loja_auth:
             - write:fornecedores
@@ -125,14 +129,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Fornecedor'           
-        '500':
-          description: Foi fornecido um ID inválido
         '404':
           description: Fornecedor não encontrado
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
+        '500':
+          description: Foi fornecido um ID inválido
       security:
         - loja_auth:
             - write:fornecedores
@@ -149,14 +153,40 @@ paths:
           description: Consulta com sucesso
           content:
             application/pdf:
-      
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
         '403':
           description: Acesso negado
       security:
         - loja_auth:
             - write:fornecedor
             - read:fornecedor  
-            
+  /fornecedores/exportar/listagem:
+    get:
+      tags:
+        - Fornecedor
+      summary: Recupera planilha Excel com a lista de fornecedores
+      description: Recupera planilha Excel com a lista de fornecedores
+      operationId: getExportarListagemFornecedores
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:fornecedor
+            - read:fornecedor              
 components:
   schemas:
     Fornecedor:

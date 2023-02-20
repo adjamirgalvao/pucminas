@@ -63,7 +63,12 @@ function retornarArquivo(res, arquivo, tipo) {
       res.status(500).send('Erro ao ler o arquivo.');
       return;
     }
-    res.contentType(tipo);
+    //https://github.com/swagger-api/swagger-ui/issues/5750
+    //https://stackoverflow.com/questions/30470276/node-express-content-disposition
+    res.set({
+      'Content-Disposition': 'attachment; filename=' + arquivo,
+      'Content-Type': tipo
+    });    
     res.send(data);
   });
 }
