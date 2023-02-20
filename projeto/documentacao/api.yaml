@@ -23,19 +23,19 @@ servers:
   - url: https://adjamir2318.c41.integrator.host/mock/api
     description: Mock da API
 tags:
-  - name: Fornecedor
+  - name: Fornecedores
     description: API relativa a funcionalidade de fornecedores
-  - name: Cliente
+  - name: Clientes
     description: API relativa a funcionalidade de clientes  
-  - name: Vendedor
+  - name: Vendedores
     description: API relativa a funcionalidade de vendedores  
-  - name: Usuário
+  - name: Usuários
     description: API relativa a funcionalidade de usuários  
 paths:
   /fornecedores:
     get:
       tags:
-        - Fornecedor
+        - Fornecedores
       summary: Retorna a lista de todos os fornecedores
       description: Retorna a lista de todos os fornecedores
       operationId: gettAllFornecedores
@@ -58,7 +58,7 @@ paths:
             - read:fornecedor  
     post:
       tags:
-        - Fornecedor
+        - Fornecedores
       summary: Adiciona um novo fornecedor
       description: Adiciona um novo fornecedor
       operationId: addFornecedor
@@ -87,7 +87,7 @@ paths:
   /fornecedores/{id}:            
     put:
       tags:
-        - Fornecedor
+        - Fornecedores
       summary: Atualiza um fornecedor
       description: Atualiza o fornecedor informado pelo id
       operationId: updateFornecedor
@@ -121,7 +121,7 @@ paths:
             - read:fornecedores
     delete:
       tags:
-        - Fornecedor
+        - Fornecedores
       summary: Exclui um fornecedor
       description: Exclui um fornecedor pelo id
       operationId: deleteFornecedor
@@ -154,7 +154,7 @@ paths:
   /fornecedores/relatorios/listagem:
     get:
       tags:
-        - Fornecedor
+        - Fornecedores
       summary: Recupera PDF com a lista de fornecedores
       description: Recupera PDF com a lista de fornecedores
       operationId: getRelatorioListagemFornecedores
@@ -182,7 +182,7 @@ paths:
   /fornecedores/exportar/listagem:
     get:
       tags:
-        - Fornecedor
+        - Fornecedores
       summary: Recupera planilha Excel com a lista de fornecedores
       description: Recupera planilha Excel com a lista de fornecedores
       operationId: getExportarListagemFornecedores
@@ -205,7 +205,7 @@ paths:
   /clientes:
     get:
       tags:
-        - Cliente
+        - Clientes
       summary: Retorna a lista de todos os clientes
       description: Retorna a lista de todos os clientes
       operationId: gettAllClientes
@@ -228,7 +228,7 @@ paths:
             - read:cliente  
     post:
       tags:
-        - Cliente
+        - Clientes
       summary: Adiciona um novo cliente
       description: Adiciona um novo cliente
       operationId: addCliente
@@ -257,7 +257,7 @@ paths:
   /clientes/{id}:            
     put:
       tags:
-        - Cliente
+        - Clientes
       summary: Atualiza um cliente
       description: Atualiza o cliente informado pelo id
       operationId: updateCliente
@@ -291,7 +291,7 @@ paths:
             - read:clientes
     delete:
       tags:
-        - Cliente
+        - Clientes
       summary: Exclui um cliente
       description: Exclui um cliente pelo id
       operationId: deleteCliente
@@ -324,7 +324,7 @@ paths:
   /clientes/relatorios/listagem:
     get:
       tags:
-        - Cliente
+        - Clientes
       summary: Recupera PDF com a lista de clientes
       description: Recupera PDF com a lista de clientes
       operationId: getRelatorioListagemClientes
@@ -347,7 +347,7 @@ paths:
   /clientes/exportar/listagem:
     get:
       tags:
-        - Cliente
+        - Clientes
       summary: Recupera planilha Excel com a lista de clientes
       description: Recupera planilha Excel com a lista de clientes
       operationId: getExportarListagemClientes
@@ -370,7 +370,7 @@ paths:
   /vendedores:
     get:
       tags:
-        - Vendedor
+        - Vendedores
       summary: Retorna a lista de todos os vendedores
       description: Retorna a lista de todos os vendedores
       operationId: gettAllVendedores
@@ -393,7 +393,7 @@ paths:
             - read:vendedor  
     post:
       tags:
-        - Vendedor
+        - Vendedores
       summary: Adiciona um novo vendedor
       description: Adiciona um novo vendedor
       operationId: addVendedor
@@ -424,7 +424,7 @@ paths:
   /vendedores/{id}:            
     put:
       tags:
-        - Vendedor
+        - Vendedores
       summary: Atualiza um vendedor
       description: Atualiza o vendedor informado pelo id
       operationId: updateVendedor
@@ -458,7 +458,7 @@ paths:
             - read:vendedores
     delete:
       tags:
-        - Vendedor
+        - Vendedores
       summary: Exclui um vendedor
       description: Exclui um vendedor pelo id
       operationId: deleteVendedor
@@ -493,7 +493,7 @@ paths:
   /vendedores/relatorios/listagem:
     get:
       tags:
-        - Vendedor
+        - Vendedores
       summary: Recupera PDF com a lista de vendedores
       description: Recupera PDF com a lista de vendedores
       operationId: getRelatorioListagemVendedores
@@ -516,7 +516,7 @@ paths:
   /vendedores/exportar/listagem:
     get:
       tags:
-        - Vendedor
+        - Vendedores
       summary: Recupera planilha Excel com a lista de vendedores
       description: Recupera planilha Excel com a lista de vendedores
       operationId: getExportarListagemVendedores
@@ -539,7 +539,7 @@ paths:
   /usuarios:
     get:
       tags:
-        - Usuário
+        - Usuários
       summary: Retorna a lista de todos os usuários
       description: Retorna a lista de todos os usuários
       operationId: gettAllUsuarios
@@ -562,7 +562,7 @@ paths:
             - read:usuario  
     post:
       tags:
-        - Usuário
+        - Usuários
       summary: Adiciona um novo usuário
       description: Adiciona um novo usuário
       operationId: addUsuario
@@ -591,7 +591,7 @@ paths:
   /usuarios/{id}:            
     put:
       tags:
-        - Usuário
+        - Usuários
       summary: Atualiza um usuário
       description: Atualiza o usuário informado pelo id
       operationId: updateUsuario
@@ -625,7 +625,7 @@ paths:
             - read:usuarios
     delete:
       tags:
-        - Usuário
+        - Usuários
       summary: Exclui um usuário
       description: Exclui um usuário pelo id
       operationId: deleteUsuario

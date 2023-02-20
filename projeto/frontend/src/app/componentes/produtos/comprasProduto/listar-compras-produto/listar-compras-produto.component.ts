@@ -8,7 +8,6 @@ import { Produto } from 'src/app/interfaces/Produto';
 import { ProdutoService } from 'src/app/services/produto/produto.service';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MyCustomPaginatorIntl } from '../../../util/paginacao/MyCustomPaginatorIntl';
-import { ItemCompraService } from 'src/app/services/item-compra/item-compra.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { ModalConfirmacaoComponent } from 'src/app/componentes/util/modal-confirmacao/modal-confirmacao.component';
