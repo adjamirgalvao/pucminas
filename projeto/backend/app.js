@@ -45,12 +45,12 @@ router.render = (req, res) => {
         res.jsonp(
           res.locals.data.map(item => {
             const { id, ...dataWithoutId } = item;
-            return { ...dataWithoutId, [idFieldName]: id };
+            return { [idFieldName]: id, ...dataWithoutId, };
           })
         );
       } else {
         const { id, ...dataWithoutId } = res.locals.data;
-        res.jsonp({ ...dataWithoutId, [idFieldName]: id });
+        res.jsonp({ [idFieldName]: id, ...dataWithoutId,  });
       }
   };
 app.use('/mock/api', router);
