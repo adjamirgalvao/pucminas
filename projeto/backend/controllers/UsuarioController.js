@@ -7,7 +7,11 @@ exports.get = async (req, res) => {
   if (AutorizacaoService.isMesmoUsuario(req, id) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
       const registro = await UsuarioService.getUsuariobyId(id);
-      res.json(registro);
+      if (registro) {
+        res.json(registro);
+      } else {
+        res.status(404).json({});        
+      }  
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

@@ -1,4 +1,30 @@
 {
+  "fornecedores": [
+    {
+        "endereco": {
+            "rua": "Rua 1",
+            "numero": "102",
+            "complemento": "apto 501"
+        },
+        "id": "63cf180478fa75fe3c95ed48",
+        "nome": "Fornecedor 31",
+        "tipo": "pf",
+        "identificacao": "02523156423",
+        "__v": 0
+    },
+    {
+        "endereco": {
+            "rua": "Rua ",
+            "numero": "102",
+            "complemento": "apto 501"
+        },
+        "id": "63cf2b43711ff977314cb05a",
+        "nome": "Fornecedor 2",
+        "tipo": "pj",
+        "identificacao": "00000000000191",
+        "__v": 0
+    }
+  ],
   "produtos": [
     {
         "id": "63cf0c3978fa75fe3c95ecf5",

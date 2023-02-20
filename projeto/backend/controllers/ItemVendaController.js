@@ -6,8 +6,12 @@ exports.get = async (req, res) => {
     let id = req.params.id;
 
     try {
-      const item = await ItemVendaService.getItemVendabyId(id);
-      res.json(item);
+      const registro = await ItemVendaService.getItemVendabyId(id);
+      if (registro) {
+        res.json(registro);
+      } else {
+        res.status(404).json({});        
+      }  
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
