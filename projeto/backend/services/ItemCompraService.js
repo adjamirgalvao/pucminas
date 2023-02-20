@@ -123,17 +123,6 @@ module.exports = class ItemCompraService {
     }
   }
 
-  static async getItemComprabyId(id) {
-    try {
-      const registro = await ItemCompraModel.findById(id);
-
-      return registro;
-    } catch (error) {
-      console.log(`Compra ${id} não encontrada ${error.message}`);
-      throw new Error(`Compra ${id} não encontrada ${error.message}`);
-    }
-  }
-
   static async deleteItemCompra(id, sessionPassada) {
     const session = sessionPassada != null? sessionPassada : await Mongoose.startSession();
     if (!sessionPassada) {

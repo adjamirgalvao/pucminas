@@ -9,7 +9,7 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), ProdutoCont
 router.get("/:id/listarItensCompras", passport.authenticate('jwt', { session: false }), ProdutoController.getAllItensCompras);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), ProdutoController.add);
-//update
+//post
 router.put("/:id", passport.authenticate('jwt', { session: false }), ProdutoController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), ProdutoController.delete);

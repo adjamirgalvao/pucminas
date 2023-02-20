@@ -10,7 +10,7 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), UsuarioCont
 router.post("/", passport.authenticate('jwt', { session: false }), UsuarioController.add);
 //post
 router.post("/registrar", UsuarioController.add);
-//update
+//post
 router.put("/:id", passport.authenticate('jwt', { session: false }), UsuarioController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), UsuarioController.delete);

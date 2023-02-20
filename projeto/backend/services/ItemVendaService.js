@@ -109,59 +109,6 @@ function getMaisVendidos(ano, id_cliente) {
   return retorno;
 }
 
-// https://stackoverflow.com/questions/73195776/how-to-get-the-first-element-from-a-child-lookup-in-aggregation-mongoose
-const allItensVendaProdutoInnerJoin = [
-  {
-    '$lookup': {
-      'from': 'produtos',
-      'localField': 'id_produto',
-      'foreignField': '_id',
-      'as': 'produto'
-    }
-  },
-  { // para fazer com que fique um campo e não uma lista
-    '$addFields': {
-      'produto': {
-        '$arrayElemAt': [
-          '$produto', 0
-        ]
-      }
-    }
-  },
-  { // para virar inner join e não left join
-    '$match': {
-      'produto': {
-        '$exists': true
-      }
-    }
-  },
-  //venda
-  {
-    '$lookup': {
-      'from': 'vendas',
-      'localField': 'id_venda',
-      'foreignField': '_id',
-      'as': 'venda'
-    }
-  },
-  { // para fazer com que fique um campo e não uma lista
-    '$addFields': {
-      'venda': {
-        '$arrayElemAt': [
-          '$venda', 0
-        ]
-      }
-    }
-  },
-  { // para virar inner join e não left join
-    '$match': {
-      'venda': {
-        '$exists': true
-      }
-    }
-  }
-];
-
 module.exports = class ItemVendaService {
 
   static async criarItemVenda(data, session) {
@@ -178,18 +125,6 @@ module.exports = class ItemVendaService {
     const response = await new ItemVendaModel(itemVenda).save({ session });
 
     return response;
-  }
-
-  static async getAllItensVendas() {
-    try {
-
-      const todos = await ItemVendaModel.aggregate(allItensVendaProdutoInnerJoin);
-
-      return todos;
-    } catch (error) {
-      console.log(`Erro ao recuperar ItensVendas ${error.message}`);
-      throw new Error(`Erro ao recuperar ItensVendas ${error.message}`);
-    }
   }
 
   // session no mongoose https://blog.tericcabrel.com/how-to-use-mongodb-transaction-in-node-js/
@@ -228,17 +163,6 @@ module.exports = class ItemVendaService {
       if (!sessionPassada) {
         session.endSession();
       }
-    }
-  }
-
-  static async getItemVendabyId(id) {
-    try {
-      const registro = await ItemVendaModel.findById(id);
-
-      return registro;
-    } catch (error) {
-      console.log(`Venda ${id} não encontrada ${error.message}`);
-      throw new Error(`Venda ${id} não encontrada ${error.message}`);
     }
   }
 

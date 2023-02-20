@@ -8,7 +8,7 @@ router.get("/", passport.authenticate('jwt', { session: false }), FornecedorCont
 router.get("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.get);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), FornecedorController.add);
-//update
+//post
 router.put("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.delete);

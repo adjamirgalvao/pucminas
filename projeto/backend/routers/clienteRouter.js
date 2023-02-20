@@ -8,7 +8,7 @@ router.get("/", passport.authenticate('jwt', { session: false }), ClienteControl
 router.get("/:id", passport.authenticate('jwt', { session: false }), ClienteController.get);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), ClienteController.add);
-//update
+//post
 router.put("/:id", passport.authenticate('jwt', { session: false }), ClienteController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), ClienteController.delete);

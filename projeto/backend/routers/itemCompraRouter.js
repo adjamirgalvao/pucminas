@@ -5,9 +5,6 @@ const ItemCompraController = require("../controllers/ItemCompraController");
 
 //get
 router.get("/", passport.authenticate('jwt', { session: false }), ItemCompraController.getAll);
-router.get("/:id", passport.authenticate('jwt', { session: false }), ItemCompraController.get);
-//post
-router.post("/", passport.authenticate('jwt', { session: false }), ItemCompraController.add);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), ItemCompraController.delete);
 

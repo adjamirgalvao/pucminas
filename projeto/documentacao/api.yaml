@@ -9,6 +9,9 @@ info:
     Links úteis:
     - [Repositório do projeto](https://github.com/adjamirgalvao/pucminas)
     - [Definição da API para a Loja On-line](https://github.com/adjamirgalvao/pucminas/blob/master/projeto/documentacao/api.yaml)
+    
+    Observações:
+    - As rotinas que retornam pdf ou excel, apresentam um problema na visualização da resposta. Existe uma [issue](https://github.com/swagger-api/swagger-ui/issues/5500) no Swagger cadastrada para isso 
   contact:
     name: desenvolvedor
     email: adjamir@gmail.com
@@ -18,16 +21,19 @@ externalDocs:
   url: https://github.com/adjamirgalvao/pucminas/tree/master/projeto/documentacao
 servers:
   - url: https://adjamir2318.c41.integrator.host/mock/api
+    description: Mock da API
 tags:
   - name: Fornecedor
     description: API relativa a funcionalidade de fornecedores
+  - name: Cliente
+    description: API relativa a funcionalidade de clientes    
 paths:
   /fornecedores:
     get:
       tags:
         - Fornecedor
-      summary: Recupera a lista de fornecedores
-      description: Recupera a lista de fornecedores
+      summary: Retorna a lista de todos os fornecedores
+      description: Retorna a lista de todos os fornecedores
       operationId: gettAllFornecedores
       responses:
         '200':
@@ -152,10 +158,15 @@ paths:
         '200':
           description: Consulta com sucesso
           content:
-            application/pdf:
+            application/octet-stream:
               schema:
                 type: string
                 format: binary      
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                format: string             
         '401':
           description: Usuário não está logado
         '403':
@@ -186,7 +197,337 @@ paths:
       security:
         - loja_auth:
             - write:fornecedor
-            - read:fornecedor              
+            - read:fornecedor  
+  /clientes:
+    get:
+      tags:
+        - Cliente
+      summary: Retorna a lista de todos os clientes
+      description: Retorna a lista de todos os clientes
+      operationId: gettAllClientes
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cliente'         
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:cliente
+            - read:cliente  
+    post:
+      tags:
+        - Cliente
+      summary: Adiciona um novo cliente
+      description: Adiciona um novo cliente
+      operationId: addCliente
+      requestBody:
+        description: Cria um novo cliente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      responses:
+        '200':
+          description: Atualização com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'          
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:cliente
+            - read:cliente
+  /clientes/{id}:            
+    put:
+      tags:
+        - Cliente
+      summary: Atualiza um cliente
+      description: Atualiza o cliente informado pelo id
+      operationId: updateCliente
+      parameters:
+        - name: id
+          in: path
+          description: Id do cliente para atualizar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Atualiza o cliente informado pelo id
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+      responses:
+        '200':
+          description: Operacação com sucesso
+        '404':
+          description: Cliente não encontrado
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '500':
+          description: Foi fornecido um ID inválido
+      security:
+        - loja_auth:
+            - write:clientes
+            - read:clientes
+    delete:
+      tags:
+        - Cliente
+      summary: Exclui um cliente
+      description: Exclui um cliente pelo id
+      operationId: deleteCliente
+      parameters:
+        - name: id
+          in: path
+          description: Id do cliente para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operacação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'           
+        '404':
+          description: Cliente não encontrado
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '500':
+          description: Foi fornecido um ID inválido
+      security:
+        - loja_auth:
+            - write:clientes
+            - read:clientes   
+  /clientes/relatorios/listagem:
+    get:
+      tags:
+        - Cliente
+      summary: Recupera PDF com a lista de clientes
+      description: Recupera PDF com a lista de clientes
+      operationId: getRelatorioListagemClientes
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:cliente
+            - read:cliente  
+  /clientes/exportar/listagem:
+    get:
+      tags:
+        - Cliente
+      summary: Recupera planilha Excel com a lista de clientes
+      description: Recupera planilha Excel com a lista de clientes
+      operationId: getExportarListagemClientes
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:cliente
+            - read:cliente              
+  /vendedores:
+    get:
+      tags:
+        - Vendedor
+      summary: Retorna a lista de todos os vendedores
+      description: Retorna a lista de todos os vendedores
+      operationId: gettAllVendedores
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vendedor'         
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:vendedor
+            - read:vendedor  
+    post:
+      tags:
+        - Vendedor
+      summary: Adiciona um novo vendedor
+      description: Adiciona um novo vendedor
+      operationId: addVendedor
+      requestBody:
+        description: Cria um novo vendedor
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendedor'
+        required: true
+      responses:
+        '200':
+          description: Atualização com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendedor'          
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:vendedor
+            - read:vendedor
+  /vendedores/{id}:            
+    put:
+      tags:
+        - Vendedor
+      summary: Atualiza um vendedor
+      description: Atualiza o vendedor informado pelo id
+      operationId: updateVendedor
+      parameters:
+        - name: id
+          in: path
+          description: Id do vendedor para atualizar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Atualiza o vendedor informado pelo id
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendedor'
+      responses:
+        '200':
+          description: Operacação com sucesso
+        '404':
+          description: Vendedor não encontrado
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '500':
+          description: Foi fornecido um ID inválido
+      security:
+        - loja_auth:
+            - write:vendedores
+            - read:vendedores
+    delete:
+      tags:
+        - Vendedor
+      summary: Exclui um vendedor
+      description: Exclui um vendedor pelo id
+      operationId: deleteVendedor
+      parameters:
+        - name: id
+          in: path
+          description: Id do vendedor para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operacação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendedor'           
+        '404':
+          description: Vendedor não encontrado
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '500':
+          description: Foi fornecido um ID inválido
+      security:
+        - loja_auth:
+            - write:vendedores
+            - read:vendedores   
+  /vendedores/relatorios/listagem:
+    get:
+      tags:
+        - Vendedor
+      summary: Recupera PDF com a lista de vendedores
+      description: Recupera PDF com a lista de vendedores
+      operationId: getRelatorioListagemVendedores
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:vendedor
+            - read:vendedor  
+  /vendedores/exportar/listagem:
+    get:
+      tags:
+        - Vendedor
+      summary: Recupera planilha Excel com a lista de vendedores
+      description: Recupera planilha Excel com a lista de vendedores
+      operationId: getExportarListagemVendedores
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:vendedor
+            - read:vendedor              
 components:
   schemas:
     Fornecedor:
@@ -233,13 +574,99 @@ components:
           required:
             - rua
             - numero          
-  requestBodies:
-    Fornecedor:
-      description: Objeto fornecedor que será adicionado
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Fornecedor'
+    Cliente:
+      required:
+        - _id
+        - nome
+        - email
+        - cpf
+        - dataNascimento
+        - endereco
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do cliente
+          example: "63cf180478fa75fe3c95ed47"
+          readOnly: true
+        nome:
+          type: string
+          description: Nome do cliente
+          example: "José da Silva Santos"
+        email:
+          type: string
+          description: E-Mail do cliente
+          example: "josesilva@gmail.com"
+        cpf:
+          type: string
+          description: CPF do cliente
+          example: "39629415500" 
+        dataNascimento:
+          type: string
+          format: date
+          description: Data de nascimento do cliente
+          example: "26/04/2000" 
+        endereco:
+          type: object
+          properties:
+            rua:
+              type: string
+              example: "Rua dos poucos números"
+            numero:
+              type: string
+              example: "S/N"
+            complemento:
+              type: string
+              example: "0"
+          required:
+            - rua
+            - numero    
+    Vendedor:
+      required:
+        - _id
+        - nome
+        - email
+        - cpf
+        - salario
+        - endereco
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do vendedor
+          example: "63cf180478fa75fe3c95ed46"
+          readOnly: true
+        nome:
+          type: string
+          description: Nome do vendedor
+          example: "Antôno dos Santos"
+        email:
+          type: string
+          description: E-Mail do vendedor
+          example: "antonio@gmail.com"
+        cpf:
+          type: string
+          description: CPF do vendedor
+          example: "39629415501" 
+        salario:
+          type: number
+          description: Salário do vendedor
+          example: 5000 
+        endereco:
+          type: object
+          properties:
+            rua:
+              type: string
+              example: "Rua dos vendedores"
+            numero:
+              type: string
+              example: "S/N"
+            complemento:
+              type: string
+              example: "0"
+          required:
+            - rua
+            - numero                
   securitySchemes:
     loja_auth:
       type: oauth2
