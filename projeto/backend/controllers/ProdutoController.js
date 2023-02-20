@@ -111,7 +111,11 @@ exports.delete = async (req, res) => {
 
     try {
       const registro = await ProdutoService.deleteProduto(id);
-      res.json(registro);
+      if (registro) {
+        res.json(registro);
+      } else {
+        res.status(404).json({});        
+      }  
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
