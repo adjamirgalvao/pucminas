@@ -9,7 +9,7 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), VendedorCon
 router.get("/email/:email", passport.authenticate('jwt', { session: false }), VendedorController.getByEmail);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), VendedorController.add);
-//post
+//put
 router.put("/:id", passport.authenticate('jwt', { session: false }), VendedorController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), VendedorController.delete);
