@@ -72,7 +72,7 @@ exports.update = async (req, res) => {
         console.log(fornecedor, id);
         const registro = await FornecedorService.updateFornecedor(id, fornecedor);
 
-        if (registro.nModified === 0) {
+        if (registro.modifiedCount === 0) {
           return res.status(404).json({});
         }
 

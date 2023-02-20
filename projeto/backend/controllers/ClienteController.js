@@ -75,7 +75,7 @@ exports.update = async (req, res) => {
         console.log(cliente, id);
         const registro = await ClienteService.updateCliente(id, cliente);
 
-        if (registro.nModified === 0) {
+        if (registro.modifiedCount === 0) {
           return res.status(404).json({});
         }
 

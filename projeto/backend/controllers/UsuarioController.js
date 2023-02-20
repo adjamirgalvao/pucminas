@@ -82,7 +82,7 @@ exports.update = async (req, res) => {
         console.log(usuario, id);
         const registro = await UsuarioService.updateUsuario(id, usuario);
 
-        if (registro.nModified === 0) {
+        if (registro.modifiedCount === 0) {
           return res.status(404).json({});
         }
 
