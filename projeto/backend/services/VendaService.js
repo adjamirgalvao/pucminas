@@ -333,17 +333,6 @@ module.exports = class VendaService {
     }
   }
 
-  static async updateVenda(id, venda, session) {
-    try {
-      const registro = await VendaModel.updateOne({ _id: id }, { ...venda }, { session });
-
-      return registro;
-    } catch (error) {
-      console.log(`Venda ${id} não pode ser atualizada ${error.message}`);
-      throw new Error(`Venda ${id} não pode ser atualizada ${error.message}`);
-    }
-  }
-
   static async deleteVenda(id) {
     let session = await Mongoose.startSession();
 

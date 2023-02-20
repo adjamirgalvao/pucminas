@@ -205,17 +205,6 @@ module.exports = class CompraService {
     }
   }
 
-  static async updateCompra(id, compra, session) {
-    try {
-      const registro = await CompraModel.updateOne({ _id: id} , {...compra}, {session});
-    
-      return registro;
-    } catch (error) {
-      console.log(`Compra ${id} não pode ser atualizada ${error.message}`);
-      throw new Error(`Compra ${id} não pode ser atualizada ${error.message}`);
-    }
-  }
-
   static async deleteCompra(id) {
     let session = await Mongoose.startSession();
 

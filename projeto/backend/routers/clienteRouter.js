@@ -9,7 +9,7 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), ClienteCont
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), ClienteController.add);
 //update
-router.put("/:id", passport.authenticate('jwt', { session: false }), ClienteController.update);
+router.put("/", passport.authenticate('jwt', { session: false }), ClienteController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), ClienteController.delete);
 //relatorio

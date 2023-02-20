@@ -8,8 +8,6 @@ router.get("/", passport.authenticate('jwt', { session: false }), VendaControlle
 router.get("/:id", passport.authenticate('jwt', { session: false }), VendaController.get);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), VendaController.add);
-//update
-router.put("/:id", passport.authenticate('jwt', { session: false }), VendaController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), VendaController.delete);
 //relatorio

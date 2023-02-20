@@ -83,32 +83,6 @@ exports.add = async (req, res) => {
   }
 };
 
-exports.update = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
-    let id = req.params.id;
-
-    try {
-      const venda = {};
-      venda.data = req.body.data;
-      venda.id_vendedor = req.body.id_vendedor;
-      venda.id_cliente = req.body.id_cliente;
-
-      console.log(venda, id);
-      const registro = await VendaService.updateVenda(id, venda);
-
-      if (registro.nModified === 0) {
-        return res.status(404).json({});
-      }
-
-      res.json(registro);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  } else {
-    res.status(403).json({ error: 'Acesso negado' });
-  }
-};
-
 exports.delete = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
     let id = req.params.id;

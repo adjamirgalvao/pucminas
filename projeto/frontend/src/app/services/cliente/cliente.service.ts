@@ -28,7 +28,7 @@ export class ClienteService {
   }
 
   editar(cliente: Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(this.API_CLIENTE + '' + cliente._id, cliente);
+    return this.http.put<Cliente>(this.API_CLIENTE, cliente);
   }
  
   excluir(cliente: Cliente): Observable<Cliente> {

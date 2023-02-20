@@ -32,7 +32,7 @@ export class VendedorService {
   }  
 
   editar(vendedor: Vendedor): Observable<Vendedor> {
-    return this.http.put<Vendedor>(this.API_VENDEDOR + '' + vendedor._id, vendedor);
+    return this.http.put<Vendedor>(this.API_VENDEDOR, vendedor);
   }
  
   excluir(vendedor: Vendedor): Observable<Vendedor> {

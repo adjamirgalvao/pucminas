@@ -28,7 +28,7 @@ export class FornecedorService {
   }
 
   editar(fornecedor: Fornecedor): Observable<Fornecedor> {
-    return this.http.put<Fornecedor>(this.API_FORNECEDOR + '' + fornecedor._id, fornecedor);
+    return this.http.put<Fornecedor>(this.API_FORNECEDOR, fornecedor);
   }
  
   excluir(fornecedor: Fornecedor): Observable<Fornecedor> {

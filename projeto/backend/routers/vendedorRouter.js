@@ -10,7 +10,7 @@ router.get("/email/:email", passport.authenticate('jwt', { session: false }), Ve
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), VendedorController.add);
 //update
-router.put("/:id", passport.authenticate('jwt', { session: false }), VendedorController.update);
+router.put("/", passport.authenticate('jwt', { session: false }), VendedorController.update);
 //delete
 router.delete("/:id", passport.authenticate('jwt', { session: false }), VendedorController.delete);
 //relatorio
