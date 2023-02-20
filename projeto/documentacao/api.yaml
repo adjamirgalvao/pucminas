@@ -20,7 +20,7 @@ servers:
   - url: https://adjamir2318.c41.integrator.host/mock/api
 tags:
   - name: Fornecedor
-    description: Tudo sobre os fornecedores
+    description: API relativa a funcionalidade de fornecedores
 paths:
   /fornecedores:
     get:
@@ -74,8 +74,8 @@ paths:
     put:
       tags:
         - Fornecedor
-      summary: Atualiza um fornecedor existente
-      description: Atualiza um fornecedor existente pelo id
+      summary: Atualiza um fornecedor
+      description: Atualiza o fornecedor informado pelo id
       operationId: updateFornecedor
       parameters:
         - name: id
@@ -85,7 +85,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Atualiza um fornecedor existente
+        description: Atualiza o fornecedor informado pelo id
         content:
           application/json:
             schema:
@@ -105,6 +105,58 @@ paths:
         - loja_auth:
             - write:fornecedores
             - read:fornecedores
+    delete:
+      tags:
+        - Fornecedor
+      summary: Exclui um fornecedor
+      description: Exclui um fornecedor pelo id
+      operationId: deleteFornecedor
+      parameters:
+        - name: id
+          in: path
+          description: Id do fornecedor para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operacação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fornecedor'           
+        '500':
+          description: Foi fornecido um ID inválido
+        '404':
+          description: Fornecedor não encontrado
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:fornecedores
+            - read:fornecedores   
+  /fornecedores/relatorios/listagem:
+    get:
+      tags:
+        - Fornecedor
+      summary: Recupera PDF com a lista de fornecedores
+      description: Recupera PDF com a lista de fornecedores
+      operationId: getRelatorioListagemFornecedores
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/pdf:
+      
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:fornecedor
+            - read:fornecedor  
+            
 components:
   schemas:
     Fornecedor:
