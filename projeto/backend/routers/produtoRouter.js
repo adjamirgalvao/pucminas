@@ -7,6 +7,7 @@ const ProdutoController = require("../controllers/ProdutoController.js");
 router.get("/", passport.authenticate('jwt', { session: false }), ProdutoController.getAll);
 router.get("/:id", passport.authenticate('jwt', { session: false }), ProdutoController.get);
 router.get("/:id/listarItensCompras", passport.authenticate('jwt', { session: false }), ProdutoController.getAllItensCompras);
+router.get("/:id/indicadoresCompras", passport.authenticate('jwt', { session: false }), ProdutoController.getIndicadoresCompras);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), ProdutoController.add);
 //put

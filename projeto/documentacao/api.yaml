@@ -572,6 +572,68 @@ paths:
         - api_key:
             - write:produtos
             - read:produtos                
+  /produtos/{id}/indicadoresCompras: 
+    parameters:
+      - name: id
+        in: path
+        description: Id do produto consultar
+        required: true
+        schema:
+          type: string
+      - name: ano
+        in: query
+        description: ano da consulta
+        required: true
+        schema:
+          type: integer          
+    get:
+      tags:
+        - Produtos
+      summary: Consulta os indicadores de compras do produto para um determinado ano
+      operationId: getindicadoresComprasProduto
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: integer
+                      description: mês da resposta
+                      example: 1
+                    custototal:
+                      type: number
+                      description: custo total das compras
+                      example: 100
+                    quantidadeTotal:
+                      type: number
+                      description: quantidade total das compras  
+                      example: 2                      
+                    numeroCompras:
+                      type: integer
+                      description: quantas compras foram feitas
+                      example: 1      
+                    custoMedio:
+                      type: number
+                      description: custo médio das compras
+                      example: 50
+
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Fornecedor não encontrado
+      security:
+        - api_key:
+            - write:produtos
+            - read:produtos                
   /produtos/relatorios/listagem:
     get:
       tags:

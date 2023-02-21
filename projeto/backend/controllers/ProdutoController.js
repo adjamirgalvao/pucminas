@@ -142,7 +142,7 @@ exports.getAllItensCompras = async (req, res) => {
 
     if (id.length == 24) {
       try {
-        const todos = await ProdutoService.getAllItensCompras(id, req.query.ano, req.query.agrupar);
+        const todos = await ProdutoService.getAllItensCompras(id);
 
         if (!todos) {
           return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
@@ -160,6 +160,29 @@ exports.getAllItensCompras = async (req, res) => {
   }
 };
 
+exports.getIndicadoresCompras = async (req, res) => {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
+    let id = req.params.id;
+
+    if (id.length == 24) {
+      try {
+        const todos = await ProdutoService.getAllItensCompras(id, req.query.ano,true);
+
+        if (!todos) {
+          return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
+        }
+
+        res.json(todos);
+      } catch (err) {
+        return res.status(500).json({ error: err.message });
+      }
+    } else {
+      res.status(400).json({});
+    }
+  } else {
+    res.status(403).json({ error: 'Acesso negado' });
+  }
+};
 exports.getRelatorioListagem = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
     try {

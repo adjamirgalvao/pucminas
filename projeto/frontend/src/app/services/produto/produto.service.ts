@@ -55,8 +55,8 @@ export class ProdutoService {
   listarIndicador(id: string, ano: number): Observable<CompraAgrupada[]> {
     let queryParams = new HttpParams();
     
-    queryParams = queryParams.append("ano", ano).append("agrupar", true);    
-    return this.http.get<CompraAgrupada[]>(this.API_PRODUTO + '' + id + '/listarItensCompras', { params:queryParams });
+    queryParams = queryParams.append("ano", ano);    
+    return this.http.get<CompraAgrupada[]>(this.API_PRODUTO + '' + id + '/indicadoresCompras', { params:queryParams });
   } 
 
   getExcelListagem(): Observable<any> {
