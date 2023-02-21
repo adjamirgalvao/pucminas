@@ -36,7 +36,7 @@ export class ListarUsuariosComponent implements OnInit {
   usuarioExcluido!: Usuario;
 
   // Campos para a tabela
-  displayedColumns: string[] = ['nome', 'login', 'email', 'actions'];
+  displayedColumns: string[] = ['nome', 'login', 'email', 'acoes'];
   dataSource: MatTableDataSource<Usuario> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  

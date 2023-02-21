@@ -6,10 +6,21 @@ info:
     
     Esta API foi criada via Swagger com base na especificação OpenAPI 3.0. 
 
+    Instruções:
+     - Para acessar as funções pelo servidor 'Mock da API':
+       1. Clicar na função 'Authorize'.
+       2. Informar qualquer valor no campo 'value' para o token.
+     - Para acessar as funções pelo servidor 'API real':
+       1. Acessar a rota de 'Autorização'.
+       2. Executar o path de 'autenticacao/login' informando um usuário e senha válidos.
+       3. Copiar o token da resposta.
+       4. Clicar na função 'Authorize'.
+       5. Informar o token do passo 3.
+       
     Links úteis:
     - [Repositório do projeto](https://github.com/adjamirgalvao/pucminas)
-    - [Definição da API para a Loja On-line](https://github.com/adjamirgalvao/pucminas/blob/master/projeto/documentacao/api.yaml)
-    
+    - [Link para este arquivo](https://github.com/adjamirgalvao/pucminas/blob/master/projeto/documentacao/api.yaml)
+         
     Observações:
     - As rotinas que retornam pdf ou excel apresentam um problema na visualização da resposta pelo Swagger. Existe uma [issue](https://github.com/swagger-api/swagger-ui/issues/5500) no Swagger cadastrada para este problema. 
   contact:
@@ -22,7 +33,11 @@ externalDocs:
 servers:
   - url: https://adjamir2318.c41.integrator.host/mock/api
     description: Mock da API
+  - url: https://adjamir2318.c41.integrator.host/api
+    description: API real    
 tags:
+  - name: Autorização
+    description: API relativa a funcionalidade de autorização  
   - name: Usuários
     description: API relativa a funcionalidade de usuários  
   - name: Fornecedores
@@ -34,8 +49,93 @@ tags:
   - name: Clientes
     description: API relativa a funcionalidade de clientes  
   - name: Compras
-    description: API relativa a funcionalidade de compras  
+    description: API relativa a funcionalidade de compras 
 paths:
+  /autenticacao/login:
+    post:
+      tags:
+        - Autorização
+      summary: efetua o login
+      operationId: login
+      requestBody:
+        description: login e senha
+        content:
+          application/json:
+            schema:
+              properties:
+                login:
+                  type: string
+                  description: login do usuário
+                  example: admin
+                senha:
+                  type: string
+                  description: senha do usuário
+                  example: admin    
+              required:
+                  - login
+                  - senha
+        required:
+            true
+      responses:
+        '200':
+          description: Autenticação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'          
+        '404':
+          description: Acesso negado ao usuário
+
+  /usuarios:
+    get:
+      tags:
+        - Usuários
+      summary: Retorna a lista de todos os usuários
+      operationId: gettAllUsuarios
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'         
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - api_key:
+            - write:usuario
+            - read:usuario  
+    post:
+      tags:
+        - Usuários
+      summary: Adiciona um novo usuário
+      operationId: addUsuario
+      requestBody:
+        description: Dados do usuário para ser criado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      responses:
+        '200':
+          description: Atualização com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'          
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - api_key:
+            - write:usuario
+            - read:usuario
   /usuarios/{id}:            
     parameters:
       - name: id
@@ -703,56 +803,7 @@ paths:
         - api_key:
             - write:vendedor
             - read:vendedor   
-  /usuarios:
-    get:
-      tags:
-        - Usuários
-      summary: Retorna a lista de todos os usuários
-      operationId: gettAllUsuarios
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Usuario'         
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:usuario
-            - read:usuario  
-    post:
-      tags:
-        - Usuários
-      summary: Adiciona um novo usuário
-      operationId: addUsuario
-      requestBody:
-        description: Dados do usuário para ser criado
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Usuario'
-        required: true
-      responses:
-        '200':
-          description: Atualização com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Usuario'          
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:usuario
-            - read:usuario
+
   /clientes:
     get:
       tags:

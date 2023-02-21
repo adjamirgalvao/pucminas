@@ -30,7 +30,7 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Salário</mat-header-cell>
                     <mat-cell *matCellDef="let vendedor">{{ vendedor.salario  | dinheiroPipe}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="actions">
+                <ng-container matColumnDef="acoes">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                     <mat-cell *matCellDef="let vendedor">
                         <div>

@@ -59,5 +59,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: rgb(21, 96, 156);
 }
 
+@media (min-width: 900px) {
+.mat-column-acoes {
+  text-align: center;
+   min-width: 200px;
+}
+}
 
 @import "~bootstrap-icons/font/bootstrap-icons.css";

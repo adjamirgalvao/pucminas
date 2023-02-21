@@ -39,7 +39,7 @@ export class ListarClientesComponent implements OnInit {
   clienteExcluido!: Cliente;
 
   // Campos para a tabela
-  displayedColumns: string[] = ['nome', 'cpf', 'dataNascimento', 'actions'];
+  displayedColumns: string[] = ['nome', 'cpf', 'dataNascimento', 'acoes'];
   dataSource: MatTableDataSource<Cliente> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  

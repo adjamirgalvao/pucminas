@@ -248,7 +248,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     }
 
     if ((this.operacao != 'Consultar') && (this.operacao != 'Detalhar')){
-      this.displayedColumns.push({ def: 'actions', showMobile: true});
+      this.displayedColumns.push({ def: 'acoes', showMobile: true});
     } else {
       this.leitura = true;
     }

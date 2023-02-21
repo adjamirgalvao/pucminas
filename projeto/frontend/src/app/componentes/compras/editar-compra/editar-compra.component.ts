@@ -153,7 +153,7 @@ export class EditarCompraComponent implements OnInit {
     this.operacao = (id == null) ? 'Cadastrar' : 'Consultar'; //se fizer edição troca por Editar
 
     if (this.operacao != 'Consultar'){
-      this.displayedColumns.push('actions');
+      this.displayedColumns.push('acoes');
     } else {
       this.leitura = true;
     }

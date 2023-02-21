@@ -47,7 +47,7 @@
                         <mat-footer-cell *matFooterCellDef><span [ngClass]="{'text-danger': getLucroTotal() <=0}">  {{getLucroTotal() | dinheiroPipe}} </span> </mat-footer-cell>
                     </div>    
                 </ng-container>
-                <ng-container matColumnDef="actions">
+                <ng-container matColumnDef="acoes">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                     <mat-cell *matCellDef="let venda">
                         <div>

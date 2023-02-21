@@ -27,6 +27,7 @@ npm install json2xls -- lib para transformar json em xlsx
 npm install json-server -- lib para mock de json
 npm install fs -- para fazer o mock dos anexos
 
+npm install js-yaml swagger-ui-express -- para sub o swagger
 >> frontend passos iniciais
 ng new meuApp -- cria o projeto angular
 ng serve --open roda o projeto e abre o browser

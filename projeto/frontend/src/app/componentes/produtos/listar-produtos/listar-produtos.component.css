@@ -1,0 +1,6 @@
+@media (min-width: 900px)  {
+.mat-column-acoes {
+    text-align: center;
+     min-width: 280px;
+  }
+}

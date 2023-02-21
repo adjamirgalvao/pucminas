@@ -32,9 +32,9 @@ export class ListarVendasComponent implements OnInit, OnDestroy{
       // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
       if (this.router.url.indexOf('/meusPedidos') > -1) {
         this.operacao = 'Meus Pedidos';
-        this.displayedColumns = [...this.displayedColumns, { def: 'total', showMobile: true}, { def: 'actions', showMobile: true}];
+        this.displayedColumns = [...this.displayedColumns, { def: 'total', showMobile: true}, { def: 'acoes', showMobile: true}];
       } else{
-        this.displayedColumns = [...this.displayedColumns, { def: 'vendedor', showMobile: false}, { def: 'total', showMobile: true}, { def: 'lucro', showMobile: true}, { def: 'actions', showMobile: true}];
+        this.displayedColumns = [...this.displayedColumns, { def: 'vendedor', showMobile: false}, { def: 'total', showMobile: true}, { def: 'lucro', showMobile: true}, { def: 'acoes', showMobile: true}];
       } 
   }
 

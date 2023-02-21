@@ -188,7 +188,7 @@
                                     [ngClass]="{'text-danger': getPrecoFinalTotal() <=0}">{{ getPrecoFinalTotal() |
                                     dinheiroPipe }}</span></mat-footer-cell>
                         </ng-container>
-                        <ng-container matColumnDef="actions"
+                        <ng-container matColumnDef="acoes"
                             *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">
                             <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                             <mat-cell *matCellDef="let item">
