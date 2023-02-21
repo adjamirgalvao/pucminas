@@ -261,7 +261,7 @@ paths:
         '200':
           description: Consulta com sucesso
           content:
-            application/octet-stream:
+            application/pdf:
               schema:
                 type: string
                 format: binary      
@@ -482,7 +482,7 @@ paths:
         '200':
           description: Consulta com sucesso
           content:
-            application/octet-stream:
+            application/pdf:
               schema:
                 type: string
                 format: binary      

@@ -61,23 +61,27 @@ router.render = (req, res) => {
 
 // Mock de arquivos  
 function retornarArquivo(res, arquivo, tipo) {
-  fs.readFile(path.join(__dirname, 'arquivos_mock', arquivo), (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Erro ao ler o arquivo.');
-      return;
-    }
-    //https://github.com/swagger-api/swagger-ui/issues/5750
-    //https://stackoverflow.com/questions/30470276/node-express-content-disposition
-    res.set({
-      'Content-Disposition': 'attachment; filename=' + arquivo,
-      'Content-Type': tipo,
-      'Cache-Control': "no-cache, no-store, must-revalidate",
-      "Pragma": "no-cache",
-      "Expries": "0",
+  if (!req.headers.authorization) {
+    return res.status(401).json({});
+  } else {
+    fs.readFile(path.join(__dirname, 'arquivos_mock', arquivo), (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Erro ao ler o arquivo.');
+        return;
+      }
+      //https://github.com/swagger-api/swagger-ui/issues/5750
+      //https://stackoverflow.com/questions/30470276/node-express-content-disposition
+      res.set({
+        'Content-Disposition': 'attachment; filename=' + arquivo,
+        'Content-Type': tipo,
+        'Cache-Control': "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expries": "0",
+      });
+      res.status(200).send(data);
     });
-    res.status(200).send(data);
-  });
+  }
 }
 app.use('/mock/api/fornecedores/relatorios/listagem', (req, res) => { retornarArquivo(res, "Fornecedores.pdf", "application/pdf") });
 app.use('/mock/api/fornecedores/exportar/listagem', (req, res) => { retornarArquivo(res, "Fornecedores.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") });
