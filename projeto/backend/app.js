@@ -60,7 +60,7 @@ router.render = (req, res) => {
 };
 
 // Mock de arquivos  
-function retornarArquivo(res, arquivo, tipo) {
+function retornarArquivo(req, res, arquivo, tipo) {
   if (!req.headers.authorization) {
     return res.status(401).json({});
   } else {
@@ -83,8 +83,11 @@ function retornarArquivo(res, arquivo, tipo) {
     });
   }
 }
-app.use('/mock/api/fornecedores/relatorios/listagem', (req, res) => { retornarArquivo(res, "Fornecedores.pdf", "application/pdf") });
-app.use('/mock/api/fornecedores/exportar/listagem', (req, res) => { retornarArquivo(res, "Fornecedores.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") });
+let funcionalidades = ["fornecedores", "clientes", "vendedores", "produtos", "compras", "clientes"];
+for (let i in funcionalidades){
+  app.use(`/mock/api/${funcionalidades[i]}/relatorios/listagem`, (req, res) => { retornarArquivo(req, res, `${funcionalidades[i]}.pdf`, "application/pdf") });
+  app.use(`/mock/api/${funcionalidades[i]}/exportar/listagem`, (req, res) => { retornarArquivo(req, res, `${funcionalidades[i]}.xlsx`, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") });
+}
 app.use('/mock/api', router);
 
 //Levantando o swagger
