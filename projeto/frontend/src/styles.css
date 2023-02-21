@@ -1,28 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 .container {
-    padding-right: 1rem;
-    padding-left: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    margin-right: auto;
-    margin-left: auto;
-  }
+  padding-right: 1rem;
+  padding-left: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
 
-  .header {
-    margin: 1rem auto 2rem;
-  }
+.header {
+  margin: 1rem auto 2rem;
+}
 
-  .full-width {
-    width: 100%;
-  }
-  
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.full-width {
+  width: 100%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 @keyframes spinner {
-  to {transform: rotate(360deg);}
+  to {
+    transform: rotate(360deg);
+  }
 }
- 
+
 .spinner:before {
   content: '';
   box-sizing: border-box;
@@ -43,27 +52,33 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 21px;
   width: 21px;
   font-size: 21px;
-  line-height: 21px; 
+  line-height: 21px;
 }
 
 
-.fieldset{
+.fieldset {
   border: 1px rgb(146, 179, 223) solid;
-}  
+}
 
-.cabecalho{
+.cabecalho {
   background-color: rgb(21, 96, 156);
 }
 
-.active-menu{
+.dialog {
+  background-color: rgb(21, 96, 156);
+  text-align: center;
+  color: white;
+}
+.active-menu {
   background-color: rgb(21, 96, 156);
 }
 
 @media (min-width: 900px) {
-.mat-column-acoes {
-  text-align: center;
-   min-width: 200px;
+  .mat-column-acoes {
+    text-align: center;
+    min-width: 200px;
+  }
 }
-}
+
 
 @import "~bootstrap-icons/font/bootstrap-icons.css";

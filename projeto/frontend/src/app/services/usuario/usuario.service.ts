@@ -9,6 +9,7 @@ import { Usuario } from 'src/app/interfaces/Usuario';
 export class UsuarioService {
 
   private readonly API_USUARIO = '/api/usuarios/';
+  private readonly API_AUTENTICACAO = '/api/autenticacao/';
 
   constructor(private http: HttpClient) { 
 
@@ -23,7 +24,7 @@ export class UsuarioService {
     if (operacao == 'Cadastrar') {
       return this.http.post<Usuario>(this.API_USUARIO, usuario);
     } else {
-      return this.http.post<Usuario>(this.API_USUARIO + '/registrar', usuario);
+      return this.http.post<Usuario>(this.API_AUTENTICACAO + '/registrar', usuario);
     }
   }
 

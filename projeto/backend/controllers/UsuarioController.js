@@ -10,7 +10,7 @@ exports.get = async (req, res) => {
         const registro = await UsuarioService.getUsuariobyId(id);
         if (registro) {
           let retorno = registro.toObject();
-          delete retorno.senha;              
+          delete retorno.senha;
           res.json(retorno);
         } else {
           res.status(404).json({});
@@ -34,12 +34,13 @@ exports.getAll = async (req, res) => {
       if (!registros) {
         return res.status(404).json("Não existem usuarios cadastrados!");
       }
-      let retorno; 
+      let retorno;
+      //removendo a senha do retorno
       if (Array.isArray(registros)) {
         retorno = registros.map(item => {
-            const { senha, ...dataWithoutSenha } = item.toObject();
-            return { ...dataWithoutSenha};
-          });
+          const { senha, ...dataWithoutSenha } = item.toObject();
+          return { ...dataWithoutSenha };
+        });
       } else {
         const { senha, ...dataWithoutSenha } = registros.toObject();
         retorno = dataWithoutSenha;
@@ -54,7 +55,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-  if (AutorizacaoService.isNovoUsuarioCliente(req.body) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
       const registro = await UsuarioService.addUsuario(req.body);
       let retorno = registro.toObject();
@@ -65,6 +66,26 @@ exports.add = async (req, res) => {
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
+  }
+};
+
+
+exports.registrar = async (req, res) => {
+  const novo = {
+    nome: req.body.nome,
+    login: req.body.login,
+    email: req.body.email,
+    senha: req.body.senha,
+    roles: [ROLES.CLIENTE],
+  };
+
+  try {
+    const registro = await UsuarioService.addUsuario(novo);
+    let retorno = registro.toObject();
+    delete retorno.senha;
+    res.status(201).json(retorno);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -120,7 +141,7 @@ exports.delete = async (req, res) => {
         const registro = await UsuarioService.deleteUsuario(id);
         if (registro) {
           let retorno = registro.toObject();
-          delete retorno.senha;          
+          delete retorno.senha;
           res.json(retorno);
         } else {
           res.status(404).json({});

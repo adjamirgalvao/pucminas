@@ -13,9 +13,10 @@ info:
      - Para acessar as funções pelo servidor 'API real':
        1. Acessar a rota de 'Autorização'.
        2. Executar o path de 'autenticacao/login' informando um usuário e senha válidos.
+          1. Se não tiver um usuário e senha, pode ser executado o path de 'autenticacao/registrar'.
        3. Copiar o token da resposta.
        4. Clicar na função 'Authorize'.
-       5. Informar o token do passo 3.
+       5. Informar o token recebido no passo 3.
        
     Links úteis:
     - [Repositório do projeto](https://github.com/adjamirgalvao/pucminas)
@@ -50,6 +51,8 @@ tags:
     description: API relativa a funcionalidade de clientes  
   - name: Compras
     description: API relativa a funcionalidade de compras 
+  - name: Vendas
+    description: API relativa a funcionalidade de vendas     
 paths:
   /autenticacao/login:
     post:
@@ -59,6 +62,8 @@ paths:
       operationId: login
       requestBody:
         description: login e senha
+        required:
+            true
         content:
           application/json:
             schema:
@@ -74,8 +79,7 @@ paths:
               required:
                   - login
                   - senha
-        required:
-            true
+
       responses:
         '200':
           description: Autenticação com sucesso
@@ -85,7 +89,48 @@ paths:
                 $ref: '#/components/schemas/Usuario'          
         '404':
           description: Acesso negado ao usuário
-
+  /autenticacao/registrar:
+    post:
+      tags:
+        - Autorização
+      summary: Faz o registro de um usuário com perfil de cliente
+      operationId: registrarUsuario
+      requestBody:
+        required: true
+        description: Dados do usuário para ser criado
+        content:
+          application/json:
+            schema:
+                properties:
+                  nome:
+                    type: string
+                    description: Nome do usuário
+                    example: "Paulo da Silva"
+                  login:
+                    type: string
+                    description: Login do usuário
+                    example: "paulo"
+                  email:
+                    type: string
+                    description: E-Mail do usuário
+                    example: "paulo@gmail.com"
+                  senha:
+                    description: Senha do usuário
+                    example: "1234"
+                required:
+                  - nome,
+                  - login,
+                  - email,
+                  - senha
+      responses:
+        '201':
+          description: Usuário criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'          
+        '400':
+          description: Usuário não pode ser criado. Ver mensagem de erro
   /usuarios:
     get:
       tags:
@@ -116,11 +161,19 @@ paths:
       operationId: addUsuario
       requestBody:
         description: Dados do usuário para ser criado
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Usuario'
-        required: true
+              allOf:
+                - $ref: '#/components/schemas/Usuario'
+                - type: object
+                  properties:
+                    senha:
+                      description: Senha do usuário
+                      example: "1234"
+                  required:
+                    - senha
       responses:
         '201':
           description: Usuário criado com sucesso
@@ -175,10 +228,17 @@ paths:
       operationId: updateUsuario
       requestBody:
         description: Dados do usuário para ser atualizado
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Usuario'
+              allOf:
+                - $ref: '#/components/schemas/Usuario'
+                - type: object
+                  properties:
+                    senha:
+                      description: Senha do usuário
+                      example: "1234"
       responses:
         '200':
           description: Operação com sucesso
@@ -218,6 +278,7 @@ paths:
         - api_key:
             - write:usuarios
             - read:usuarios    
+  
   /fornecedores:
     get:
       tags:
@@ -247,12 +308,12 @@ paths:
       summary: Adiciona um novo fornecedor
       operationId: addFornecedor
       requestBody:
+        required: true
         description: Dados do fornecedor para ser criado
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Fornecedor'
-        required: true
       responses:
         '201':
           description: Fornecedor criado com sucesso
@@ -308,6 +369,7 @@ paths:
       operationId: updateFornecedor
       requestBody:
         description: Dados do fornecedor para ser atualizado
+        required: true
         content:
           application/json:
             schema:
@@ -429,12 +491,12 @@ paths:
       summary: Adiciona um novo produto
       operationId: addProduto
       requestBody:
+        required: true
         description: Dados do produto para ser criado
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Produto'
-        required: true
       responses:
         '201':
           description: Produto criado com sucesso
@@ -489,6 +551,7 @@ paths:
       operationId: updateProduto
       requestBody:
         description: Dados do produto para ser atualizado
+        required: true
         content:
           application/json:
             schema:
@@ -712,12 +775,12 @@ paths:
       summary: Adiciona um novo vendedor
       operationId: addVendedor
       requestBody:
+        required: true
         description: Dados do vendedor para ser criado
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Vendedor'
-        required: true
       responses:
         '201':
           description: Vendedor criado com sucesso
@@ -776,6 +839,7 @@ paths:
       operationId: updateVendedor
       requestBody:
         description: Dados do vendedor para ser atualizado
+        required: true
         content:
           application/json:
             schema:
@@ -895,12 +959,12 @@ paths:
       summary: Adiciona um novo cliente
       operationId: addCliente
       requestBody:
+        required: true
         description: Dados do cliente para ser criado
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Cliente'
-        required: true
       responses:
         '201':
           description: Cliente criado com sucesso
@@ -962,6 +1026,7 @@ paths:
             type: string
       requestBody:
         description: Dados do cliente para ser atualizado
+        required: true
         content:
           application/json:
             schema:
@@ -1100,6 +1165,7 @@ paths:
       operationId: addCompra
       requestBody:
         description: Dados da compra para ser criado
+        required: true
         content:
           application/json:
             schema:
@@ -1113,7 +1179,6 @@ paths:
                           $ref: '#/components/schemas/ItemCompra'
                     required: 
                         - itensCompra
-        required: true
       responses:
         '201':
           description: Compra criada com sucesso
@@ -1394,7 +1459,6 @@ components:
         - _id
         - nome
         - login
-        - senha
         - email
         - roles
       type: object
@@ -1412,10 +1476,6 @@ components:
           type: string
           description: Login do usuário
           example: "paulo"
-        senha:
-          type: string
-          description: Senha do usuário
-          example: "1234" 
         email:
           type: string
           description: E-Mail do usuário

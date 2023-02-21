@@ -113,8 +113,6 @@ export class EditarUsuarioComponent implements OnInit {
     if (this.operacao != 'Editar Perfil do'){
       if (this.operacao != 'Registrar') {
         usuario.roles = this.formulario.value.roles;
-      } else {
-        usuario.roles = [CLIENTE];
       }
     }
     
