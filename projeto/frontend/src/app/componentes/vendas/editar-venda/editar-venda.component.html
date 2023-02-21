@@ -71,7 +71,7 @@
             </div>
             <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
                 <legend class="float-none w-auto h5">&nbsp;Produtos&nbsp;</legend>
-                <div *ngIf="(operacao != 'Consultar')">
+                <div *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">
                     <div class="mb-3">
                         <mat-form-field class="me-3" style="width: 60%;">
                             <mat-label>Produto</mat-label>

@@ -40,9 +40,9 @@ export class VendaService {
   listarIndicador(ano: number) : Observable<VendaAgrupada[]> {
     let queryParams = new HttpParams();
     
-    queryParams = queryParams.append("ano", ano).append("agrupar", true);
+    queryParams = queryParams.append("ano", ano);
 
-    return this.http.get<VendaAgrupada[]>(this.API_VENDA, { params:queryParams });
+    return this.http.get<VendaAgrupada[]>(this.API_VENDA + 'consultas/indicadoresVendas', { params:queryParams });
   }
 
   excluir(venda: Venda): Observable<Venda> {

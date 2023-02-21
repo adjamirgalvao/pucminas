@@ -62,7 +62,7 @@ exports.getAll = async (req, res) => {
       let registros = [];
       if (!erro) {
         //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
-        registros = await VendaService.getAllVendas(id_cliente, req.query.ano, req.query.agrupar);
+        registros = await VendaService.getAllVendas(id_cliente, null, null);
       }
 
       res.json(registros);
@@ -73,6 +73,22 @@ exports.getAll = async (req, res) => {
     res.status(403).json({ error: 'Acesso negado' });
   }
 };
+
+exports.getIndicadoresVendas = async (req, res) => {
+  if (AutorizacaoService.validarRoles(req, [ROLES.GESTOR])) {
+    try {
+      //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
+      registros = await VendaService.getAllVendas(null, req.query.ano, true);
+
+      res.json(registros);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  } else {
+    res.status(403).json({ error: 'Acesso negado' });
+  }
+};
+
 
 exports.add = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
