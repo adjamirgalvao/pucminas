@@ -4,6 +4,8 @@ const path = require('path');
 const json2xls = require('json2xls');
 const jsonServer = require('json-server');
 const fs = require("fs");
+const yaml = require('js-yaml');
+const swaggerUi = require('swagger-ui-express');
 
 //Autentenciacao
 const PassportStrategy = require('./auth/Passport');
@@ -80,6 +82,10 @@ function retornarArquivo(res, arquivo, tipo) {
 app.use('/mock/api/fornecedores/relatorios/listagem', (req, res) => { retornarArquivo(res, "Fornecedores.pdf", "application/pdf") });
 app.use('/mock/api/fornecedores/exportar/listagem', (req, res) => { retornarArquivo(res, "Fornecedores.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") });
 app.use('/mock/api', router);
+
+//Levantando o swagger
+const swaggerDocument = yaml.load(fs.readFileSync(path.join(__dirname, '../documentacao', 'api.yaml'), 'utf8'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Levantando o angular
 app.use(express.static(path.join(__dirname, '../frontend/dist', 'loja')));

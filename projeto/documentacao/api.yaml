@@ -11,7 +11,7 @@ info:
     - [Definição da API para a Loja On-line](https://github.com/adjamirgalvao/pucminas/blob/master/projeto/documentacao/api.yaml)
     
     Observações:
-    - As rotinas que retornam pdf ou excel apresentam um problema na visualização da resposta. Existe uma [issue](https://github.com/swagger-api/swagger-ui/issues/5500) no Swagger cadastrada para este problema. 
+    - As rotinas que retornam pdf ou excel apresentam um problema na visualização da resposta pelo Swagger. Existe uma [issue](https://github.com/swagger-api/swagger-ui/issues/5500) no Swagger cadastrada para este problema. 
   contact:
     name: desenvolvedor
     email: adjamir@gmail.com
@@ -65,7 +65,7 @@ paths:
         '404':
           description: Usuário não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:usuarios
             - read:usuarios               
     put:
@@ -91,7 +91,7 @@ paths:
         '404':
           description: Usuário não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:usuarios
             - read:usuarios
     delete:
@@ -115,7 +115,7 @@ paths:
         '404':
           description: Usuário não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:usuarios
             - read:usuarios    
   /fornecedores:
@@ -138,7 +138,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:fornecedor
             - read:fornecedor  
     post:
@@ -165,7 +165,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:fornecedor
             - read:fornecedor
   /fornecedores/{id}: 
@@ -198,7 +198,7 @@ paths:
         '404':
           description: Fornecedor não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:fornecedores
             - read:fornecedores     
     put:
@@ -224,7 +224,7 @@ paths:
         '404':
           description: Fornecedor não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:fornecedores
             - read:fornecedores
     delete:
@@ -248,7 +248,7 @@ paths:
         '404':
           description: Fornecedor não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:fornecedores
             - read:fornecedores   
   /fornecedores/relatorios/listagem:
@@ -275,7 +275,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:fornecedor
             - read:fornecedor  
   /fornecedores/exportar/listagem:
@@ -297,7 +297,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:fornecedor
             - read:fornecedor  
   /produtos:
@@ -320,7 +320,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:produto
             - read:produto  
     post:
@@ -347,7 +347,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:produto
             - read:produto
   /produtos/{id}: 
@@ -379,7 +379,7 @@ paths:
         '404':
           description: Fornecedor não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:produtos
             - read:produtos     
     put:
@@ -405,7 +405,7 @@ paths:
         '404':
           description: Fornecedor não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:produtos
             - read:produtos
     delete:
@@ -429,7 +429,7 @@ paths:
         '404':
           description: Fornecedor não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:produtos
             - read:produtos   
   /produtos/{id}/listarItensCompras: 
@@ -469,7 +469,7 @@ paths:
         '404':
           description: Fornecedor não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:produtos
             - read:produtos                
   /produtos/relatorios/listagem:
@@ -496,7 +496,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:produto
             - read:produto  
   /produtos/exportar/listagem:
@@ -518,7 +518,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:produto
             - read:produto              
   /vendedores:
@@ -541,7 +541,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:vendedor
             - read:vendedor  
     post:
@@ -570,7 +570,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:vendedor
             - read:vendedor
   /vendedores/{id}:            
@@ -604,7 +604,7 @@ paths:
         '500':
           description: Foi fornecido um ID inválido
       security:
-        - loja_auth:
+        - api_key:
             - write:vendedores
             - read:vendedores   
     put:
@@ -630,7 +630,7 @@ paths:
         '404':
           description: Vendedor não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:vendedores
             - read:vendedores
     delete:
@@ -656,7 +656,7 @@ paths:
         '500':
           description: Foi fornecido um ID inválido
       security:
-        - loja_auth:
+        - api_key:
             - write:vendedores
             - read:vendedores   
   /vendedores/relatorios/listagem:
@@ -678,7 +678,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:vendedor
             - read:vendedor  
   /vendedores/exportar/listagem:
@@ -700,7 +700,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:vendedor
             - read:vendedor   
   /usuarios:
@@ -723,7 +723,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:usuario
             - read:usuario  
     post:
@@ -750,7 +750,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:usuario
             - read:usuario
   /clientes:
@@ -773,7 +773,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:cliente
             - read:cliente  
     post:
@@ -800,7 +800,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:cliente
             - read:cliente
   /clientes/{id}:  
@@ -832,7 +832,7 @@ paths:
         '404':
           description: Cliente não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:clientes
             - read:clientes   
     put:
@@ -865,7 +865,7 @@ paths:
         '404':
           description: Cliente não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:clientes
             - read:clientes
     delete:
@@ -896,7 +896,7 @@ paths:
         '404':
           description: Cliente não encontrado
       security:
-        - loja_auth:
+        - api_key:
             - write:clientes
             - read:clientes   
   /clientes/relatorios/listagem:
@@ -918,7 +918,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:cliente
             - read:cliente  
   /clientes/exportar/listagem:
@@ -940,14 +940,14 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:cliente
             - read:cliente  
   /compras:
     get:
       tags:
         - Compras
-      summary: Retorna a lista de todos os compras
+      summary: Retorna a lista de todas as compras
       operationId: gettAllCompras
       responses:
         '200':
@@ -977,16 +977,16 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:compra
             - read:compra  
     post:
       tags:
         - Compras
-      summary: Adiciona um novo compra
+      summary: Adiciona uma nova compra
       operationId: addCompra
       requestBody:
-        description: Dados do compra para ser criado
+        description: Dados da compra para ser criado
         content:
           application/json:
             schema:
@@ -1013,7 +1013,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
       security:
-        - loja_auth:
+        - api_key:
             - write:compra
             - read:compra
   /compras/{id}:  
@@ -1025,7 +1025,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: Id do compra para excluir
+          description: Id da compra para excluir
           required: true
           schema:
             type: string
@@ -1035,7 +1035,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Compra'           
+                  allOf: 
+                    - $ref: '#/components/schemas/Compra'
+                    - type: object
+                      properties:
+                        fornecedor:
+                          $ref: '#/components/schemas/Fornecedor'
+                    - type: object
+                      properties:
+                        itensCompra:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/ItemCompra'
+                      required: 
+                        - fornecedor  
+                        - itensCompra      
         '400':
           description: Foi fornecido um ID inválido
         '401':
@@ -1043,9 +1057,9 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Compra não encontrado
+          description: Compra não encontrada
       security:
-        - loja_auth:
+        - api_key:
             - write:compras
             - read:compras   
     delete:
@@ -1056,7 +1070,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: Id do compra para excluir
+          description: Id da compra para excluir
           required: true
           schema:
             type: string
@@ -1074,9 +1088,9 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Compra não encontrado
+          description: Compra não encontrada
       security:
-        - loja_auth:
+        - api_key:
             - write:compras
             - read:compras   
   /compras/relatorios/listagem:
@@ -1098,7 +1112,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:compra
             - read:compra  
   /compras/exportar/listagem:
@@ -1120,7 +1134,7 @@ paths:
         '403':
           description: Acesso negado
       security:
-        - loja_auth:
+        - api_key:
             - write:compra
             - read:compra                  
 components:
@@ -1355,6 +1369,7 @@ components:
         id_fornecedor:
           type: string
           description: Id do fornecedor da compra
+          example: "63cf180478fa75fg3c95gd47"          
     ItemCompra:
       required:
         - _id
@@ -1386,14 +1401,6 @@ components:
           description: Preço pago pelo total de itens comprados
           example: 100
   securitySchemes:
-    loja_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
-          scopes:
-            write:fornecedores: modify fornecedores in your account
-            read:fornecedores: read your fornecedores
     api_key:
       type: http
       scheme: bearer    

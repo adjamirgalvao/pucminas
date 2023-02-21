@@ -20,7 +20,13 @@ npm install sha.js
 
 npm install google-auth-library -- autenticacao do token do google
 
-npm i puppeteer -- para gerar pdf é um headless browser
+
+npm install pdfkit-table -- lib para gerar pdf
+npm install blob-stream  -- precisa tbm para gerar o pdf
+npm install json2xls -- lib para transformar json em xlsx
+npm install json-server -- lib para mock de json
+npm install fs -- para fazer o mock dos anexos
+
 >> frontend passos iniciais
 ng new meuApp -- cria o projeto angular
 ng serve --open roda o projeto e abre o browser
