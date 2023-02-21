@@ -10,10 +10,10 @@ router.get("/", passport.authenticate('jwt', { session: false }), CompraControll
 router.get("/:id", passport.authenticate('jwt', { session: false }), CompraController.get);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), CompraController.add);
-//delete
+//delete compra
 router.delete("/:id", passport.authenticate('jwt', { session: false }), CompraController.delete);
+//delete de item da compra
 router.delete("/:idCompra/itensCompra/:id", passport.authenticate('jwt', { session: false }), ItemCompraController.delete);
-
 //relatorio
 router.get("/relatorios/listagem", passport.authenticate('jwt', { session: false }), CompraController.getRelatorioListagem);
 //excel

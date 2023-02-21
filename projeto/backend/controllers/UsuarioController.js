@@ -9,7 +9,9 @@ exports.get = async (req, res) => {
       try {
         const registro = await UsuarioService.getUsuariobyId(id);
         if (registro) {
-          res.json(registro);
+          let retorno = registro.toObject();
+          delete retorno.senha;              
+          res.json(retorno);
         } else {
           res.status(404).json({});
         }
@@ -32,8 +34,17 @@ exports.getAll = async (req, res) => {
       if (!registros) {
         return res.status(404).json("Não existem usuarios cadastrados!");
       }
-
-      res.json(registros);
+      let retorno; 
+      if (Array.isArray(registros)) {
+        retorno = registros.map(item => {
+            const { senha, ...dataWithoutSenha } = item.toObject();
+            return { ...dataWithoutSenha};
+          });
+      } else {
+        const { senha, ...dataWithoutSenha } = registros.toObject();
+        retorno = dataWithoutSenha;
+      }
+      res.json(retorno);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -46,7 +57,9 @@ exports.add = async (req, res) => {
   if (AutorizacaoService.isNovoUsuarioCliente(req.body) || AutorizacaoService.validarRoles(req, [ROLES.ADMIN])) {
     try {
       const registro = await UsuarioService.addUsuario(req.body);
-      res.status(201).json(registro);
+      let retorno = registro.toObject();
+      delete retorno.senha;
+      res.status(201).json(retorno);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -106,7 +119,9 @@ exports.delete = async (req, res) => {
       try {
         const registro = await UsuarioService.deleteUsuario(id);
         if (registro) {
-          res.json(registro);
+          let retorno = registro.toObject();
+          delete retorno.senha;          
+          res.json(retorno);
         } else {
           res.status(404).json({});
         }

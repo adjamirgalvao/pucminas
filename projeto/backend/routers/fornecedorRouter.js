@@ -5,9 +5,10 @@ const FornecedorController = require("../controllers/FornecedorController");
 
 //get
 router.get("/", passport.authenticate('jwt', { session: false }), FornecedorController.getAll);
-router.get("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.get);
 //post
 router.post("/", passport.authenticate('jwt', { session: false }), FornecedorController.add);
+//get
+router.get("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.get);
 //put
 router.put("/:id", passport.authenticate('jwt', { session: false }), FornecedorController.update);
 //delete

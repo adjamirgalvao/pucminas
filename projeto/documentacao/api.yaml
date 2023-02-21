@@ -122,8 +122,8 @@ paths:
               $ref: '#/components/schemas/Usuario'
         required: true
       responses:
-        '200':
-          description: Atualização com sucesso
+        '201':
+          description: Usuário criado com sucesso
           content:
             application/json:
               schema:
@@ -254,8 +254,8 @@ paths:
               $ref: '#/components/schemas/Fornecedor'
         required: true
       responses:
-        '200':
-          description: Atualização com sucesso
+        '201':
+          description: Fornecedor criado com sucesso
           content:
             application/json:
               schema:
@@ -436,8 +436,8 @@ paths:
               $ref: '#/components/schemas/Produto'
         required: true
       responses:
-        '200':
-          description: Atualização com sucesso
+        '201':
+          description: Produto criado com sucesso
           content:
             application/json:
               schema:
@@ -719,8 +719,8 @@ paths:
               $ref: '#/components/schemas/Vendedor'
         required: true
       responses:
-        '200':
-          description: Atualização com sucesso
+        '201':
+          description: Vendedor criado com sucesso
           content:
             application/json:
               schema:
@@ -902,8 +902,8 @@ paths:
               $ref: '#/components/schemas/Cliente'
         required: true
       responses:
-        '200':
-          description: Atualização com sucesso
+        '201':
+          description: Cliente criado com sucesso
           content:
             application/json:
               schema:
@@ -1115,8 +1115,8 @@ paths:
                         - itensCompra
         required: true
       responses:
-        '200':
-          description: Atualização com sucesso
+        '201':
+          description: Compra criada com sucesso
           content:
             application/json:
               schema:

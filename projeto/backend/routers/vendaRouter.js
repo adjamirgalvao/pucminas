@@ -15,9 +15,9 @@ router.delete("/:id", passport.authenticate('jwt', { session: false }), VendaCon
 router.get("/relatorios/listagem", passport.authenticate('jwt', { session: false }), VendaController.getRelatorioListagem);
 //excel
 router.get("/exportar/listagem", passport.authenticate('jwt', { session: false }), VendaController.getExcelListagem);
+//indicador
 router.get("/consultas/indicadoresVendas", passport.authenticate('jwt', { session: false }), VendaController.getIndicadoresVendas);
-
-//consultas
+//consulta
 router.get("/consultas/produtosMaisVendidos", passport.authenticate('jwt', { session: false }), ItemVendaController.getProdutosMaisVendidos);
 
 module.exports = router;
