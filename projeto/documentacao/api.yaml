@@ -23,21 +23,106 @@ servers:
   - url: https://adjamir2318.c41.integrator.host/mock/api
     description: Mock da API
 tags:
-  - name: Fornecedores
-    description: API relativa a funcionalidade de fornecedores
-  - name: Clientes
-    description: API relativa a funcionalidade de clientes  
-  - name: Vendedores
-    description: API relativa a funcionalidade de vendedores  
   - name: Usuários
     description: API relativa a funcionalidade de usuários  
+  - name: Fornecedores
+    description: API relativa a funcionalidade de fornecedores
+  - name: Produtos
+    description: API relativa a funcionalidade de produtos
+  - name: Vendedores
+    description: API relativa a funcionalidade de vendedores     
+  - name: Clientes
+    description: API relativa a funcionalidade de clientes  
+  - name: Compras
+    description: API relativa a funcionalidade de compras  
 paths:
+  /usuarios/{id}:            
+    parameters:
+      - name: id
+        in: path
+        description: Id do usuário
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Usuários
+      summary: Consulta um usuário pelo id
+      operationId: getUsuario
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Usuário não encontrado
+      security:
+        - loja_auth:
+            - write:usuarios
+            - read:usuarios               
+    put:
+      tags:
+        - Usuários
+      summary: Atualiza o usuário informado pelo id
+      operationId: updateUsuario
+      requestBody:
+        description: Dados do usuário para ser atualizado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: Operação com sucesso
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Usuário não encontrado
+      security:
+        - loja_auth:
+            - write:usuarios
+            - read:usuarios
+    delete:
+      tags:
+        - Usuários
+      summary: Exclui um usuário pelo id
+      operationId: deleteUsuario
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Usuário não encontrado
+      security:
+        - loja_auth:
+            - write:usuarios
+            - read:usuarios    
   /fornecedores:
     get:
       tags:
         - Fornecedores
       summary: Retorna a lista de todos os fornecedores
-      description: Retorna a lista de todos os fornecedores
       operationId: gettAllFornecedores
       responses:
         '200':
@@ -60,7 +145,6 @@ paths:
       tags:
         - Fornecedores
       summary: Adiciona um novo fornecedor
-      description: Adiciona um novo fornecedor
       operationId: addFornecedor
       requestBody:
         description: Dados do fornecedor para ser criado
@@ -84,20 +168,44 @@ paths:
         - loja_auth:
             - write:fornecedor
             - read:fornecedor
-  /fornecedores/{id}:            
+  /fornecedores/{id}: 
+    parameters:
+      - name: id
+        in: path
+        description: Id do fornecedor
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Fornecedores
+      summary: Consulta um fornecedor pelo id
+      operationId: getFornecedor
+
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fornecedor'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Fornecedor não encontrado
+      security:
+        - loja_auth:
+            - write:fornecedores
+            - read:fornecedores     
     put:
       tags:
         - Fornecedores
-      summary: Atualiza um fornecedor
-      description: Atualiza o fornecedor informado pelo id
+      summary: Atualiza o fornecedor informado pelo id
       operationId: updateFornecedor
-      parameters:
-        - name: id
-          in: path
-          description: Id do fornecedor para atualizar
-          required: true
-          schema:
-            type: string
       requestBody:
         description: Dados do fornecedor para ser atualizado
         content:
@@ -106,7 +214,7 @@ paths:
               $ref: '#/components/schemas/Fornecedor'
       responses:
         '200':
-          description: Operacação com sucesso
+          description: Operação com sucesso
         '400':
           description: Foi fornecido um ID inválido
         '401':
@@ -122,19 +230,11 @@ paths:
     delete:
       tags:
         - Fornecedores
-      summary: Exclui um fornecedor
-      description: Exclui um fornecedor pelo id
+      summary: Exclui um fornecedor pelo id
       operationId: deleteFornecedor
-      parameters:
-        - name: id
-          in: path
-          description: Id do fornecedor para excluir
-          required: true
-          schema:
-            type: string
       responses:
         '200':
-          description: Operacação com sucesso
+          description: Operação com sucesso
           content:
             application/json:
               schema:
@@ -156,7 +256,6 @@ paths:
       tags:
         - Fornecedores
       summary: Recupera PDF com a lista de fornecedores
-      description: Recupera PDF com a lista de fornecedores
       operationId: getRelatorioListagemFornecedores
       responses:
         '200':
@@ -184,7 +283,6 @@ paths:
       tags:
         - Fornecedores
       summary: Recupera planilha Excel com a lista de fornecedores
-      description: Recupera planilha Excel com a lista de fornecedores
       operationId: getExportarListagemFornecedores
       responses:
         '200':
@@ -202,13 +300,12 @@ paths:
         - loja_auth:
             - write:fornecedor
             - read:fornecedor  
-  /clientes:
+  /produtos:
     get:
       tags:
-        - Clientes
-      summary: Retorna a lista de todos os clientes
-      description: Retorna a lista de todos os clientes
-      operationId: gettAllClientes
+        - Produtos
+      summary: Retorna a lista de todos os produtos
+      operationId: gettAllProdutos
       responses:
         '200':
           description: Consulta com sucesso
@@ -217,27 +314,26 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cliente'         
+                  $ref: '#/components/schemas/Produto'         
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
       security:
         - loja_auth:
-            - write:cliente
-            - read:cliente  
+            - write:produto
+            - read:produto  
     post:
       tags:
-        - Clientes
-      summary: Adiciona um novo cliente
-      description: Adiciona um novo cliente
-      operationId: addCliente
+        - Produtos
+      summary: Adiciona um novo produto
+      operationId: addProduto
       requestBody:
-        description: Dados do cliente para ser criado
+        description: Dados do produto para ser criado
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Cliente'
+              $ref: '#/components/schemas/Produto'
         required: true
       responses:
         '200':
@@ -245,70 +341,35 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Cliente'          
+                $ref: '#/components/schemas/Produto'          
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
       security:
         - loja_auth:
-            - write:cliente
-            - read:cliente
-  /clientes/{id}:            
-    put:
+            - write:produto
+            - read:produto
+  /produtos/{id}: 
+    parameters:
+      - name: id
+        in: path
+        description: Id do produto para excluir
+        required: true
+        schema:
+          type: string
+    get:
       tags:
-        - Clientes
-      summary: Atualiza um cliente
-      description: Atualiza o cliente informado pelo id
-      operationId: updateCliente
-      parameters:
-        - name: id
-          in: path
-          description: Id do cliente para atualizar
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Dados do cliente para ser atualizado
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Cliente'
+        - Produtos
+      summary: Consulta um produto pelo id
+      operationId: getProduto
       responses:
         '200':
-          description: Operacação com sucesso
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Cliente não encontrado
-      security:
-        - loja_auth:
-            - write:clientes
-            - read:clientes
-    delete:
-      tags:
-        - Clientes
-      summary: Exclui um cliente
-      description: Exclui um cliente pelo id
-      operationId: deleteCliente
-      parameters:
-        - name: id
-          in: path
-          description: Id do cliente para excluir
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Operacação com sucesso
+          description: Operação com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Cliente'           
+                $ref: '#/components/schemas/Produto'           
         '400':
           description: Foi fornecido um ID inválido
         '401':
@@ -316,41 +377,134 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Cliente não encontrado
+          description: Fornecedor não encontrado
       security:
         - loja_auth:
-            - write:clientes
-            - read:clientes   
-  /clientes/relatorios/listagem:
+            - write:produtos
+            - read:produtos     
+    put:
+      tags:
+        - Produtos
+      summary: Atualiza o produto informado pelo id
+      operationId: updateProduto
+      requestBody:
+        description: Dados do produto para ser atualizado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'
+      responses:
+        '200':
+          description: Operação com sucesso
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Fornecedor não encontrado
+      security:
+        - loja_auth:
+            - write:produtos
+            - read:produtos
+    delete:
+      tags:
+        - Produtos
+      summary: Exclui um produto pelo id
+      operationId: deleteProduto
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Fornecedor não encontrado
+      security:
+        - loja_auth:
+            - write:produtos
+            - read:produtos   
+  /produtos/{id}/listarItensCompras: 
+    parameters:
+      - name: id
+        in: path
+        description: Id do produto consultar
+        required: true
+        schema:
+          type: string
     get:
       tags:
-        - Clientes
-      summary: Recupera PDF com a lista de clientes
-      description: Recupera PDF com a lista de clientes
-      operationId: getRelatorioListagemClientes
+        - Produtos
+      summary: Consulta os itens de compra que contem o produto
+      operationId: getItensComprasProduto
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                allOf: 
+                  - $ref: '#/components/schemas/ItemCompra'
+                  - type: object
+                    properties:
+                      compra:
+                        $ref: '#/components/schemas/Compra'
+                    required: 
+                      - compra
+
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Fornecedor não encontrado
+      security:
+        - loja_auth:
+            - write:produtos
+            - read:produtos                
+  /produtos/relatorios/listagem:
+    get:
+      tags:
+        - Produtos
+      summary: Recupera PDF com a lista de produtos
+      operationId: getRelatorioListagemProdutos
       responses:
         '200':
           description: Consulta com sucesso
           content:
-            application/pdf:
+            application/octet-stream:
               schema:
                 type: string
                 format: binary      
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                format: string             
         '401':
           description: Usuário não está logado
         '403':
           description: Acesso negado
       security:
         - loja_auth:
-            - write:cliente
-            - read:cliente  
-  /clientes/exportar/listagem:
+            - write:produto
+            - read:produto  
+  /produtos/exportar/listagem:
     get:
       tags:
-        - Clientes
-      summary: Recupera planilha Excel com a lista de clientes
-      description: Recupera planilha Excel com a lista de clientes
-      operationId: getExportarListagemClientes
+        - Produtos
+      summary: Recupera planilha Excel com a lista de produtos
+      operationId: getExportarListagemProdutos
       responses:
         '200':
           description: Consulta com sucesso
@@ -365,14 +519,13 @@ paths:
           description: Acesso negado
       security:
         - loja_auth:
-            - write:cliente
-            - read:cliente              
+            - write:produto
+            - read:produto              
   /vendedores:
     get:
       tags:
         - Vendedores
       summary: Retorna a lista de todos os vendedores
-      description: Retorna a lista de todos os vendedores
       operationId: gettAllVendedores
       responses:
         '200':
@@ -395,7 +548,6 @@ paths:
       tags:
         - Vendedores
       summary: Adiciona um novo vendedor
-      description: Adiciona um novo vendedor
       operationId: addVendedor
       requestBody:
         description: Dados do vendedor para ser criado
@@ -422,19 +574,44 @@ paths:
             - write:vendedor
             - read:vendedor
   /vendedores/{id}:            
+    parameters:
+      - name: id
+        in: path
+        description: Id do vendedor
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Vendedores
+      summary: Consulta um vendedor pelo id
+      operationId: getVendedor
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendedor'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Vendedor não encontrado
+        '500':
+          description: Foi fornecido um ID inválido
+      security:
+        - loja_auth:
+            - write:vendedores
+            - read:vendedores   
     put:
       tags:
         - Vendedores
-      summary: Atualiza um vendedor
-      description: Atualiza o vendedor informado pelo id
+      summary: Atualiza o vendedor informado pelo id
       operationId: updateVendedor
-      parameters:
-        - name: id
-          in: path
-          description: Id do vendedor para atualizar
-          required: true
-          schema:
-            type: string
       requestBody:
         description: Dados do vendedor para ser atualizado
         content:
@@ -443,7 +620,7 @@ paths:
               $ref: '#/components/schemas/Vendedor'
       responses:
         '200':
-          description: Operacação com sucesso
+          description: Operação com sucesso
         '400':
           description: Foi fornecido um ID inválido
         '401':
@@ -459,19 +636,11 @@ paths:
     delete:
       tags:
         - Vendedores
-      summary: Exclui um vendedor
-      description: Exclui um vendedor pelo id
+      summary: Exclui um vendedor pelo id
       operationId: deleteVendedor
-      parameters:
-        - name: id
-          in: path
-          description: Id do vendedor para excluir
-          required: true
-          schema:
-            type: string
       responses:
         '200':
-          description: Operacação com sucesso
+          description: Operação com sucesso
           content:
             application/json:
               schema:
@@ -495,7 +664,6 @@ paths:
       tags:
         - Vendedores
       summary: Recupera PDF com a lista de vendedores
-      description: Recupera PDF com a lista de vendedores
       operationId: getRelatorioListagemVendedores
       responses:
         '200':
@@ -518,7 +686,6 @@ paths:
       tags:
         - Vendedores
       summary: Recupera planilha Excel com a lista de vendedores
-      description: Recupera planilha Excel com a lista de vendedores
       operationId: getExportarListagemVendedores
       responses:
         '200':
@@ -541,7 +708,6 @@ paths:
       tags:
         - Usuários
       summary: Retorna a lista de todos os usuários
-      description: Retorna a lista de todos os usuários
       operationId: gettAllUsuarios
       responses:
         '200':
@@ -564,7 +730,6 @@ paths:
       tags:
         - Usuários
       summary: Adiciona um novo usuário
-      description: Adiciona um novo usuário
       operationId: addUsuario
       requestBody:
         description: Dados do usuário para ser criado
@@ -588,29 +753,109 @@ paths:
         - loja_auth:
             - write:usuario
             - read:usuario
-  /usuarios/{id}:            
-    put:
+  /clientes:
+    get:
       tags:
-        - Usuários
-      summary: Atualiza um usuário
-      description: Atualiza o usuário informado pelo id
-      operationId: updateUsuario
+        - Clientes
+      summary: Retorna a lista de todos os clientes
+      operationId: gettAllClientes
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cliente'         
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:cliente
+            - read:cliente  
+    post:
+      tags:
+        - Clientes
+      summary: Adiciona um novo cliente
+      operationId: addCliente
+      requestBody:
+        description: Dados do cliente para ser criado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      responses:
+        '200':
+          description: Atualização com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'          
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:cliente
+            - read:cliente
+  /clientes/{id}:  
+    get:
+      tags:
+        - Clientes
+      summary: Consulta um cliente pelo id
+      operationId: getCliente
       parameters:
         - name: id
           in: path
-          description: Id do usuário para atualizar
+          description: Id do cliente para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Cliente não encontrado
+      security:
+        - loja_auth:
+            - write:clientes
+            - read:clientes   
+    put:
+      tags:
+        - Clientes
+      summary: Atualiza o cliente informado pelo id
+      operationId: updateCliente
+      parameters:
+        - name: id
+          in: path
+          description: Id do cliente para atualizar
           required: true
           schema:
             type: string
       requestBody:
-        description: Dados do usuário para ser atualizado
+        description: Dados do cliente para ser atualizado
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Usuario'
+              $ref: '#/components/schemas/Cliente'
       responses:
         '200':
-          description: Operacação com sucesso
+          description: Operação com sucesso
         '400':
           description: Foi fornecido um ID inválido
         '401':
@@ -618,31 +863,30 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Usuário não encontrado
+          description: Cliente não encontrado
       security:
         - loja_auth:
-            - write:usuarios
-            - read:usuarios
+            - write:clientes
+            - read:clientes
     delete:
       tags:
-        - Usuários
-      summary: Exclui um usuário
-      description: Exclui um usuário pelo id
-      operationId: deleteUsuario
+        - Clientes
+      summary: Exclui um cliente pelo id
+      operationId: deleteCliente
       parameters:
         - name: id
           in: path
-          description: Id do usuário para excluir
+          description: Id do cliente para excluir
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Operacação com sucesso
+          description: Operação com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'           
+                $ref: '#/components/schemas/Cliente'           
         '400':
           description: Foi fornecido um ID inválido
         '401':
@@ -650,11 +894,235 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Usuário não encontrado
+          description: Cliente não encontrado
       security:
         - loja_auth:
-            - write:usuarios
-            - read:usuarios             
+            - write:clientes
+            - read:clientes   
+  /clientes/relatorios/listagem:
+    get:
+      tags:
+        - Clientes
+      summary: Recupera PDF com a lista de clientes
+      operationId: getRelatorioListagemClientes
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:cliente
+            - read:cliente  
+  /clientes/exportar/listagem:
+    get:
+      tags:
+        - Clientes
+      summary: Recupera planilha Excel com a lista de clientes
+      operationId: getExportarListagemClientes
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:cliente
+            - read:cliente  
+  /compras:
+    get:
+      tags:
+        - Compras
+      summary: Retorna a lista de todos os compras
+      operationId: gettAllCompras
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    allOf: 
+                      - $ref: '#/components/schemas/Compra'
+                      - type: object
+                        properties:
+                          fornecedor:
+                            $ref: '#/components/schemas/Fornecedor'
+                      - type: object
+                        properties:
+                          itensCompra:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/ItemCompra'
+                        required: 
+                          - fornecedor  
+                          - itensCompra
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:compra
+            - read:compra  
+    post:
+      tags:
+        - Compras
+      summary: Adiciona um novo compra
+      operationId: addCompra
+      requestBody:
+        description: Dados do compra para ser criado
+        content:
+          application/json:
+            schema:
+                allOf: 
+                  - $ref: '#/components/schemas/Compra'
+                  - type: object
+                    properties:
+                      itensCompra:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ItemCompra'
+                    required: 
+                        - itensCompra
+        required: true
+      responses:
+        '200':
+          description: Atualização com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compra'          
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - loja_auth:
+            - write:compra
+            - read:compra
+  /compras/{id}:  
+    get:
+      tags:
+        - Compras
+      summary: Consulta uma compra pelo id
+      operationId: getCompra
+      parameters:
+        - name: id
+          in: path
+          description: Id do compra para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compra'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Compra não encontrado
+      security:
+        - loja_auth:
+            - write:compras
+            - read:compras   
+    delete:
+      tags:
+        - Compras
+      summary: Exclui uma compra pelo id
+      operationId: deleteCompra
+      parameters:
+        - name: id
+          in: path
+          description: Id do compra para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compra'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Compra não encontrado
+      security:
+        - loja_auth:
+            - write:compras
+            - read:compras   
+  /compras/relatorios/listagem:
+    get:
+      tags:
+        - Compras
+      summary: Recupera PDF com a lista de compras
+      operationId: getRelatorioListagemCompras
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:compra
+            - read:compra  
+  /compras/exportar/listagem:
+    get:
+      tags:
+        - Compras
+      summary: Recupera planilha Excel com a lista de compras
+      operationId: getExportarListagemCompras
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - loja_auth:
+            - write:compra
+            - read:compra                  
 components:
   schemas:
     Fornecedor:
@@ -669,7 +1137,7 @@ components:
         _id:
           type: string
           description: Id do fornecedor
-          example: "63cf180478fa75fe3c95ed48"
+          example: "63df180478fa75fe3c95ed48"
           readOnly: true
         nome:
           type: string
@@ -832,7 +1300,91 @@ components:
           items:
             type: string
             enum: [ADMIN, GESTOR, CLIENTE, ESTOQUE, VENDENDOR]
-              
+    Produto:
+      required:
+        - _id
+        - nome
+        - quantidade
+        - preco
+        - precoCusto
+        - precoCustoInicial
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do produto
+          example: "63cf180478fa75fe3c95ed46"
+          readOnly: true
+        nome:
+          type: string
+          description: Nome do produto
+          example: "Vara de pescar"
+        preco:
+          type: number
+          description: Preço unitário do produto
+          example: 20
+        precoCusto:
+          type: number
+          description: Preço de custo do produto
+          example: 5
+        precoCustoInicial:
+          type: number
+          description: Preço de custo inicíal do produto
+          example: 5
+          readOnly: true
+    Compra:
+      required:
+        - _id
+        - data
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id da compra
+          example: "63cf180478fa75fe3c95gd47"
+          readOnly: true
+        numero:
+          type: string
+          description: Número da nota fiscal da compra
+          example: "ZYZ 672"
+        data:
+          type: string
+          format: date
+          description: Data da compra
+          example: "13/12/2022" 
+        id_fornecedor:
+          type: string
+          description: Id do fornecedor da compra
+    ItemCompra:
+      required:
+        - _id
+        - id_produto
+        - id_compra
+        - quantidade
+        - preco
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do item da compra
+          example: "63cf180478fa75fe3c95gd47"
+          readOnly: true
+        id_produto:
+          type: string
+          description: Id do produto da compra
+          example: "63cd180478fa75fe3c95gd47"
+        id_compra:
+          type: string
+          description: Id da compra
+          example: "63cd180478fb75fe3c95gd47"
+        quantidade:
+          type: number
+          description: Quantidade de itens comprados
+          example: 10 
+        preco:
+          type: number
+          description: Preço pago pelo total de itens comprados
+          example: 100
   securitySchemes:
     loja_auth:
       type: oauth2

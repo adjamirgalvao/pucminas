@@ -40,16 +40,20 @@ const router = jsonServer.router(path.join(__dirname, 'db.json'));
 const idFieldName = '_id';
 // Middleware para modificar o nome do campo ID
 router.render = (req, res) => {
-  if (Array.isArray(res.locals.data)) {
-    res.jsonp(
-      res.locals.data.map(item => {
-        const { id, ...dataWithoutId } = item;
-        return { [idFieldName]: id, ...dataWithoutId, };
-      })
-    );
+  if (!req.headers.authorization) {
+    return res.status(401).json({});
   } else {
-    const { id, ...dataWithoutId } = res.locals.data;
-    res.jsonp({ [idFieldName]: id, ...dataWithoutId, });
+    if (Array.isArray(res.locals.data)) {
+      res.jsonp(
+        res.locals.data.map(item => {
+          const { id, ...dataWithoutId } = item;
+          return { [idFieldName]: id, ...dataWithoutId, };
+        })
+      );
+    } else {
+      const { id, ...dataWithoutId } = res.locals.data;
+      res.jsonp({ [idFieldName]: id, ...dataWithoutId, });
+    }
   }
 };
 
@@ -69,7 +73,7 @@ function retornarArquivo(res, arquivo, tipo) {
       'Cache-Control': "no-cache, no-store, must-revalidate",
       "Pragma": "no-cache",
       "Expries": "0",
-    });    
+    });
     res.status(200).send(data);
   });
 }
