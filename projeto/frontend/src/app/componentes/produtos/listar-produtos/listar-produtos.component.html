@@ -62,7 +62,6 @@
             </mat-table>
                 <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
         </div>
-        <br>
         <button mat-stroked-button routerLink="/produtos/criarProduto" [queryParams]="{ listar: true }"
             matTooltip="Novo Produto" color="primary">Novo</button>  &nbsp;
             <button mat-stroked-button [class.spinner]="exportando" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirExcel();" matTooltip="Exportar" color="primary">Exportar</button> &nbsp;

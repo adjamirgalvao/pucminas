@@ -29,6 +29,34 @@ export class ListarUsuariosComponent implements OnInit {
       }
   }
 
+  handlerOrientation: any;
+  
+  ngOnDestroy(): void {
+    console.log('on destroy');
+    //https://stackoverflow.com/questions/46906763/how-to-remove-eventlisteners-in-angular-4
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.landscape.removeEventListener("change", this.handlerOrientation, true);
+  }
+
+  private onChangeOrientation() {
+    console.log('landscape orientation');
+  }
+
+  isPortrait() {
+    return !this.landscape.matches;
+  }   
+
+   
+  //https://stackoverflow.com/questions/47077302/angular2-material-table-hide-column
+  //https://stackoverflow.com/questions/41432533/how-to-detect-if-device-is-desktop-and-or-mobile-and-if-connection-is-wifi-or-n
+  getDisplayedColumns() : string[] {
+    let exibir = !this.isPortrait();
+    return this.displayedColumns.filter(cd => exibir || cd.showMobile).map(cd => cd.def);
+  } 
+
+  //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+  landscape = window.matchMedia("(orientation: landscape)");  
+
   alertas: Alerta[] = [];
   usuarios: Usuario[] = [];
   carregando: boolean = true;
@@ -36,7 +64,7 @@ export class ListarUsuariosComponent implements OnInit {
   usuarioExcluido!: Usuario;
 
   // Campos para a tabela
-  displayedColumns: string[] = ['nome', 'login', 'email', 'acoes'];
+  displayedColumns = [{def:'nome', showMobile: true}, {def: 'login', showMobile: true}, {def: 'email', showMobile: false}, {def:'acoes', showMobile: true}];
   dataSource: MatTableDataSource<Usuario> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -59,6 +87,9 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.handlerOrientation = this.onChangeOrientation.bind(this);
+    this.landscape.addEventListener("change", this.handlerOrientation, true);       
     //Recuperando os dados
     this.usuarioService.listar().pipe(catchError(
       err => {
