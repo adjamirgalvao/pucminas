@@ -58,7 +58,7 @@ paths:
     post:
       tags:
         - Autorização
-      summary: efetua o login
+      summary: Efetua o login utilizando o padrão JWT (JSON Web Token)
       operationId: login
       requestBody:
         description: login e senha
@@ -342,7 +342,6 @@ paths:
         - Fornecedores
       summary: Consulta um fornecedor pelo id
       operationId: getFornecedor
-
       responses:
         '200':
           description: Operação com sucesso
@@ -516,7 +515,7 @@ paths:
     parameters:
       - name: id
         in: path
-        description: Id do produto para excluir
+        description: Id do produto
         required: true
         schema:
           type: string
@@ -539,7 +538,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Fornecedor não encontrado
+          description: Produto não encontrado
       security:
         - api_key:
             - write:produtos
@@ -566,7 +565,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Fornecedor não encontrado
+          description: Produto não encontrado
       security:
         - api_key:
             - write:produtos
@@ -590,7 +589,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Fornecedor não encontrado
+          description: Usuário não encontrado
       security:
         - api_key:
             - write:produtos
@@ -599,7 +598,7 @@ paths:
     parameters:
       - name: id
         in: path
-        description: Id do produto consultar
+        description: Id do produto
         required: true
         schema:
           type: string
@@ -630,7 +629,7 @@ paths:
         '403':
           description: Acesso negado ao usuário
         '404':
-          description: Fornecedor não encontrado
+          description: Usuário não encontrado
       security:
         - api_key:
             - write:produtos
@@ -691,8 +690,6 @@ paths:
           description: Usuário não está logado
         '403':
           description: Acesso negado ao usuário
-        '404':
-          description: Fornecedor não encontrado
       security:
         - api_key:
             - write:produtos
@@ -981,18 +978,18 @@ paths:
             - write:cliente
             - read:cliente
   /clientes/{id}:  
+    parameters:
+      - name: id
+        in: path
+        description: Id do cliente
+        required: true
+        schema:
+          type: string
     get:
       tags:
         - Clientes
       summary: Consulta um cliente pelo id
       operationId: getCliente
-      parameters:
-        - name: id
-          in: path
-          description: Id do cliente para excluir
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Operação com sucesso
@@ -1017,13 +1014,6 @@ paths:
         - Clientes
       summary: Atualiza o cliente informado pelo id
       operationId: updateCliente
-      parameters:
-        - name: id
-          in: path
-          description: Id do cliente para atualizar
-          required: true
-          schema:
-            type: string
       requestBody:
         description: Dados do cliente para ser atualizado
         required: true
@@ -1051,13 +1041,6 @@ paths:
         - Clientes
       summary: Exclui um cliente pelo id
       operationId: deleteCliente
-      parameters:
-        - name: id
-          in: path
-          description: Id do cliente para excluir
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Operação com sucesso
@@ -1201,18 +1184,18 @@ paths:
             - write:compra
             - read:compra
   /compras/{id}:  
+    parameters:
+      - name: id
+        in: path
+        description: Id da compra
+        required: true
+        schema:
+          type: string
     get:
       tags:
         - Compras
       summary: Consulta uma compra pelo id
       operationId: getCompra
-      parameters:
-        - name: id
-          in: path
-          description: Id da compra para consultar
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Operação com sucesso
@@ -1258,13 +1241,6 @@ paths:
         - Compras
       summary: Exclui uma compra pelo id
       operationId: deleteCompra
-      parameters:
-        - name: id
-          in: path
-          description: Id da compra para excluir
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Operação com sucesso
@@ -1284,6 +1260,44 @@ paths:
         - api_key:
             - write:compras
             - read:compras   
+  /compras/{idCompra}/itensCompra/{id}:  
+    parameters:
+      - name: idCompra
+        in: path
+        description: Id da compra
+        required: true
+        schema:
+          type: string       
+      - name: id
+        in: path
+        description: Id do item da compra
+        required: true
+        schema:
+          type: string   
+    delete:
+      tags:
+        - Compras
+      summary: Exclui um item da compra pelo id
+      operationId: deleteItemCompra
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemCompra'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Compra não encontrada
+      security:
+        - api_key:
+            - write:compras
+            - read:compras            
   /compras/relatorios/listagem:
     get:
       tags:
@@ -1348,10 +1362,12 @@ paths:
                         properties:
                           custoTotal:
                             type: number
-                            description: custo total de todos os produtos comprados
+                            description: Custo total de todos os produtos comprados
+                            example: 10.2
                           total:
                             type: number
                             description: Preço total pago por todos os produtos comprados
+                            example: 20.4
                       - type: object
                         properties:
                           cliente:
@@ -1415,18 +1431,18 @@ paths:
             - write:venda
             - read:venda
   /vendas/{id}:  
+    parameters:
+      - name: id
+        in: path
+        description: Id da venda
+        required: true
+        schema:
+          type: string
     get:
       tags:
         - Vendas
       summary: Consulta uma venda pelo id
       operationId: getVenda
-      parameters:
-        - name: id
-          in: path
-          description: Id da venda para excluir
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Operação com sucesso
@@ -1476,13 +1492,6 @@ paths:
         - Vendas
       summary: Exclui uma venda pelo id
       operationId: deleteVenda
-      parameters:
-        - name: id
-          in: path
-          description: Id da venda para excluir
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Operação com sucesso
@@ -1502,6 +1511,61 @@ paths:
         - api_key:
             - write:vendas
             - read:vendas   
+  /vendas/consultas/indicadoresVendas: 
+    parameters:
+      - name: ano
+        in: query
+        description: ano da consulta
+        required: true
+        schema:
+          type: integer      
+    get:
+      tags:
+        - Vendas
+      summary: Consulta os indicadores de vendas para um determinado ano
+      operationId: getindicadoresVendas
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: integer
+                      description: Mês da resposta
+                      example: 1
+                    custototal:
+                      type: number
+                      description: Custo total dos produtos das vendas
+                      example: 1019.51
+                    lucroTotal:
+                      type: number
+                      description: Lucro total dos produtos da venda
+                      example: -497.21                     
+                    numeroVendas:
+                      type: integer
+                      description: Quantas vendas foram feitas
+                      example: 5      
+                    ticketMedio:
+                      type: number
+                      description: Ticket médio das vendas
+                      example: 104.46
+                    vendasTotal:
+                      type: number
+                      description: Valor total das vendas
+                      example: 522.3                      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - api_key:
+            - write:vendas
+            - read:vendas              
   /vendas/relatorios/listagem:
     get:
       tags:

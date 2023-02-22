@@ -195,3 +195,4 @@ falta mockar
 	- /compras (post)
 	- /compras/{id} (get)
 	- /compras/{id} (delete)	
+	- /compras/{idCompra}/itensCompra/{id} (delete)
