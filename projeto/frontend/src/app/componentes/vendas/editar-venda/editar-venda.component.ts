@@ -373,7 +373,8 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
   vendedorValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if ((control.value !== undefined) && !(typeof control.value != 'string')) {
+      //Segunda condição deixa o vendedor ser opcional
+      if ((control.value !== undefined) && (control.value != '') && !(typeof control.value != 'string')) {
         return { 'vendedorCadastrado': true };
       }
       return null;
@@ -417,8 +418,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
       data: [{value: this.inicial.data, disabled: this.readOnly()}, Validators.compose([
         Validators.required
       ])],
-      vendedor: [{value: this.inicial.vendedor, disabled: this.readOnly()}, Validators.compose([this.vendedorValidator()
-      ])],
+      vendedor: [{value: this.inicial.vendedor, disabled: this.readOnly()}, this.vendedorValidator()],
       cliente: [{value: this.inicial.cliente, disabled: this.readOnly()}, this.clienteValidator()],
       produto: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.produtoValidator()
