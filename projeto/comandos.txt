@@ -196,3 +196,12 @@ falta mockar
 	- /compras/{id} (get)
 	- /compras/{id} (delete)	
 	- /compras/{idCompra}/itensCompra/{id} (delete)
+	- /vendas (get)
+	- /vendas (post)
+	- /vendas/{id} (get)
+	- /vendas/{id} (delete)	
+	- /vendas/consultas/indicadoresVendas (get)
+	- /vendas/consultas/produtosMaisVendidos (get)
+	
+	
+	

@@ -83,10 +83,15 @@ function retornarArquivo(req, res, arquivo, tipo) {
     });
   }
 }
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 let funcionalidades = ["fornecedores", "clientes", "vendedores", "produtos", "compras", "clientes"];
 for (let i in funcionalidades){
-  app.use(`/mock/api/${funcionalidades[i]}/relatorios/listagem`, (req, res) => { retornarArquivo(req, res, `${funcionalidades[i]}.pdf`, "application/pdf") });
-  app.use(`/mock/api/${funcionalidades[i]}/exportar/listagem`, (req, res) => { retornarArquivo(req, res, `${funcionalidades[i]}.xlsx`, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") });
+  app.use(`/mock/api/${funcionalidades[i]}/relatorios/listagem`, (req, res) => { retornarArquivo(req, res, `${capitalizeFirstLetter(funcionalidades[i])}.pdf`, "application/pdf") });
+  app.use(`/mock/api/${funcionalidades[i]}/exportar/listagem`, (req, res) => { retornarArquivo(req, res, `${capitalizeFirstLetter(funcionalidades[i])}.xlsx`, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") });
 }
 app.use('/mock/api', router);
 

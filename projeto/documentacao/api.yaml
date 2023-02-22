@@ -1565,7 +1565,66 @@ paths:
       security:
         - api_key:
             - write:vendas
-            - read:vendas              
+            - read:vendas   
+  /vendas/consultas/produtosMaisVendidos: 
+    parameters:
+      - name: ano
+        in: query
+        description: ano da consulta
+        required: true
+        schema:
+          type: integer  
+      - name: id_cliente
+        in: query
+        description: Id do cliente
+        schema:
+          type: string               
+    get:
+      tags:
+        - Vendas
+      summary: Consulta os produtos mais vendidos para um determinado ano e, opcionalmente, para um cliente em particular.
+      operationId: getProdutosMaisVendidos
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    allOf: 
+                      - type: object
+                        properties:
+                          _id: 
+                            type: string
+                            description: Id do produto
+                            example: "63cf0cc478fa75fe3c95ecfb"
+                          descontoTotal:
+                            type: number
+                            description: Desconto total todos os produtos vendidos
+                            example: 0.2
+                          precoTotal:
+                            type: number
+                            description: Preço total pago por todos os produtos vendidos
+                            example: 20.4
+                          quantidade:
+                            type: number
+                            description: Quantidade total de produtos vendidos
+                            example: 1
+                      - type: object
+                        properties:
+                          produto:
+                            $ref: '#/components/schemas/Produto'                            
+        '400':
+          description: Foi fornecido um ID inválido     
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - api_key:
+            - write:vendas
+            - read:vendas               
   /vendas/relatorios/listagem:
     get:
       tags:
