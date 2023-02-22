@@ -40,11 +40,7 @@
                             {{fornecedor.nome}}
                         </mat-option>
                     </mat-autocomplete>
-                    <mat-error
-                        *ngIf="formulario.get('fornecedor')?.hasError('required')  && formulario.get('fornecedor')?.touched">O
-                        campo é obrigatório!</mat-error>
-                    <mat-error
-                        *ngIf="!formulario.get('fornecedor')?.hasError('required') && formulario.get('fornecedor')?.hasError('fornecedorCadastrado')  && formulario.get('fornecedor')?.touched">O
+                    <mat-error *ngIf="formulario.get('fornecedor')?.hasError('fornecedorCadastrado')  && formulario.get('fornecedor')?.touched">O
                         fornecedor não está cadastrado!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Consultar')">Escolha o fornecedor</mat-hint>
                 </mat-form-field>

@@ -30,6 +30,10 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Unitário</mat-header-cell>
                     <mat-cell *matCellDef="let produto">{{ produto.preco | dinheiroPipe }}</mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="precoCusto">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Preço de Custo</mat-header-cell>
+                    <mat-cell *matCellDef="let produto">{{ produto.precoCusto | dinheiroPipe }}</mat-cell>
+                </ng-container>                
                 <ng-container matColumnDef="acoes">
                     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                     <mat-cell *matCellDef="let produto">
@@ -57,15 +61,15 @@
                     </div>
                     </mat-cell>
                 </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: getDisplayedColumns()"></mat-row>
             </mat-table>
                 <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
         </div>
-        <button mat-stroked-button routerLink="/produtos/criarProduto" [queryParams]="{ listar: true }"
+            <button class="mt-3" mat-stroked-button routerLink="/produtos/criarProduto" [queryParams]="{ listar: true }"
             matTooltip="Novo Produto" color="primary">Novo</button>  &nbsp;
-            <button mat-stroked-button [class.spinner]="exportando" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirExcel();" matTooltip="Exportar" color="primary">Exportar</button> &nbsp;
-            <button mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button> &nbsp;
-            <button mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
+            <button class="mt-3" mat-stroked-button [class.spinner]="exportando" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirExcel();" matTooltip="Exportar" color="primary">Exportar</button> &nbsp;
+            <button class="mt-3" mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button> &nbsp;
+            <button class="mt-3" mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
    </fieldset>
 </section>

@@ -1139,6 +1139,12 @@ paths:
                       - $ref: '#/components/schemas/Compra'
                       - type: object
                         properties:
+                          total:
+                            type: number   
+                            description: Preço total da compra
+                            example: 100                      
+                      - type: object
+                        properties:
                           fornecedor:
                             $ref: '#/components/schemas/Fornecedor'
                       - type: object
@@ -1148,8 +1154,8 @@ paths:
                             items:
                               $ref: '#/components/schemas/ItemCompra'
                         required: 
-                          - fornecedor  
                           - itensCompra
+                          - total
         '401':
           description: Usuário não está logado
         '403':
@@ -1164,7 +1170,7 @@ paths:
       summary: Adiciona uma nova compra
       operationId: addCompra
       requestBody:
-        description: Dados da compra para ser criado
+        description: Dados da compra para ser criada
         required: true
         content:
           application/json:
@@ -1203,7 +1209,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: Id da compra para excluir
+          description: Id da compra para consultar
           required: true
           schema:
             type: string
@@ -1224,10 +1230,17 @@ paths:
                         itensCompra:
                           type: array
                           items:
-                            $ref: '#/components/schemas/ItemCompra'
+                              allOf:
+                                - $ref: '#/components/schemas/ItemCompra'
+                                - type: object
+                                  properties:
+                                    produto:
+                                      $ref: '#/components/schemas/Produto'
+                                  required:
+                                    - produto
+                                
                       required: 
-                        - fornecedor  
-                        - itensCompra      
+                        - itensCompra
         '400':
           description: Foi fornecido um ID inválido
         '401':
@@ -1314,7 +1327,225 @@ paths:
       security:
         - api_key:
             - write:compra
-            - read:compra                  
+            - read:compra        
+  /vendas:
+    get:
+      tags:
+        - Vendas
+      summary: Retorna a lista de todas as vendas
+      operationId: gettAllVendas
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    allOf: 
+                      - $ref: '#/components/schemas/Venda'
+                      - type: object
+                        properties:
+                          custoTotal:
+                            type: number
+                            description: custo total de todos os produtos comprados
+                          total:
+                            type: number
+                            description: Preço total pago por todos os produtos comprados
+                      - type: object
+                        properties:
+                          cliente:
+                            $ref: '#/components/schemas/Cliente'
+                      - type: object
+                        properties:
+                          vendedor:
+                            $ref: '#/components/schemas/Vendedor'
+                      - type: object
+                        properties:
+                          itensVenda:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/ItemVenda'
+                        required: 
+                          - itensVenda
+                          - custoTotal
+                          - total
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - api_key:
+            - write:venda
+            - read:venda  
+    post:
+      tags:
+        - Vendas
+      summary: Adiciona uma nova venda
+      operationId: addVenda
+      requestBody:
+        description: Dados da venda para ser criada
+        required: true
+        content:
+          application/json:
+            schema:
+                allOf: 
+                  - $ref: '#/components/schemas/Venda'
+                  - type: object
+                    properties:
+                      itensVenda:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ItemVenda'
+                    required: 
+                        - itensVenda
+      responses:
+        '201':
+          description: Venda criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venda'          
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+      security:
+        - api_key:
+            - write:venda
+            - read:venda
+  /vendas/{id}:  
+    get:
+      tags:
+        - Vendas
+      summary: Consulta uma venda pelo id
+      operationId: getVenda
+      parameters:
+        - name: id
+          in: path
+          description: Id da venda para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                  allOf: 
+                    - $ref: '#/components/schemas/Venda'
+                    - type: object
+                      properties:
+                        vendedor:
+                          $ref: '#/components/schemas/Vendedor'
+                    - type: object
+                      properties:
+                        cliente:
+                          $ref: '#/components/schemas/Cliente'         
+                    - type: object
+                      properties:
+                        itensVenda:
+                          type: array
+                          items:
+                              allOf:
+                                - $ref: '#/components/schemas/ItemVenda'
+                                - type: object
+                                  properties:
+                                    produto:
+                                      $ref: '#/components/schemas/Produto'
+                                  required:
+                                    - produto
+                                
+                      required: 
+                        - itensCompra       
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Venda não encontrada
+      security:
+        - api_key:
+            - write:vendas
+            - read:vendas   
+    delete:
+      tags:
+        - Vendas
+      summary: Exclui uma venda pelo id
+      operationId: deleteVenda
+      parameters:
+        - name: id
+          in: path
+          description: Id da venda para excluir
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venda'           
+        '400':
+          description: Foi fornecido um ID inválido
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado ao usuário
+        '404':
+          description: Venda não encontrada
+      security:
+        - api_key:
+            - write:vendas
+            - read:vendas   
+  /vendas/relatorios/listagem:
+    get:
+      tags:
+        - Vendas
+      summary: Recupera PDF com a lista de vendas
+      operationId: getRelatorioListagemVendas
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - api_key:
+            - write:venda
+            - read:venda  
+  /vendas/exportar/listagem:
+    get:
+      tags:
+        - Vendas
+      summary: Recupera planilha Excel com a lista de vendas
+      operationId: getExportarListagemVendas
+      responses:
+        '200':
+          description: Consulta com sucesso
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary      
+        '401':
+          description: Usuário não está logado
+        '403':
+          description: Acesso negado
+      security:
+        - api_key:
+            - write:venda
+            - read:venda              
 components:
   schemas:
     Fornecedor:
@@ -1573,6 +1804,77 @@ components:
           type: number
           description: Preço pago pelo total de itens comprados
           example: 100
+    Venda:
+      required:
+        - _id
+        - data
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id da venda
+          example: "63cf180478fa75fe3c95gd47"
+          readOnly: true
+        data:
+          type: string
+          format: date
+          description: Data da venda
+          example: "13/12/2022" 
+        id_vendedor:
+          type: string
+          description: Id do vendedor
+          example: "63cf180478fa75fg3c95gd47"   
+        id_cliente:
+          type: string
+          description: Id do cliente
+          example: "63cf180478fa75fg3c95gd47"               
+    ItemVenda:
+      required:
+        - _id
+        - id_produto
+        - id_compra
+        - quantidade
+        - precoCusto
+        - precoUnitario
+        - desconto
+        - preco
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do item da compra
+          example: "63cf180478fa75fe3c95gd47"
+          readOnly: true
+        id_produto:
+          type: string
+          description: Id do produto da compra
+          example: "63cd180478fa75fe3c95gd47"
+        id_compra:
+          type: string
+          description: Id da compra
+          example: "63cd180478fb75fe3c95gd47"
+        quantidade:
+          type: number
+          description: Quantidade de itens comprados
+          example: 10 
+        precoCusto:
+          type: number
+          description: Preço de custo unitário do produto no momento da compra
+          example: 90          
+        precoUnitario:
+          type: number
+          description: Preço unitário do produto no momento da compra
+          example: 100     
+        desconto:
+          type: number
+          description: Desconto que foi aplicado no momento da compra
+          example: 100               
+        preco:
+          type: number
+          description: Preço final (já aplicado o desconto) pago pela quantidade comprada
+          example: 500
+
+
   securitySchemes:
     api_key:
       type: http

@@ -218,9 +218,11 @@ export class EditarCompraComponent implements OnInit {
     let compra: Compra = {
       data: this.formulario.value.data,
       numero: this.formulario.value.numero,
-      id_fornecedor : this.formulario.value.fornecedor._id,
       itensCompra: this.itensCompra
     };
+    if (this.formulario.get('fornecedor')?.valid && (this.formulario.value.fornecedor)) {
+      compra.id_fornecedor = this.formulario.value.fornecedor._id;
+    }      
 
     this.salvandoFormulario(true);
     this.cadastrarCompra(compra);
@@ -247,7 +249,8 @@ export class EditarCompraComponent implements OnInit {
 
   fornecedorValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if ((control.value !== undefined) && !(typeof control.value != 'string')) {
+      //essa segunda condição deixa o fornecedor ser vazio
+      if ((control.value !== undefined)  && (control.value != '') && !(typeof control.value != 'string')) {
         return { 'fornecedorCadastrado': true };
       }
       return null;
@@ -269,9 +272,7 @@ export class EditarCompraComponent implements OnInit {
       data: [{value: this.inicial.data, disabled: this.readOnly()}, Validators.compose([
         Validators.required
       ])],
-      fornecedor: [{value: this.inicial.fornecedor, disabled: this.readOnly()}, Validators.compose([
-        Validators.required, this.fornecedorValidator()
-      ])],
+      fornecedor: [{value: this.inicial.fornecedor, disabled: this.readOnly()}, this.fornecedorValidator()],
       numero: [{value: this.inicial.numero, disabled: this.readOnly()}],
       produto: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.produtoValidator()

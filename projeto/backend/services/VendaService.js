@@ -222,7 +222,7 @@ function umaVendaItensVendedorInnerJoinconst(id) {
 };
 
 function getVendedor(data, registro) {
-  return registro.vendedor.nome;
+  return registro.vendedor != null ? registro.vendedor.nome : '';
 }
 
 function getLucro(data, registro) {
@@ -376,7 +376,8 @@ module.exports = class VendaService {
       let registros = await this.getAllVendas();
       for (let i in registros){
         retorno.push({data: RelatorioUtilService.getDataFormatada(registros[i].data), 
-                      vendedor: registros[i].vendedor.nome,
+                      vendedor: registros[i].vendedor != null ? registros[i].vendedor.nome : '',
+                      cliente: registros[i].cliente != null ? registros[i].cliente.nome : '',
                       valor: registros[i].total,
                       lucro: registros[i].total - registros[i].custoTotal});
       }

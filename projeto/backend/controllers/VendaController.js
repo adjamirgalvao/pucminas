@@ -133,10 +133,11 @@ exports.getRelatorioListagem = async (req, res) => {
 
       //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
       await PDFService.gerarPDF(res, 'Vendas', [
-        { label: 'Data', property: 'data', width: 70, renderer: null },
-        { label: 'Vendedor', property: 'vendedor', width: 200, renderer: null },
-        { label: 'Valor', property: 'valor', width: 70, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },
-        { label: 'Lucro', property: 'lucro', width: 70, renderer: (value) => { return RelatorioUtilService.getDinheiro(value, true) } },], dados);
+        { label: 'Data', property: 'data', width: 50, renderer: null },
+        { label: 'Vendedor', property: 'vendedor', width: 180, renderer: null },
+        { label: 'Cliente', property: 'cliente', width: 180, renderer: null },
+        { label: 'Valor', property: 'valor', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },
+        { label: 'Lucro', property: 'lucro', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value, true) } },], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

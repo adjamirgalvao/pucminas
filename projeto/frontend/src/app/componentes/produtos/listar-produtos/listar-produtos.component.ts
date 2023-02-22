@@ -1,5 +1,5 @@
 import { ModalConfirmacaoComponent } from './../../util/modal-confirmacao/modal-confirmacao.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './listar-produtos.component.html',
   styleUrls: ['./listar-produtos.component.css'],
 })
-export class ListarProdutosComponent implements OnInit {
+export class ListarProdutosComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
@@ -29,6 +29,33 @@ export class ListarProdutosComponent implements OnInit {
       }
   }
 
+  handlerOrientation: any;
+  
+  ngOnDestroy(): void {
+    console.log('on destroy');
+    //https://stackoverflow.com/questions/46906763/how-to-remove-eventlisteners-in-angular-4
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.landscape.removeEventListener("change", this.handlerOrientation, true);
+  }
+
+  private onChangeOrientation() {
+    console.log('landscape orientation');
+  }
+
+  isPortrait() {
+    return !this.landscape.matches;
+  }   
+   
+  //https://stackoverflow.com/questions/47077302/angular2-material-table-hide-column
+  //https://stackoverflow.com/questions/41432533/how-to-detect-if-device-is-desktop-and-or-mobile-and-if-connection-is-wifi-or-n
+  getDisplayedColumns() : string[] {
+    let exibir = !this.isPortrait();
+    return this.displayedColumns.filter(cd => exibir || cd.showMobile).map(cd => cd.def);
+  } 
+
+  //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+  landscape = window.matchMedia("(orientation: landscape)");  
+
   alertas: Alerta[] = [];
   produtos: Produto[] = [];
   carregando: boolean = true;
@@ -38,7 +65,7 @@ export class ListarProdutosComponent implements OnInit {
   produtoExcluido!: Produto;
 
   // Campos para a tabela
-  displayedColumns: string[] = ['nome', 'quantidade', 'preco', 'acoes'];
+  displayedColumns = [{def:'nome', showMobile: true}, {def:'quantidade', showMobile: true}, {def:'preco', showMobile: true}, {def: 'precoCusto', showMobile: false}, {def: 'acoes', showMobile: true}];
   dataSource: MatTableDataSource<Produto> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -61,6 +88,9 @@ export class ListarProdutosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //https://code.daypilot.org/79036/angular-calendar-detect-orientation-change-landscape-portrait
+    this.handlerOrientation = this.onChangeOrientation.bind(this);
+    this.landscape.addEventListener("change", this.handlerOrientation, true);      
     //Recuperando os dados
     this.produtoService.listar().pipe(catchError(
       err => {

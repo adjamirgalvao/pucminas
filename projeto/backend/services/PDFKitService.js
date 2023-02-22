@@ -6,7 +6,7 @@ module.exports = class PDFKitService {
   //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
   static gerarPDF = async (res, title, headers, dados) => {
 
-    const doc = new PDFTable({bottomMargin: 30});
+    const doc = new PDFTable({ margin: 30, size: 'A4', });
     const stream = doc.pipe(blobStream());
     doc.font('Helvetica-Bold').fontSize(14).text(title, {align: 'left', underline: true, lineGap: 10});
 

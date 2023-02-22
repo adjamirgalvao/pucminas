@@ -104,7 +104,8 @@ export class CriarCompraProdutoComponent implements OnInit {
 
   fornecedorValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if ((control.value !== undefined) && !(typeof control.value != 'string')) {
+      // a segunda condição deixa cadastrar vendedor vazio
+      if ((control.value !== undefined) && (control.value != '') && !(typeof control.value != 'string')) {
         return { 'fornecedorCadastrado': true };
       }
       return null;
@@ -116,10 +117,8 @@ export class CriarCompraProdutoComponent implements OnInit {
         data: [this.compra.data, Validators.compose([
           Validators.required
         ])],
-        fornecedor: ['', Validators.compose([
-          Validators.required, this.fornecedorValidator()
-        ])],
-          numero: [this.compra.numero],        
+        fornecedor: ['', this.fornecedorValidator()],
+        numero: [this.compra.numero],        
         quantidade: [this.compra.quantidade, Validators.compose([
           Validators.required, Validators.min(0.01)
         ])],
@@ -156,12 +155,14 @@ export class CriarCompraProdutoComponent implements OnInit {
     };
 
     // Criação da compra
-    const compra: Compra = {
+    let compra: Compra = {
       data: this.formulario.value.data,
       numero: this.formulario.value.numero,
-      id_fornecedor : this.formulario.value.fornecedor._id,
       itensCompra: [itemCompra]
     };
+    if (this.formulario.get('fornecedor')?.valid && (this.formulario.value.fornecedor)) {
+      compra.id_fornecedor = this.formulario.value.fornecedor._id;
+    }   
 
     this.compraService.criar(compra).pipe(catchError(
       err => {

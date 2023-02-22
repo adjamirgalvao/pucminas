@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -15,7 +15,7 @@ import { ModalConfirmacaoComponent } from '../../util/modal-confirmacao/modal-co
   templateUrl: './listar-usuarios.component.html',
   styleUrls: ['./listar-usuarios.component.css']
 })
-export class ListarUsuariosComponent implements OnInit {
+export class ListarUsuariosComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
@@ -45,7 +45,6 @@ export class ListarUsuariosComponent implements OnInit {
   isPortrait() {
     return !this.landscape.matches;
   }   
-
    
   //https://stackoverflow.com/questions/47077302/angular2-material-table-hide-column
   //https://stackoverflow.com/questions/41432533/how-to-detect-if-device-is-desktop-and-or-mobile-and-if-connection-is-wifi-or-n

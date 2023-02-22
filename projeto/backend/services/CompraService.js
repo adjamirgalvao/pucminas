@@ -249,7 +249,7 @@ module.exports = class CompraService {
       for (let i in registros){
         retorno.push({data: RelatorioUtilService.getDataFormatada(registros[i].data), 
                       notaFiscal: registros[i].numero, 
-                      fornecedor: registros[i].fornecedor.nome,
+                      fornecedor: registros[i].fornecedor != null ? registros[i].fornecedor.nome : '',
                       preco: registros[i].total,
                       });
       }

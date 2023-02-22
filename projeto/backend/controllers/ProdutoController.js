@@ -192,7 +192,8 @@ exports.getRelatorioListagem = async (req, res) => {
       await PDFService.gerarPDF(res, 'Produtos', [
         { label: 'Nome', property: 'nome', width: 200, renderer: null },
         { label: 'Estoque', property: 'estoque', width: 70, renderer: null },
-        { label: 'Preço', property: 'preco', width: 70, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },], dados);
+        { label: 'Preço Unitário', property: 'preco', width: 70, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },
+        { label: 'Preço de Custo', property: 'precoCusto', width: 70, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },], dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
