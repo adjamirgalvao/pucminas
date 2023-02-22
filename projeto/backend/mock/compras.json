@@ -152,5 +152,35 @@
             }
         ],
         "total": 20000
+    },
+    {
+        "numero": "ZYZ 672",
+        "data": "2023-02-22T03:12:29.717Z",
+        "id_fornecedor": "63cf180478fa75fe3c95ed48",
+        "itensCompra": [
+            {
+                "id_produto": "63cd180478fa75fe3c95gd47",
+                "id_compra": "942922080377",
+                "quantidade": 10,
+                "preco": 100,
+                "_id": "600071600753",
+                "__v": 0
+            }
+        ],
+        "_id": "942922080377",
+        "fornecedor": {
+            "_id": "63cf180478fa75fe3c95ed48",
+            "endereco": {
+                "rua": "Rua 1",
+                "numero": "102",
+                "complemento": "apto 501"
+            },
+            "nome": "Fornecedor 31",
+            "tipo": "pf",
+            "identificacao": "02523156423",
+            "__v": 0
+        },
+        "total": 100,
+        "__v": 0
     }
 ]

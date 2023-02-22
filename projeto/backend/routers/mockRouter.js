@@ -3,7 +3,32 @@ const router = express.Router();
 const path = require('path');
 const fs = require("fs");
 const jsonServer = require('json-server');
+const axios = require('axios');
 
+
+function uniqueID() {
+    return '' + (Math.floor(Math.random() * Date.now()))
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+async function getFornecedor(req, id) {
+    try {
+      const host = req.headers.host;
+      const protocol = req.protocol;
+      const url = `${protocol}://${host}/mock/api/fornecedores/${id}`;
+      // senão vai ser interceptado pelo routerJsonServer.render
+      const config = {headers: {Authorization: 'Bearer 123'}};    
+  
+      const response = await axios.get(url, config);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+}
 
 //https://www.npmjs.com/package/json-server
 //https://github.com/typicode/json-server/issues/253
@@ -12,8 +37,7 @@ const routerJsonServer = jsonServer.router(path.join(__dirname, '../mock/db.json
 const idFieldName = '_id';
 // Middleware para modificar o nome do campo ID
 routerJsonServer.render = (req, res) => {
-    console.log('aqui', req.path, !req.headers.authorization, req.path.includes('/autenticacao'));
-    
+   
     if (!req.headers.authorization && !req.path.includes('/autenticacao')) {
         return res.status(401).json({});
     } else {
@@ -54,10 +78,6 @@ function retornarArquivo(req, res, arquivo, tipo) {
             res.status(200).send(data);
         });
     }
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 //Mock dos arquivos
@@ -111,6 +131,44 @@ router.get('/compras', (req, res) => {
     res.status(200).json(compras);
 });
 
+router.post('/compras', async (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/compras.json'));
+    let compras = JSON.parse(rawdata);
+    let compra = req.body;
+
+    let total = 0;
+    compra._id = uniqueID();  
+    if (compra.id_fornecedor) {
+        compra.fornecedor = await getFornecedor(req, compra.id_fornecedor);
+    }    
+    for (let i in compra.itensCompra){
+        total += compra.itensCompra[i].preco;
+        compra.itensCompra[i].id_compra = compra._id;
+        compra.itensCompra[i]._id = uniqueID();
+        compra.itensCompra[i].__v = 0;
+    }
+
+    compra.total = total;
+    compra.__v = 0;
+    compras.push(compra);
+
+    fs.writeFileSync(path.join(__dirname, '../mock/compras.json'), JSON.stringify(compras, null, 4));
+    res.status(200).json(compra);
+});
+
+router.get('/compras/:id', (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/compras.json'));
+    let compras = JSON.parse(rawdata);
+    let id = req.params.id;
+
+    let retorno = compras.find(compra => compra._id === id);
+
+    if (retorno) {
+       res.status(200).json(retorno);
+    } else {
+        res.status(404).json({});        
+    }
+});
 
 
 module.exports = {
