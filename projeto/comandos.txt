@@ -192,6 +192,7 @@ falta mockar
 	- /autenticacao/login       (ok)
 	- /autenticacao/registrar	(ok)
 	- /produtos/{id}/indicadoresCompras
+	- /produtos/{id}/listarItensCompras
 	- /compras (get)
 	- /compras (post)
 	- /compras/{id} (get)

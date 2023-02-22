@@ -80,5 +80,160 @@
         "precoCustoInicial": 90,
         "__v": 0
     }
+], 
+ "clientes" : [
+    {
+        "endereco": {
+            "rua": "Rua Isaac Salazar",
+            "numero": "102",
+            "complemento": "Apto 501"
+        },
+        "_id": "63d863b8e4d71610ad716f0c",
+        "nome": "Adjamir de Moura Galvão",
+        "cpf": "02523156423",
+        "dataNascimento": "1978-04-26T03:00:00.000Z",
+        "__v": 0,
+        "email": "adjamir@gmail.com"
+    },
+    {
+        "endereco": {
+            "rua": "Rua Isaac Salazar",
+            "numero": "102",
+            "complemento": "Apto 501"
+        },
+        "_id": "63dffe58afbed74cc58ce09f",
+        "nome": "Maria Cecília Carvalho Galvão",
+        "cpf": "00000000000",
+        "dataNascimento": "2006-05-05T03:00:00.000Z",
+        "__v": 0,
+        "email": "georgiamcs@gmail.com"
+    },
+    {
+        "endereco": {
+            "rua": "Rua 1",
+            "numero": "102",
+            "complemento": "11"
+        },
+        "_id": "63f135dd3250817aa7558184",
+        "nome": "teste 1",
+        "email": "adjamir4@gmail.com",
+        "cpf": "02523156424",
+        "dataNascimento": "2023-02-11T03:00:00.000Z",
+        "__v": 0
+    }
+],
+
+"vendedores": [
+    {
+        "endereco": {
+            "rua": "Rua dos Vendedores",
+            "numero": "100",
+            "complemento": "S/C"
+        },
+        "_id": "63d9228d1153582852931d63",
+        "nome": "Maria dos Santos",
+        "cpf": "00000000000",
+        "email": "maria@gmail.com",
+        "salario": 1000,
+        "__v": 0
+    },
+    {
+        "endereco": {
+            "rua": "Rua Isaac Salazar",
+            "numero": "102",
+            "complemento": "Apto 501"
+        },
+        "_id": "63e53c28a82dce76fbb3b4d0",
+        "nome": "Vendedor Adjamir",
+        "cpf": "02523156423",
+        "email": "adjamir3@gmail.com",
+        "salario": 1500,
+        "__v": 0
+    },
+    {
+        "endereco": {
+            "rua": "11",
+            "numero": "11",
+            "complemento": ""
+        },
+        "_id": "63e70930bb8ac53f2f77f99e",
+        "nome": "Maria dos Santos 22",
+        "cpf": "00000000011",
+        "email": "adjamir@gmail.com",
+        "salario": 10,
+        "__v": 0
+    }
+],
+"usuarios": [
+    {
+        "_id": "63dc6c82fd018a07bd7eec36",
+        "login": "admin",
+        "email": "adjamir@gmail.com",
+        "nome": "Adjamir de Moura Galvão",
+        "roles": [
+            "ADMINISTRADOR",
+            "GESTOR"
+        ]
+    },
+    {
+        "_id": "63e1310add3f7191b34f543f",
+        "login": "georgiamcs",
+        "email": "georgiamcs@gmail.com",
+        "nome": "Geórgia Maria Carvalho de Sousa Galvão",
+        "roles": [
+            "CLIENTE"
+        ]
+    },
+    {
+        "_id": "63e9260c95437f3ab904d36f",
+        "nome": "Vendedor 1",
+        "login": "vendas",
+        "email": "vendas@gmail.com",
+        "roles": [
+            "VENDEDOR"
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "63f400cbf74d78978d68f313",
+        "nome": "MARIA CECÍLIA CARVALHO GALVÃO",
+        "login": "1320185431@educacional.colegiodamas.com.br",
+        "email": "1320185431@educacional.colegiodamas.com.br",
+        "roles": [
+            "CLIENTE"
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "63f5346a98a530bd0dba3595",
+        "nome": "teste4",
+        "login": "teste4",
+        "email": "teste4@teste.com",
+        "roles": [
+            "CLIENTE"
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "63f53cdfcda135fd3f79ce60",
+        "nome": "teste434",
+        "login": "teste5",
+        "email": "teste5@gmail.com",
+        "roles": [
+            "CLIENTE"
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "63f626263a6aa537b995b242",
+        "nome": "Paulo da Silva",
+        "login": "paulo",
+        "email": "paulo@gmail.com",
+        "roles": [
+            "ADMIN",
+            "CLIENTE"
+        ],
+        "__v": 0
+    }
 ]
 }
