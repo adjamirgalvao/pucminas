@@ -194,8 +194,8 @@ falta mockar
 	- /produtos/{id}/indicadoresCompras
 	- /produtos/{id}/listarItensCompras
 	- /compras (get)             (ok)
-	- /compras (post)
-	- /compras/{id} (get)
+	- /compras (post)            (ok)
+	- /compras/{id} (get)        (ok)
 	- /compras/{id} (delete)	
 	- /compras/{idCompra}/itensCompra/{id} (delete)
 	- /vendas (get)

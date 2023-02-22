@@ -30,6 +30,22 @@ async function getFornecedor(req, id) {
     }
 }
 
+async function getProduto(req, id) {
+    try {
+      const host = req.headers.host;
+      const protocol = req.protocol;
+      const url = `${protocol}://${host}/mock/api/produtos/${id}`;
+      // senão vai ser interceptado pelo routerJsonServer.render
+      const config = {headers: {Authorization: 'Bearer 123'}};    
+  
+      const response = await axios.get(url, config);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+}
+
 //https://www.npmjs.com/package/json-server
 //https://github.com/typicode/json-server/issues/253
 const routerJsonServer = jsonServer.router(path.join(__dirname, '../mock/db.json'));
@@ -156,15 +172,23 @@ router.post('/compras', async (req, res) => {
     res.status(200).json(compra);
 });
 
-router.get('/compras/:id', (req, res) => {
+router.get('/compras/:id', async (req, res) => {
     let rawdata = fs.readFileSync(path.join(__dirname, '../mock/compras.json'));
     let compras = JSON.parse(rawdata);
     let id = req.params.id;
 
-    let retorno = compras.find(compra => compra._id === id);
+    let compra = compras.find(compra => compra._id === id);
 
-    if (retorno) {
-       res.status(200).json(retorno);
+    if (compra) {
+        //sem isso não deixava executar, pois dizia que tinha que estar em top level o await
+        ;(async function lerProdutos(){
+            for (let i in compra.itensCompra){
+             compra.itensCompra[i].produto = await getProduto(req, compra.itensCompra[i].id_produto);
+             compra.itensCompra[i]._id = uniqueID();
+             compra.itensCompra[i].__v = 0;
+            }    
+        })();
+       res.status(200).json(compra);
     } else {
         res.status(404).json({});        
     }
@@ -175,5 +199,3 @@ module.exports = {
     JsonServer: routerJsonServer,
     RouterExtra: router,
 };
-  /*
-module.exports = routerJsonServer;*/

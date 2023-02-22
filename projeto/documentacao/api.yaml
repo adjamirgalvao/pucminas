@@ -1980,6 +1980,7 @@ components:
           type: string
           description: Id da compra
           example: "63cd180478fb75fe3c95gd47"
+          readOnly: true
         quantidade:
           type: number
           description: Quantidade de itens comprados
@@ -2049,6 +2050,7 @@ components:
           type: string
           description: Id da compra
           example: "63cd180478fb75fe3c95gd47"
+          readOnly: true;
         quantidade:
           type: number
           description: Quantidade de itens comprados
