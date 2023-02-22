@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const json2xls = require('json2xls');
-const { JsonServer, RouterArquivos } = require("./routers/mockRouter");
+const { JsonServer, RouterExtra } = require("./routers/mockRouter");
 const fs = require("fs");
 const yaml = require('js-yaml');
 const swaggerUi = require('swagger-ui-express');
@@ -38,7 +38,7 @@ app.use("/api/compras", require('./routers/compraRouter'));
 app.use("/api/vendas", require('./routers/vendaRouter'));
 
 //Levantando o mock
-app.use("/mock/api", RouterArquivos);
+app.use("/mock/api", RouterExtra);
 app.use("/mock/api", JsonServer);
 
 //Levantando o swagger

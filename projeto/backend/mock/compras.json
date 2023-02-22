@@ -1,0 +1,156 @@
+[
+    {
+        "_id": "63db23e9c408a7530247aa88",
+        "data": "2023-02-02T02:45:44.558Z",
+        "numero": "",
+        "id_fornecedor": "63cf180478fa75fe3c95ed48",
+        "__v": 0,
+        "fornecedor": {
+            "_id": "63cf180478fa75fe3c95ed48",
+            "nome": "Lojão do Condomínio",
+            "tipo": "pf",
+            "identificacao": "39629415500",
+            "endereco": {
+                "rua": "Rua dos pedestres",
+                "numero": "S/N",
+                "complemento": "Apto 1000"
+            },
+            "__v": 0
+        },
+        "itensCompra": [
+            {
+                "_id": "63db23e9c408a7530247aa8a",
+                "id_produto": "63cf18fa78fa75fe3c95ed5d",
+                "id_compra": "63db23e9c408a7530247aa88",
+                "quantidade": 2,
+                "preco": 100,
+                "__v": 0
+            }
+        ],
+        "total": 100
+    },
+    {
+        "_id": "63eb02499c5455fba6c1cdc6",
+        "data": "2023-02-14T03:38:33.495Z",
+        "numero": "",
+        "id_fornecedor": "63cf2b43711ff977314cb05a",
+        "__v": 0,
+        "fornecedor": {
+            "_id": "63cf2b43711ff977314cb05a",
+            "nome": "Fornecedor 2",
+            "tipo": "pj",
+            "identificacao": "00000000000191",
+            "endereco": {
+                "rua": "Rua ",
+                "numero": "102",
+                "complemento": "apto 501"
+            },
+            "__v": 0
+        },
+        "itensCompra": [
+            {
+                "_id": "63eb02499c5455fba6c1cdc8",
+                "id_produto": "63cf0c4978fa75fe3c95ecf8",
+                "id_compra": "63eb02499c5455fba6c1cdc6",
+                "quantidade": 1,
+                "preco": 10,
+                "__v": 0
+            }
+        ],
+        "total": 10
+    },
+    {
+        "_id": "63f3ecabfa4a03126e7e2cbe",
+        "data": "2023-02-20T21:56:34.998Z",
+        "numero": "",
+        "id_fornecedor": "63cf2b43711ff977314cb05a",
+        "__v": 0,
+        "fornecedor": {
+            "_id": "63cf2b43711ff977314cb05a",
+            "nome": "Fornecedor 2",
+            "tipo": "pj",
+            "identificacao": "00000000000191",
+            "endereco": {
+                "rua": "Rua ",
+                "numero": "102",
+                "complemento": "apto 501"
+            },
+            "__v": 0
+        },
+        "itensCompra": [
+            {
+                "_id": "63f3ecabfa4a03126e7e2cc0",
+                "id_produto": "63cf169d78fa75fe3c95ed42",
+                "id_compra": "63f3ecabfa4a03126e7e2cbe",
+                "quantidade": 10,
+                "preco": 100,
+                "__v": 0
+            }
+        ],
+        "total": 100
+    },
+    {
+        "_id": "63f58684cda135fd3f79d1f1",
+        "data": "2023-02-22T03:05:30.961Z",
+        "numero": "",
+        "__v": 0,
+        "itensCompra": [
+            {
+                "_id": "63f58684cda135fd3f79d1f3",
+                "id_produto": "63cf0c3978fa75fe3c95ecf5",
+                "id_compra": "63f58684cda135fd3f79d1f1",
+                "quantidade": 10,
+                "preco": 1000,
+                "__v": 0
+            }
+        ],
+        "total": 1000
+    },
+    {
+        "_id": "63f5882dcda135fd3f79d22d",
+        "data": "2023-02-22T03:12:29.717Z",
+        "numero": "",
+        "__v": 0,
+        "itensCompra": [
+            {
+                "_id": "63f5882dcda135fd3f79d22f",
+                "id_produto": "63cf0c3978fa75fe3c95ecf5",
+                "id_compra": "63f5882dcda135fd3f79d22d",
+                "quantidade": 100,
+                "preco": 2000,
+                "__v": 0
+            }
+        ],
+        "total": 2000
+    },
+    {
+        "_id": "63f58840cda135fd3f79d235",
+        "data": "2023-02-22T03:12:29.717Z",
+        "numero": "",
+        "id_fornecedor": "63cf180478fa75fe3c95ed48",
+        "__v": 0,
+        "fornecedor": {
+            "_id": "63cf180478fa75fe3c95ed48",
+            "nome": "Lojão do Condomínio",
+            "tipo": "pf",
+            "identificacao": "39629415500",
+            "endereco": {
+                "rua": "Rua dos pedestres",
+                "numero": "S/N",
+                "complemento": "Apto 1000"
+            },
+            "__v": 0
+        },
+        "itensCompra": [
+            {
+                "_id": "63f58840cda135fd3f79d237",
+                "id_produto": "63cf0c3978fa75fe3c95ecf5",
+                "id_compra": "63f58840cda135fd3f79d235",
+                "quantidade": 100,
+                "preco": 20000,
+                "__v": 0
+            }
+        ],
+        "total": 20000
+    }
+]

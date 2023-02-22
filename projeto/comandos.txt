@@ -189,7 +189,8 @@ pm2 list
 
 
 falta mockar
-	- /autenticacao/login
+	- /autenticacao/login       (ok)
+	- /autenticacao/registrar	(ok)
 	- /produtos/{id}/indicadoresCompras
 	- /compras (get)
 	- /compras (post)
