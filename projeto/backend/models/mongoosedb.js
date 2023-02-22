@@ -7,6 +7,7 @@ const database = 'LojaOnline';
 
 module.exports = {
     init: () => {
+      mongoose.set("strictQuery", "throw");
       mongoose
         .connect(
           `mongodb+srv://${user}:${pass}@${serverName}/${database}'?retryWrites=true&w=majority`,

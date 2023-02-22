@@ -36,6 +36,8 @@ servers:
     description: Mock da API
   - url: https://adjamir2318.c41.integrator.host/api
     description: API real    
+  - url: http://localhost:3000/mock/api
+    description: Mock da API Local (apenas para teste local)   
 tags:
   - name: Autorização
     description: API relativa a funcionalidade de autorização  
@@ -86,7 +88,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'          
+                allOf:
+                  - type: object
+                    properties:
+                      usuario:
+                        $ref: '#/components/schemas/Usuario'
+                    description: Dados do usuário logado  
+                  - type: object
+                    properties:
+                      token: 
+                        type: string
+                    description: Token JWT gerado no login 
+                    required: 
+                      - usuario
+                      - token
         '404':
           description: Acesso negado ao usuário
   /autenticacao/registrar:
@@ -115,6 +130,7 @@ paths:
                     description: E-Mail do usuário
                     example: "paulo@gmail.com"
                   senha:
+                    type: string
                     description: Senha do usuário
                     example: "1234"
                 required:
@@ -170,6 +186,7 @@ paths:
                 - type: object
                   properties:
                     senha:
+                      type: string                      
                       description: Senha do usuário
                       example: "1234"
                   required:
@@ -237,6 +254,7 @@ paths:
                 - type: object
                   properties:
                     senha:
+                      type: string                  
                       description: Senha do usuário
                       example: "1234"
       responses:
@@ -467,6 +485,12 @@ paths:
         - Produtos
       summary: Retorna a lista de todos os produtos
       operationId: gettAllProdutos
+      parameters:
+      - name: saldo
+        in: query
+        description: Se deve recuperar apenas os produtos com estoque
+        schema:
+          type: boolean      
       responses:
         '200':
           description: Consulta com sucesso
@@ -1678,6 +1702,7 @@ components:
         - tipo
         - identificacao
         - endereco
+        - __v
       type: object
       properties:
         _id:
@@ -1714,7 +1739,12 @@ components:
               example: "Apto 1000"
           required:
             - rua
-            - numero          
+            - numero  
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true                  
     Cliente:
       required:
         - _id
@@ -1723,6 +1753,7 @@ components:
         - cpf
         - dataNascimento
         - endereco
+        - __v
       type: object
       properties:
         _id:
@@ -1761,7 +1792,12 @@ components:
               example: "0"
           required:
             - rua
-            - numero    
+            - numero   
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true                  
     Vendedor:
       required:
         - _id
@@ -1770,6 +1806,7 @@ components:
         - cpf
         - salario
         - endereco
+        - __v
       type: object
       properties:
         _id:
@@ -1808,6 +1845,11 @@ components:
           required:
             - rua
             - numero    
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true                  
     Usuario:
       required:
         - _id
@@ -1815,6 +1857,7 @@ components:
         - login
         - email
         - roles
+        - __v
       type: object
       properties:
         _id:
@@ -1841,6 +1884,11 @@ components:
           items:
             type: string
             enum: [ADMIN, GESTOR, CLIENTE, ESTOQUE, VENDENDOR]
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true                  
     Produto:
       required:
         - _id
@@ -1849,6 +1897,7 @@ components:
         - preco
         - precoCusto
         - precoCustoInicial
+        - __v
       type: object
       properties:
         _id:
@@ -1873,10 +1922,16 @@ components:
           description: Preço de custo inicíal do produto
           example: 5
           readOnly: true
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true  
     Compra:
       required:
         - _id
         - data
+        - __v
       type: object
       properties:
         _id:
@@ -1896,7 +1951,12 @@ components:
         id_fornecedor:
           type: string
           description: Id do fornecedor da compra
-          example: "63cf180478fa75fg3c95gd47"          
+          example: "63cf180478fa75fg3c95gd47" 
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true                
     ItemCompra:
       required:
         - _id
@@ -1904,6 +1964,7 @@ components:
         - id_compra
         - quantidade
         - preco
+        - __v
       type: object
       properties:
         _id:
@@ -1927,10 +1988,16 @@ components:
           type: number
           description: Preço pago pelo total de itens comprados
           example: 100
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true                
     Venda:
       required:
         - _id
         - data
+        - __v
       type: object
       properties:
         _id:
@@ -1950,7 +2017,12 @@ components:
         id_cliente:
           type: string
           description: Id do cliente
-          example: "63cf180478fa75fg3c95gd47"               
+          example: "63cf180478fa75fg3c95gd47"       
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true               
     ItemVenda:
       required:
         - _id
@@ -1961,6 +2033,7 @@ components:
         - precoUnitario
         - desconto
         - preco
+        - __v
       type: object
       properties:
         _id:
@@ -1996,8 +2069,11 @@ components:
           type: number
           description: Preço final (já aplicado o desconto) pago pela quantidade comprada
           example: 500
-
-
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true      
   securitySchemes:
     api_key:
       type: http
