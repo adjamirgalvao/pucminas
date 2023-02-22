@@ -68,7 +68,7 @@ for (let i in funcionalidades) {
 }
 
 //Mock de funcionalidades não suportadas pelo jsonServer
-router.get('/autenticacao/login', (req, res) => {
+router.post('/autenticacao/login', (req, res) => {
     if (!req.body.login || !req.body.senha) {
         res.status(404).json({ error: 'Usuário não encontrado.' });
     } else {    
@@ -87,7 +87,7 @@ router.get('/autenticacao/login', (req, res) => {
     }
 });
 
-router.get('/autenticacao/registrar', (req, res) => {
+router.post('/autenticacao/registrar', (req, res) => {
     if (!req.body.nome || !req.body.login || !req.body.email || !req.body.senha || !req.body.roles) {
         res.status(400).json({ error: 'Usuário não pode ser criado pois já faltam informações (nome, login, email, senha ou roles).' });
     } else {
