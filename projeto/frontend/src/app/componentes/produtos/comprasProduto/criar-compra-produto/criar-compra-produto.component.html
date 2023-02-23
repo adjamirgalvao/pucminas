@@ -14,7 +14,7 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
     <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto">&nbsp;Nova Compra do Produto <i>{{this.produto.nome}}</i>&nbsp;</legend>
+        <legend class="float-none w-auto h5">&nbsp;Nova Compra do Produto <i>{{this.produto.nome}}</i>&nbsp;</legend>
 
         <form [formGroup]="formulario" (ngSubmit)="comprarProduto()">
             <div class="mb-3">

@@ -12,7 +12,7 @@
     <app-alerta [alertas]="alertas"></app-alerta>
 
     <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto h4">&nbsp;Listar Fornecedores &nbsp;</legend>
+        <legend class="float-none w-auto h5">&nbsp;Listar Fornecedores &nbsp;</legend>
         <div class="ms-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum fornecedor cadastrado.</strong>
         </div>
         <div class="grid gap-3 fieldset rounded px-3" *ngIf="dataSource.data.length > 0">

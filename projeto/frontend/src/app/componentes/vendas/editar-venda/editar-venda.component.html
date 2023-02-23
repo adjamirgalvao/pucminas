@@ -17,7 +17,7 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
     <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto h4">&nbsp;{{ operacao + ((operacao == 'Detalhar') ? ' Pedido' : ' Venda') }} <i
+        <legend class="float-none w-auto h5">&nbsp;{{ operacao + ((operacao == 'Detalhar') ? ' Pedido' : ' Venda') }} <i
                 *ngIf="this.formulario">{{ this.formulario.get('data')?.value | date: 'dd/MM/yyyy' }}</i>&nbsp;</legend>
 
         <form [formGroup]="formulario" *ngIf="!carregando" #formDirective="ngForm">
@@ -70,7 +70,7 @@
                 </mat-form-field>
             </div>
             <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
-                <legend class="float-none w-auto h5">&nbsp;Produtos&nbsp;</legend>
+                <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
                 <div *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">
                     <div class="mb-3">
                         <mat-form-field class="me-3" style="width: 60%;">
