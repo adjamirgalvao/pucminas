@@ -2028,7 +2028,7 @@ components:
       required:
         - _id
         - id_produto
-        - id_compra
+        - id_venda
         - quantidade
         - precoCusto
         - precoUnitario

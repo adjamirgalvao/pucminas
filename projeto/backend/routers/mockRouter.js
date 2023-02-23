@@ -157,7 +157,7 @@ router.post('/compras', async (req, res) => {
         compras.push(compra);
 
         fs.writeFileSync(path.join(__dirname, '../mock/compras.json'), JSON.stringify(compras, null, 4));
-        res.status(200).json(compra);
+        res.status(201).json(compra);
     })();
 });
 
@@ -188,7 +188,6 @@ router.delete('/compras/:id', async (req, res) => {
     let compras = JSON.parse(rawdata);
     let id = req.params.id;
 
-    console.log('deletecompra');
     let compra = compras.find(compra => compra._id === id);
 
     if (compra) {
@@ -205,7 +204,6 @@ router.delete('/compras/:idCompra/itensCompra/:id', async (req, res) => {
     let compras = JSON.parse(rawdata);
     let id = req.params.id;
 
-    console.log('req.params.idCompra', req.params.idCompra);
     let compra = compras.find(compra => compra._id === req.params.idCompra);
 
     let achou = false;
@@ -235,6 +233,39 @@ router.get('/vendas', (req, res) => {
     let rawdata = fs.readFileSync(path.join(__dirname, '../mock/vendas.json'));
     let vendas = JSON.parse(rawdata);
     res.status(200).json(vendas);
+});
+
+router.post('/vendas', async (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/vendas.json'));
+    let vendas = JSON.parse(rawdata);
+    let venda = req.body;
+
+    let total = 0;
+    let custoTotal = 0;
+    venda._id = uniqueID();
+    ; (async function gravarVenda() {
+        if (venda.id_vendedor) {
+            venda.vendedor = await getObjeto(req, 'vendedores', venda.id_vendedor);
+        }
+        if (venda.id_cliente) {
+            venda.cliente = await getObjeto(req, 'clientes', venda.id_cliente);
+        }
+        for (let i in venda.itensVenda) {
+            total += venda.itensVenda[i].preco;
+            custoTotal += venda.itensVenda[i].precoCusto;
+            venda.itensVenda[i].id_venda = venda._id;
+            venda.itensVenda[i]._id = uniqueID();
+            venda.itensVenda[i].__v = 0;
+        }
+
+        venda.total = total;
+        venda.custoTotal = custoTotal;
+        venda.__v = 0;
+        vendas.push(venda);
+
+        fs.writeFileSync(path.join(__dirname, '../mock/vendas.json'), JSON.stringify(vendas, null, 4));
+        res.status(201).json(venda);
+    })();
 });
 
 module.exports = {

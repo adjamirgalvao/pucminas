@@ -196,5 +196,64 @@
         ],
         "total": 1,
         "custoTotal": 109.01
+    },
+    {
+        "data": "13/12/2022",
+        "id_vendedor": "63d9228d1153582852931d63",
+        "id_cliente": "63d863b8e4d71610ad716f0c",
+        "itensVenda": [
+            {
+                "id_produto": "63cf0c3978fa75fe3c95ecf5",
+                "quantidade": 10,
+                "precoCusto": 90,
+                "precoUnitario": 100,
+                "desconto": 100,
+                "preco": 500,
+                "id_venda": "388047970091",
+                "_id": "357748565354",
+                "__v": 0
+            },
+            {
+                "id_produto": "63cf0cc478fa75fe3c95ecfb",
+                "quantidade": 1,
+                "precoCusto": 80.5,
+                "precoUnitario": 500,
+                "desconto": 0,
+                "preco": 600.1,
+                "id_venda": "388047970091",
+                "_id": "1417298275787",
+                "__v": 0
+            }
+        ],
+        "_id": "388047970091",
+        "vendedor": {
+            "_id": "63d9228d1153582852931d63",
+            "endereco": {
+                "rua": "Rua dos Vendedores",
+                "numero": "100",
+                "complemento": "S/C"
+            },
+            "nome": "Maria dos Santos",
+            "cpf": "00000000000",
+            "email": "maria@gmail.com",
+            "salario": 1000,
+            "__v": 0
+        },
+        "cliente": {
+            "_id": "63d863b8e4d71610ad716f0c",
+            "endereco": {
+                "rua": "Rua Isaac Salazar",
+                "numero": "102",
+                "complemento": "Apto 501"
+            },
+            "nome": "Adjamir de Moura Galvão",
+            "cpf": "02523156423",
+            "dataNascimento": "1978-04-26T03:00:00.000Z",
+            "__v": 0,
+            "email": "adjamir@gmail.com"
+        },
+        "total": 1100.1,
+        "custoTotal": 170.5,
+        "__v": 0
     }
 ]
