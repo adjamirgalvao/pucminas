@@ -1708,7 +1708,7 @@ components:
         _id:
           type: string
           description: Id do fornecedor
-          example: "63df180478fa75fe3c95ed48"
+          example: "63cf180478fa75fe3c95ed48"
           readOnly: true
         nome:
           type: string
@@ -1759,7 +1759,7 @@ components:
         _id:
           type: string
           description: Id do cliente
-          example: "63cf180478fa75fe3c95ed47"
+          example: "63d863b8e4d71610ad716f0c"
           readOnly: true
         nome:
           type: string
@@ -1812,7 +1812,7 @@ components:
         _id:
           type: string
           description: Id do vendedor
-          example: "63cf180478fa75fe3c95ed46"
+          example: "63d9228d1153582852931d63"
           readOnly: true
         nome:
           type: string
@@ -1863,7 +1863,7 @@ components:
         _id:
           type: string
           description: Id do usuário
-          example: "63cf180478fa75fe3c95ed46"
+          example: "63dc6c82fd018a07bd7eec36"
           readOnly: true
         nome:
           type: string
@@ -1903,7 +1903,7 @@ components:
         _id:
           type: string
           description: Id do produto
-          example: "63cf180478fa75fe3c95ed46"
+          example: "63cf0c3978fa75fe3c95ecf5"
           readOnly: true
         nome:
           type: string
@@ -1937,7 +1937,7 @@ components:
         _id:
           type: string
           description: Id da compra
-          example: "63cf180478fa75fe3c95gd47"
+          example: "63db23e9c408a7530247aa88"
           readOnly: true
         numero:
           type: string
@@ -1951,7 +1951,7 @@ components:
         id_fornecedor:
           type: string
           description: Id do fornecedor da compra
-          example: "63cf180478fa75fg3c95gd47" 
+          example: "63cf180478fa75fe3c95ed48" 
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
@@ -1975,11 +1975,11 @@ components:
         id_produto:
           type: string
           description: Id do produto da compra
-          example: "63cd180478fa75fe3c95gd47"
+          example: "63cf0c3978fa75fe3c95ecf5"
         id_compra:
           type: string
           description: Id da compra
-          example: "63cd180478fb75fe3c95gd47"
+          example: "63db23e9c408a7530247aa88"
           readOnly: true
         quantidade:
           type: number
@@ -2014,11 +2014,11 @@ components:
         id_vendedor:
           type: string
           description: Id do vendedor
-          example: "63cf180478fa75fg3c95gd47"   
+          example: "63d9228d1153582852931d63"   
         id_cliente:
           type: string
           description: Id do cliente
-          example: "63cf180478fa75fg3c95gd47"       
+          example: "63d863b8e4d71610ad716f0c"       
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
@@ -2045,12 +2045,12 @@ components:
         id_produto:
           type: string
           description: Id do produto da compra
-          example: "63cd180478fa75fe3c95gd47"
-        id_compra:
+          example: "63cf0c3978fa75fe3c95ecf5"
+        id_venda:
           type: string
-          description: Id da compra
-          example: "63cd180478fb75fe3c95gd47"
-          readOnly: true;
+          description: Id da venda
+          example: "63cf180478fa75fe3c95gd47"
+          readOnly: true
         quantidade:
           type: number
           description: Quantidade de itens comprados

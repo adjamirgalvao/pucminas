@@ -154,20 +154,20 @@
         "total": 20000
     },
     {
-        "numero": "ZYZ 672",
-        "data": "2023-02-22T03:12:29.717Z",
+        "numero": "APP1",
+        "data": "15/12/2022",
         "id_fornecedor": "63cf180478fa75fe3c95ed48",
         "itensCompra": [
             {
-                "id_produto": "63cf18fa78fa75fe3c95ed5d",
-                "id_compra": "942922080377",
+                "id_produto": "63cd180478fa75fe3c95gd47",
+                "id_compra": "1057913696252",
                 "quantidade": 10,
                 "preco": 100,
-                "_id": "600071600753",
+                "_id": "693503817772",
                 "__v": 0
             }
         ],
-        "_id": "942922080377",
+        "_id": "1057913696252",
         "fornecedor": {
             "_id": "63cf180478fa75fe3c95ed48",
             "endereco": {

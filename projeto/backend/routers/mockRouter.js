@@ -14,37 +14,22 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function getFornecedor(req, id) {
+async function getObjeto(req, api, id) {
     try {
-      const host = req.headers.host;
-      const protocol = req.protocol;
-      const url = `${protocol}://${host}/mock/api/fornecedores/${id}`;
-      // senão vai ser interceptado pelo routerJsonServer.render
-      const config = {headers: {Authorization: 'Bearer 123'}};    
-  
-      const response = await axios.get(url, config);
-      console.log(response.data);
-      return response.data;
+        const host = req.headers.host;
+        const protocol = req.protocol;
+        const url = `${protocol}://${host}/mock/api/${api}/${id}`;
+        // senão vai ser interceptado pelo routerJsonServer.render
+        const config = { headers: { Authorization: 'Bearer 123' } };
+
+        const response = await axios.get(url, config);
+        console.log(url, response.data);
+        return response.data;
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
 }
 
-async function getProduto(req, id) {
-    try {
-      const host = req.headers.host;
-      const protocol = req.protocol;
-      const url = `${protocol}://${host}/mock/api/produtos/${id}`;
-      // senão vai ser interceptado pelo routerJsonServer.render
-      const config = {headers: {Authorization: 'Bearer 123'}};    
-  
-      const response = await axios.get(url, config);
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-}
 
 //https://www.npmjs.com/package/json-server
 //https://github.com/typicode/json-server/issues/253
@@ -53,7 +38,7 @@ const routerJsonServer = jsonServer.router(path.join(__dirname, '../mock/db.json
 const idFieldName = '_id';
 // Middleware para modificar o nome do campo ID
 routerJsonServer.render = (req, res) => {
-   
+
     if (!req.headers.authorization && !req.path.includes('/autenticacao')) {
         return res.status(401).json({});
     } else {
@@ -107,19 +92,20 @@ for (let i in funcionalidades) {
 router.post('/autenticacao/login', (req, res) => {
     if (!req.body.login || !req.body.senha) {
         res.status(404).json({ error: 'Usuário não encontrado.' });
-    } else {    
+    } else {
         res.status(200).json({
-        usuario: {
-            _id: "63dc6c82fd018a07bd7eec36",
-            login: req.body.login,
-            email: `${req.body.login}@gmail.com`,
-            nome: `${capitalizeFirstLetter(req.body.login)} da Silva Santos`,
-            roles: [
-                "ADMINISTRADOR",
-                "GESTOR"
-            ]
-        },
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjc3MDgzNzU3LCJleHAiOjE2NzcwOTM3NTd9.QKlf0EEnOo-3TOLjll6m3HPL6sdTiSDvT7EVizqbpuE"});
+            usuario: {
+                _id: "63dc6c82fd018a07bd7eec36",
+                login: req.body.login,
+                email: `${req.body.login}@gmail.com`,
+                nome: `${capitalizeFirstLetter(req.body.login)} da Silva Santos`,
+                roles: [
+                    "ADMINISTRADOR",
+                    "GESTOR"
+                ]
+            },
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjc3MDgzNzU3LCJleHAiOjE2NzcwOTM3NTd9.QKlf0EEnOo-3TOLjll6m3HPL6sdTiSDvT7EVizqbpuE"
+        });
     }
 });
 
@@ -135,9 +121,10 @@ router.post('/autenticacao/registrar', (req, res) => {
                 nome: req.body.nome,
                 roles: ["CLIENTE"]
             },
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjc3MDgzNzU3LCJleHAiOjE2NzcwOTM3NTd9.QKlf0EEnOo-3TOLjll6m3HPL6sdTiSDvT7EVizqbpuE"});
-        }
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjc3MDgzNzU3LCJleHAiOjE2NzcwOTM3NTd9.QKlf0EEnOo-3TOLjll6m3HPL6sdTiSDvT7EVizqbpuE"
+        });
     }
+}
 );
 
 //https://stackabuse.com/reading-and-writing-json-files-with-node-js/
@@ -153,23 +140,25 @@ router.post('/compras', async (req, res) => {
     let compra = req.body;
 
     let total = 0;
-    compra._id = uniqueID();  
-    if (compra.id_fornecedor) {
-        compra.fornecedor = await getFornecedor(req, compra.id_fornecedor);
-    }    
-    for (let i in compra.itensCompra){
-        total += compra.itensCompra[i].preco;
-        compra.itensCompra[i].id_compra = compra._id;
-        compra.itensCompra[i]._id = uniqueID();
-        compra.itensCompra[i].__v = 0;
-    }
+    compra._id = uniqueID();
+    ; (async function gravarVenda() {
+        if (compra.id_fornecedor) {
+            compra.fornecedor = await getObjeto(req, 'fornecedores', compra.id_fornecedor);
+        }
+        for (let i in compra.itensCompra) {
+            total += compra.itensCompra[i].preco;
+            compra.itensCompra[i].id_compra = compra._id;
+            compra.itensCompra[i]._id = uniqueID();
+            compra.itensCompra[i].__v = 0;
+        }
 
-    compra.total = total;
-    compra.__v = 0;
-    compras.push(compra);
+        compra.total = total;
+        compra.__v = 0;
+        compras.push(compra);
 
-    fs.writeFileSync(path.join(__dirname, '../mock/compras.json'), JSON.stringify(compras, null, 4));
-    res.status(200).json(compra);
+        fs.writeFileSync(path.join(__dirname, '../mock/compras.json'), JSON.stringify(compras, null, 4));
+        res.status(200).json(compra);
+    })();
 });
 
 router.get('/compras/:id', async (req, res) => {
@@ -181,19 +170,72 @@ router.get('/compras/:id', async (req, res) => {
 
     if (compra) {
         //sem isso não deixava executar, pois dizia que tinha que estar em top level o await
-        ;(async function lerProdutos(){
-            for (let i in compra.itensCompra){
-             compra.itensCompra[i].produto = await getProduto(req, compra.itensCompra[i].id_produto);
-             compra.itensCompra[i]._id = uniqueID();
-             compra.itensCompra[i].__v = 0;
-            }    
+        ; (async function lerProduto() {
+            for (let i in compra.itensCompra) {
+                compra.itensCompra[i].produto = await getObjeto(req, 'produtos', compra.itensCompra[i].id_produto);
+            }
+
+            console.log(compra);
+            res.status(200).json(compra);
         })();
-       res.status(200).json(compra);
     } else {
-        res.status(404).json({});        
+        res.status(404).json({});
     }
 });
 
+router.delete('/compras/:id', async (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/compras.json'));
+    let compras = JSON.parse(rawdata);
+    let id = req.params.id;
+
+    console.log('deletecompra');
+    let compra = compras.find(compra => compra._id === id);
+
+    if (compra) {
+        let comprasAtualizadas = compras.filter(compra => compra._id !== id);
+        fs.writeFileSync(path.join(__dirname, '../mock/compras.json'), JSON.stringify(comprasAtualizadas, null, 4));
+        res.status(200).json(compra);
+    } else {
+        res.status(404).json({});
+    }
+});
+
+router.delete('/compras/:idCompra/itensCompra/:id', async (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/compras.json'));
+    let compras = JSON.parse(rawdata);
+    let id = req.params.id;
+
+    console.log('req.params.idCompra', req.params.idCompra);
+    let compra = compras.find(compra => compra._id === req.params.idCompra);
+
+    let achou = false;
+    if (compra) {
+        //remove o item Compra
+        const comprasAtualizadas = compras.map(compra => {
+            if (compra.itensCompra) {
+                let item = compra.itensCompra.find(item => item._id === id);
+                achou = achou || (item);
+                const itensFiltrados = compra.itensCompra.filter(item => item._id !== id);
+                return { ...compra, itensCompra: itensFiltrados };
+            }
+            return compra;
+        });
+        if (achou) {
+            fs.writeFileSync(path.join(__dirname, '../mock/compras.json'), JSON.stringify(comprasAtualizadas, null, 4));
+            res.status(200).json(compra);
+        } else {
+            res.status(404).json({});
+        }
+    } else {
+        res.status(404).json({});
+    }
+});
+
+router.get('/vendas', (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/vendas.json'));
+    let vendas = JSON.parse(rawdata);
+    res.status(200).json(vendas);
+});
 
 module.exports = {
     JsonServer: routerJsonServer,
