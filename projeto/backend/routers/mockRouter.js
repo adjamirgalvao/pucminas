@@ -20,7 +20,7 @@ async function getObjeto(req, api, id) {
         const protocol = req.protocol;
         const url = `${protocol}://${host}/mock/api/${api}/${id}`;
         // senão vai ser interceptado pelo routerJsonServer.render
-        const config = { headers: { Authorization: 'Bearer 123' } };
+        const config = { headers: { Authorization: 'Bearer mock_local' } };
 
         const response = await axios.get(url, config);
         console.log(url, response.data);
@@ -266,6 +266,155 @@ router.post('/vendas', async (req, res) => {
         fs.writeFileSync(path.join(__dirname, '../mock/vendas.json'), JSON.stringify(vendas, null, 4));
         res.status(201).json(venda);
     })();
+});
+
+
+router.get('/vendas/:id', async (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/vendas.json'));
+    let vendas = JSON.parse(rawdata);
+    let id = req.params.id;
+
+    let venda = vendas.find(venda => venda._id === id);
+
+    if (venda) {
+        //sem isso não deixava executar, pois dizia que tinha que estar em top level o await
+        ; (async function lerProduto() {
+            for (let i in venda.itensVenda) {
+                venda.itensVenda[i].produto = await getObjeto(req, 'produtos', venda.itensVenda[i].id_produto);
+            }
+
+            console.log(venda);
+            res.status(200).json(venda);
+        })();
+    } else {
+        res.status(404).json({});
+    }
+});
+
+router.delete('/vendas/:id', async (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/vendas.json'));
+    let vendas = JSON.parse(rawdata);
+    let id = req.params.id;
+
+    let venda = vendas.find(venda => venda._id === id);
+
+    if (venda) {
+        let vendasAtualizadas = vendas.filter(venda => venda._id !== id);
+        fs.writeFileSync(path.join(__dirname, '../mock/vendas.json'), JSON.stringify(vendasAtualizadas, null, 4));
+        res.status(200).json(venda);
+    } else {
+        res.status(404).json({});
+    }
+});
+
+router.get('/vendas/consultas/indicadoresVendas', async (req, res) => {
+    let retorno = [
+        {
+            _id: 1,
+            custoTotal: 1019.51,
+            vendasTotal: 522.3,
+            lucroTotal: -497.21,
+            numeroVendas: 5,
+            ticketMedio: 104.46
+        },
+        {
+            _id: 2,
+            custoTotal: 519.51,
+            vendasTotal: 1522.3,
+            lucroTotal: 1002.79,
+            numeroVendas: 10,
+            ticketMedio: 152.23
+        },
+    ];
+    res.status(200).json(retorno);
+});
+
+router.get('/vendas/consultas/produtosMaisVendidos', async (req, res) => {
+    let retorno = [
+        {
+            _id: '63dffe84afbed74cc58ce0a1',
+            precoTotal: 500,
+            quantidade: 10,
+            descontoTotal: 500,
+            produto: {
+                _id: '63dffe84afbed74cc58ce0a1',
+                nome: 'SquickMellon',
+                quantidade: 0,
+                preco: 100,
+                precoCusto: 90,
+                precoCustoInicial: 90,
+                __v: 0
+            }
+        },
+        {
+            _id: '63cf0cc478fa75fe3c95ecfb',
+            precoTotal: 2,
+            quantidade: 1,
+            descontoTotal: 0,
+            produto: {
+                _id: '63cf0cc478fa75fe3c95ecfb',
+                nome: 'Produto 3',
+                quantidade: 0,
+                preco: 2,
+                precoCusto: 0,
+                precoCustoInicial: 0,
+                __v: 0
+            }
+        },
+        {
+            _id: '63cf0c4978fa75fe3c95ecf8',
+            precoTotal: 19,
+            quantidade: 2,
+            descontoTotal: 1,
+            produto: {
+                _id: '63cf0c4978fa75fe3c95ecf8',
+                nome: 'Produto 2',
+                quantidade: 0,
+                preco: 10,
+                precoCusto: 10,
+                precoCustoInicial: 0,
+                __v: 0
+            }
+        },
+        {
+            _id: '63cf0c3978fa75fe3c95ecf5',
+            precoTotal: 1.3,
+            quantidade: 2,
+            descontoTotal: 0.7,
+            produto: {
+                _id: '63cf0c3978fa75fe3c95ecf5',
+                precoCustoInicial: 0,
+                __v: 0,
+                nome: 'Produto 1',
+                preco: 1,
+                precoCusto: 18.92,
+                quantidade: 100
+            }
+        }
+    ];
+    res.status(200).json(retorno);
+});
+
+router.get('/produtos/:id/indicadoresCompras', async (req, res) => {
+    let retorno = [
+        [
+            {
+                _id: 2,
+                custoTotal: 2000,
+                quantidadeTotal: 100,
+                numeroCompras: 1,
+                custoMedio: 20
+            },
+            {
+                _id: 3,
+                custoTotal: 200,
+                quantidadeTotal: 100,
+                numeroCompras: 2,
+                custoMedio: 2
+            },            
+        ]
+    ];
+    res.status(200).json(retorno);
 });
 
 module.exports = {

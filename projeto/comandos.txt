@@ -199,11 +199,11 @@ falta mockar
 	- /compras/{id} (delete)	 (ok)
 	- /compras/{idCompra}/itensCompra/{id} (delete) (ok)
 	- /vendas (get)              (ok)
-	- /vendas (post)
-	- /vendas/{id} (get)
-	- /vendas/{id} (delete)	
-	- /vendas/consultas/indicadoresVendas (get)
-	- /vendas/consultas/produtosMaisVendidos (get)
+	- /vendas (post)             (ok)
+	- /vendas/{id} (get)         (ok)
+	- /vendas/{id} (delete)	     (ok)
+	- /vendas/consultas/indicadoresVendas (get) (ok)
+	- /vendas/consultas/produtosMaisVendidos (get) (ok)
 	
 	
 	
