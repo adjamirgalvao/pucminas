@@ -7,7 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed" *ngIf="authService.isLogado()">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin() || authService.isAdmin()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Usuários </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/usuarios/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Usuários</a>
@@ -29,7 +29,7 @@
                         <a ngbDropdownItem routerLink="/produtos/criarProduto" routerLinkActive="active-menu">Cadastrar Produtos</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin() || authService.isAdmin()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Vendedores </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/vendedores/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Vendedores</a>
