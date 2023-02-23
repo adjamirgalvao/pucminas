@@ -5,7 +5,7 @@ const PDFService = require("../services/PDFKitService");
 const RelatorioUtilService = require("../services/RelatorioUtilService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN, ROLES.GESTOR])) {
     let id = req.params.id;
     let erro = true;
     if (id.length == 24) {
@@ -47,7 +47,7 @@ exports.getAll = async (req, res) => {
   let id_cliente = null;
   let erro = false;
 
-  if ((AutorizacaoService.validarRoles(req, [ROLES.CLIENTE]) && filtroCliente) || (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN]))) {
+  if ((AutorizacaoService.validarRoles(req, [ROLES.CLIENTE]) && filtroCliente) || (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.GESTOR]))) {
     try {
       //Se está fazendo filtro por cliente só pode recuperar os registros do cliente que é o usuário logado
       if (filtroCliente) {
@@ -127,17 +127,23 @@ exports.delete = async (req, res) => {
 };
 
 exports.getRelatorioListagem = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.GESTOR])) {
     try {
-      let dados = await VendaService.getExcelListagem();
+      let isGestor = AutorizacaoService.isGestor(req);
+      let dados = await VendaService.getExcelListagem(isGestor);
 
       //https://github.com/natancabral/pdfkit-table/blob/main/example/index-server-example.js
-      await PDFService.gerarPDF(res, 'Vendas', [
+      let colunas = [
         { label: 'Data', property: 'data', width: 50, renderer: null },
         { label: 'Vendedor', property: 'vendedor', width: 180, renderer: null },
         { label: 'Cliente', property: 'cliente', width: 180, renderer: null },
-        { label: 'Valor', property: 'valor', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },
-        { label: 'Lucro', property: 'lucro', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value, true) } },], dados);
+        { label: 'Valor', property: 'valor', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },];
+
+        if (isGestor){
+          colunas.push({ label: 'Lucro', property: 'lucro', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value, true) } },);
+        }
+
+      await PDFService.gerarPDF(res, 'Vendas', colunas, dados);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -147,9 +153,9 @@ exports.getRelatorioListagem = async (req, res) => {
 };
 
 exports.getExcelListagem = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN, ROLES.GESTOR])) {
     try {
-      let registros = await VendaService.getExcelListagem();
+      let registros = await VendaService.getExcelListagem(AutorizacaoService.isGestor(req));
 
       res.set({
         'Content-Disposition': 'attachment; filename=Vendas.xlsx',

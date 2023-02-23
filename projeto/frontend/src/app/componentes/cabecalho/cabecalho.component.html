@@ -56,11 +56,11 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isAdmin()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isAdmin() || authService.isGestor() ">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Vendas </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem routerLink="/vendas/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Vendas</a>
-                        <a ngbDropdownItem routerLink="/vendas/criarVenda" routerLinkActive="active-menu">Nova Venda</a>
+                        <a ngbDropdownItem routerLink="/vendas/criarVenda" routerLinkActive="active-menu" *ngIf="authService.isVendedor() || authService.isAdmin()">Nova Venda</a>
                     </div>
                 </li>
                 <li class="nav-item" ngbDropdown *ngIf="authService.isGestor()">

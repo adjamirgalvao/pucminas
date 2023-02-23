@@ -25,6 +25,10 @@ class AutorizacaoService {
    return retorno;
   };
 
+  static isGestor = (req) => {
+     return this.validarRoles(req, [ROLES.GESTOR]);
+  };
+
   static isMesmoUsuario = (req, id) => {
     let usuario = req.user;
 

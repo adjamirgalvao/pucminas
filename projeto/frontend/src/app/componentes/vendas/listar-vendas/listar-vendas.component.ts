@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/autenticacao/auth/auth.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -20,6 +21,7 @@ export class ListarVendasComponent implements OnInit, OnDestroy{
 
   constructor(
     private deviceService: DeviceDetectorService,   
+    public authService: AuthService,
     private router: Router,
     private vendaService: VendaService,
     public confirmacao: MatDialog) {
@@ -33,8 +35,12 @@ export class ListarVendasComponent implements OnInit, OnDestroy{
       if (this.router.url.indexOf('/meusPedidos') > -1) {
         this.operacao = 'Meus Pedidos';
         this.displayedColumns = [...this.displayedColumns, { def: 'total', showMobile: true}, { def: 'acoes', showMobile: true}];
-      } else{
-        this.displayedColumns = [...this.displayedColumns, { def: 'vendedor', showMobile: false}, { def: 'total', showMobile: true}, { def: 'lucro', showMobile: true}, { def: 'acoes', showMobile: true}];
+      } else {
+        this.displayedColumns = [...this.displayedColumns, { def: 'vendedor', showMobile: false}, { def: 'total', showMobile: true}];
+        if (authService.isGestor()) {
+          this.displayedColumns = [...this.displayedColumns, { def: 'lucro', showMobile: true}];
+        }
+        this.displayedColumns = [...this.displayedColumns,{ def: 'acoes', showMobile: true}];
       } 
   }
 

@@ -6,8 +6,8 @@ const RelatorioUtilService = require("./RelatorioUtilService");
 function allVendasVendedorInnerJoin(id_cliente, ano, agrupar) {
   let retorno = [];
 
-  if (id_cliente){
-    retorno = [...retorno,     
+  if (id_cliente) {
+    retorno = [...retorno,
     // Para localizar por id tem que ser pelo tipo. Neste caso pode ser assim pq o id_cliente já vem como objeto mongoose.  
     {
       '$match': {
@@ -15,106 +15,107 @@ function allVendasVendedorInnerJoin(id_cliente, ano, agrupar) {
       }
     },];
   }
-  retorno = [...retorno, 
+  retorno = [...retorno,
 
-    {
-      '$lookup': {
-        'from': 'vendedores',
-        'localField': 'id_vendedor',
-        'foreignField': '_id',
-        'as': 'vendedor'
+  {
+    '$lookup': {
+      'from': 'vendedores',
+      'localField': 'id_vendedor',
+      'foreignField': '_id',
+      'as': 'vendedor'
+    }
+  },
+  { // para fazer com que fique um campo e não uma lista
+    '$addFields': {
+      'vendedor': {
+        '$arrayElemAt': [
+          '$vendedor', 0
+        ]
       }
-    },
-    { // para fazer com que fique um campo e não uma lista
-      '$addFields': {
-        'vendedor': {
-          '$arrayElemAt': [
-            '$vendedor', 0
-          ]
-        }
+    }
+  },
+  {
+    '$lookup': {
+      'from': 'clientes',
+      'localField': 'id_cliente',
+      'foreignField': '_id',
+      'as': 'cliente'
+    }
+  },
+  { // para fazer com que fique um campo e não uma lista
+    '$addFields': {
+      'cliente': {
+        '$arrayElemAt': [
+          '$cliente', 0
+        ]
       }
-    },
-    {
-      '$lookup': {
-        'from': 'clientes',
-        'localField': 'id_cliente',
-        'foreignField': '_id',
-        'as': 'cliente'
-      }
-    },
-    { // para fazer com que fique um campo e não uma lista
-      '$addFields': {
-        'cliente': {
-          '$arrayElemAt': [
-            '$cliente', 0
-          ]
-        }
-      }
-    },
-    {
-      '$lookup': {
-        'from': 'itensvendas',
-        'localField': '_id',
-        'foreignField': 'id_venda',
-        'as': 'itensVenda'
-      }
-    },
-    //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
-    {
-      '$addFields': {
-        'total': {
-          '$sum': {
-            '$map': {
-              'input': "$itensVenda",
-              'as': "itemvenda",
-              'in': "$$itemvenda.preco",
-            }
+    }
+  },
+  {
+    '$lookup': {
+      'from': 'itensvendas',
+      'localField': '_id',
+      'foreignField': 'id_venda',
+      'as': 'itensVenda'
+    }
+  },
+  //https://stackoverflow.com/questions/49491235/need-to-sum-from-array-object-value-in-mongodb
+  {
+    '$addFields': {
+      'total': {
+        '$sum': {
+          '$map': {
+            'input': "$itensVenda",
+            'as': "itemvenda",
+            'in': "$$itemvenda.preco",
           }
         }
       }
-    },
-    {
-      '$addFields': {
-        'custoTotal': {
-          '$sum': {
-            '$map': {
-              'input': "$itensVenda",
-              'as': "itemvenda",
-              'in': { "$multiply": ['$$itemvenda.precoCusto', '$$itemvenda.quantidade'] },
-            }
+    }
+  },
+  {
+    '$addFields': {
+      'custoTotal': {
+        '$sum': {
+          '$map': {
+            'input': "$itensVenda",
+            'as': "itemvenda",
+            'in': { "$multiply": ['$$itemvenda.precoCusto', '$$itemvenda.quantidade'] },
           }
         }
       }
-    },
+    }
+  },
   ];
 
   // https://stackoverflow.com/questions/70289720/aggregate-query-by-year-and-month-in-mongodb
   if (ano) {
-    retorno = [...retorno,   {
-        $match: {
-                  data: { $gte: new Date(ano +"-01-01"), $lte: new Date(ano + "-12-31") }
-              }      
-      }];
+    retorno = [...retorno, {
+      $match: {
+        data: { $gte: new Date(ano + "-01-01"), $lte: new Date(ano + "-12-31") }
+      }
+    }];
   }
   if (agrupar) {
-    retorno = [...retorno, 
-        //https://stackoverflow.com/questions/27366209/group-and-count-by-month
-        {$group: {
-            _id: {$month: "$data"}, 
-            custoTotal: {$sum: "$custoTotal"}, 
-            vendasTotal: {$sum: "$total"}, 
-          //https://stackoverflow.com/questions/16676170/is-it-possible-to-sum-2-fields-in-mongodb-using-the-aggregation-framework
-           lucroTotal: {$sum: { $subtract : [ '$total', '$custoTotal' ]}}, 
-           numeroVendas: {$sum: 1 }, 
-        }
-      },
-      {
+    retorno = [...retorno,
+    //https://stackoverflow.com/questions/27366209/group-and-count-by-month
+    {
+      $group: {
+        _id: { $month: "$data" },
+        custoTotal: { $sum: "$custoTotal" },
+        vendasTotal: { $sum: "$total" },
+        //https://stackoverflow.com/questions/16676170/is-it-possible-to-sum-2-fields-in-mongodb-using-the-aggregation-framework
+        lucroTotal: { $sum: { $subtract: ['$total', '$custoTotal'] } },
+        numeroVendas: { $sum: 1 },
+      }
+    },
+    {
       $addFields: {
-        ticketMedio: { $divide : [ '$vendasTotal', '$numeroVendas' ]}
-      }  
+        ticketMedio: { $divide: ['$vendasTotal', '$numeroVendas'] }
+      }
     },
     //ordenação
-    {$sort : { _id : 1 }}  ];
+    { $sort: { _id: 1 } }];
   }
   return retorno;
 }
@@ -164,7 +165,7 @@ function umaVendaItensVendedorInnerJoinconst(id) {
           ]
         }
       }
-    },    
+    },
     {
       '$lookup': {
         'from': 'itensvendas',
@@ -279,7 +280,7 @@ module.exports = class VendaService {
       const novo = {
         data: data.data,
         id_vendedor: data.id_vendedor,
-        id_cliente : data.id_cliente,
+        id_cliente: data.id_cliente,
       };
 
       let registro = await new VendaModel(novo).save({ session });
@@ -370,20 +371,25 @@ module.exports = class VendaService {
     }
   };
 
-  static async getExcelListagem() {
+  static async getExcelListagem(isGestor) {
     try {
       let retorno = [];
       let registros = await this.getAllVendas();
-      for (let i in registros){
-        retorno.push({data: RelatorioUtilService.getDataFormatada(registros[i].data), 
-                      vendedor: registros[i].vendedor != null ? registros[i].vendedor.nome : '',
-                      cliente: registros[i].cliente != null ? registros[i].cliente.nome : '',
-                      valor: registros[i].total,
-                      lucro: registros[i].total - registros[i].custoTotal});
+      for (let i in registros) {
+        let registro = {
+          data: RelatorioUtilService.getDataFormatada(registros[i].data),
+          vendedor: registros[i].vendedor != null ? registros[i].vendedor.nome : '',
+          cliente: registros[i].cliente != null ? registros[i].cliente.nome : '',
+          valor: registros[i].total,
+        };
+        if (isGestor){
+          registro.lucro = registros[i].total - registros[i].custoTotal;
+        }
+        retorno.push(registro);
       }
       return retorno;
     } catch (error) {
       throw new Error(`Erro ao gerar dados de listagem ${error.message}`);
     }
-  };    
+  };
 };

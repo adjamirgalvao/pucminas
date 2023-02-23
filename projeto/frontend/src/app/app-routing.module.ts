@@ -221,7 +221,7 @@ const routes: Routes = [
     path: 'vendas',
     component: ListarVendasComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [ADMIN, VENDEDOR]}
+    data: {roles: [ADMIN, VENDEDOR, GESTOR]}
   },
   {
     path: 'vendas/criarVenda',
@@ -233,7 +233,7 @@ const routes: Routes = [
     path: 'vendas/:id',
     component: EditarVendaComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [ADMIN, VENDEDOR]} 
+    data: {roles: [ADMIN, VENDEDOR, GESTOR]} 
   },
   {
     path: 'indicadoresVendas',
