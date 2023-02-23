@@ -1,0 +1,200 @@
+[
+    {
+        "_id": "63db216057e07857d31c1ffa",
+        "data": "2023-02-02T02:34:44.877Z",
+        "numero": "",
+        "id_vendedor": "63d9228d1153582852931d63",
+        "__v": 0,
+        "id_cliente": "63dffe58afbed74cc58ce09f",
+        "vendedor": {
+            "_id": "63d9228d1153582852931d63",
+            "nome": "Maria dos Santos",
+            "cpf": "00000000000",
+            "email": "maria@gmail.com",
+            "salario": 1000,
+            "endereco": {
+                "rua": "Rua dos Vendedores",
+                "numero": "100",
+                "complemento": "S/C"
+            },
+            "__v": 0
+        },
+        "cliente": {
+            "_id": "63dffe58afbed74cc58ce09f",
+            "nome": "Maria Cecília Carvalho Galvão",
+            "cpf": "00000000000",
+            "dataNascimento": "2006-05-05T03:00:00.000Z",
+            "endereco": {
+                "rua": "Rua Isaac Salazar",
+                "numero": "102",
+                "complemento": "Apto 501"
+            },
+            "__v": 0,
+            "email": "georgiamcs@gmail.com"
+        },
+        "itensVenda": [
+            {
+                "_id": "63db216057e07857d31c1ffc",
+                "id_produto": "63cf0c3978fa75fe3c95ecf5",
+                "id_venda": "63db216057e07857d31c1ffa",
+                "quantidade": 1,
+                "preco": 0.3,
+                "precoCusto": 0.5,
+                "precoUnitario": 1,
+                "desconto": 0.7,
+                "__v": 0
+            },
+            {
+                "_id": "63db216057e07857d31c2000",
+                "id_produto": "63cf0c4978fa75fe3c95ecf8",
+                "id_venda": "63db216057e07857d31c1ffa",
+                "quantidade": 1,
+                "preco": 9,
+                "precoCusto": 0,
+                "precoUnitario": 10,
+                "desconto": 1,
+                "__v": 0
+            }
+        ],
+        "total": 9.3,
+        "custoTotal": 0.5
+    },
+    {
+        "_id": "63dffeafafbed74cc58ce0a5",
+        "data": "2023-02-05T19:07:53.128Z",
+        "numero": "",
+        "id_vendedor": "63d9228d1153582852931d63",
+        "__v": 0,
+        "vendedor": {
+            "_id": "63d9228d1153582852931d63",
+            "nome": "Maria dos Santos",
+            "cpf": "00000000000",
+            "email": "maria@gmail.com",
+            "salario": 1000,
+            "endereco": {
+                "rua": "Rua dos Vendedores",
+                "numero": "100",
+                "complemento": "S/C"
+            },
+            "__v": 0
+        },
+        "itensVenda": [
+            {
+                "_id": "63dffeafafbed74cc58ce0a7",
+                "id_produto": "63dffe84afbed74cc58ce0a1",
+                "id_venda": "63dffeafafbed74cc58ce0a5",
+                "quantidade": 10,
+                "preco": 500,
+                "precoCusto": 90,
+                "precoUnitario": 100,
+                "desconto": 500,
+                "__v": 0
+            }
+        ],
+        "total": 500,
+        "custoTotal": 900
+    },
+    {
+        "_id": "63eb0732fd72fc386857e11f",
+        "data": "2023-02-14T03:59:27.621Z",
+        "numero": "",
+        "id_vendedor": "63e53c28a82dce76fbb3b4d0",
+        "__v": 0,
+        "vendedor": {
+            "_id": "63e53c28a82dce76fbb3b4d0",
+            "nome": "Vendedor Adjamir",
+            "cpf": "02523156423",
+            "email": "adjamir3@gmail.com",
+            "salario": 1500,
+            "endereco": {
+                "rua": "Rua Isaac Salazar",
+                "numero": "102",
+                "complemento": "Apto 501"
+            },
+            "__v": 0
+        },
+        "itensVenda": [
+            {
+                "_id": "63eb0732fd72fc386857e121",
+                "id_produto": "63cf0c4978fa75fe3c95ecf8",
+                "id_venda": "63eb0732fd72fc386857e11f",
+                "quantidade": 1,
+                "preco": 10,
+                "precoCusto": 10,
+                "precoUnitario": 10,
+                "desconto": 0,
+                "__v": 0
+            }
+        ],
+        "total": 10,
+        "custoTotal": 10
+    },
+    {
+        "_id": "63f22fc1459616757128b2f9",
+        "data": "2023-02-19T14:18:21.037Z",
+        "id_vendedor": "63d9228d1153582852931d63",
+        "id_cliente": "63d863b8e4d71610ad716f0c",
+        "__v": 0,
+        "vendedor": {
+            "_id": "63d9228d1153582852931d63",
+            "nome": "Maria dos Santos",
+            "cpf": "00000000000",
+            "email": "maria@gmail.com",
+            "salario": 1000,
+            "endereco": {
+                "rua": "Rua dos Vendedores",
+                "numero": "100",
+                "complemento": "S/C"
+            },
+            "__v": 0
+        },
+        "cliente": {
+            "_id": "63d863b8e4d71610ad716f0c",
+            "nome": "Adjamir de Moura Galvão",
+            "cpf": "02523156423",
+            "dataNascimento": "1978-04-26T03:00:00.000Z",
+            "endereco": {
+                "rua": "Rua Isaac Salazar",
+                "numero": "102",
+                "complemento": "Apto 501"
+            },
+            "__v": 0,
+            "email": "adjamir@gmail.com"
+        },
+        "itensVenda": [
+            {
+                "_id": "63f22fc2459616757128b2fb",
+                "id_produto": "63cf0cc478fa75fe3c95ecfb",
+                "id_venda": "63f22fc1459616757128b2f9",
+                "quantidade": 1,
+                "preco": 2,
+                "precoCusto": 0,
+                "precoUnitario": 2,
+                "desconto": 0,
+                "__v": 0
+            }
+        ],
+        "total": 2,
+        "custoTotal": 0
+    },
+    {
+        "_id": "63f59bcd1beb004ed31dc511",
+        "data": "2023-02-22T04:36:13.992Z",
+        "__v": 0,
+        "itensVenda": [
+            {
+                "_id": "63f59bcd1beb004ed31dc513",
+                "id_produto": "63cf0c3978fa75fe3c95ecf5",
+                "id_venda": "63f59bcd1beb004ed31dc511",
+                "quantidade": 1,
+                "preco": 1,
+                "precoCusto": 109.01,
+                "precoUnitario": 1,
+                "desconto": 0,
+                "__v": 0
+            }
+        ],
+        "total": 1,
+        "custoTotal": 109.01
+    }
+]
