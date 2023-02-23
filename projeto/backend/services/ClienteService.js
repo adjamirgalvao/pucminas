@@ -1,4 +1,5 @@
 const ClienteModel = require("../models/ClienteModel");
+const { VendaModel } = require("../models/VendaModel");
 const RelatorioUtilService = require("./RelatorioUtilService");
 
 module.exports = class ClienteService {
@@ -86,9 +87,14 @@ module.exports = class ClienteService {
 
   static async deleteCliente(id, session) {
     try {
-      const registro = await ClienteModel.findOneAndDelete({ _id: id }, { session });
+      let venda = await VendaModel.findOne({id_cliente : id});
 
-      return registro;
+      if (venda){
+        throw new Error(`. Possui venda.`);
+      } else {            
+        const registro = await ClienteModel.findOneAndDelete({ _id: id }, { session });
+        return registro;
+      }
     } catch (error) {
       console.log(`Cliente ${id} não pode ser deletado ${error.message}`);
       throw new Error(`Cliente ${id} não pode ser deletado ${error.message}`);

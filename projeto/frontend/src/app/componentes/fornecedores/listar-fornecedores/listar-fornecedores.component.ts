@@ -134,8 +134,8 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
     this.fornecedorService.excluir(fornecedor).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o fornecedor "${fornecedor.nome}"!` });
-        throw 'Erro ao excluir o fornecedor. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o fornecedor "${fornecedor.nome}"! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao excluir o fornecedor. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.excluindo = false;

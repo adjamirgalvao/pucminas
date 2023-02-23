@@ -1,5 +1,6 @@
 const ProdutoModel = require("../models/ProdutoModel");
 const { ItemCompraModel, Mongoose } = require("../models/ItemCompraModel");
+const { ItemVendaModel } = require("../models/ItemVendaModel");
 const RelatorioUtilService = require("./RelatorioUtilService");
 
 function itemCompraInnerJoinCompra(id, ano, agrupar) {
@@ -191,9 +192,14 @@ module.exports = class ProdutoService {
 
   static async deleteProduto(id, session) {
     try {
-      const registro = await ProdutoModel.findOneAndDelete({ _id: id }, {session});
-
-      return registro;
+      let itemCompra = await ItemCompraModel.findOne({id_produto : id});
+      let itemVenda = await ItemVendaModel.findOne({id_produto : id});
+      if (itemCompra || itemVenda){
+        throw new Error(`. Possui compra ou venda.`);
+      } else {  
+        const registro = await ProdutoModel.findOneAndDelete({ _id: id }, {session});
+        return registro;
+      }  
     } catch (error) {
       console.log(`Produto ${id} não pode ser deletado ${error.message}`);
       throw new Error(`Produto ${id} não pode ser deletado ${error.message}`);

@@ -1,4 +1,5 @@
 const VendedorModel = require("../models/VendedorModel");
+const { VendaModel } = require("../models/VendaModel");
 const RelatorioUtilService = require("./RelatorioUtilService");
 
 module.exports = class VendedorService {
@@ -56,7 +57,6 @@ module.exports = class VendedorService {
   }
 
   static async getVendedorbyEmail(email) {
-    let registro = null;
     try {
       const registro = await VendedorModel.findOne({ email: email });
 
@@ -94,9 +94,14 @@ module.exports = class VendedorService {
 
   static async deleteVendedor(id, session) {
     try {
-      const registro = await VendedorModel.findOneAndDelete({ _id: id }, {session});
+      let venda = await VendaModel.findOne({id_vendedor : id});
 
-      return registro;
+      if (venda){
+        throw new Error(`. Possui venda.`);
+      } else {         
+        const registro = await VendedorModel.findOneAndDelete({ _id: id }, {session});
+        return registro;
+      }  
     } catch (error) {
       console.log(`Vendedor ${id} não pode ser deletado ${error.message}`);
       throw new Error(`Vendedor ${id} não pode ser deletado ${error.message}`);

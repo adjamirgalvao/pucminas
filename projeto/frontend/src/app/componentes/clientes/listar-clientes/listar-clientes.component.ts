@@ -103,8 +103,8 @@ export class ListarClientesComponent implements OnInit {
     this.clienteService.excluir(cliente).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o cliente "${cliente.nome}"!` });
-        throw 'Erro ao excluir o cliente. Detalhes: ' + err;
+        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o cliente "${cliente.nome}"! Detalhes: ${err.error?.error}`  });
+        throw 'Erro ao excluir o cliente. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.excluindo = false;

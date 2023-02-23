@@ -1,4 +1,5 @@
 const FornecedorModel = require("../models/FornecedorModel");
+const { CompraModel } = require("../models/CompraModel");
 const RelatorioUtilService = require("./RelatorioUtilService");
 
 function getTipo(tipo) {
@@ -75,9 +76,14 @@ module.exports = class FornecedorService {
 
   static async deleteFornecedor(id, session) {
     try {
-      const registro = await FornecedorModel.findOneAndDelete({ _id: id }, { session });
+      let compra = await CompraModel.findOne({id_fornecedor : id});
 
-      return registro;
+      if (compra){
+        throw new Error(`. Possui compra.`);
+      } else {        
+        const registro = await FornecedorModel.findOneAndDelete({ _id: id }, { session });
+        return registro;
+      }
     } catch (error) {
       console.log(`Fornecedor ${id} não pode ser deletado ${error.message}`);
       throw new Error(`Fornecedor ${id} não pode ser deletado ${error.message}`);
