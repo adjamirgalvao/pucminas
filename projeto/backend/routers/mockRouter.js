@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require("fs");
 const jsonServer = require('json-server');
 const axios = require('axios');
-
+const port = process.env.PORT || 3000;
 
 function uniqueID() {
     return '' + (Math.floor(Math.random() * Date.now()))
@@ -16,7 +16,8 @@ function capitalizeFirstLetter(string) {
 
 async function getObjeto(req, api, id) {
     try {
-        const host = req.headers.host;
+        //Aqui eu troco a porta porque com ng route eu posso fazer redirecionamento de porta.
+        const host = req.headers.host.split(":")[0] + ':' + port;
         const protocol = req.protocol;
         const url = `${protocol}://${host}/mock/api/${api}/${id}`;
         // senão vai ser interceptado pelo routerJsonServer.render
@@ -29,7 +30,6 @@ async function getObjeto(req, api, id) {
         console.error(error);
     }
 }
-
 
 //https://www.npmjs.com/package/json-server
 //https://github.com/typicode/json-server/issues/253
@@ -101,7 +101,10 @@ router.post('/autenticacao/login', (req, res) => {
                 nome: `${capitalizeFirstLetter(req.body.login)} da Silva Santos`,
                 roles: [
                     "ADMINISTRADOR",
-                    "GESTOR"
+                    "GESTOR",
+                    "CLIENTE",
+                    "VENDEDOR",
+                    "ESTOQUE"
                 ]
             },
             token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjc3MDgzNzU3LCJleHAiOjE2NzcwOTM3NTd9.QKlf0EEnOo-3TOLjll6m3HPL6sdTiSDvT7EVizqbpuE"
@@ -310,7 +313,7 @@ router.delete('/vendas/:id', async (req, res) => {
 router.get('/vendas/consultas/indicadoresVendas', async (req, res) => {
     let retorno = [
         {
-            _id: 1,
+            _id: 2,
             custoTotal: 1019.51,
             vendasTotal: 522.3,
             lucroTotal: -497.21,
@@ -318,7 +321,7 @@ router.get('/vendas/consultas/indicadoresVendas', async (req, res) => {
             ticketMedio: 104.46
         },
         {
-            _id: 2,
+            _id: 3,
             custoTotal: 519.51,
             vendasTotal: 1522.3,
             lucroTotal: 1002.79,
@@ -397,7 +400,6 @@ router.get('/vendas/consultas/produtosMaisVendidos', async (req, res) => {
 
 router.get('/produtos/:id/indicadoresCompras', async (req, res) => {
     let retorno = [
-        [
             {
                 _id: 2,
                 custoTotal: 2000,
@@ -411,8 +413,31 @@ router.get('/produtos/:id/indicadoresCompras', async (req, res) => {
                 quantidadeTotal: 100,
                 numeroCompras: 2,
                 custoMedio: 2
-            },            
-        ]
+            },
+
+    ];
+    res.status(200).json(retorno);
+});
+
+
+router.get('/produtos/:id/listarItensCompras', async (req, res) => {
+    let retorno = [
+        {
+            _id: "63eb02499c5455fba6c1cdc8",
+            id_produto: "63cf0c4978fa75fe3c95ecf8",
+            id_compra: "63eb02499c5455fba6c1cdc6",
+            quantidade: 5,
+            preco: 55,
+            __v: 0,
+            compra: {
+                _id: "63eb02499c5455fba6c1cdc6",
+                data: "2023-02-14T03:38:33.495Z",
+                numero: "",
+                id_fornecedor: "63cf2b43711ff977314cb05a",
+                __v: 0
+            },
+            data: "2023-02-14T03:38:33.495Z"
+        }
     ];
     res.status(200).json(retorno);
 });
