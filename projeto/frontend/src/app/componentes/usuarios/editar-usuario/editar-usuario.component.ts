@@ -32,7 +32,7 @@ export class EditarUsuarioComponent implements OnInit {
         this.operacao = 'Registrar';
       }
       if (this.router.url.indexOf('/atualizarPerfil') > -1) {
-        this.operacao = 'Editar Perfil do';
+        this.operacao = 'Atualizar Perfil do';
       }
     }
   formulario!: FormGroup;
@@ -64,7 +64,7 @@ export class EditarUsuarioComponent implements OnInit {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     let id = this.route.snapshot.paramMap.get('id');
 
-    if (this.operacao == 'Editar Perfil do') {
+    if (this.operacao == 'Atualizar Perfil do') {
       id = this.authService.getUsuario()._id!;
     }
 
@@ -78,7 +78,7 @@ export class EditarUsuarioComponent implements OnInit {
     }
 
     this.criarFormulario();
-    if ((this.operacao == 'Consultar') || (this.operacao == 'Editar') || (this.operacao == 'Editar Perfil do')){
+    if ((this.operacao == 'Consultar') || (this.operacao == 'Editar') || (this.operacao == 'Atualizar Perfil do')){
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
@@ -110,7 +110,7 @@ export class EditarUsuarioComponent implements OnInit {
       senha: this.formulario.value.senha,
     };
 
-    if (this.operacao != 'Editar Perfil do'){
+    if (this.operacao != 'Atualizar Perfil do'){
       if (this.operacao != 'Registrar') {
         usuario.roles = this.formulario.value.roles;
       }
@@ -121,7 +121,7 @@ export class EditarUsuarioComponent implements OnInit {
     }
 
     this.salvandoFormulario(true);
-    if ((this.operacao != 'Editar') && (this.operacao != 'Editar Perfil do')) {
+    if ((this.operacao != 'Editar') && (this.operacao != 'Atualizar Perfil do')) {
       this.cadastrarUsuario(usuario);
     } else {
       usuario._id = this.inicial._id!;
@@ -133,7 +133,7 @@ export class EditarUsuarioComponent implements OnInit {
   cancelar(): void {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
-    if (((this.operacao != 'Cadastrar') && (this.operacao != 'Editar Perfil do') && (this.operacao != 'Registrar')) || this.listar) {
+    if (((this.operacao != 'Cadastrar') && (this.operacao != 'Atualizar Perfil do') && (this.operacao != 'Registrar')) || this.listar) {
         this.router.navigate(['/usuarios']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
@@ -143,7 +143,7 @@ export class EditarUsuarioComponent implements OnInit {
 
   private criarFormulario() {
     //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
-    if ((this.operacao == 'Editar') || (this.operacao == 'Editar Perfil do')) {
+    if ((this.operacao == 'Editar') || (this.operacao == 'Atualizar Perfil do')) {
       this.formulario = this.formBuilder.group({
         nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
           Validators.required,
@@ -276,7 +276,7 @@ export class EditarUsuarioComponent implements OnInit {
       this.formulario.disable();
     } else {
       this.formulario.enable();
-      if ((this.operacao == 'Editar') || (this.operacao == 'Editar Perfil do')) {
+      if ((this.operacao == 'Editar') || (this.operacao == 'Atualizar Perfil do')) {
         this.formulario.get('login')?.disable();
       }
     }

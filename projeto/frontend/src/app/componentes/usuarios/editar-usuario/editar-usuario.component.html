@@ -2,8 +2,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
-            <li class="breadcrumb-item" *ngIf="(operacao != 'Registrar') && (operacao != 'Editar Perfil do')">Usuários</li>
-            <li *ngIf="(listar || (operacao != 'Cadastrar')) && (operacao != 'Registrar') && (operacao != 'Editar Perfil do')" class="breadcrumb-item"><a routerLink="/usuarios">Listar Usuários</a></li>
+            <li class="breadcrumb-item" *ngIf="(operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')">Usuários</li>
+            <li *ngIf="(listar || (operacao != 'Cadastrar')) && (operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')" class="breadcrumb-item"><a routerLink="/usuarios">Listar Usuários</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ operacao }} Usuário</li>
         </ol>
     </nav>
@@ -55,7 +55,7 @@
                     <mat-hint *ngIf="(operacao != 'Consultar')">Digite a senha novamente.</mat-hint>
                 </mat-form-field>
             </div>
-            <fieldset class="border rounded p-2 mb-3" *ngIf="(operacao != 'Registrar') && (operacao != 'Editar Perfil do')">
+            <fieldset class="border rounded p-2 mb-3" *ngIf="(operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')">
                 <legend class="float-none w-auto h6">&nbsp;Perfis do Usuário&nbsp;</legend>
                 <mat-selection-list formControlName="roles" color="primary">
                     <mat-list-option *ngFor="let role of rolesDisponiveis" [value]="role">

@@ -46,15 +46,15 @@
                         <mat-error *ngIf="formulario.get('grafico')?.hasError('required')">O campo é obrigatório!</mat-error>
                         <mat-hint>Escolha o tipo do gráfico</mat-hint>
                       </mat-form-field>                    
-                      <mat-form-field class="me-3 mt-3">
+                      <mat-form-field class="me-3 mt-3 mb-3">
                         <mat-label>Meses</mat-label>
                         <mat-select formControlName="meses" multiple>
                           <mat-option *ngFor="let mes of listaMeses" [value]="mes">{{mes}}</mat-option>
-                        </mat-select>
+                        </mat-select> 
                         <mat-error *ngIf="formulario.get('meses')?.hasError('required')">O campo é obrigatório!</mat-error>
                         <mat-hint>Escolha os meses</mat-hint>
-                      </mat-form-field>
-                      <button class="mt-3" (click)="$event.preventDefault(); recuperarDados();" mat-stroked-button matTooltip="Salvar o fornecedor" color="primary"
+                      </mat-form-field> &nbsp;
+                      <button (click)="$event.preventDefault(); recuperarDados();" mat-stroked-button matTooltip="Salvar o fornecedor" color="primary"
                         [disabled]="carregando || !formulario.valid"
                     [class.spinner]="carregando">Carregar</button>
                 </div>
