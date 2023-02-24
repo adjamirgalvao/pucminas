@@ -11,9 +11,9 @@ info:
        1. Clicar na função 'Authorize'.
        2. Informar qualquer valor no campo 'value' para o token.
      - Para acessar as funções pelo servidor 'API real':
-       1. Acessar a rota de 'Autorização'.
-       2. Executar o path de 'autenticacao/login' informando um usuário e senha válidos.
-          1. Se não tiver um usuário e senha, pode ser executado o path de 'autenticacao/registrar'.
+       1. Acessar a API de 'Autorização'.
+       2. Utilizar o endpoint '/autenticacao/login' informando um usuário e senha válidos.
+          1. Se não tiver um usuário e senha, pode ser executado o endpoint '/autenticacao/registrar'.
        3. Copiar o token da resposta.
        4. Clicar na função 'Authorize'.
        5. Informar o token recebido no passo 3.

@@ -47,7 +47,7 @@
             <div class="ms-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum produto vendido neste período.</strong>
             </div>
             <div class="grid gap-3 fieldset rounded px-3" *ngIf="dataSource.data.length > 0">
-                <mat-table [dataSource]="dataSource" matSort>
+                <mat-table [dataSource]="dataSource" matSort matSortActive="quantidade" matSortDirection="desc">
                     <ng-container matColumnDef="produto">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>
                         <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.produto.nome }}</mat-cell>

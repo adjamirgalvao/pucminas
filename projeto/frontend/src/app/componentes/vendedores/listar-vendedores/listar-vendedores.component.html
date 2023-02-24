@@ -17,7 +17,7 @@
         <div class="ms-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhum vendedor cadastrado.</strong>
         </div>
         <div class="grid gap-3 fieldset rounded px-3" *ngIf="dataSource.data.length > 0">
-            <mat-table [dataSource]="dataSource" matSort>
+            <mat-table [dataSource]="dataSource" matSort matSortActive="nome" matSortDirection="asc">
                 <ng-container matColumnDef="nome">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
                     <mat-cell *matCellDef="let vendedor">{{ vendedor.nome }}</mat-cell>

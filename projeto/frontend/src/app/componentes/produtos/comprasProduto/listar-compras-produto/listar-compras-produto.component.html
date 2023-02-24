@@ -17,7 +17,7 @@
         <div class="ms-3" *ngIf="!carregando && dataSource.data.length == 0"><strong>Nenhuma compra cadastrada para o produto.</strong>
         </div>
         <div class="grid gap-3 fieldset rounded px-3" *ngIf="dataSource.data.length > 0">
-            <mat-table [dataSource]="dataSource" matSort>
+            <mat-table [dataSource]="dataSource" matSort matSortActive="compra.data" matSortDirection="desc">
                 <ng-container matColumnDef="compra.data">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Data da Compra</mat-header-cell>
                     <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
