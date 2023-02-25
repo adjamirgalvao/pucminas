@@ -37,10 +37,13 @@ export class VendaService {
     }
   }
 
-  listarIndicador(ano: number) : Observable<VendaAgrupada[]> {
+  listarIndicador(ano: number, id_vendedor: string) : Observable<VendaAgrupada[]> {
     let queryParams = new HttpParams();
     
     queryParams = queryParams.append("ano", ano);
+    if (id_vendedor){
+      queryParams = queryParams.append("id_vendedor", id_vendedor);
+    }
 
     return this.http.get<VendaAgrupada[]>(this.API_VENDA + 'consultas/indicadoresVendas', { params:queryParams });
   }

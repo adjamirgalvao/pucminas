@@ -239,7 +239,7 @@ const routes: Routes = [
     path: 'indicadoresVendas',
     component: IndicadoresVendasComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [GESTOR]} 
+    data: {roles: [VENDEDOR, GESTOR]} 
   },  
   {
     path: 'indicadoresCompras',

@@ -1543,6 +1543,11 @@ paths:
         required: true
         schema:
           type: integer      
+      - name: id_vendedor
+        in: query
+        description: Id do vendedor 
+        schema:
+          type: string           
     get:
       tags:
         - Vendas
@@ -1582,6 +1587,8 @@ paths:
                       type: number
                       description: Valor total das vendas
                       example: 522.3                      
+        '400':
+          description: Foi fornecido um ID inválido
         '401':
           description: Usuário não está logado
         '403':

@@ -168,9 +168,9 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
  /** Preço total dos itens
   */
- getPrecoFinalTotal() {
-  return this.itensVenda.map(t => t.preco).reduce((acc, value) => acc + value, 0);
- }
+  getPrecoFinalTotal() {
+   return this.itensVenda.map(t => t.preco).reduce((acc, value) => acc + value, 0);
+  }
 
   getPrecoUnitario_(): number {
     return this.getPrecoUnitario(this.formulario.value.produto);
@@ -222,7 +222,6 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
     return this.vendedores.filter(vendedor => vendedor.nome.toLowerCase().includes(filterValue));
   }
-
 
   displayFnCliente(cliente: Cliente): string {
     return cliente && cliente.nome ? cliente.nome : '';
@@ -468,8 +467,6 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     );
 
     this.formulario.valueChanges.subscribe(value => {
-      console.log(value);
-      console.log('quantidade', this.formulario.value.produto, value);
       if (this.formulario.get('produto')!.valid && this.formulario.get('quantidade')!.valid){
         this.formulario.get('precoTotal')?.patchValue(value.produto.preco * value.quantidade, { emitEvent: false });
 

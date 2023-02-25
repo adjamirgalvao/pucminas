@@ -142,4 +142,8 @@ module.exports = class VendedorService {
       throw new Error(`Erro ao gerar dados de listagem ${error.message}`);
     }
   };  
+ 
+  static async findOne(consulta) {
+    return await VendedorModel.findOne(consulta);
+  };  
 };

@@ -6,6 +6,7 @@ const RelatorioUtilService = require("./RelatorioUtilService");
 function itemCompraInnerJoinCompra(id, ano, agrupar) {
   let retorno =  [
   {
+    //https://stackoverflow.com/questions/36193289/moongoose-aggregate-match-does-not-match-ids
     '$match':{
       'id_produto': new Mongoose.Types.ObjectId(id)}
   },

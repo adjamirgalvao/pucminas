@@ -1,6 +1,7 @@
 const VendaService = require("../services/VendaService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 const ClienteService = require("../services/ClienteService");
+const VendedorService = require("../services/VendedorService");
 const PDFService = require("../services/PDFKitService");
 const RelatorioUtilService = require("../services/RelatorioUtilService");
 
@@ -62,7 +63,7 @@ exports.getAll = async (req, res) => {
       let registros = [];
       if (!erro) {
         //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
-        registros = await VendaService.getAllVendas(id_cliente, null, null);
+        registros = await VendaService.getAllVendas(id_cliente, null, null, null);
       }
 
       res.json(registros);
@@ -75,17 +76,47 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getIndicadoresVendas = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.GESTOR])) {
-    try {
-      //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
-      registros = await VendaService.getAllVendas(null, req.query.ano, true);
-
-      res.json(registros);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
-    }
+  let erro = false;
+  if (req.query.id_vendedor && req.query.id_vendedor.length != 24) {
+    res.status(400).json({});
   } else {
-    res.status(403).json({ error: 'Acesso negado' });
+    if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.GESTOR])) {
+      let isApenasVendedor = AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR]) && !AutorizacaoService.validarRoles(req, [ROLES.GESTOR]);
+      //Se for apenas vendedor só pode recuperar os registros do vendedor que é o usuário logado
+      if (isApenasVendedor) {
+        let email = AutorizacaoService.getEmail(req);
+
+        let vendedor = await VendedorService.findOne({ email: email });
+        console.log(email, vendedor.nome);        
+        if (vendedor) {
+          console.log(req.query.id_vendedor, vendedor._id);
+          erro  = (req.query.id_vendedor != vendedor._id);
+        } else {
+          erro = true;
+        }
+      }
+      if (!erro) {
+        try {
+          //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
+          registros = await VendaService.getAllVendas(null, req.query.ano, req.query.id_vendedor, true);
+
+          //Se for apenas vendedor remover a coluna de lucro
+          if (registros && isApenasVendedor) {
+            registros = registros.map(item => {
+              const { lucroTotal, ...dados } = item;
+                return { ...dados, };
+            });
+          }
+          res.json(registros);
+        } catch (err) {
+          return res.status(500).json({ error: err.message });
+        }
+      } else {
+        res.status(403).json({ error: 'Acesso negado' });
+      }
+    } else {
+      res.status(403).json({ error: 'Acesso negado' });
+    }
   }
 };
 
@@ -139,9 +170,9 @@ exports.getRelatorioListagem = async (req, res) => {
         { label: 'Cliente', property: 'cliente', width: 180, renderer: null },
         { label: 'Valor', property: 'valor', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value) } },];
 
-        if (isGestor){
-          colunas.push({ label: 'Lucro', property: 'lucro', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value, true) } },);
-        }
+      if (isGestor) {
+        colunas.push({ label: 'Lucro', property: 'lucro', width: 60, renderer: (value) => { return RelatorioUtilService.getDinheiro(value, true) } },);
+      }
 
       await PDFService.gerarPDF(res, 'Vendas', colunas, dados);
     } catch (err) {

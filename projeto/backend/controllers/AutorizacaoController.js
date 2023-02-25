@@ -43,7 +43,6 @@ exports.loginGoogle = async (req, res) => {
       audience : Config.GOOGLE_CLIENT_ID
       });
     const payload = ticket.getPayload();    
-    console.log('payload', payload);
     // Consultando para ver se tem um usuário cadastrado
     const usuarios = await UsuarioService.find({ email: payload.email });
     if (usuarios && usuarios.length == 0) {

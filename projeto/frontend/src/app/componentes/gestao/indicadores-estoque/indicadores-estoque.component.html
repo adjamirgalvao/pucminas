@@ -54,7 +54,7 @@
                         <mat-error *ngIf="formulario.get('meses')?.hasError('required')">O campo é obrigatório!</mat-error>
                         <mat-hint>Escolha os meses</mat-hint>
                       </mat-form-field> &nbsp;
-                      <button (click)="$event.preventDefault(); recuperarDados();" mat-stroked-button matTooltip="Salvar o fornecedor" color="primary"
+                      <button (click)="$event.preventDefault(); recuperarDados();" mat-stroked-button matTooltip="Carregar o indicador" color="primary"
                         [disabled]="carregando || !formulario.valid"
                     [class.spinner]="carregando">Carregar</button>
                 </div>
