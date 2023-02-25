@@ -70,7 +70,7 @@ export class EditarUsuarioComponent implements OnInit {
 
     console.log('id ', id);
     if (!this.operacao) {
-      this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
+      this.operacao = (id == null) ? 'Novo' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
     }
 
     if (this.operacao == 'Consultar'){
@@ -133,7 +133,7 @@ export class EditarUsuarioComponent implements OnInit {
   cancelar(): void {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
-    if (((this.operacao != 'Cadastrar') && (this.operacao != 'Atualizar Perfil do') && (this.operacao != 'Registrar')) || this.listar) {
+    if (((this.operacao != 'Novo') && (this.operacao != 'Atualizar Perfil do') && (this.operacao != 'Registrar')) || this.listar) {
         this.router.navigate(['/usuarios']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
@@ -161,7 +161,7 @@ export class EditarUsuarioComponent implements OnInit {
         ])],
         roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
       }, { validator: this.senhaValidator } as AbstractControlOptions);
-    } else if ((this.operacao == 'Cadastrar') || (this.operacao == 'Consultar')) {
+    } else if ((this.operacao == 'Novo') || (this.operacao == 'Consultar')) {
        this.formulario = this.formBuilder.group({
           nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
             Validators.required,

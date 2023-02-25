@@ -11,14 +11,14 @@
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Usuários </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/usuarios/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Usuários</a>
-                        <a ngbDropdownItem href="#" routerLink="/usuarios/criarUsuario" routerLinkActive="active-menu">Cadastrar Usuários</a>
+                        <a ngbDropdownItem href="#" routerLink="/usuarios/criarUsuario" routerLinkActive="active-menu">Novo Usuário</a>
                     </div>
                 </li>
                 <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Fornecedores </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/fornecedores/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Fornecedores</a>
-                        <a ngbDropdownItem href="#" routerLink="/fornecedores/criarFornecedor" routerLinkActive="active-menu">Cadastrar Fornecedores</a>
+                        <a ngbDropdownItem href="#" routerLink="/fornecedores/criarFornecedor" routerLinkActive="active-menu">Novo Fornecedor</a>
                     </div>
                 </li>
                 <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isAdmin()">
@@ -26,21 +26,21 @@
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <!-- https://stackoverflow.com/questions/55587975/routerlinkactive-route-for-child-and-parent -->
                         <a ngbDropdownItem routerLink="/produtos/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Produtos</a>
-                        <a ngbDropdownItem routerLink="/produtos/criarProduto" routerLinkActive="active-menu">Cadastrar Produtos</a>
+                        <a ngbDropdownItem routerLink="/produtos/criarProduto" routerLinkActive="active-menu">Novo Produto</a>
                     </div>
                 </li>
                 <li class="nav-item" ngbDropdown *ngIf="authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Vendedores </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/vendedores/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Vendedores</a>
-                        <a ngbDropdownItem href="#" routerLink="/vendedores/criarVendedor" routerLinkActive="active-menu">Cadastrar Vendedores</a>
+                        <a ngbDropdownItem href="#" routerLink="/vendedores/criarVendedor" routerLinkActive="active-menu">Novo Vendedor</a>
                     </div>
                 </li>
                 <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Clientes </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <a ngbDropdownItem href="#" routerLink="/clientes/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Clientes</a>
-                        <a ngbDropdownItem href="#" routerLink="/clientes/criarCliente" routerLinkActive="active-menu">Cadastrar Clientes</a>
+                        <a ngbDropdownItem href="#" routerLink="/clientes/criarCliente" routerLinkActive="active-menu">Novo Cliente</a>
                     </div>
                 </li>
                 <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isAdmin()">

@@ -3,7 +3,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
             <li class="breadcrumb-item" *ngIf="(operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')">Usuários</li>
-            <li *ngIf="(listar || (operacao != 'Cadastrar')) && (operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')" class="breadcrumb-item"><a routerLink="/usuarios">Listar Usuários</a></li>
+            <li *ngIf="(listar || (operacao != 'Novo')) && (operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')" class="breadcrumb-item"><a routerLink="/usuarios">Listar Usuários</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ operacao }} Usuário</li>
         </ol>
     </nav>
@@ -37,7 +37,7 @@
                     <mat-label>Login</mat-label>
                     <input matInput placeholder="Digite o login" formControlName="login">
                     <mat-error *ngIf="formulario.get('login')?.hasError('required') && formulario.get('login')?.touched">O campo é obrigatório!</mat-error>
-                    <mat-hint *ngIf="(operacao == 'Cadastrar')">Digite o login</mat-hint>
+                    <mat-hint *ngIf="(operacao == 'Novo')">Digite o login</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3" *ngIf="(operacao != 'Consultar')">

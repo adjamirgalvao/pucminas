@@ -58,14 +58,14 @@ export class EditarClienteComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    this.operacao = (id == null) ? 'Cadastrar' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
+    this.operacao = (id == null) ? 'Novo' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
 
     if (this.operacao == 'Consultar'){
       this.leitura = true;
     }
 
     this.criarFormulario();
-    if (this.operacao != 'Cadastrar') {
+    if (this.operacao != 'Novo') {
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
@@ -104,7 +104,7 @@ export class EditarClienteComponent implements OnInit {
     };
 
     this.salvandoFormulario(true);
-    if (this.operacao == 'Cadastrar') {
+    if (this.operacao == 'Novo') {
       this.cadastrarCliente(cliente);
     } else {
       cliente._id = this.inicial._id!;
@@ -116,7 +116,7 @@ export class EditarClienteComponent implements OnInit {
 
     console.log(this.formulario);
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
-    if ((this.operacao != 'Cadastrar') || this.listar) {
+    if ((this.operacao != 'Novo') || this.listar) {
         this.router.navigate(['/clientes']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
