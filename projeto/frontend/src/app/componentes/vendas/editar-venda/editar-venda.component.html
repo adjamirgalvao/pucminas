@@ -110,7 +110,7 @@
                             <mat-error
                                 *ngIf="!formulario.get('quantidade')?.hasError('required') && formulario.get('quantidade')?.hasError('quantidadeProduto')  && formulario.get('quantidade')?.touched">A
                                 quantidade é maior que o estoque do produto!</mat-error>
-                            <mat-hint>Digite a quantidade</mat-hint>
+                            <mat-hint>Digite a quantidade <span *ngIf="formulario.get('produto')?.valid">Max: ({{ formulario.get('produto')?.value.quantidade }})</span></mat-hint>
                         </mat-form-field>
                         <mat-form-field class="me-3 mt-3"
                             *ngIf="formulario.get('produto')!.valid && formulario.get('quantidade')!.valid">

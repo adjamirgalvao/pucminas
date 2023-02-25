@@ -87,7 +87,6 @@ exports.getIndicadoresVendas = async (req, res) => {
         let email = AutorizacaoService.getEmail(req);
 
         let vendedor = await VendedorService.findOne({ email: email });
-        console.log(email, vendedor.nome);        
         if (vendedor) {
           console.log(req.query.id_vendedor, vendedor._id);
           erro  = (req.query.id_vendedor != vendedor._id);
