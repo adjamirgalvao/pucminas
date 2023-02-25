@@ -35,7 +35,7 @@
                     <mat-cell *matCellDef="let vendedor">
                         <div>
                         <button mat-icon-button [routerLink]="['/vendedores/' + vendedor._id]"
-                            matTooltip="Detalhar Vendedor" [state]="{ operacao: 'Consultar' }">
+                            matTooltip="Detalhar Vendedor" [state]="{ operacao: 'Detalhar' }">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
                         <button mat-icon-button [routerLink]="['/vendedores/' + vendedor._id + '/editarVendedor']"

@@ -58,9 +58,9 @@ export class EditarClienteComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    this.operacao = (id == null) ? 'Novo' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
+    this.operacao = (id == null) ? 'Novo' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Detalhar';
 
-    if (this.operacao == 'Consultar'){
+    if (this.operacao == 'Detalhar'){
       this.leitura = true;
     }
 

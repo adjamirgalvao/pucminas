@@ -70,15 +70,15 @@ export class EditarUsuarioComponent implements OnInit {
 
     console.log('id ', id);
     if (!this.operacao) {
-      this.operacao = (id == null) ? 'Novo' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Consultar';
+      this.operacao = (id == null) ? 'Novo' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Detalhar';
     }
 
-    if (this.operacao == 'Consultar'){
+    if (this.operacao == 'Detalhar'){
       this.leitura = true;
     }
 
     this.criarFormulario();
-    if ((this.operacao == 'Consultar') || (this.operacao == 'Editar') || (this.operacao == 'Atualizar Perfil do')){
+    if ((this.operacao == 'Detalhar') || (this.operacao == 'Editar') || (this.operacao == 'Atualizar Perfil do')){
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
@@ -161,7 +161,7 @@ export class EditarUsuarioComponent implements OnInit {
         ])],
         roles: [{value: this.inicial.roles, disabled: this.readOnly()}, Validators.required],
       }, { validator: this.senhaValidator } as AbstractControlOptions);
-    } else if ((this.operacao == 'Novo') || (this.operacao == 'Consultar')) {
+    } else if ((this.operacao == 'Novo') || (this.operacao == 'Detalhar')) {
        this.formulario = this.formBuilder.group({
           nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
             Validators.required,

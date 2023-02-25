@@ -21,7 +21,7 @@
                     <mat-label>Nome</mat-label>
                     <input formControlName="nome" matInput placeholder="Digite o nome do produto">
                     <mat-error *ngIf="formulario.get('nome')?.errors">O campo é obrigatório!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o nome do produto</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Detalhar')">Digite o nome do produto</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -30,7 +30,7 @@
                     <input type="number" formControlName="quantidade" matInput placeholder="Digite o estoque">
                     <mat-error *ngIf="formulario.get('quantidade')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="formulario.get('quantidade')?.hasError('min')">O valor deve ser maior ou igual a zero!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o estoque</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Detalhar')">Digite o estoque</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -39,7 +39,7 @@
                     <input formControlName="preco" matInput currencyMask placeholder="Digite o preço">
                     <mat-error *ngIf="formulario.get('preco')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="formulario.get('preco')?.hasError('min')">O valor deve ser maior que zero!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o preço</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Detalhar')">Digite o preço</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -48,7 +48,7 @@
                     <input formControlName="precoCusto" matInput currencyMask placeholder="Digite o preço médio de custo">
                     <mat-error *ngIf="formulario.get('precoCusto')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="formulario.get('precoCusto')?.hasError('min')">O valor deve ser maior ou igual a zero!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Consultar')">Digite o preço de custo</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Detalhar')">Digite o preço de custo</mat-hint>
                 </mat-form-field>
             </div>
             <div class="acoes">

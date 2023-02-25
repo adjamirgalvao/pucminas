@@ -244,10 +244,10 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
     console.log('id ', id);
     if (!this.operacao){
-      this.operacao = (id == null) ? 'Nova' : 'Consultar'; //se fizer edição troca por Editar
+      this.operacao = (id == null) ? 'Nova' : 'Detalhar'; //se fizer edição troca por Editar
     }
 
-    if ((this.operacao != 'Consultar') && (this.operacao != 'Detalhar')){
+    if ((this.operacao != 'Detalhar') && (this.operacao != 'Detalhar')){
       this.displayedColumns.push({ def: 'acoes', showMobile: true});
     } else {
       this.leitura = true;

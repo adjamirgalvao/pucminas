@@ -54,11 +54,11 @@
                     <mat-cell *matCellDef="let venda">
                         <div>
                         <button mat-icon-button [routerLink]="['/vendas/' + venda._id]"
-                            matTooltip="Detalhar Venda" [state]="{ operacao: 'Consultar' }" *ngIf="operacao == 'Listar Vendas'">
+                            matTooltip="Detalhar Venda" [state]="{ operacao: 'Detalhar' }" *ngIf="operacao == 'Listar Vendas'">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
                         <button mat-icon-button [routerLink]="['/compras/meusPedidos/' + venda._id]"
-                            matTooltip="Detalhar Pedido" [state]="{ operacao: 'Consultar' }" *ngIf="operacao != 'Listar Vendas'">
+                            matTooltip="Detalhar Pedido" [state]="{ operacao: 'Detalhar' }" *ngIf="operacao != 'Listar Vendas'">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
                         <button mat-icon-button matTooltip="Excluir Venda" (click)="confirmarExcluirVenda(venda)"

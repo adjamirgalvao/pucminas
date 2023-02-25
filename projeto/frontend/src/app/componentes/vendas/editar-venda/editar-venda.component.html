@@ -30,7 +30,7 @@
                         campo é obrigatório!</mat-error>
                     <mat-error *ngIf="formulario.get('data')?.hasError('matDatepickerParse')">O campo é
                         inválido!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">DD/MM/YYYY</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -51,7 +51,7 @@
                     <mat-error
                         *ngIf="!formulario.get('vendedor')?.hasError('required') && formulario.get('vendedor')?.hasError('vendedorCadastrado')  && formulario.get('vendedor')?.touched">O
                         vendedor não está cadastrado!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">Escolha o
+                    <mat-hint *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">Escolha o
                         vendedor</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3 mb-3" style="width: 47%;">
@@ -66,12 +66,12 @@
                     <mat-error
                         *ngIf="formulario.get('cliente')?.hasError('clienteCadastrado')  && formulario.get('cliente')?.touched">O
                         cliente não está cadastrado!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">Escolha o cliente</mat-hint>
+                    <mat-hint *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">Escolha o cliente</mat-hint>
                 </mat-form-field>
             </div>
             <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
                 <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
-                <div *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">
+                <div *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">
                     <div class="mb-3">
                         <mat-form-field class="me-3" style="width: 60%;">
                             <mat-label>Produto</mat-label>
@@ -189,7 +189,7 @@
                                     dinheiroPipe }}</span></mat-footer-cell>
                         </ng-container>
                         <ng-container matColumnDef="acoes"
-                            *ngIf="(operacao != 'Consultar') && (operacao != 'Detalhar')">
+                            *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">
                             <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                             <mat-cell *matCellDef="let item">
                                 <button mat-icon-button matTooltip="Excluir Produto" [disabled]="salvando"

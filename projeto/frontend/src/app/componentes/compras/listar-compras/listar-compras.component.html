@@ -45,7 +45,7 @@
                     <mat-cell *matCellDef="let compra">
                         <div>
                         <button mat-icon-button [routerLink]="['/compras/' + compra._id]"
-                            matTooltip="Detalhar Compra" [state]="{ operacao: 'Consultar' }">
+                            matTooltip="Detalhar Compra" [state]="{ operacao: 'Detalhar' }">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
                        <button mat-icon-button matTooltip="Excluir Compra" (click)="confirmarExcluirCompra(compra)"

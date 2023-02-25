@@ -150,9 +150,9 @@ export class EditarCompraComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    this.operacao = (id == null) ? 'Nova' : 'Consultar'; //se fizer edição troca por Editar
+    this.operacao = (id == null) ? 'Nova' : 'Detalhar'; //se fizer edição troca por Editar
 
-    if (this.operacao != 'Consultar'){
+    if (this.operacao != 'Detalhar'){
       this.displayedColumns.push('acoes');
     } else {
       this.leitura = true;
