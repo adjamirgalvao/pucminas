@@ -80,5 +80,23 @@ body {
   }
 }
 
+@media (max-width: 900px) {
+  .corpo-aplicacao {
+    padding-top: 70px; 
+  }
+}
+
+@media (min-width: 1200px) {
+  .corpo-aplicacao {
+    padding-top: 70px; 
+    margin-left: 60px;
+    margin-right: 60px;
+  }
+}
+
+mat-progress-bar {
+  margin-left: 20px; 
+  margin-right: 100px;
+}
 
 @import "~bootstrap-icons/font/bootstrap-icons.css";
