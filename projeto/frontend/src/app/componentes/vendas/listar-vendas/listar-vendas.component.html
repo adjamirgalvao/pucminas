@@ -2,7 +2,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
-            <li class="breadcrumb-item">{{ operacao == 'Listar Vendas' ? 'Vendas' : 'Compras' }}</li>
+            <li class="breadcrumb-item" *ngIf="operacao != 'Meus Pedidos'">Vendas</li>
             <li class="breadcrumb-item">{{ operacao }}</li>
         </ol>
     </nav>
@@ -37,7 +37,7 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Valor</mat-header-cell>
                     <mat-cell *matCellDef="let venda">{{ venda.total | dinheiroPipe }}</mat-cell>
                     <div *ngIf="operacao == 'Listar Vendas'">
-                        <mat-footer-cell *matFooterCellDef>  {{getValorTotal() | dinheiroPipe}}  </mat-footer-cell>
+                        <mat-footer-cell *matFooterCellDef>  {{ getValorTotal() | dinheiroPipe }}  </mat-footer-cell>
                     </div>    
                 </ng-container>
                 <div *ngIf="authService.isGestor()">

@@ -244,7 +244,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
     console.log('id ', id);
     if (!this.operacao){
-      this.operacao = (id == null) ? 'Cadastrar' : 'Consultar'; //se fizer edição troca por Editar
+      this.operacao = (id == null) ? 'Nova' : 'Consultar'; //se fizer edição troca por Editar
     }
 
     if ((this.operacao != 'Consultar') && (this.operacao != 'Detalhar')){
@@ -252,7 +252,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     } else {
       this.leitura = true;
     }
-    if ((this.operacao == 'Cadastrar') && this.authService.isLogado() && this.authService.isVendedor()){
+    if ((this.operacao == 'Nova') && this.authService.isLogado() && this.authService.isVendedor()){
       this.vendedorService.buscarPorEmail(this.authService.getUsuario().email!).pipe(catchError(
         err => {
           //this.erroCarregando = true;
@@ -302,7 +302,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
                 this.ordernarNome(this.clientes);
                 console.log(clientes);
 
-                if (this.operacao != 'Cadastrar') {
+                if (this.operacao != 'Nova') {
                     this.vendaService.buscarPorId(id!).pipe(catchError(
                       err => {
                         this.erroCarregando = true;
@@ -351,7 +351,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
   cancelar(): void {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
-    if ((this.operacao != 'Cadastrar') || this.listar) {
+    if ((this.operacao != 'Nova') || this.listar) {
       if (this.operacao == 'Detalhar') {
         this.router.navigate(['/compras/meusPedidos']);
       } else {  

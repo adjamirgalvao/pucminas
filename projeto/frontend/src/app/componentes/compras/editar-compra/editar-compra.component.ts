@@ -150,7 +150,7 @@ export class EditarCompraComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    this.operacao = (id == null) ? 'Cadastrar' : 'Consultar'; //se fizer edição troca por Editar
+    this.operacao = (id == null) ? 'Nova' : 'Consultar'; //se fizer edição troca por Editar
 
     if (this.operacao != 'Consultar'){
       this.displayedColumns.push('acoes');
@@ -183,7 +183,7 @@ export class EditarCompraComponent implements OnInit {
             this.ordernarNome(this.fornecedores);
             console.log(fornecedores);
 
-            if (this.operacao != 'Cadastrar') {
+            if (this.operacao != 'Nova') {
               this.erroCarregando = false;
               this.carregando = true;
               this.compraService.buscarPorId(id!).pipe(catchError(
@@ -231,7 +231,7 @@ export class EditarCompraComponent implements OnInit {
   cancelar(): void {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
-    if ((this.operacao != 'Cadastrar') || this.listar) {
+    if ((this.operacao != 'Nova') || this.listar) {
       this.router.navigate(['/compras']);
     } else {
       //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page

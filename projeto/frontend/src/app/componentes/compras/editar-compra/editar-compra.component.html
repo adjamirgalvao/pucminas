@@ -3,7 +3,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
             <li class="breadcrumb-item">Compras</li>
-            <li *ngIf="listar || (operacao != 'Cadastrar')" class="breadcrumb-item"><a routerLink="/compras">Listar
+            <li *ngIf="listar || (operacao != 'Nova')" class="breadcrumb-item"><a routerLink="/compras">Listar
                     Compras</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ operacao }} Compra</li>
         </ol>

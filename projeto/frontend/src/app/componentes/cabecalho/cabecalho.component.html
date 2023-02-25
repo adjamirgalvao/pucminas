@@ -43,16 +43,13 @@
                         <a ngbDropdownItem href="#" routerLink="/clientes/criarCliente" routerLinkActive="active-menu">Cadastrar Clientes</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isAdmin() || authService.isCliente()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isEstoque() || authService.isAdmin()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Compras </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
                         <!-- https://stackoverflow.com/questions/55587975/routerlinkactive-route-for-child-and-parent -->
                         <div *ngIf="authService.isEstoque() || authService.isAdmin()">
                             <a ngbDropdownItem routerLink="/compras/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">Listar Compras</a>
                             <a ngbDropdownItem routerLink="/compras/criarCompra" routerLinkActive="active-menu">Nova Compra</a>
-                        </div>
-                        <div *ngIf="authService.isCliente()">
-                            <a ngbDropdownItem routerLink="/compras/meusPedidos" routerLinkActive="active-menu">Meus Pedidos</a>
                         </div>
                     </div>
                 </li>
@@ -72,6 +69,9 @@
                         <a ngbDropdownItem routerLink="/produtosMaisVendidos/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-trophy-fill"></i>&nbsp;Produtos Mais Vendidos</a>
                     </div>
                 </li> 
+                <li class="nav-item" *ngIf="authService.isCliente()">
+                    <a class="nav-link" href="#"routerLink="/compras/meusPedidos" routerLinkActive="active-menu">Meus Pedidos</a>
+                </li>                
             </ul>
             <ul class="navbar-nav navbar-right ms-auto">
                 <li class="nav-item " ngbDropdown>
