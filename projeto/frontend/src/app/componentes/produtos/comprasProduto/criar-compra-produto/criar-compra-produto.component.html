@@ -5,7 +5,7 @@
             <li class="breadcrumb-item">Produtos</li>
             <li class="breadcrumb-item"><a routerLink="/produtos">Listar Produtos</a></li>
             <li *ngIf="listar" class="breadcrumb-item"><a [routerLink]="['/produtos/' + produto._id + '/listarComprasProduto']">Gerenciar Compras do Produto <i>{{ produto.nome  }}</i></a></li>
-            <li class="breadcrumb-item active" aria-current="page">Cadastrar Compra do Produto <i>{{ produto.nome  }}</i></li>
+            <li class="breadcrumb-item active" aria-current="page">Nova Compra do Produto <i>{{ produto.nome  }}</i></li>
         </ol>
     </nav>
 </div>
