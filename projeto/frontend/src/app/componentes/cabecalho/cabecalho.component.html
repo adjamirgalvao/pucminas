@@ -60,13 +60,15 @@
                         <a ngbDropdownItem routerLink="/vendas/criarVenda" routerLinkActive="active-menu" *ngIf="authService.isVendedor() || authService.isAdmin()">Nova Venda</a>
                     </div>
                 </li>
-                <li class="nav-item" ngbDropdown *ngIf="authService.isGestor()">
+                <li class="nav-item" ngbDropdown *ngIf="authService.isVendedor() || authService.isEstoque() || authService.isGestor()">
                     <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Gestão </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
-                        <a ngbDropdownItem routerLink="/indicadoresVendas/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-bar-chart-fill"></i>&nbsp;Indicadores para Vendas</a>
-                        <a ngbDropdownItem routerLink="/indicadoresCompras/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-bar-chart-fill"></i>&nbsp;Indicadores para Compras</a>
-                        <li><hr class="dropdown-divider"></li>
-                        <a ngbDropdownItem routerLink="/produtosMaisVendidos/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-trophy-fill"></i>&nbsp;Produtos Mais Vendidos</a>
+                        <a ngbDropdownItem *ngIf="authService.isGestor()" routerLink="/indicadoresVendas/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-bar-chart-fill"></i>&nbsp;Indicadores para Vendas</a>
+                        <a ngbDropdownItem *ngIf="authService.isEstoque() || authService.isGestor()"routerLink="/indicadoresCompras/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-bar-chart-fill"></i>&nbsp;Indicadores para Compras</a>
+                        <div *ngIf="authService.isGestor()">
+                            <li ><hr class="dropdown-divider"></li>
+                            <a ngbDropdownItem routerLink="/produtosMaisVendidos/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-trophy-fill"></i>&nbsp;Produtos Mais Vendidos</a>
+                        </div>    
                     </div>
                 </li> 
                 <li class="nav-item" *ngIf="authService.isCliente()">

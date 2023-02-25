@@ -1,1 +1,3 @@
 node_modules
+/projeto/documentacao/*.dtmp
+/projeto/documentacao/*.bkp

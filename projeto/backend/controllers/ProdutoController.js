@@ -161,7 +161,7 @@ exports.getAllItensCompras = async (req, res) => {
 };
 
 exports.getIndicadoresCompras = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.GESTOR])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.GESTOR])) {
     let id = req.params.id;
 
     if (id.length == 24) {

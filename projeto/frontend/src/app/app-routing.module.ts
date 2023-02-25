@@ -245,7 +245,7 @@ const routes: Routes = [
     path: 'indicadoresCompras',
     component: IndicadoresEstoqueComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [GESTOR]} 
+    data: {roles: [ESTOQUE, GESTOR]} 
   }, 
   {
     path: 'produtosMaisVendidos',
