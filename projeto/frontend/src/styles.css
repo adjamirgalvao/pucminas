@@ -110,4 +110,14 @@ mat-progress-bar {
  border-left: 1px solid lightgray
 }
 
+.produto-input {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .produto-input {
+      width: 70%;
+  }
+}
+
 @import "~bootstrap-icons/font/bootstrap-icons.css";

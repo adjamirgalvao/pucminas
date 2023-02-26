@@ -73,7 +73,7 @@
                 <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
                 <div *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">
                     <div class="mb-3">
-                        <mat-form-field class="me-3" style="width: 60%;">
+                        <mat-form-field class="me-3 produto-input">
                             <mat-label>Produto</mat-label>
                             <input type="text" formControlName="produto" [matAutocomplete]="autoProduto" matInput
                                 placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
