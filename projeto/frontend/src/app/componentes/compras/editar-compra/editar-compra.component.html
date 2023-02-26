@@ -54,7 +54,7 @@
             <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
                 <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
                 <div *ngIf="(operacao != 'Detalhar')">
-                    <mat-form-field class="me-3 mb-3" style="width: 45%;">
+                    <mat-form-field class="me-3 mb-3 produto-input">
                         <mat-label>Produto</mat-label>
                         <input type="text" formControlName="produto" [matAutocomplete]="autoProduto" matInput
                             placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
@@ -71,7 +71,7 @@
                             produto não está cadastrado!</mat-error>
                         <mat-hint>Escolha o produto</mat-hint>
                     </mat-form-field>
-                    <mat-form-field class="me-3 mb-3" style="width: 20%">
+                    <mat-form-field class="me-3 mb-3 mt-3 quantidade-preco-input">
                         <mat-label>Quantidade</mat-label>
                         <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
                             [readonly]="salvando || erroCarregando">
@@ -83,7 +83,7 @@
                             valor deve ser maior que zero!</mat-error>
                         <mat-hint>Digite a quantidade</mat-hint>
                     </mat-form-field>
-                    <mat-form-field class="me-3 mb-3" style="width: 20%">
+                    <mat-form-field class="me-3 mb-3 mt-3 quantidade-preco-input" >
                         <mat-label>Preço total</mat-label>
                         <input formControlName="preco" matInput placeholder="Digite o preço" currencyMask
                             [readonly]="salvando || erroCarregando">
@@ -95,11 +95,13 @@
                             deve ser maior que zero!</mat-error>
                         <mat-hint>Digite o preço total</mat-hint>
                     </mat-form-field>
-                    <button mat-stroked-button matTooltip="Adicionar" color="primary"
-                        (click)="$event.preventDefault(); adicionarItem();"
-                        [disabled]="salvando || erroCarregando || !formularioIncluirValido()">
-                        <!--<mat-icon>add</mat-icon>-->Adicionar
-                    </button>
+                    <div class="mb-3 mt-3">
+                        <button mat-stroked-button matTooltip="Adicionar" color="primary"
+                            (click)="$event.preventDefault(); adicionarItem();"
+                            [disabled]="salvando || erroCarregando || !formularioIncluirValido()">
+                            <!--<mat-icon>add</mat-icon>-->Adicionar
+                        </button>
+                    </div>
                 </div>
                 <div class="grid gap-3 border rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
                     <mat-table [dataSource]="dataSource" matSort>
