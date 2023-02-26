@@ -4,7 +4,8 @@
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
             <li class="breadcrumb-item" *ngIf="(operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')">Usuários</li>
             <li *ngIf="(listar || (operacao != 'Novo')) && (operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')" class="breadcrumb-item"><a routerLink="/usuarios">Listar Usuários</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ operacao }} Usuário</li>
+            <li *ngIf="(operacao != 'Atualizar Perfil do')" class="breadcrumb-item active" aria-current="page">{{ operacao }} Usuário</li>
+            <li *ngIf="(operacao == 'Atualizar Perfil do')" class="breadcrumb-item active" aria-current="page">Atualizar Meu Perfil</li>
         </ol>
     </nav>
 </div>
@@ -13,7 +14,8 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
     <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto h5">&nbsp;{{ operacao }} Usuário <i *ngIf="this.formulario">{{this.formulario.get('nome')?.value}}</i>&nbsp;</legend>
+        <legend class="float-none w-auto h5" *ngIf="(operacao != 'Atualizar Perfil do')">&nbsp;{{ operacao }} Usuário <i *ngIf="this.formulario">{{this.formulario.get('nome')?.value}}</i>&nbsp;</legend>
+        <legend class="float-none w-auto h5" *ngIf="(operacao == 'Atualizar Perfil do')">&nbsp;Atualizar Meu Perfil&nbsp;</legend>
         <form [formGroup]="formulario" (ngSubmit)="salvar()" *ngIf="!carregando" #formDirective="ngForm">
             <div class="mb-3">
                 <mat-form-field style="width: 70%;">

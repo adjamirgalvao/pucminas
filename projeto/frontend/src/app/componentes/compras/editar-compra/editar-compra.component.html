@@ -95,10 +95,10 @@
                             deve ser maior que zero!</mat-error>
                         <mat-hint>Digite o preço total</mat-hint>
                     </mat-form-field>
-                    <button mat-icon-button matTooltip="Adicionar" color="primary"
+                    <button mat-stroked-button matTooltip="Adicionar" color="primary"
                         (click)="$event.preventDefault(); adicionarItem();"
                         [disabled]="salvando || erroCarregando || !formularioIncluirValido()">
-                        <mat-icon>add</mat-icon>
+                        <!--<mat-icon>add</mat-icon>-->Adicionar
                     </button>
                 </div>
                 <div class="grid gap-3 border rounded px-3 mb-3" *ngIf="dataSource.data.length > 0">
