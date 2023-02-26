@@ -12,7 +12,7 @@
                     <mat-form-field>
                         <mat-label>Login</mat-label>
                         <input formControlName="login" matInput placeholder="Digite o login do usuario">
-                        <mat-hint>Digite o usuário</mat-hint>
+                        <mat-hint>Digite o login do usuário</mat-hint>
                         <mat-error *ngIf="formulario.get('login')?.errors">O campo é obrigatório!</mat-error>
                     </mat-form-field>
                 </div>
@@ -20,7 +20,7 @@
                     <mat-form-field class="me-3 mb-3">
                         <mat-label>Senha</mat-label>
                         <input formControlName="senha" type="password" matInput placeholder="Digite a senha">
-                        <mat-hint>Digite a senha</mat-hint>
+                        <mat-hint>Digite a senha do usuário</mat-hint>
                         <mat-error *ngIf="formulario.get('senha')?.hasError('required')">O campo é obrigatório!</mat-error>
                     </mat-form-field>
                 </div>
