@@ -71,6 +71,7 @@ import { IndicadoresVendasComponent } from './componentes/gestao/indicadores-ven
 import { IndicadoresEstoqueComponent } from './componentes/gestao/indicadores-estoque/indicadores-estoque.component';
 import { ProdutosMaisVendidosComponent } from './componentes/gestao/produtos-mais-vendidos/produtos-mais-vendidos.component';
 import { MyCustomPaginatorIntl } from './componentes/util/paginacao/MyCustomPaginatorIntl';
+import { RodapeComponent } from './componentes/rodape/rodape.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -113,6 +114,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     IndicadoresVendasComponent,
     IndicadoresEstoqueComponent,
     ProdutosMaisVendidosComponent,
+    RodapeComponent,
   ],
   imports: [
     BrowserModule,

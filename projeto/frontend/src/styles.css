@@ -81,15 +81,21 @@ body {
   }
 }
 
-@media (max-width: 900px) {
-  .corpo-aplicacao {
-    padding-top: 70px; 
-  }
+.corpo-aplicacao {
+    padding-top: 75px; 
+}
+
+.rodape {
+  background-color: lightgray;
+  min-height: 60px;
+  color: gray;
+  margin-top: 300px;
+  margin-bottom: 0px;
 }
 
 @media (min-width: 1200px) {
   .corpo-aplicacao {
-    padding-top: 70px; 
+    padding-top: 75px; 
     margin-left: 60px;
     margin-right: 60px;
   }
