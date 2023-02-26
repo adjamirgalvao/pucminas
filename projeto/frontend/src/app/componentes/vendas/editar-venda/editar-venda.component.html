@@ -36,7 +36,7 @@
                 </mat-form-field>
             </div>
             <div class="me-3" *ngIf="(operacao != 'Detalhar')">
-                <mat-form-field class="me-3 mb-3" style="width: 47%;">
+                <mat-form-field class="me-3 mb-3 cliente-vendedor-input">
                     <mat-label>Vendedor</mat-label>
                     <input type="text" formControlName="vendedor" [matAutocomplete]="autoVendedor" matInput
                         placeholder="Escolha o vendedor" [readonly]="salvando || erroCarregando">
@@ -54,7 +54,7 @@
                     <mat-hint *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">Escolha o
                         vendedor</mat-hint>
                 </mat-form-field>
-                <mat-form-field class="me-3 mb-3" style="width: 47%;">
+                <mat-form-field class="me-3 mb-3 cliente-vendedor-input">
                     <mat-label>Cliente</mat-label>
                     <input type="text" formControlName="cliente" [matAutocomplete]="autoCliente" matInput
                         placeholder="Escolha o cliente" [readonly]="salvando || erroCarregando">
