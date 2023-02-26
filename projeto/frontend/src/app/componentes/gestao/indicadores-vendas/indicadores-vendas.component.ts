@@ -36,7 +36,7 @@ export class IndicadoresVendasComponent implements OnInit {
 
   //Filtro de vendedores
   vendedor: any = null;
- 
+
   vendedores: Vendedor[] = [];
   vendedoresFiltrados!: Observable<Vendedor[]>;
 
@@ -64,7 +64,7 @@ export class IndicadoresVendasComponent implements OnInit {
         this.ordernarNome(this.vendedores);
         console.log(vendedores);
         this.criarFormulario();
-      });    
+      });
 
     if (this.authService.isLogado() && this.authService.isVendedor()) {
       this.vendedorService.buscarPorEmail(this.authService.getUsuario().email!).pipe(catchError(
@@ -125,7 +125,7 @@ export class IndicadoresVendasComponent implements OnInit {
       }),
     );
   }
-  
+
   displayFnVendedor(vendedor: Vendedor): string {
     return vendedor && vendedor.nome ? vendedor.nome : '';
   }
@@ -139,22 +139,23 @@ export class IndicadoresVendasComponent implements OnInit {
   vendedorValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       //Segunda condição deixa o vendedor ser opcional
-      if ((control.value !== undefined) && (control.value != '' && !this.isOnlyVendedor)  &&  !(typeof control.value != 'string')) {
+      if ((control.value !== undefined) && (control.value != '' && !this.isOnlyVendedor) && !(typeof control.value != 'string')) {
         return { 'vendedorCadastrado': true };
       }
       return null;
     }
   }
-    
+
   ordernarNome(objeto: { nome: string; }[]) {
-    objeto.sort( (a: { nome: string; }, b: { nome: string; }) => {
-      if ( a.nome < b.nome ){
+    objeto.sort((a: { nome: string; }, b: { nome: string; }) => {
+      if (a.nome < b.nome) {
         return -1;
       }
-      if ( a.nome > b.nome ){
+      if (a.nome > b.nome) {
         return 1;
       }
-      return 0;});
+      return 0;
+    });
   }
 
   public readOnly(): boolean {
@@ -165,39 +166,14 @@ export class IndicadoresVendasComponent implements OnInit {
     let retorno = this.formulario?.valid;
     if (this.isOnlyVendedor) {
       retorno = retorno && this.vendedor;
-    } 
+    }
 
     return retorno;
   }
 
   public lineChartData(): ChartConfiguration['data'] {
     return {
-      datasets: [
-        {
-          data: this.getDataSetCustos(),
-          label: 'Custos (R$)',
-          backgroundColor: 'rgba(22, 22, 134, 0.8)',
-          borderColor: 'rgba(22, 22, 134, 0.8)',
-        },
-        {
-          data: this.getDataSetVendas(),
-          label: 'Vendas (R$)',
-          backgroundColor: 'rgba(0, 164, 0, 0.96)',
-          borderColor: 'rgba(0, 164, 0, 0.96)',
-        },
-        {
-          data: this.getDataSetTicketMedio(),
-          label: 'Ticket Médio (R$)',
-          backgroundColor: 'rgba(114, 37, 128, 0.8)',
-          borderColor: 'rgba(114, 37, 128, 0.8)',
-        },
-        {
-          data: this.getDataSetLucro(),
-          label: 'Lucro (R$)',
-          backgroundColor: 'rgba(240, 150, 0, 0.95)',
-          borderColor: 'rgba(240, 150, 0, 0.95)',
-        }
-      ],
+      datasets: this.getDataSets(),
       labels: this.listaMesesSelecionada,
     };
   }
@@ -213,6 +189,38 @@ export class IndicadoresVendasComponent implements OnInit {
       legend: { display: true },
     }
   };
+
+  private getDataSets(): ChartDataset<keyof ChartTypeRegistry, (number | ScatterDataPoint | BubbleDataPoint | null)[]>[] {
+    let retorno = [
+      {
+        data: this.getDataSetCustos(),
+        label: 'Custos (R$)',
+        backgroundColor: 'rgba(22, 22, 134, 0.8)',
+        borderColor: 'rgba(22, 22, 134, 0.8)',
+      },
+      {
+        data: this.getDataSetVendas(),
+        label: 'Vendas (R$)',
+        backgroundColor: 'rgba(0, 164, 0, 0.96)',
+        borderColor: 'rgba(0, 164, 0, 0.96)',
+      },
+      {
+        data: this.getDataSetTicketMedio(),
+        label: 'Ticket Médio (R$)',
+        backgroundColor: 'rgba(114, 37, 128, 0.8)',
+        borderColor: 'rgba(114, 37, 128, 0.8)',
+      }];
+    if (!this.isOnlyVendedor) {
+      retorno.push({
+        data: this.getDataSetLucro(),
+        label: 'Lucro (R$)',
+        backgroundColor: 'rgba(240, 150, 0, 0.95)',
+        borderColor: 'rgba(240, 150, 0, 0.95)',
+      });
+    }
+
+    return retorno;
+  }
 
   recuperarDados() {
     let id_vendedor = null;
