@@ -52,6 +52,10 @@ export class AuthService {
     return this.tokenService.hasToken();
   }
 
+  isTokenExpirado() {
+    return this.tokenService.isTokenExpired();
+  }
+
   getUsuario(): Usuario {
     return this.tokenService.getUsuario();
   }  

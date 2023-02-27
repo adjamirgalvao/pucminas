@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/autenticacao/auth/auth.service';
 import { Alerta } from 'src/app/interfaces/Alerta';
@@ -8,7 +8,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   constructor(
     private router: Router,
     public authService: AuthService){
@@ -19,6 +19,11 @@ export class HomeComponent {
          this.alertas.push(alerta);
       }
  }
+  ngOnInit(): void {
+    if (this.authService.isLogado() && this.authService.isTokenExpirado()){
+      this.authService.logout();
+    }
+  }
 
  alertas: Alerta[] = [];
 
