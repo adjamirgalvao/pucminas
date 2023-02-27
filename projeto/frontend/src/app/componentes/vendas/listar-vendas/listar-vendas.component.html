@@ -84,7 +84,7 @@
             matTooltip="Nova Venda" color="primary" *ngIf="(operacao == 'Listar Vendas') && (authService.isVendedor() || authService.isAdmin())">Nova Venda </button>  
             <button class="mt-3 me-2" *ngIf="operacao == 'Listar Vendas'" mat-stroked-button [class.spinner]="exportando" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirExcel();" matTooltip="Exportar" color="primary">Exportar</button> 
             <button class="mt-3 me-2" *ngIf="operacao == 'Listar Vendas'" mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button>
-            <button class="mt-3" mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
+            <button class="mt-3" mat-stroked-button routerLink="/home" matTooltip="Voltar" color="{{ operacao == 'Meus Pedidos' ? 'primary' : 'warn' }}">Voltar</button>  &nbsp;
         </div>
         </fieldset>
 </section>
