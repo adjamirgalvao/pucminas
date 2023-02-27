@@ -93,7 +93,7 @@ export class ListarComprasComponent implements OnInit, OnDestroy {
     // e aqui descobri que tinha que colocar o item: any https://technology.amis.nl/frontend/sorting-an-angular-material-table/
     this.dataSource.sortingDataAccessor = (item: any, property) => {
       switch (property) {
-         case 'fornecedor': return  item.fornecedor!.nome;
+         case 'fornecedor': return  item.fornecedor?.nome;
          default: return item[property];
       }
    }    
