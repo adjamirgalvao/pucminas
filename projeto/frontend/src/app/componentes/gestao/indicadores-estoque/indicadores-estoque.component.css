@@ -3,11 +3,11 @@
     .chart-wrapper {
        /* display: inline-block;
         position: relative;*/
-        width: 70%;
+        width: 90%;
         display: flex;
         justify-content: center;
         align-items: center;   
-        margin-left: 15% 
+        margin-left: 5% 
       }
     .produto-with {
       width: 30%;

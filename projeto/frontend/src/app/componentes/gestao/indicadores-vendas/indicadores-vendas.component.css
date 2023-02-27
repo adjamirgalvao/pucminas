@@ -1,13 +1,11 @@
 /*https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries*/
 @media (min-width: 1250px) {
 .chart-wrapper {
-   /* display: inline-block;
-    position: relative;*/
-    width: 70%;
+    width: 90%;
     display: flex;
     justify-content: center;
-    align-items: center;   
-    margin-left: 15% 
+    align-items: center;
+    margin-left: 5%;   
   }
   .vendedor-with {
     width: 30%;
