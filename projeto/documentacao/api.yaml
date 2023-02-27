@@ -662,7 +662,7 @@ paths:
     parameters:
       - name: id
         in: path
-        description: Id do produto consultar
+        description: Id do produto para consultar
         required: true
         schema:
           type: string
@@ -695,7 +695,7 @@ paths:
                       type: number
                       description: custo total das compras
                       example: 100
-                    quantidadeTotal:
+                    quantidadeTotalCompras:
                       type: number
                       description: quantidade total das compras  
                       example: 2                      
@@ -707,7 +707,10 @@ paths:
                       type: number
                       description: custo médio das compras
                       example: 50
-
+                    quantidadeTotalVendas:
+                      type: number
+                      description: quantidade total de vendas  
+                      example: 2                             
         '400':
           description: Foi fornecido um ID inválido
         '401':

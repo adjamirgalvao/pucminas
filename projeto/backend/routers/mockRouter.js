@@ -403,16 +403,18 @@ router.get('/produtos/:id/indicadoresCompras', async (req, res) => {
             {
                 _id: 2,
                 custoTotal: 2000,
-                quantidadeTotal: 100,
+                quantidadeTotalCompras: 100,
                 numeroCompras: 1,
-                custoMedio: 20
+                custoMedio: 20,
+                quantidadeTotalVendas: 10,
             },
             {
                 _id: 3,
                 custoTotal: 200,
                 quantidadeTotal: 100,
                 numeroCompras: 2,
-                custoMedio: 2
+                custoMedio: 2,
+                quantidadeTotalVendas: 110,                
             },
 
     ];

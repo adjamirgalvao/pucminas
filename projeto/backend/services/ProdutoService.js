@@ -58,7 +58,7 @@ function itemCompraInnerJoinCompra(id, ano, agrupar) {
         {$group: {
           _id: {$month: "$data"}, 
           custoTotal: {$sum: "$preco"}, 
-          quantidadeTotal: {$sum: "$quantidade"}, 
+          quantidadeTotalCompras: {$sum: "$quantidade"}, 
           numeroCompras: {$sum: 1 }, 
         }
       },
@@ -66,6 +66,72 @@ function itemCompraInnerJoinCompra(id, ano, agrupar) {
       $addFields: {
         custoMedio: { $divide : [ '$custoTotal', '$quantidadeTotal' ]}
         }  
+      },
+    //ordenação
+    {$sort : { _id : 1 }}  ];
+  }     
+  return retorno;
+}
+
+
+function itemVendaInnerJoinVenda(id, ano, agrupar) {
+  let retorno =  [
+  {
+    //https://stackoverflow.com/questions/36193289/moongoose-aggregate-match-does-not-match-ids
+    '$match':{
+      'id_produto': new Mongoose.Types.ObjectId(id)}
+  },
+  //venda
+  {
+    '$lookup': {
+      'from': 'vendas', 
+      'localField': 'id_venda', 
+      'foreignField': '_id', 
+      'as': 'venda'
+    }
+  }, 
+  // para fazer com que fique um campo e não uma lista
+  { 
+     '$addFields': {
+        'venda': {
+            '$arrayElemAt': [
+                '$venda', 0
+            ]
+        }
+    }
+  }, 
+  // para virar inner join e não left join
+  { 
+    '$match': {
+      'venda': {
+          '$exists': true
+      }
+    }
+  }, 
+  // Colocando a data para facilitar na hora de fazer o group by
+  { 
+    '$addFields': {
+       'data':  '$venda.data'
+    }
+   },  
+ ];
+  // https://stackoverflow.com/questions/70289720/aggregate-query-by-year-and-month-in-mongodb
+  if (ano) {
+    retorno = [...retorno,   {
+        $match: {
+                  data: { $gte: new Date(ano +"-01-01"), $lte: new Date(ano + "-12-31") }
+              }      
+      }];
+  }  
+  if (agrupar) {
+    retorno = [...retorno, 
+        //https://stackoverflow.com/questions/27366209/group-and-count-by-month
+        {$group: {
+          _id: {$month: "$data"}, 
+          vendasTotal: {$sum: "$preco"}, 
+          quantidadeTotalVendas: {$sum: "$quantidade"}, 
+          numeroVendas: {$sum: 1 }, 
+        }
       },
     //ordenação
     {$sort : { _id : 1 }}  ];
@@ -215,6 +281,17 @@ module.exports = class ProdutoService {
     } catch (error) {
       console.log(`Erro ao recuperar Compras ${error.message}`);
       throw new Error(`Erro ao recuperar Compras ${error.message}`);
+    }
+  }
+
+  static async getAllItensVendas(id, ano, agrupar) {
+    try {
+      const todos = await ItemVendaModel.aggregate(itemVendaInnerJoinVenda(id, ano, agrupar));
+      
+      return todos;
+    } catch (error) {
+      console.log(`Erro ao recuperar Vendas ${error.message}`);
+      throw new Error(`Erro ao recuperar Vendas ${error.message}`);
     }
   }
 

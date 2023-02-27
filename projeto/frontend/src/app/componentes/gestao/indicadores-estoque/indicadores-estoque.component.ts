@@ -135,11 +135,17 @@ export class IndicadoresEstoqueComponent implements OnInit{
           borderColor: 'rgba(114, 37, 128, 0.8)',
         },   
         {
-          data: this.getDataSetQuantidade(),
+          data: this.getDataSetQuantidadeCompras(),
           label: 'Qtd. Compra',
           backgroundColor: 'rgba(0, 164, 0, 0.96)',
           borderColor: 'rgba(0, 164, 0, 0.96)',
-        },        
+        },    
+        {
+          data: this.getDataSetQuantidadeVendas(),
+          label: 'Qtd. Venda',
+          backgroundColor: 'rgba(240, 150, 0, 0.95)',
+          borderColor: 'rgba(240, 150, 0, 0.95)',
+        },                   
 
       ],
       labels: this.listaMesesSelecionada,
@@ -183,8 +189,12 @@ export class IndicadoresEstoqueComponent implements OnInit{
     return this.getValores('custoTotal');
   }
 
-  getDataSetQuantidade() {
-    return this.getValores('quantidadeTotal');
+  getDataSetQuantidadeCompras() {
+    return this.getValores('quantidadeTotalCompras');
+  }
+
+   getDataSetQuantidadeVendas() {
+    return this.getValores('quantidadeTotalVendas');
   }
 
   getDataSetCustoMedio() {
