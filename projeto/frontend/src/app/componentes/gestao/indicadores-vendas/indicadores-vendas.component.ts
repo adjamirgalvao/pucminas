@@ -33,6 +33,7 @@ export class IndicadoresVendasComponent implements OnInit {
   carregado: boolean = false;
   alertas: Alerta[] = [];
   vendas: VendaAgrupada[] = [];
+  public dados: any;
 
   //Filtro de vendedores
   vendedor: any = null;
@@ -171,7 +172,7 @@ export class IndicadoresVendasComponent implements OnInit {
     return retorno;
   }
 
-  public lineChartData(): ChartConfiguration['data'] {
+  public getLineChartData(): ChartConfiguration['data'] {
     return {
       datasets: this.getDataSets(),
       labels: this.listaMesesSelecionada,
@@ -252,6 +253,7 @@ export class IndicadoresVendasComponent implements OnInit {
           this.carregado = true;
           console.log(vendas);
           this.vendas = vendas;
+          this.dados = this.getLineChartData();
         });
   };
 

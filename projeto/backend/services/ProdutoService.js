@@ -64,7 +64,7 @@ function itemCompraInnerJoinCompra(id, ano, agrupar) {
       },
       {
       $addFields: {
-        custoMedio: { $divide : [ '$custoTotal', '$quantidadeTotal' ]}
+        custoMedio: { $divide : [ '$custoTotal', '$quantidadeTotalCompras' ]}
         }  
       },
     //ordenação
@@ -293,6 +293,45 @@ module.exports = class ProdutoService {
       console.log(`Erro ao recuperar Vendas ${error.message}`);
       throw new Error(`Erro ao recuperar Vendas ${error.message}`);
     }
+  }
+
+  static async getIndicadoresCompras(id, ano){
+    const todosCompras = await this.getAllItensCompras(id, ano,true);
+    const todosVendas = await this.getAllItensVendas(id, ano,true);
+
+    let todosDados = [];
+    // Percorre todosCompras e adiciona os objetos correspondentes de todosVendas
+    for (let compra of todosCompras) {
+      let venda = todosVendas.find(v => v._id === compra._id);
+      if (!venda) {
+        venda = { _id: compra._id, quantidadeTotalVendas: 0 };
+      }
+      todosDados.push({
+        _id: compra._id,
+        quantidadeTotalCompras: compra.quantidadeTotalCompras,
+        custoTotal: compra.custoTotal,
+        numeroCompras: compra.numeroCompras,
+        custoMedio: compra.custoMedio,
+        quantidadeTotalVendas: venda.quantidadeTotalVendas,
+      });
+    }
+    
+    // Percorre todosVendas e adiciona os objetos que não foram adicionados anteriormente
+    for (let venda of todosVendas) {
+      let compra = todosCompras.find(c => c._id === venda._id);
+      if (!compra) {
+        compra = { _id: venda._id, quantidadeTotalCompras: 0, custoTotal: 0, numeroCompra: 0, custoMedio: 0 };
+        todosDados.push({
+          _id: venda._id,
+          quantidadeTotalCompras: compra.quantidadeTotalCompras,
+          custoTotal: compra.custoTotal,
+          numeroCompras: compra.numeroCompras,
+          custoMedio: compra.custoMedio,
+          quantidadeTotalVendas: venda.quantidadeTotalVendas,
+        });
+      }
+    }
+    return todosDados;    
   }
 
   static async getRelatorioListagem() {

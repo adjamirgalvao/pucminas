@@ -21,7 +21,7 @@ export class IndicadoresEstoqueComponent implements OnInit{
     private produtoService: ProdutoService,
   ) {
   }
-
+  public dados: any;
   carregando: boolean = false;
   carregado: boolean = false;
   erroCarregando: boolean = false;
@@ -119,7 +119,7 @@ export class IndicadoresEstoqueComponent implements OnInit{
       return 0;});
   }  
 
-  public lineChartData(): ChartConfiguration['data'] {
+  public getLineChartData(): ChartConfiguration['data'] {
     return {
       datasets: [
         {
@@ -182,6 +182,7 @@ export class IndicadoresEstoqueComponent implements OnInit{
           this.carregado = true;
           console.log(compras);
           this.compras = compras;
+          this.dados = this.getLineChartData();
         });
   };
 

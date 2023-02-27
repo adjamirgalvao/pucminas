@@ -166,41 +166,8 @@ exports.getIndicadoresCompras = async (req, res) => {
 
     if (id.length == 24) {
       try {
-        const todosCompras = await ProdutoService.getAllItensCompras(id, req.query.ano,true);
-        const todosVendas = await ProdutoService.getAllItensVendas(id, req.query.ano,true);
-
-        let todosDados = [];
-        // Percorre todosCompras e adiciona os objetos correspondentes de todosVendas
-        for (let compra of todosCompras) {
-          let venda = todosVendas.find(v => v._id === compra._id);
-          if (!venda) {
-            venda = { _id: compra._id, quantidadeTotalVendas: 0 };
-          }
-          todosDados.push({
-            _id: compra._id,
-            quantidadeTotalCompras: compra.quantidadeTotalCompras,
-            custototal: compra.custototal,
-            numeroCompras: compra.numeroCompras,
-            custoMedio: compra.custoMedio,
-            quantidadeTotalVendas: venda.quantidadeTotalVendas,
-          });
-        }
+        let todosDados = await ProdutoService.getIndicadoresCompras(id, req.query.ano);
         
-        // Percorre todosVendas e adiciona os objetos que não foram adicionados anteriormente
-        for (let venda of todosVendas) {
-          let compra = todosCompras.find(c => c._id === venda._id);
-          if (!compra) {
-            compra = { _id: venda._id, quantidadeTotalCompras: 0, custototal: 0, numeroCompra: 0, custoMedio: 0 };
-            todosDados.push({
-              _id: venda._id,
-              quantidadeTotalCompras: compra.quantidadeTotalCompras,
-              custototal: compra.custototal,
-              numeroCompras: compra.numeroCompras,
-              custoMedio: compra.custoMedio,
-              quantidadeTotalVendas: venda.quantidadeTotalVendas,
-            });
-          }
-        }
         if (!todosDados) {
           return res.status(404).json(`Não existem compras cadastradas para o produto ${id}!`);
         }
