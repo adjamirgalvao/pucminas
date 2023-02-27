@@ -68,7 +68,7 @@
             </fieldset>
             <div class="acoes">
                 <!-- https://dkreider.medium.com/how-to-add-a-spinner-to-an-angular-material-button-the-simplest-way-ever-69e2f7005f29 -->
-                <button *ngIf="!leitura" type="submit" mat-stroked-button matTooltip="Salvar o usuário" color="primary"
+                <button *ngIf="!leitura" type="submit" mat-stroked-button matTooltip="{{(operacao != 'Atualizar Perfil do') ? 'Salvar o usuário' : 'Salvar'}}" color="primary"
                     [disabled]="salvando || erroCarregando || !formulario.valid"
                     [class.spinner]="salvando">Salvar</button> &nbsp;
                 <button (click)="$event.preventDefault(); cancelar();" mat-stroked-button
