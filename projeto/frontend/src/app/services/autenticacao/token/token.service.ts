@@ -16,15 +16,14 @@ export class TokenService {
     return !!this.getToken();
   }
 
+  //https://www.bezkoder.com/logout-when-token-expired-angular-14/
   isTokenExpired() {
     let expirou = false;
     let expires = window.localStorage.getItem(EXPIRES);
 
     if (expires) {
       expirou = parseInt(expires) * 1000 < Date.now();
-      console.log('validade', parseInt(expires) * 1000, Date.now(), expirou);
       if (expirou) {
-        console.log('removetoken');
         this.removeToken();
       }
     }
