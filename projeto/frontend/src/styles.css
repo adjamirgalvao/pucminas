@@ -6,7 +6,7 @@
   padding-bottom: 1rem;
   margin-right: auto;
   margin-left: auto;
-  min-height: 400px; /* sem esse tamanho mínimo o menu hamburguer não aparece em mobile */
+  min-height: 1000px; /* sem esse tamanho mínimo o menu hamburguer não aparece em mobile */
 }
 
 .header {
