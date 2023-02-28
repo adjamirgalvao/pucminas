@@ -18,7 +18,7 @@ module.exports = class UsuarioService {
     let erro = false;
     try {
 
-      if (!data.nome || data.login || data.email || data.senha || data.roles){
+      if (!data.nome || !data.login || !data.email || !data.senha || !data.roles){
         erro = true;
         throw new Error('Usuário não pode ser criado pois já faltam informações (nome, login, email, senha ou roles).');
       }
