@@ -350,15 +350,15 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
   cancelar(): void {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
-    if ((this.operacao != 'Nova') || this.listar) {
-      if (this.operacao == 'Detalhar') {
-        this.router.navigate(['/compras/meusPedidos']);
-      } else {  
+    if (this.operacao == 'Meus Pedidos'){
+      this.router.navigate(['/compras/meusPedidos']);
+    }  else {
+      if ((this.operacao != 'Nova') || this.listar) {
         this.router.navigate(['/vendas']);
-      }  
-    } else {
-      //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
-      this.location.back();
+      } else {
+        //https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
+        this.location.back();
+      }
     }
   }
 

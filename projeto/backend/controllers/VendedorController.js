@@ -46,7 +46,7 @@ exports.getByEmail = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.VENDEDOR, ROLES.CLIENTE])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ADMIN, ROLES.GESTOR, ROLES.VENDEDOR, ROLES.CLIENTE])) {
     try {
       const registros = await VendedorService.getAllVendedores();
 

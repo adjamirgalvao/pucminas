@@ -3,10 +3,9 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
             <li class="breadcrumb-item">Vendas</li>
-            <li *ngIf="(operacao != 'Detalhar') && (listar || (operacao != 'Nova'))" class="breadcrumb-item"><a
+            <li *ngIf="(operacao != 'Detalhar') && (operacao != 'Meus Pedidos') && (listar || (operacao != 'Nova'))" class="breadcrumb-item"><a
                     routerLink="/vendas">Listar Vendas</a></li>
-            <li *ngIf="(operacao == 'Detalhar')" class="breadcrumb-item"><a routerLink="/compras/meusPedidos">Meus
-                    Pedidos</a></li>
+            <li *ngIf="(operacao == 'Meus Pedidos')" class="breadcrumb-item"><a routerLink="/compras/meusPedidos">Meus Pedidos</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ operacao + ((operacao == 'Detalhar') ? ' Pedido' :
                 ' Venda') }} </li>
         </ol>

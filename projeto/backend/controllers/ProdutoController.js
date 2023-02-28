@@ -27,7 +27,7 @@ exports.get = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.VENDEDOR, ROLES.GESTOR, ROLES.CLIENTE, ROLES.ADMIN])) {
     try {
       let registros;
 

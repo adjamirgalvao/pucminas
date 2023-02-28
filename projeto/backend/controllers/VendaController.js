@@ -13,7 +13,7 @@ exports.get = async (req, res) => {
       try {
         let registro = await VendaService.getVendabyId(id);
         // Se for apenas cliente só pode recuperar a própria compra
-        if ((registro) && (!AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN]))) {
+        if ((registro) && (!AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.GESTOR, ROLES.ADMIN]))) {
           let email = AutorizacaoService.getEmail(req);
           let cliente = await ClienteService.findOne({ email: email });
           if (cliente) {
