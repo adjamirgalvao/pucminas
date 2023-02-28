@@ -47,7 +47,7 @@ export class IndicadoresEstoqueComponent implements OnInit{
       err => {
         this.erroCarregando = true;
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar produtos!' });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar produtos!' });
         throw 'Erro ao recuperar produtos! Detalhes: ' + err;
       })).subscribe((produtos) => {
         this.produtos = produtos;
@@ -172,7 +172,7 @@ export class IndicadoresEstoqueComponent implements OnInit{
     this.produtoService.listarIndicador(this.formulario.value.produto._id, this.formulario.value.ano).pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });
         throw 'Erro ao recuperar vendas! Detalhes: ' + err.error?.error;
       })).subscribe(
         (compras) => {
@@ -222,5 +222,10 @@ export class IndicadoresEstoqueComponent implements OnInit{
     }
     return retorno;
   }  
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 

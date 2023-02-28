@@ -57,7 +57,7 @@ export class IndicadoresVendasComponent implements OnInit {
       err => {
         this.erroCarregando = true;
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes ${err.error?.error}` });
         throw 'Erro ao recuperar vendedores! Detalhes: ' + err.error?.error;
       })).subscribe((vendedores) => {
         this.carregando = false;
@@ -72,7 +72,7 @@ export class IndicadoresVendasComponent implements OnInit {
         err => {
           this.carregando = false;
           if (err.status == 404) {
-            this.alertas.push({ tipo: 'warning', mensagem: `Aviso: O usuário não possui cadastro de vendedor` });
+            this.adicionarAlerta({ tipo: 'warning', mensagem: `Aviso: O usuário não possui cadastro de vendedor` });
           }
           throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error?.error;
         })).subscribe((vendedor) => {
@@ -242,7 +242,7 @@ export class IndicadoresVendasComponent implements OnInit {
       err => {
         this.carregando = false;
         this.carregandoGrafico = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });
         throw 'Erro ao recuperar vendas! Detalhes: ' + err.error?.error;
       })).subscribe(
         (vendas) => {
@@ -293,6 +293,11 @@ export class IndicadoresVendasComponent implements OnInit {
       }
     }
     return retorno;
+  }
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 

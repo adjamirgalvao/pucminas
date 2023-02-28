@@ -33,7 +33,7 @@ export class ListarComprasProdutoComponent implements OnInit {
       // não pode ficar no OnInit 
       let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
       if (alerta) {
-         this.alertas.push(alerta);
+         this.adicionarAlerta(alerta);
       }
   }
 
@@ -90,7 +90,7 @@ export class ListarComprasProdutoComponent implements OnInit {
     this.produtoService.buscarPorId(id!).pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error?.error}` });
         throw 'Erro ao recuperar o produto! Detalhes: ' + err.err.error;
       })).subscribe((produto) => {
       if (produto != null) {
@@ -100,7 +100,7 @@ export class ListarComprasProdutoComponent implements OnInit {
         this.produtoService.listarItensCompras(id!).pipe(catchError(
           err => {
             this.carregando = false;
-            this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar compras! Detalhes: ${err.error?.error}` });
+            this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar compras! Detalhes: ${err.error?.error}` });
             throw 'Erro ao recuperar compras! Detalhes: ' + err.error?.error;
           })).subscribe(
             (itensCompras) => {
@@ -110,7 +110,7 @@ export class ListarComprasProdutoComponent implements OnInit {
               this.dataSource.data = this.itensCompras;
             });
       } else {
-        this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
         this.carregando = false;
       }
     });
@@ -139,7 +139,7 @@ export class ListarComprasProdutoComponent implements OnInit {
       err => {
         this.excluindo = false;
         console.log(err);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir a compra do produto "${this.produto.nome}"! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao excluir a compra do produto "${this.produto.nome}"! Detalhes: ${err.error?.error}` });
         throw `Erro ao excluir a compra do produto "${this.produto.nome}". Detalhes: ` + err.error?.error;
       })).subscribe(
         () => {
@@ -149,8 +149,13 @@ export class ListarComprasProdutoComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.itensCompras);
           this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `A compra do Produto "${this.produto.nome}" foi excluída com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `A compra do Produto "${this.produto.nome}" foi excluída com sucesso!` });
         });
+  }
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 

@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit{
       // não pode ficar no OnInit 
       let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
       if (alerta) {
-         this.alertas.push(alerta);
+         this.adicionarAlerta(alerta);
       }
  }
   ngOnInit(): void {
@@ -27,6 +27,9 @@ export class HomeComponent implements OnInit{
   }
 
  alertas: Alerta[] = [];
-
-
+   
+ public adicionarAlerta(alerta: any){
+  this.alertas.push(alerta);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 }

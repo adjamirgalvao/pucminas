@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     // não pode ficar no OnInit 
     let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
     if (alerta) {
-      this.alertas.push(alerta);
+      this.adicionarAlerta(alerta);
     }
   }
   formulario!: FormGroup;
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     this.jwtAuthService.loginGoogle(usuario).pipe(catchError(
       err => {
         this.logandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `${err.error?.error}` });
         throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
     this.jwtAuthService.loginJwt(usuario).pipe(catchError(
       err => {
         this.logandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `${err.error?.error}` });
         throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -97,6 +97,11 @@ export class LoginComponent implements OnInit {
     } else {
       this.formulario.enable();
     }
+  }
+
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
 }

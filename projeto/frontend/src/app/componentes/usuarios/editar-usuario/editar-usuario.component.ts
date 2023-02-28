@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs';
@@ -59,7 +59,7 @@ export class EditarUsuarioComponent implements OnInit {
 
   @ViewChild('formDirective')
   private formDirective!: NgForm;
-  
+
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     let id = this.route.snapshot.paramMap.get('id');
@@ -85,7 +85,7 @@ export class EditarUsuarioComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar o usuário! Detalhes: ${err.error?.error}` });
+          this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o usuário! Detalhes: ${err.error?.error}` });
           throw 'Erro ao recuperar o usuário! Detalhes: ' + err.error?.error;
         })).subscribe((usuario) => {
           this.carregando = false;
@@ -94,7 +94,7 @@ export class EditarUsuarioComponent implements OnInit {
             console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
-            this.alertas.push({ tipo: 'danger', mensagem: 'Usuário não encontrado!' });
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Usuário não encontrado!' });
             this.erroCarregando = true;
           }
         });
@@ -225,14 +225,14 @@ export class EditarUsuarioComponent implements OnInit {
     this.service.criar(usuario, this.operacao).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar usuário! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao cadastrar usuário! Detalhes: ${err.error?.error}` });
         throw 'Erro ao cadastrar usuário. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           if (this.operacao != 'Registrar') {
             this.salvandoFormulario(false);
             this.alertas = [];
-            this.alertas.push({ tipo: 'success', mensagem: `Usuário "${usuario.nome}" cadastrado com sucesso!` });
+            this.adicionarAlerta({ tipo: 'success', mensagem: `Usuário "${usuario.nome}" cadastrado com sucesso!` });
             //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
             this.formDirective.resetForm(this.inicial);
           } else {
@@ -250,7 +250,7 @@ export class EditarUsuarioComponent implements OnInit {
     this.service.editar(usuario).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar usuário! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao editar usuário! Detalhes: ${err.error?.error}` });
         throw 'Erro ao editar usuário. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -281,5 +281,9 @@ export class EditarUsuarioComponent implements OnInit {
       }
     }
   }
-
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

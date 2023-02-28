@@ -86,7 +86,7 @@ export class CriarCompraProdutoComponent implements OnInit {
           err => {
             this.erroCarregando = true;
             this.carregando = false;
-            this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar fornecedores! Detalhes: ${err.error?.error}`});
+            this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar fornecedores! Detalhes: ${err.error?.error}`});
             throw 'Erro ao recuperar fornecedores! Detalhes: ' + err.error?.error;
           })).subscribe((fornecedores) => {
             this.fornecedores = fornecedores;
@@ -95,7 +95,7 @@ export class CriarCompraProdutoComponent implements OnInit {
             this.criarFormulario();
           })
       } else {
-        this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
         this.erroCarregando = true;
         this.carregando = false;
       }
@@ -167,7 +167,7 @@ export class CriarCompraProdutoComponent implements OnInit {
     this.compraService.criar(compra).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao salvar compra do produto! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao salvar compra do produto! Detalhes: ${err.error?.error}` });
         throw 'Erro ao salvar compra do produto. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -197,4 +197,9 @@ export class CriarCompraProdutoComponent implements OnInit {
       this.formulario.enable();
     }
   }  
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

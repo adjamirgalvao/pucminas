@@ -165,7 +165,7 @@ export class EditarCompraComponent implements OnInit {
       err => {
         this.erroCarregando = true;
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar produtos!' });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar produtos!' });
         throw 'Erro ao recuperar produtos! Detalhes: ' + err;
       })).subscribe((produtos) => {
         this.produtos = produtos;
@@ -176,7 +176,7 @@ export class EditarCompraComponent implements OnInit {
           err => {
             this.erroCarregando = true;
             this.carregando = false;
-            this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar fornecedores!' });
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar fornecedores!' });
             throw 'Erro ao recuperar fornecedores! Detalhes: ' + err;
           })).subscribe((fornecedores) => {
             this.fornecedores = fornecedores;
@@ -190,7 +190,7 @@ export class EditarCompraComponent implements OnInit {
                 err => {
                   this.erroCarregando = true;
                   this.carregando = false;
-                  this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar a compra!' });
+                  this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar a compra!' });
                   throw 'Erro ao recuperar a compra! Detalhes: ' + err;
                 })).subscribe((compra) => {
                   this.carregando = false;
@@ -200,7 +200,7 @@ export class EditarCompraComponent implements OnInit {
                     this.criarFormulario();
                     this.atualizarTabela();
                   } else {
-                    this.alertas.push({ tipo: 'danger', mensagem: 'Compra não encontrada!' });
+                    this.adicionarAlerta({ tipo: 'danger', mensagem: 'Compra não encontrada!' });
                     this.erroCarregando = true;
                   }
                 });
@@ -324,13 +324,13 @@ export class EditarCompraComponent implements OnInit {
     this.compraService.criar(compra).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar compra!' });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao cadastrar compra!' });
         throw 'Erro ao cadastrar compra. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Compra cadastrada com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `Compra cadastrada com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
           this.itensCompra = [];
@@ -401,4 +401,9 @@ export class EditarCompraComponent implements OnInit {
       this.formulario.enable();
     }
   }  
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

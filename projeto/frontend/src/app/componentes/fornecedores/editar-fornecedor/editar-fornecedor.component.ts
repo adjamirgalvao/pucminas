@@ -71,7 +71,7 @@ export class EditarFornecedorComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o fornecedor!' });
+          this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar o fornecedor!' });
           throw 'Erro ao recuperar o fornecedor! Detalhes: ' + err;
         })).subscribe((fornecedor) => {
           this.carregando = false;
@@ -80,7 +80,7 @@ export class EditarFornecedorComponent implements OnInit {
             console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
-            this.alertas.push({ tipo: 'danger', mensagem: 'Fornecedor não encontrado!' });
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Fornecedor não encontrado!' });
             this.erroCarregando = true;
           }
         });
@@ -140,13 +140,13 @@ export class EditarFornecedorComponent implements OnInit {
     this.service.criar(fornecedor).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao cadastrar fornecedor!' });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao cadastrar fornecedor!' });
         throw 'Erro ao cadastrar fornecedor. Detalhes: ' + err;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Fornecedor "${fornecedor.nome}" cadastrado com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `Fornecedor "${fornecedor.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
         });
@@ -161,7 +161,7 @@ export class EditarFornecedorComponent implements OnInit {
     this.service.editar(fornecedor).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao editar fornecedor!' });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao editar fornecedor!' });
         throw 'Erro ao editar fornecedor. Detalhes: ' + err;
       })).subscribe(
         () => {
@@ -178,5 +178,10 @@ export class EditarFornecedorComponent implements OnInit {
     } else {
       this.formulario.enable();
     }
+  }
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

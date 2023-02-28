@@ -27,7 +27,7 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
       // não pode ficar no OnInit 
       let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
       if (alerta) {
-         this.alertas.push(alerta);
+         this.adicionarAlerta(alerta);
       }
   }
 
@@ -97,7 +97,7 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
     this.fornecedorService.listar().pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar fornecedores! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar fornecedores! Detalhes: ${err.error?.error}` });
         throw 'Erro ao recuperar fornecedores! Detalhes: ' + err.error?.error;
       })).subscribe(
         (fornecedores) => {
@@ -134,7 +134,7 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
     this.fornecedorService.excluir(fornecedor).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o fornecedor "${fornecedor.nome}"! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao excluir o fornecedor "${fornecedor.nome}"! Detalhes: ${err.error?.error}` });
         throw 'Erro ao excluir o fornecedor. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -144,7 +144,7 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
           this.dataSource = new MatTableDataSource(this.fornecedores);
           this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `O Fornecedor "${fornecedor.nome}" foi excluído com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `O Fornecedor "${fornecedor.nome}" foi excluído com sucesso!` });
         });
   }
 
@@ -154,7 +154,7 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
       err => {
         console.log(err);
         this.exportando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar excel` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar excel` });
         throw 'Erro ao recuperar excel. Detalhes: ' + err;
       })).subscribe(
         (data) => {
@@ -182,7 +182,7 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
       err => {
         console.log(err);
         this.imprimindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar relatório` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar relatório` });
         throw 'Erro ao recuperar relatório. Detalhes: ' + err;
       })).subscribe(
         (data) => {
@@ -200,5 +200,10 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
            window.URL.revokeObjectURL(url);
            a.remove();
         });
+  }
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

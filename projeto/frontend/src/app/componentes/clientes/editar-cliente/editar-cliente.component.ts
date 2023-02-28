@@ -72,7 +72,7 @@ export class EditarClienteComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar o cliente!' });
+          this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar o cliente!' });
           throw 'Erro ao recuperar o cliente! Detalhes: ' + err;
         })).subscribe((cliente) => {
           this.carregando = false;
@@ -82,7 +82,7 @@ export class EditarClienteComponent implements OnInit {
             console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
-            this.alertas.push({ tipo: 'danger', mensagem: 'Cliente não encontrado!' });
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Cliente não encontrado!' });
             this.erroCarregando = true;
           }
         });
@@ -147,13 +147,13 @@ export class EditarClienteComponent implements OnInit {
     this.service.criar(cliente).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar vendedor! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao cadastrar vendedor! Detalhes: ${err.error?.error}` });
         throw 'Erro ao cadastrar cliente. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Cliente "${cliente.nome}" cadastrado com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `Cliente "${cliente.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
         });
@@ -168,7 +168,7 @@ export class EditarClienteComponent implements OnInit {
     this.service.editar(cliente).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar cliente! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao editar cliente! Detalhes: ${err.error?.error}` });
         throw 'Erro ao editar cliente. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -185,7 +185,11 @@ export class EditarClienteComponent implements OnInit {
     } else {
       this.formulario.enable();
     }
-  }    
-
+  }   
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 

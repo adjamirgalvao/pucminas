@@ -21,7 +21,7 @@ export class UsuarioService {
 
   criar(usuario: Usuario, operacao: string): Observable<Usuario> {
     console.log(usuario);
-    if (operacao == 'Cadastrar') {
+    if (operacao == 'Novo') {
       return this.http.post<Usuario>(this.API_USUARIO, usuario);
     } else {
       return this.http.post<Usuario>(this.API_AUTENTICACAO + '/registrar', usuario);

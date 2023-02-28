@@ -25,7 +25,7 @@ export class ListarVendedoresComponent implements OnInit {
       // não pode ficar no OnInit 
       let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
       if (alerta) {
-         this.alertas.push(alerta);
+         this.adicionarAlerta(alerta);
       }
   }
 
@@ -65,7 +65,7 @@ export class ListarVendedoresComponent implements OnInit {
     this.vendedorService.listar().pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes: ${err.error?.error}` });
         throw 'Erro ao recuperar vendedores! Detalhes: ' + err.error?.error;
       })).subscribe(
         (vendedores) => {
@@ -102,7 +102,7 @@ export class ListarVendedoresComponent implements OnInit {
     this.vendedorService.excluir(vendedor).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o vendedor "${vendedor.nome}"! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao excluir o vendedor "${vendedor.nome}"! Detalhes: ${err.error?.error}` });
         throw 'Erro ao excluir o vendedor. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -112,7 +112,7 @@ export class ListarVendedoresComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.vendedores);
           this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `O Vendedor "${vendedor.nome}" foi excluído com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `O Vendedor "${vendedor.nome}" foi excluído com sucesso!` });
         });
   }
 
@@ -122,7 +122,7 @@ export class ListarVendedoresComponent implements OnInit {
       err => {
         console.log(err);
         this.exportando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar excel` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar excel` });
         throw 'Erro ao recuperar excel. Detalhes: ' + err;
       })).subscribe(
         (data) => {
@@ -150,7 +150,7 @@ export class ListarVendedoresComponent implements OnInit {
       err => {
         console.log(err);
         this.imprimindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar relatório` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar relatório` });
         throw 'Erro ao recuperar relatório. Detalhes: ' + err;
       })).subscribe(
         (data) => {
@@ -169,4 +169,9 @@ export class ListarVendedoresComponent implements OnInit {
            a.remove();
         });
   }  
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

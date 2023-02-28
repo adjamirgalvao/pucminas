@@ -68,7 +68,7 @@ export class EditarProdutoComponent implements OnInit {
         err => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error?.error}` });
+          this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error?.error}` });
           throw 'Erro ao recuperar o produto! Detalhes: ' + err.error?.error;
           ;
         })).subscribe((produto) => {
@@ -78,7 +78,7 @@ export class EditarProdutoComponent implements OnInit {
             console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
-            this.alertas.push({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
             this.erroCarregando = true;
           }
         });
@@ -137,13 +137,13 @@ export class EditarProdutoComponent implements OnInit {
     this.service.criar(produto).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar produto! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao cadastrar produto! Detalhes: ${err.error?.error}` });
         throw 'Erro ao cadastrar produto. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
         });
@@ -158,7 +158,7 @@ export class EditarProdutoComponent implements OnInit {
     this.service.editar(produto).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao editar produto! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao editar produto! Detalhes: ${err.error?.error}` });
         throw 'Erro ao editar produto. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
@@ -175,5 +175,10 @@ export class EditarProdutoComponent implements OnInit {
     } else {
       this.formulario.enable();
     }
+  }
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

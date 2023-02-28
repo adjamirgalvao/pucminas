@@ -76,7 +76,7 @@ export class ProdutosMaisVendidosComponent implements OnInit {
       err => {
         this.erroCarregando = true;
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar clientes! Detalhes ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar clientes! Detalhes ${err.error?.error}` });
         throw 'Erro ao recuperar clientes! Detalhes: ' + err.error?.error;
       })).subscribe((clientes) => {
         this.clientes = clientes;
@@ -154,7 +154,7 @@ export class ProdutosMaisVendidosComponent implements OnInit {
     this.vendaService.listarProdutosMaisVendidos(this.formulario.value.ano, this.formulario.value.cliente).pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar vendas! Detalhes: ${err.error?.error}` });
         throw 'Erro ao recuperar vendas! Detalhes: ' + err.error?.error;
       })).subscribe(
         (itemVendasAgrupadas) => {
@@ -168,5 +168,9 @@ export class ProdutosMaisVendidosComponent implements OnInit {
           this.setDataSourceAttributes(); // para atualizar paginação          
         });
   };
-
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

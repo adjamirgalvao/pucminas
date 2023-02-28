@@ -25,7 +25,7 @@ export class ListarUsuariosComponent implements OnInit, OnDestroy {
       // não pode ficar no OnInit 
       let alerta = this.router.getCurrentNavigation()?.extras.state?.['alerta'];
       if (alerta) {
-         this.alertas.push(alerta);
+         this.adicionarAlerta(alerta);
       }
   }
 
@@ -93,7 +93,7 @@ export class ListarUsuariosComponent implements OnInit, OnDestroy {
     this.usuarioService.listar().pipe(catchError(
       err => {
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar usuários! Detalhes: ${err.error?.error}`});
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar usuários! Detalhes: ${err.error?.error}`});
         throw 'Erro ao recuperar usuários! Detalhes: ' + err.error?.error;
       })).subscribe(
         (usuarios) => {
@@ -130,7 +130,7 @@ export class ListarUsuariosComponent implements OnInit, OnDestroy {
     this.usuarioService.excluir(usuario).pipe(catchError(
       err => {
         this.excluindo = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao excluir o usuário "${usuario.nome}"!` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao excluir o usuário "${usuario.nome}"!` });
         throw 'Erro ao excluir o usuário. Detalhes: ' + err;
       })).subscribe(
         () => {
@@ -140,7 +140,12 @@ export class ListarUsuariosComponent implements OnInit, OnDestroy {
           this.dataSource = new MatTableDataSource(this.usuarios);
           this.setDataSourceAttributes(); // para atualizar paginação
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `O Usuário "${usuario.nome}" foi excluído com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `O Usuário "${usuario.nome}" foi excluído com sucesso!` });
         });
+  }
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

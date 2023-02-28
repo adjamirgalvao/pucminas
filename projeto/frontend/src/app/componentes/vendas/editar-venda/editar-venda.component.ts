@@ -257,7 +257,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
           //this.erroCarregando = true;
           this.carregando = false;
           if (err.status == 404){
-            this.alertas.push({ tipo: 'warning', mensagem: `Aviso: O usuário não possui cadastro de vendedor` });
+            this.adicionarAlerta({ tipo: 'warning', mensagem: `Aviso: O usuário não possui cadastro de vendedor` });
           } 
             throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error?.error;
         })).subscribe((vendedor) => {
@@ -272,7 +272,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
       err => {
         this.erroCarregando = true;
         this.carregando = false;
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar produtos! Detalhes ${err.error?.error}` });
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar produtos! Detalhes ${err.error?.error}` });
         throw 'Erro ao recuperar produtos! Detalhes: ' + err.error?.error;
       })).subscribe((produtos) => {
         this.produtos = produtos;
@@ -283,7 +283,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
           err => {
             this.erroCarregando = true;
             this.carregando = false;
-            this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes ${err.error?.error}` });
+            this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar vendedores! Detalhes ${err.error?.error}` });
             throw 'Erro ao recuperar vendedores! Detalhes: ' + err.error?.error;
           })).subscribe((vendedores) => {
             this.vendedores = vendedores;
@@ -294,7 +294,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
               err => {
                 this.erroCarregando = true;
                 this.carregando = false;
-                this.alertas.push({ tipo: 'danger', mensagem: `Erro ao recuperar clientes! Detalhes ${err.error?.error}` });
+                this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar clientes! Detalhes ${err.error?.error}` });
                 throw 'Erro ao recuperar clientes! Detalhes: ' + err.error?.error;
               })).subscribe((clientes) => {
                 this.clientes = clientes;
@@ -306,7 +306,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
                       err => {
                         this.erroCarregando = true;
                         this.carregando = false;
-                        this.alertas.push({ tipo: 'danger', mensagem: 'Erro ao recuperar a venda!' });
+                        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar a venda!' });
                          throw 'Erro ao recuperar a venda! Detalhes: ' + err;
                    })).subscribe((venda) => {
                       this.carregando = false;
@@ -316,7 +316,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
                         this.criarFormulario();
                         this.atualizarTabela();
                       } else {
-                      this.alertas.push({ tipo: 'danger', mensagem: 'Venda não encontrada!' });
+                      this.adicionarAlerta({ tipo: 'danger', mensagem: 'Venda não encontrada!' });
                       this.erroCarregando = true;
                     }
                   });
@@ -515,13 +515,13 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     this.vendaService.criar(venda).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.alertas.push({ tipo: 'danger', mensagem: `Erro ao cadastrar venda! Detalhes: ${err.error?.error}`});
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao cadastrar venda! Detalhes: ${err.error?.error}`});
         throw 'Erro ao cadastrar venda. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
           this.alertas = [];
-          this.alertas.push({ tipo: 'success', mensagem: `Venda cadastrada com sucesso!` });
+          this.adicionarAlerta({ tipo: 'success', mensagem: `Venda cadastrada com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
           this.itensVenda = [];
@@ -603,6 +603,11 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
       this.formulario.get('precoTotal')?.disable();
       this.formulario.get('precoFinal')?.disable();
     }
+  }
+   
+  public adicionarAlerta(alerta: any){
+    this.alertas.push(alerta);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
