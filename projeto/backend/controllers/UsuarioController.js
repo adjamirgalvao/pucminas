@@ -107,7 +107,6 @@ exports.update = async (req, res) => {
         if (req.body.senha) {
           usuario.senha = AutorizacaoService.criptografar(req.body.senha);
         }
-        console.log('usuariosenha', usuario.senha, req.body.senha);
         //Só troca as roles se for admin
         if (admin) {
           usuario.roles = req.body.roles;
