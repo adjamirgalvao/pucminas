@@ -200,13 +200,13 @@ const routes: Routes = [
     data: {roles: [ADMIN, ESTOQUE]}
   },
   {
-    path: 'compras/meusPedidos',
+    path: 'meusPedidos',
     component: ListarVendasComponent, 
     canActivate: [AuthGuard],
     data: {roles: [CLIENTE]}
   }, 
   {
-    path: 'compras/meusPedidos/:id',
+    path: 'meusPedidos/:id',
     component: EditarVendaComponent, 
     canActivate: [AuthGuard],
     data: {roles: [CLIENTE]}
