@@ -268,8 +268,8 @@ module.exports = class ProdutoService {
         return registro;
       }  
     } catch (error) {
-      console.log(`Produto ${id} não pode ser deletado ${error.message}`);
-      throw new Error(`Produto ${id} não pode ser deletado ${error.message}`);
+      console.log(`Produto não pode ser excluído ${error.message}`);
+      throw new Error(`Produto não pode ser excluído ${error.message}`);
     }
   }
 

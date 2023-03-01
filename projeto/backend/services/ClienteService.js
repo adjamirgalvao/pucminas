@@ -90,14 +90,14 @@ module.exports = class ClienteService {
       let venda = await VendaModel.findOne({id_cliente : id});
 
       if (venda){
-        throw new Error(`. Possui venda.`);
+        throw new Error(`, pois possui compra.`);
       } else {            
         const registro = await ClienteModel.findOneAndDelete({ _id: id }, { session });
         return registro;
       }
     } catch (error) {
-      console.log(`Cliente ${id} não pode ser deletado ${error.message}`);
-      throw new Error(`Cliente ${id} não pode ser deletado ${error.message}`);
+      console.log(`Cliente não pode ser excluído ${error.message}`);
+      throw new Error(`Cliente não pode ser excluído ${error.message}`);
     }
   }
 

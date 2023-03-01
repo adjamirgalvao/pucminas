@@ -103,8 +103,8 @@ module.exports = class VendedorService {
         return registro;
       }  
     } catch (error) {
-      console.log(`Vendedor ${id} não pode ser deletado ${error.message}`);
-      throw new Error(`Vendedor ${id} não pode ser deletado ${error.message}`);
+      console.log(`Vendedor não pode ser excluído ${error.message}`);
+      throw new Error(`Vendedor não pode ser excluído ${error.message}`);
     }
   }
 

@@ -94,8 +94,8 @@ module.exports = class UsuarioService {
 
       return registro;
     } catch (error) {
-      console.log(`Usuario ${id} não pode ser deletado ${error.message}`);
-      throw new Error(`Usuario ${id} não pode ser deletado ${error.message}`);
+      console.log(`Usuario não pode ser excluído ${error.message}`);
+      throw new Error(`Usuario não pode ser excluído ${error.message}`);
     }
   }
 };

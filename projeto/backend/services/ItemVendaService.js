@@ -189,8 +189,8 @@ module.exports = class ItemVendaService {
       if (!sessionPassada) {
         await session.abortTransaction();
       }
-      console.log(`Venda ${id} não pode ser deletada ${error.message}`);
-      throw new Error(`Venda ${id} não pode ser deletada ${error.message}`);
+      console.log(`Venda não pode ser excluída ${error.message}`);
+      throw new Error(`Venda não pode ser excluída ${error.message}`);
     } finally {
       if (!sessionPassada) {
         session.endSession();

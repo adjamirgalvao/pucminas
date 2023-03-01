@@ -85,8 +85,8 @@ module.exports = class FornecedorService {
         return registro;
       }
     } catch (error) {
-      console.log(`Fornecedor ${id} não pode ser deletado ${error.message}`);
-      throw new Error(`Fornecedor ${id} não pode ser deletado ${error.message}`);
+      console.log(`Fornecedor não pode ser excluído ${error.message}`);
+      throw new Error(`Fornecedor não pode ser excluído ${error.message}`);
     }
   }
 
