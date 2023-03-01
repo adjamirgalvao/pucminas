@@ -112,7 +112,6 @@ exports.update = async (req, res) => {
           usuario.roles = req.body.roles;
         }
 
-        console.log(usuario, id);
         const registro = await UsuarioService.updateUsuario(id, usuario);
 
         if (registro.modifiedCount === 0) {

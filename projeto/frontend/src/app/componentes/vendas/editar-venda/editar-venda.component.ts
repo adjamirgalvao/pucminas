@@ -450,11 +450,8 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
           produto = value;
         } 
         if (produto) {
-          this.formulario.get('precoUnitario')!.patchValue(produto.preco, { emitEvent: false });
-          console.log('preço unitário', produto.preco, this.formulario.value.quantidade);
-          this.formulario.get('precoTotal')?.patchValue(produto.preco * this.formulario.value.quantidade);
-          //atribuindo o valor do produto
-           //this.formulario.get('preco')!.patchValue(produto.preco, { emitEvent: false });
+           this.formulario.get('precoUnitario')!.patchValue(produto.preco, { emitEvent: false });
+           this.formulario.get('precoTotal')?.patchValue(produto.preco * this.formulario.value.quantidade);
            this.formulario.controls['quantidade'].enable();
            this.formulario.controls['desconto'].enable();
         } else {
