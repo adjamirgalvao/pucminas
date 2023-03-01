@@ -220,9 +220,9 @@ module.exports = class ProdutoService {
     }
   }
 
-  static async getProdutobyId(produtoId) {
+  static async getProdutobyId(produtoId, session) {
     try {
-      const registro = await ProdutoModel.findById(produtoId);
+      const registro = await ProdutoModel.findById(produtoId).session(session);
 
       return registro;
     } catch (error) {

@@ -144,7 +144,7 @@ router.post('/compras', async (req, res) => {
 
     let total = 0;
     compra._id = uniqueID();
-    ; (async function gravarVenda() {
+    ; (async function gravarCompra() {
         if (compra.id_fornecedor) {
             compra.fornecedor = await getObjeto(req, 'fornecedores', compra.id_fornecedor);
         }
@@ -181,6 +181,44 @@ router.get('/compras/:id', async (req, res) => {
             console.log(compra);
             res.status(200).json(compra);
         })();
+    } else {
+        res.status(404).json({});
+    }
+});
+
+router.put('/compras/:id', async (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/compras.json'));
+    let compras = JSON.parse(rawdata);
+    let id = req.params.id;
+
+    let compraRemovida = compras.find(compra => compra._id === id);
+
+    if (compraRemovida) {
+        //Remove a compra
+        let comprasAtualizadas = compras.filter(compraRemovida => compraRemovida._id !== id);
+        
+        //Adiciona novamente
+        let compra = req.body;
+        let total = 0;
+        compra._id = compraRemovida._id;
+        ; (async function gravarCompra() {
+            if (compra.id_fornecedor) {
+                compra.fornecedor = await getObjeto(req, 'fornecedores', compra.id_fornecedor);
+            }
+            for (let i in compra.itensCompra) {
+                total += compra.itensCompra[i].preco;
+                compra.itensCompra[i].id_compra = compra._id;
+                compra.itensCompra[i]._id = uniqueID();
+                compra.itensCompra[i].__v = 0;
+            }
+    
+            compra.total = total;
+            compra.__v = 0;
+            comprasAtualizadas.push(compra);
+
+        fs.writeFileSync(path.join(__dirname, '../mock/compras.json'), JSON.stringify(comprasAtualizadas, null, 4));
+        res.status(200).json(compra);
+    })();        
     } else {
         res.status(404).json({});
     }

@@ -200,19 +200,13 @@ const routes: Routes = [
     data: {roles: [ADMIN, ESTOQUE]}
   },
   {
-    path: 'meusPedidos',
-    component: ListarVendasComponent, 
-    canActivate: [AuthGuard],
-    data: {roles: [CLIENTE]}
-  }, 
-  {
-    path: 'meusPedidos/:id',
-    component: EditarVendaComponent, 
-    canActivate: [AuthGuard],
-    data: {roles: [CLIENTE]}
-  },   
-  {
     path: 'compras/:id',
+    component: EditarCompraComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [ADMIN, ESTOQUE]} 
+  },
+  {
+    path: 'compras/:id/editarCompra',
     component: EditarCompraComponent, 
     canActivate: [AuthGuard],
     data: {roles: [ADMIN, ESTOQUE]} 
@@ -235,6 +229,18 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [ADMIN, VENDEDOR, GESTOR]} 
   },
+  {
+    path: 'meusPedidos',
+    component: ListarVendasComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [CLIENTE]}
+  }, 
+  {
+    path: 'meusPedidos/:id',
+    component: EditarVendaComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [CLIENTE]}
+  },    
   {
     path: 'indicadoresVendas',
     component: IndicadoresVendasComponent, 

@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     if (this.authService.isLogado() && this.authService.isTokenExpirado()){
       this.authService.logout();
-      this.router.navigate(['/login'], {state: {alerta: {tipo: 'danger', mensagem: `Usuário não está logado. Efetue o login!`} }});
+      this.router.navigate(['/login'], {state: {alerta: {tipo: 'danger', mensagem: `Sessão expirada. Efetue o login!`} }});
     }
   }
 

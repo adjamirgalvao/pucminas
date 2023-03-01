@@ -87,7 +87,7 @@ module.exports = class ItemCompraService {
     }
     try {
       const itemCompra = await ItemCompraService.criarItemCompra(data, session);
-      const produto = await ProdutoService.getProdutobyId(data.id_produto);
+      const produto = await ProdutoService.getProdutobyId(data.id_produto, session);
 
       if (produto != null) {
          await ProdutoService.atualizarPrecoCustoAposEntrada(produto, itemCompra, session);
@@ -118,7 +118,7 @@ module.exports = class ItemCompraService {
     }
     try {
       const itemCompraRemovida = await ItemCompraModel.findOneAndDelete({ _id: id }, {session});
-      const produto = await ProdutoService.getProdutobyId(itemCompraRemovida.id_produto);
+      const produto = await ProdutoService.getProdutobyId(itemCompraRemovida.id_produto, session);
 
       if (produto != null) {
          await ProdutoService.atualizarPrecoCustoAposSaida(produto, itemCompraRemovida, session);

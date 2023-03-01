@@ -1,35 +1,5 @@
 [
     {
-        "_id": "63db23e9c408a7530247aa88",
-        "data": "2023-02-02T02:45:44.558Z",
-        "numero": "",
-        "id_fornecedor": "63cf180478fa75fe3c95ed48",
-        "__v": 0,
-        "fornecedor": {
-            "_id": "63cf180478fa75fe3c95ed48",
-            "nome": "Lojão do Condomínio",
-            "tipo": "pf",
-            "identificacao": "39629415500",
-            "endereco": {
-                "rua": "Rua dos pedestres",
-                "numero": "S/N",
-                "complemento": "Apto 1000"
-            },
-            "__v": 0
-        },
-        "itensCompra": [
-            {
-                "_id": "63db23e9c408a7530247aa8a",
-                "id_produto": "63cf18fa78fa75fe3c95ed5d",
-                "id_compra": "63db23e9c408a7530247aa88",
-                "quantidade": 2,
-                "preco": 100,
-                "__v": 0
-            }
-        ],
-        "total": 100
-    },
-    {
         "_id": "63eb02499c5455fba6c1cdc6",
         "data": "2023-02-14T03:38:33.495Z",
         "numero": "",
@@ -181,6 +151,36 @@
             "__v": 0
         },
         "total": 100,
+        "__v": 0
+    },
+    {
+        "data": "2023-02-02T02:45:44.558Z",
+        "numero": "abc",
+        "id_fornecedor": "63cf180478fa75fe3c95ed48",
+        "itensCompra": [
+            {
+                "id_produto": "63cf18fa78fa75fe3c95ed5d",
+                "quantidade": 3,
+                "preco": 300,
+                "id_compra": "63db23e9c408a7530247aa88",
+                "_id": "1496950557550",
+                "__v": 0
+            }
+        ],
+        "_id": "63db23e9c408a7530247aa88",
+        "fornecedor": {
+            "_id": "63cf180478fa75fe3c95ed48",
+            "endereco": {
+                "rua": "Rua 1",
+                "numero": "102",
+                "complemento": "apto 501"
+            },
+            "nome": "Fornecedor 31",
+            "tipo": "pf",
+            "identificacao": "02523156423",
+            "__v": 0
+        },
+        "total": 300,
         "__v": 0
     }
 ]

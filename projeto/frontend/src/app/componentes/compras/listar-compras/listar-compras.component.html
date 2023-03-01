@@ -48,6 +48,10 @@
                             matTooltip="Detalhar Compra" [state]="{ operacao: 'Detalhar' }">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
+                        <button mat-icon-button [routerLink]="['/compras/' + compra._id + '/editarCompra']"
+                            matTooltip="Editar Compra">
+                            <mat-icon color="secondary">create</mat-icon>
+                        </button>                        
                        <button mat-icon-button matTooltip="Excluir Compra" (click)="confirmarExcluirCompra(compra)"
                             [disabled]="excluindo" [class.spinner]="excluindo && (compra._id == compraExcluida._id)">
                             <mat-icon color="secondary">delete</mat-icon>

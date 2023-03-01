@@ -18,6 +18,10 @@ export class CompraService {
     return this.http.post<Compra>(this.API_COMPRA, compra);
   }
   
+  editar(compra: Compra): Observable<Compra> {
+    return this.http.put<Compra>(this.API_COMPRA + '' + compra._id, compra);
+  }
+  
   buscarPorId(id: string): Observable<Compra> {
     return this.http.get<Compra>(this.API_COMPRA + '' + id);
   }

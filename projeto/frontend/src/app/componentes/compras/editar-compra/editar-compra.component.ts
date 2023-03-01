@@ -150,7 +150,7 @@ export class EditarCompraComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     console.log('id ', id);
-    this.operacao = (id == null) ? 'Nova' : 'Detalhar'; //se fizer edição troca por Editar
+    this.operacao = (id == null) ? 'Nova' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Detalhar';
 
     if (this.operacao != 'Detalhar'){
       this.displayedColumns.push('acoes');
@@ -225,7 +225,12 @@ export class EditarCompraComponent implements OnInit {
     }      
 
     this.salvandoFormulario(true);
-    this.cadastrarCompra(compra);
+    if (this.operacao == 'Novo') {
+      this.cadastrarCompra(compra);
+    } else {
+      compra._id = this.inicial._id!;
+      this.editarCompra(compra);
+    }
   }
 
   cancelar(): void {
@@ -337,6 +342,21 @@ export class EditarCompraComponent implements OnInit {
           this.atualizarTabela();
         });
   }
+
+
+  private editarCompra(compra: Compra) {
+    this.compraService.editar(compra).pipe(catchError(
+      err => {
+        this.salvandoFormulario(false);
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao editar compra!' });
+        throw 'Erro ao editar compra. Detalhes: ' + err;
+      })).subscribe(
+        () => {
+          this.salvandoFormulario(false);
+          // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
+          this.router.navigate(['/compras'],  {state: {alerta: {tipo: 'success', mensagem: `Compra salva com sucesso!`} }});
+        });
+  }  
 
   readOnly() {
     return this.salvando || this.erroCarregando || this.leitura;
