@@ -5,9 +5,9 @@
             <li class="breadcrumb-item">Vendas</li>
             <li *ngIf="(operacao != 'Detalhar') && (operacao != 'Meus Pedidos') && (listar || (operacao != 'Nova'))" class="breadcrumb-item"><a
                     routerLink="/vendas">Listar Vendas</a></li>
-            <li *ngIf="(operacao == 'Meus Pedidos')" class="breadcrumb-item"><a routerLink="/compras/meusPedidos">Meus Pedidos</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ operacao + ((operacao == 'Detalhar') ? ' Pedido' :
-                ' Venda') }} </li>
+            <li *ngIf="(operacao == 'Meus Pedidos')" class="breadcrumb-item"><a routerLink="/meusPedidos">Meus Pedidos</a></li>
+            <li *ngIf="(operacao == 'Meus Pedidos')" class="breadcrumb-item active" aria-current="page"> Detalhar Pedido </li>
+            <li *ngIf="(operacao != 'Meus Pedidos')"class="breadcrumb-item active" aria-current="page">{{ operacao + ' Venda'}} </li>
         </ol>
     </nav>
 </div>
@@ -16,7 +16,7 @@
 <section class="pt-1 px-3">
     <app-alerta [alertas]="alertas"></app-alerta>
     <fieldset class="grid gap-3 fieldset rounded px-3 pb-3 pt-3" aria-disabled>
-        <legend class="float-none w-auto h5">&nbsp;{{ operacao + ((operacao == 'Detalhar') ? ' Pedido' : ' Venda') }} <i
+        <legend class="float-none w-auto h5">&nbsp;{{ (operacao == 'Meus Pedidos') ? 'Detalhar Pedido ' : (operacao + ' Venda') }} <i
                 *ngIf="this.formulario">{{ this.formulario.get('data')?.value | date: 'dd/MM/yyyy' }}</i>&nbsp;</legend>
 
         <form [formGroup]="formulario" *ngIf="!carregando" #formDirective="ngForm">
@@ -29,12 +29,12 @@
                         campo é obrigatório!</mat-error>
                     <mat-error *ngIf="formulario.get('data')?.hasError('matDatepickerParse')">O campo é
                         inválido!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">DD/MM/YYYY</mat-hint>
+                    <mat-hint *ngIf="!this.readOnly()">DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="me-3" *ngIf="(operacao != 'Detalhar')">
+            <div class="me-3" *ngIf="(operacao != 'Meus Pedidos')">
                 <mat-form-field class="me-3 mb-3 cliente-vendedor-input">
                     <mat-label>Vendedor</mat-label>
                     <input type="text" formControlName="vendedor" [matAutocomplete]="autoVendedor" matInput
@@ -50,7 +50,7 @@
                     <mat-error
                         *ngIf="!formulario.get('vendedor')?.hasError('required') && formulario.get('vendedor')?.hasError('vendedorCadastrado')  && formulario.get('vendedor')?.touched">O
                         vendedor não está cadastrado!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">Escolha o
+                    <mat-hint *ngIf="!this.readOnly()">Escolha o
                         vendedor</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3 mb-3 cliente-vendedor-input">
@@ -65,12 +65,12 @@
                     <mat-error
                         *ngIf="formulario.get('cliente')?.hasError('clienteCadastrado')  && formulario.get('cliente')?.touched">O
                         cliente não está cadastrado!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">Escolha o cliente</mat-hint>
+                    <mat-hint *ngIf="!this.readOnly()">Escolha o cliente</mat-hint>
                 </mat-form-field>
             </div>
             <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
                 <legend class="float-none w-auto h6">&nbsp;Produtos&nbsp;</legend>
-                <div *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">
+                <div *ngIf="!this.readOnly()">
                     <div class="mb-3">
                         <mat-form-field class="me-3 produto-input">
                             <mat-label>Produto</mat-label>
@@ -188,7 +188,7 @@
                                     dinheiroPipe }}</span></mat-footer-cell>
                         </ng-container>
                         <ng-container matColumnDef="acoes"
-                            *ngIf="(operacao != 'Detalhar') && (operacao != 'Detalhar')">
+                            *ngIf="!this.readOnly()">
                             <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
                             <mat-cell *matCellDef="let item">
                                 <button mat-icon-button matTooltip="Excluir Produto" [disabled]="salvando"

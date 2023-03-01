@@ -22,7 +22,7 @@
                     <mat-label>Nome</mat-label>
                     <input formControlName="nome" matInput placeholder="Digite o nome do usuário">
                     <mat-error *ngIf="formulario.get('nome')?.errors">O campo é obrigatório!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Detalhar')">Digite o nome do usuário</mat-hint>
+                    <mat-hint *ngIf="!this.readOnly()">Digite o nome do usuário</mat-hint>
                 </mat-form-field>
             </div>
             <div>
@@ -31,7 +31,7 @@
                     <input matInput placeholder="Digite o E-mail" formControlName="email">
                     <mat-error *ngIf="formulario.get('email')?.hasError('required') && formulario.get('email')?.touched">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="!formulario.get('email')?.hasError('required') && formulario.get('email')?.hasError('email')">E-mail inválido!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Detalhar')">Digite o e-mail</mat-hint>
+                    <mat-hint *ngIf="!this.readOnly()">Digite o e-mail</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -42,19 +42,19 @@
                     <mat-hint *ngIf="(operacao == 'Novo')">Digite o login</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="mb-3" *ngIf="(operacao != 'Detalhar')">
+            <div class="mb-3" *ngIf="!this.readOnly()">
                 <mat-form-field class="me-3">
                     <mat-label>Senha</mat-label>
                     <input formControlName="senha" matInput type="password" placeholder="Digite a senha">
                     <mat-error *ngIf="formulario.get('senha')?.hasError('required')">O campo é obrigatório!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Detalhar')">Digite a senha</mat-hint>
+                    <mat-hint *ngIf="!this.readOnly()">Digite a senha</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3" >
                     <mat-label>Confirme a senha</mat-label>
                     <input formControlName="confirmacaoSenha" matInput type="password" placeholder="Digite a senha novamente">
                     <mat-error *ngIf="formulario.get('confirmacaoSenha')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="!formulario.get('senha')?.hasError('required') && !formulario.get('confirmacaoSenha')?.hasError('required') && formulario.get('confirmacaoSenha')?.hasError('confirmacao')">A confirmação da senha é diferente da senha!</mat-error>
-                    <mat-hint *ngIf="(operacao != 'Detalhar')">Digite a senha novamente.</mat-hint>
+                    <mat-hint *ngIf="!this.readOnly()">Digite a senha novamente.</mat-hint>
                 </mat-form-field>
             </div>
             <fieldset class="border rounded p-2 mb-3" *ngIf="(operacao != 'Registrar') && (operacao != 'Atualizar Perfil do')">

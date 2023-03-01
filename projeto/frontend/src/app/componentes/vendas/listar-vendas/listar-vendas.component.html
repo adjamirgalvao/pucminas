@@ -57,8 +57,8 @@
                             matTooltip="Detalhar Venda" [state]="{ operacao: 'Detalhar' }" *ngIf="operacao == 'Listar Vendas'">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
-                        <button mat-icon-button [routerLink]="['/compras/meusPedidos/' + venda._id]"
-                            matTooltip="Detalhar Pedido" [state]="{ operacao: 'Detalhar' }" *ngIf="operacao != 'Listar Vendas'">
+                        <button mat-icon-button [routerLink]="['/meusPedidos/' + venda._id]"
+                            matTooltip="Detalhar Pedido" [state]="{ operacao: 'Meus Pedidos' }" *ngIf="operacao != 'Listar Vendas'">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
                         <button mat-icon-button matTooltip="Excluir Venda" (click)="confirmarExcluirVenda(venda)"

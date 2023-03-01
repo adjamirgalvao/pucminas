@@ -7,6 +7,7 @@ import { Cliente } from 'src/app/interfaces/Cliente';
 import { ClienteService } from 'src/app/services/cliente/cliente.service';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-editar-cliente',
@@ -69,17 +70,22 @@ export class EditarClienteComponent implements OnInit {
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
-        err => {
+        (err: HttpErrorResponse) => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar o cliente!' });
-          throw 'Erro ao recuperar o cliente! Detalhes: ' + err;
-        })).subscribe((cliente) => {
+
+          if (err.status == 404) {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Cliente não encontrado!' });
+            this.leitura = true;
+            this.criarFormulario();
+          } else {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o cliente! Detalhes: ${err.error}` });
+          }
+          throw 'Erro ao recuperar o cliente! Detalhes: ' + err.error;
+       })).subscribe((cliente) => {
           this.carregando = false;
           if (cliente != null) {
             this.inicial = cliente;
-            //this.inicial.dataNascimentoStr = new Date(cliente.dataNascimento!).toLocaleDateString();
-            console.log('inicial', this.inicial);
             this.criarFormulario();
           } else {
             this.adicionarAlerta({ tipo: 'danger', mensagem: 'Cliente não encontrado!' });

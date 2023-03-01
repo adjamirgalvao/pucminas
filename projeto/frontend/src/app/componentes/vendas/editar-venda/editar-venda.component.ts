@@ -47,7 +47,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     }
     // https://stackoverflow.com/questions/45184969/get-current-url-in-angular
     if (this.router.url.indexOf('/meusPedidos') > -1) {
-        this.operacao = 'Detalhar';  
+        this.operacao = 'Meus Pedidos';  
     }   
   }
 
@@ -246,7 +246,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
       this.operacao = (id == null) ? 'Nova' : 'Detalhar'; //se fizer edição troca por Editar
     }
 
-    if ((this.operacao != 'Detalhar') && (this.operacao != 'Detalhar')){
+    if ((this.operacao != 'Detalhar') && (this.operacao != 'Meus Pedidos')){
       this.displayedColumns.push({ def: 'acoes', showMobile: true});
     } else {
       this.leitura = true;

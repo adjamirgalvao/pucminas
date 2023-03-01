@@ -7,6 +7,7 @@ import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { Location } from '@angular/common';
 import { ADMIN, GESTOR, ESTOQUE, VENDEDOR, CLIENTE, AuthService } from 'src/app/services/autenticacao/auth/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -82,11 +83,17 @@ export class EditarUsuarioComponent implements OnInit {
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
-        err => {
+        (err: HttpErrorResponse)  => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o usuário! Detalhes: ${err.error?.error}` });
-          throw 'Erro ao recuperar o usuário! Detalhes: ' + err.error?.error;
+          if (err.status == 404) {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Usuário não encontrado!' });
+            this.leitura = true;
+            this.criarFormulario();
+          } else {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o usuário! Detalhes: ${err.error}` });
+          }  
+          throw 'Erro ao recuperar o usuário! Detalhes: ' + err.error;
         })).subscribe((usuario) => {
           this.carregando = false;
           if (usuario != null) {
@@ -248,7 +255,7 @@ export class EditarUsuarioComponent implements OnInit {
   private editarUsuario(usuario: Usuario) {
     this.salvandoFormulario(true);
     this.service.editar(usuario).pipe(catchError(
-      err => {
+      (err: HttpErrorResponse) => {
         this.salvandoFormulario(false);
         this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao editar usuário! Detalhes: ${err.error?.error}` });
         throw 'Erro ao editar usuário. Detalhes: ' + err.error?.error;
