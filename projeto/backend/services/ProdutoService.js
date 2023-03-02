@@ -145,7 +145,7 @@ module.exports = class ProdutoService {
     let quantidadeInicial = produto.quantidade;
   
     produto.quantidade = produto.quantidade + entrada.quantidade;
-    produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (entrada.quantidade * (entrada.preco / entrada.quantidade))) / produto.quantidade;
+    produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (entrada.quantidade * entrada.preco)) / produto.quantidade;
     produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
   
     //sem o '' caso passe um id como ObjectId dá erro na comparação de produtos
@@ -157,7 +157,7 @@ module.exports = class ProdutoService {
   
     produto.quantidade = produto.quantidade - saida.quantidade;
     if (produto.quantidade > 0) {
-      produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * (saida.preco / saida.quantidade))) / produto.quantidade;
+      produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * saida.preco)) / produto.quantidade;
       //https://stackoverflow.com/questions/1458633/how-to-deal-with-floating-point-number-precision-in-javascript
       produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
     } else if (produto.quantidade == 0){
@@ -262,14 +262,14 @@ module.exports = class ProdutoService {
       let itemCompra = await ItemCompraModel.findOne({id_produto : id});
       let itemVenda = await ItemVendaModel.findOne({id_produto : id});
       if (itemCompra || itemVenda){
-        throw new Error(`. Possui compra ou venda.`);
+        throw new Error(`, pois possui compra ou venda.`);
       } else {  
         const registro = await ProdutoModel.findOneAndDelete({ _id: id }, {session});
         return registro;
       }  
     } catch (error) {
-      console.log(`Produto não pode ser excluído ${error.message}`);
-      throw new Error(`Produto não pode ser excluído ${error.message}`);
+      console.log(`Produto não pode ser excluído${error.message}`);
+      throw new Error(`Produto não pode ser excluído${error.message}`);
     }
   }
 
