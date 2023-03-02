@@ -22,7 +22,7 @@
                     <mat-label>Nome</mat-label>
                     <input formControlName="nome" matInput placeholder="Digite o nome do fornecedor">
                     <mat-error *ngIf="formulario.get('nome')?.errors">O campo é obrigatório!</mat-error>
-                    <mat-hint *ngIf="readOnly()">Digite o nome do fornecedor</mat-hint>
+                    <mat-hint *ngIf="!readOnly()">Digite o nome do fornecedor</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -38,7 +38,7 @@
                     <input formControlName="identificacao" matInput placeholder="Digite o CPF/CNPJ" mask="CPF_CNPJ">
                     <mat-error *ngIf="formulario.get('identificacao')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="!formulario.get('identificacao')?.hasError('required') && formulario.get('identificacao')?.hasError('mask')">CPF/CNPJ inválido!</mat-error>
-                    <mat-hint *ngIf="readOnly()">Digite o CPF/CNPJ</mat-hint>
+                    <mat-hint *ngIf="!readOnly()">Digite o CPF/CNPJ</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -46,7 +46,7 @@
                     <mat-label>Logradouro</mat-label>
                     <input formControlName="rua" matInput placeholder="Digite o logradouro">
                     <mat-error *ngIf="formulario.get('rua')?.hasError('required')">O campo é obrigatório!</mat-error>
-                    <mat-hint *ngIf="readOnly()">Digite o logradouro</mat-hint>
+                    <mat-hint *ngIf="!readOnly()">Digite o logradouro</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
@@ -54,14 +54,14 @@
                     <mat-label>Número</mat-label>
                     <input formControlName="numero" matInput placeholder="Digite o número">
                     <mat-error *ngIf="formulario.get('numero')?.hasError('required')">O campo é obrigatório!</mat-error>
-                    <mat-hint *ngIf="readOnly()">Digite o número</mat-hint>
+                    <mat-hint *ngIf="!readOnly()">Digite o número</mat-hint>
                 </mat-form-field>
             </div>
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>Complemento</mat-label>
                     <input formControlName="complemento" matInput placeholder="Digite o complemento">
-                    <mat-hint *ngIf="readOnly()">Digite o complemento</mat-hint>
+                    <mat-hint *ngIf="!readOnly()">Digite o complemento</mat-hint>
                 </mat-form-field>
             </div>            
             <div class="acoes">

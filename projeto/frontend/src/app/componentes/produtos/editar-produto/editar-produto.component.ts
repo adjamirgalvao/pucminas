@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { ProdutoService } from '../../../services/produto/produto.service';
 import { Alerta } from '../../../interfaces/Alerta';
 import { Produto } from '../../../interfaces/Produto';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-editar-produto',
@@ -60,12 +61,18 @@ export class EditarProdutoComponent implements OnInit {
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
-        err => {
+        (err: HttpErrorResponse) => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error?.error}` });
-          throw 'Erro ao recuperar o produto! Detalhes: ' + err.error?.error;
-          ;
+          if (err.status == 404) {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+            this.leitura = true;
+            this.criarFormulario();
+          } else {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error}` });
+          }
+          throw 'Erro ao recuperar o produto! Detalhes: ' + err.error;
+ 
         })).subscribe((produto) => {
           this.carregando = false;
           if (produto != null) {
