@@ -18,7 +18,7 @@ exports.get = async (req, res) => {
         res.status(500).json({ error: error.message });
       }
     } else {
-      res.status(400).json({});
+      res.status(404).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -81,7 +81,7 @@ exports.update = async (req, res) => {
         res.status(500).json({ error: error.message });
       }
     } else {
-      res.status(400).json({});
+      res.status(404).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
@@ -104,7 +104,7 @@ exports.delete = async (req, res) => {
         res.status(500).json({ error: error.message });
       }
     } else {
-      res.status(400).json({});
+      res.status(404).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });
