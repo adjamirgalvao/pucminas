@@ -15,7 +15,7 @@ router.put("/:id", passport.authenticate('jwt', { session: false }), CompraContr
 //delete compra
 router.delete("/:id", passport.authenticate('jwt', { session: false }), CompraController.delete);
 //delete de item da compra
-router.delete("/:idCompra/itensCompra/:id", passport.authenticate('jwt', { session: false }), ItemCompraController.delete);
+router.delete("/:idCompra/itensCompra/:id", passport.authenticate('jwt', { session: false }), CompraController.delete);
 //relatorio
 router.get("/relatorios/listagem", passport.authenticate('jwt', { session: false }), CompraController.getRelatorioListagem);
 //excel
