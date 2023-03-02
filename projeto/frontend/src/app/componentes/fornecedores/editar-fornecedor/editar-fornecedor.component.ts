@@ -140,8 +140,8 @@ export class EditarFornecedorComponent implements OnInit {
     this.service.criar(fornecedor).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao cadastrar fornecedor!' });
-        throw 'Erro ao cadastrar fornecedor. Detalhes: ' + err;
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao cadastrar fornecedor! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao cadastrar fornecedor. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
@@ -161,8 +161,8 @@ export class EditarFornecedorComponent implements OnInit {
     this.service.editar(fornecedor).pipe(catchError(
       err => {
         this.salvandoFormulario(false);
-        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao editar fornecedor!' });
-        throw 'Erro ao editar fornecedor. Detalhes: ' + err;
+        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao editar fornecedor! Detalhes: ${err.error?.error}` });
+        throw 'Erro ao editar fornecedor. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
           this.salvandoFormulario(false);

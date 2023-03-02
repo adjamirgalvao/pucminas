@@ -41,14 +41,17 @@ module.exports = class FornecedorService {
       let fornecedor = await FornecedorModel.findOne({ $or: [{ nome: novo.nome.trim() }, { identificacao: novo.identificacao.trim() }] });
       if (fornecedor) {
         erro = true;
-        throw new Error('Fornecedor não pode ser criado pois já existe um fornecedor com mesmo nome ou cpf/cpf.');
+        throw new Error('Fornecedor não pode ser criado pois já existe um fornecedor com mesmo nome ou cnpj/cpf.');
       }
       const registro = await new FornecedorModel(novo).save({ session });
 
       return registro;
     } catch (error) {
-      console.log(error);
-      throw new Error(`Fornecedor não pode ser criado ${error.message}`);
+      if (erro) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(`Fornecedor não pode ser criado ${error.message}`);
+      }  
     }
   }
 
@@ -64,13 +67,27 @@ module.exports = class FornecedorService {
   }
 
   static async updateFornecedor(id, fornecedor, session) {
+    let erro = false;
     try {
+      let fornecedores = await FornecedorModel.find({ $or: [{ nome: fornecedor.nome.trim() },  { identificacao: fornecedor.identificacao.trim() }] });
+      if (fornecedores) {
+        for (let i in fornecedores){
+          if (fornecedores[i]._id != id) {
+            erro = true;
+            throw new Error('Fornecedor não pode ser alterado pois já existe um fornecedor com o mesmo nome ou cnpj/cpf.');
+          }
+        }
+      }      
       const registro = await FornecedorModel.updateOne({ _id: id }, { ...fornecedor }, { session });
 
       return registro;
     } catch (error) {
-      console.log(`Fornecedor ${id} não pode ser atualizado ${error.message}`);
-      throw new Error(`Fornecedor ${id} não pode ser atualizado ${error.message}`);
+      console.log(error);
+      if (erro) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(`Fornecedor ${id} não pode ser atualizado ${error.message}`);
+      }  
     }
   }
 
@@ -79,7 +96,7 @@ module.exports = class FornecedorService {
       let compra = await CompraModel.findOne({id_fornecedor : id});
 
       if (compra){
-        throw new Error(`. Possui compra.`);
+        throw new Error(`, pois possui compra.`);
       } else {        
         const registro = await FornecedorModel.findOneAndDelete({ _id: id }, { session });
         return registro;
