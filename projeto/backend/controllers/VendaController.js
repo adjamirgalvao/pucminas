@@ -9,9 +9,10 @@ exports.get = async (req, res) => {
   if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.CLIENTE, ROLES.ADMIN, ROLES.GESTOR])) {
     let id = req.params.id;
     let erro = true;
+    let registro = null;
     if (id.length == 24) {
       try {
-        let registro = await VendaService.getVendabyId(id);
+        registro = await VendaService.getVendabyId(id);
         // Se for apenas cliente só pode recuperar a própria compra
         if ((registro) && (!AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.GESTOR, ROLES.ADMIN]))) {
           let email = AutorizacaoService.getEmail(req);
@@ -23,6 +24,7 @@ exports.get = async (req, res) => {
         } else {
           erro = false;
         }
+
         if (erro) {
           res.status(403).json({ error: 'Acesso negado' });
         } else {
@@ -127,6 +129,36 @@ exports.add = async (req, res) => {
       res.status(201).json(registro);
     } catch (error) {
       res.status(500).json({ error: error.message });
+    }
+  } else {
+    res.status(403).json({ error: 'Acesso negado' });
+  }
+};
+
+exports.update = async (req, res) => {
+  if (AutorizacaoService.validarRoles(req, [ROLES.VENDEDOR, ROLES.ADMIN])) {
+    let id = req.params.id;
+
+    if (id.length == 24) {
+      try {
+        const venda = {
+          data: req.body.data,
+          numero: req.body.numero,
+          id_vendedor: req.body.id_vendedor,
+          id_cliente: req.body.id_cliente,
+          itensVenda : req.body.itensVenda
+        };
+        const registro = await VendaService.updateVenda(id, venda);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(404).json({});
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    } else {
+      res.status(400).json({});
     }
   } else {
     res.status(403).json({ error: 'Acesso negado' });

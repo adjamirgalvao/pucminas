@@ -3,7 +3,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
             <li class="breadcrumb-item">Vendas</li>
-            <li *ngIf="(operacao != 'Detalhar') && (operacao != 'Meus Pedidos') && (listar || (operacao != 'Nova'))" class="breadcrumb-item"><a
+            <li *ngIf="(operacao != 'Meus Pedidos') && (listar || (operacao != 'Nova'))" class="breadcrumb-item"><a
                     routerLink="/vendas">Listar Vendas</a></li>
             <li *ngIf="(operacao == 'Meus Pedidos')" class="breadcrumb-item"><a routerLink="/meusPedidos">Meus Pedidos</a></li>
             <li *ngIf="(operacao == 'Meus Pedidos')" class="breadcrumb-item active" aria-current="page"> Detalhar Pedido </li>
@@ -27,8 +27,7 @@
                     <mat-error
                         *ngIf="formulario.get('data')?.hasError('required') && !formulario.get('data')?.hasError('matDatepickerParse')">O
                         campo é obrigatório!</mat-error>
-                    <mat-error *ngIf="formulario.get('data')?.hasError('matDatepickerParse')">O campo é
-                        inválido!</mat-error>
+                    <mat-error *ngIf="formulario.get('data')?.hasError('matDatepickerParse')">O campo é inválido!</mat-error>
                     <mat-hint *ngIf="!this.readOnly()">DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -50,8 +49,7 @@
                     <mat-error
                         *ngIf="!formulario.get('vendedor')?.hasError('required') && formulario.get('vendedor')?.hasError('vendedorCadastrado')  && formulario.get('vendedor')?.touched">O
                         vendedor não está cadastrado!</mat-error>
-                    <mat-hint *ngIf="!this.readOnly()">Escolha o
-                        vendedor</mat-hint>
+                    <mat-hint *ngIf="!this.readOnly()">Escolha o vendedor</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="me-3 mb-3 cliente-vendedor-input">
                     <mat-label>Cliente</mat-label>
@@ -138,8 +136,7 @@
                                 placeholder="Digite o preço unitário" [readonly]="salvando || erroCarregando">
                             <mat-hint class="text-danger" *ngIf="formulario.get('precoFinal')!.value <0">Aviso: Valor
                                 negativo!</mat-hint>
-                            <mat-hint class="text-warning" *ngIf="formulario.get('precoFinal')!.value ==0">Aviso:
-                                Produto de graça!</mat-hint>
+                            <mat-hint class="text-warning" *ngIf="formulario.get('precoFinal')!.value ==0">Aviso: Produto de graça!</mat-hint>
                         </mat-form-field>
                     </div>
                     <div class="mb-3">

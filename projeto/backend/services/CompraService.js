@@ -158,7 +158,7 @@ module.exports = class CompraService {
         id_fornecedor: data.id_fornecedor
       };
 
-      let registro = await new CompraModel(novo).save({session});
+      let registro = await new CompraModel(novo).save({ session });
 
       for (let i in data.itensCompra) {
         const novoItemCompra = {
@@ -217,7 +217,7 @@ module.exports = class CompraService {
     } catch (error) {
       await session.abortTransaction();
       console.log(error);
-      throw new Error(`Compra não pode ser criada ${error.message}`);
+      throw new Error(`Compra não pode ser atualizada ${error.message}`);
     } finally {
       session.endSession();
     }
@@ -236,11 +236,7 @@ module.exports = class CompraService {
       throw new Error(`Compra ${id} não encontrada ${error.message}`);
     }
 
-    if (retorno) {
-      return retorno;
-    } else {
-      throw new Error(`Compra ${id} não encontrada`);
-    }
+    return retorno;
   }
 
   static async deleteCompra(id) {
@@ -248,12 +244,13 @@ module.exports = class CompraService {
 
     session.startTransaction();
     try {
-      let compra = await this.getComprabyId(id);
+      let compra = await this.getComprabyId(id, session);
 
-      for (let i in compra.itensCompra) {
-        await ItemCompraService.deleteItemCompra(compra.itensCompra[i]._id, session);
+      if (compra) {
+        for (let i in compra.itensCompra) {
+          await ItemCompraService.deleteItemCompra(compra.itensCompra[i]._id, session);
+        }
       }
-
       const registro = await CompraModel.findOneAndDelete({ _id: id }, { session });
 
       await session.commitTransaction();

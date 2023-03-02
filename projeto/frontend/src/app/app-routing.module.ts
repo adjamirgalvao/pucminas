@@ -230,6 +230,12 @@ const routes: Routes = [
     data: {roles: [ADMIN, VENDEDOR, GESTOR]} 
   },
   {
+    path: 'vendas/:id/editarVenda',
+    component: EditarVendaComponent, 
+    canActivate: [AuthGuard],
+    data: {roles: [ADMIN, VENDEDOR]} 
+  },
+  {
     path: 'meusPedidos',
     component: ListarVendasComponent, 
     canActivate: [AuthGuard],

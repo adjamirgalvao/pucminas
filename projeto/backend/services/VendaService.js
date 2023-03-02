@@ -326,10 +326,50 @@ module.exports = class VendaService {
     }
   }
 
-  static async getVendabyId(id) {
+  static async updateVenda(id, venda) {
+    const session = await Mongoose.startSession();
+    session.startTransaction();
+
+    try {
+      let registro;
+      let vendaAtual = await this.getVendabyId(id, session);
+      if (vendaAtual) {
+        registro = await VendaModel.updateOne({ _id: id }, { ...venda }, { session });
+
+        //Removendo os itensVendas
+        for (let i in vendaAtual.itensVenda) {
+          await ItemVendaService.deleteItemVenda(vendaAtual.itensVenda[i]._id, session);
+        }
+
+        //Adicionando novamente os itensVendas
+        for (let i in venda.itensVenda) {
+          const novoItemVenda = {
+            id_produto: venda.itensVenda[i].id_produto,
+            id_venda: vendaAtual._id,
+            quantidade: venda.itensVenda[i].quantidade,
+            preco: venda.itensVenda[i].preco,
+            desconto: venda.itensVenda[i].desconto,
+            precoCusto: venda.itensVenda[i].precoCusto,
+            precoUnitario: venda.itensVenda[i].precoUnitario,            
+          };
+          await ItemVendaService.addItemVenda(novoItemVenda, session);
+        }
+      }
+      await session.commitTransaction();
+      return registro;
+    } catch (error) {
+      await session.abortTransaction();
+      console.log(error);
+      throw new Error(`Venda não pode ser atualizada ${error.message}`);
+    } finally {
+      session.endSession();
+    }
+  }
+
+  static async getVendabyId(id, session) {
     let retorno = null
     try {
-      const registro = await VendaModel.aggregate(umaVendaItensVendedorInnerJoinconst(id));
+      const registro = await VendaModel.aggregate(umaVendaItensVendedorInnerJoinconst(id)).session(session);
 
       if (registro && registro.length > 0) {
         retorno = registro[0];
@@ -339,11 +379,7 @@ module.exports = class VendaService {
       throw new Error(`Venda ${id} não encontrada ${error.message}`);
     }
 
-    if (retorno) {
-      return retorno;
-    } else {
-      throw new Error(`Venda ${id} não encontrada`);
-    }
+    return retorno;
   }
 
   static async deleteVenda(id) {
@@ -351,12 +387,13 @@ module.exports = class VendaService {
 
     session.startTransaction();
     try {
-      let venda = await this.getVendabyId(id);
+      let venda = await this.getVendabyId(id, session);
 
-      for (let i in venda.itensVenda) {
-        await ItemVendaService.deleteItemVenda(venda.itensVenda[i]._id, session);
-      }
-
+      if (venda){
+        for (let i in venda.itensVenda) {
+          await ItemVendaService.deleteItemVenda(venda.itensVenda[i]._id, session);
+        }
+      }  
       const registro = await VendaModel.findOneAndDelete({ _id: id }, { session });
 
       await session.commitTransaction();

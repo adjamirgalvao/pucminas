@@ -293,7 +293,7 @@ router.post('/vendas', async (req, res) => {
         }
         for (let i in venda.itensVenda) {
             total += venda.itensVenda[i].preco;
-            custoTotal += venda.itensVenda[i].precoCusto;
+            custoTotal += venda.itensVenda[i].precoCusto * venda.itensVenda[i].quantidade;
             venda.itensVenda[i].id_venda = venda._id;
             venda.itensVenda[i]._id = uniqueID();
             venda.itensVenda[i].__v = 0;
@@ -327,6 +327,50 @@ router.get('/vendas/:id', async (req, res) => {
             console.log(venda);
             res.status(200).json(venda);
         })();
+    } else {
+        res.status(404).json({});
+    }
+});
+
+router.put('/vendas/:id', async (req, res) => {
+    let rawdata = fs.readFileSync(path.join(__dirname, '../mock/vendas.json'));
+    let vendas = JSON.parse(rawdata);
+    let id = req.params.id;
+
+    let vendaRemovida = vendas.find(venda => venda._id === id);
+
+    if (vendaRemovida) {
+        //Remove a venda
+        let vendasAtualizadas = vendas.filter(vendaRemovida => vendaRemovida._id !== id);
+        
+        //Adiciona novamente
+        let venda = req.body;
+        let total = 0;
+        let custoTotal = 0;
+        venda._id = vendaRemovida._id;
+        ; (async function gravarVenda() {
+            if (venda.id_vendedor) {
+                venda.vendedor = await getObjeto(req, 'vendedores', venda.id_vendedor);
+            }
+            if (venda.id_cliente) {
+                venda.cliente = await getObjeto(req, 'clientes', venda.id_cliente);
+            }
+            for (let i in venda.itensVenda) {
+                total += venda.itensVenda[i].preco;
+                custoTotal += venda.itensVenda[i].precoCusto * venda.itensVenda[i].quantidade;
+                venda.itensVenda[i].id_venda = venda._id;
+                venda.itensVenda[i]._id = uniqueID();
+                venda.itensVenda[i].__v = 0;
+            }
+    
+            venda.total = total;
+            venda.custoTotal = custoTotal;
+            venda.__v = 0;
+            vendasAtualizadas.push(venda);
+    
+            fs.writeFileSync(path.join(__dirname, '../mock/vendas.json'), JSON.stringify(vendasAtualizadas, null, 4));
+            res.status(200).json(venda);
+        })();     
     } else {
         res.status(404).json({});
     }

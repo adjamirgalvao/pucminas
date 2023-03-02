@@ -20,6 +20,7 @@ import { Location } from '@angular/common';
 import { Cliente } from 'src/app/interfaces/Cliente';
 import { ClienteService } from 'src/app/services/cliente/cliente.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-editar-venda',
@@ -95,6 +96,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
   private sort!: MatSort;
 
   //Filtro de produtos
+  produtosBase: Produto[] = [];
   produtos: Produto[] = [];
   produtosFiltrados!: Observable<Produto[]>;
   
@@ -243,7 +245,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
     console.log('id ', id);
     if (!this.operacao){
-      this.operacao = (id == null) ? 'Nova' : 'Detalhar'; //se fizer edição troca por Editar
+      this.operacao = (id == null) ? 'Nova' : this.router.url.indexOf('editar') > 0 ? 'Editar' : 'Detalhar';
     }
 
     if ((this.operacao != 'Detalhar') && (this.operacao != 'Meus Pedidos')){
@@ -276,6 +278,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
         throw 'Erro ao recuperar produtos! Detalhes: ' + err.error?.error;
       })).subscribe((produtos) => {
         this.produtos = produtos;
+        this.produtosBase = [...produtos]; //senão vai apontar para o mesmo objeto
         this.ordernarNome(this.produtos);
         console.log(produtos);
 
@@ -303,16 +306,23 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
                 if (this.operacao != 'Nova') {
                     this.vendaService.buscarPorId(id!).pipe(catchError(
-                      err => {
+                      (err: HttpErrorResponse)  => {
                         this.erroCarregando = true;
                         this.carregando = false;
-                        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar a venda!' });
+                        if (err.status == 404) {
+                          this.adicionarAlerta({ tipo: 'danger', mensagem: 'Venda não encontrada!' });
+                          this.leitura = true;
+                          this.criarFormulario();
+                        } else {
+                          this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar a venda!' });
+                        }
                          throw 'Erro ao recuperar a venda! Detalhes: ' + err;
                    })).subscribe((venda) => {
                       this.carregando = false;
                       if (venda != null) {
                         this.inicial = venda;
                         this.itensVenda = venda.itensVenda!;
+                        this.filtrarListaProdutos();
                         this.criarFormulario();
                         this.atualizarTabela();
                       } else {
@@ -344,7 +354,13 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     }
 
     this.salvandoFormulario(true);
-    this.cadastrarVenda(venda);
+    if (this.operacao == 'Novo') {
+      this.cadastrarVenda(venda);
+    } else {
+      venda._id = this.inicial._id!;
+      this.editarVenda(venda);
+    }    
+
   }
 
   cancelar(): void {
@@ -526,6 +542,20 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
         });
   }
 
+  private editarVenda(venda: Venda) {
+    this.vendaService.editar(venda).pipe(catchError(
+      err => {
+        this.salvandoFormulario(false);
+        this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao editar venda!' });
+        throw 'Erro ao editar venda. Detalhes: ' + err;
+      })).subscribe(
+        () => {
+          this.salvandoFormulario(false);
+          // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
+          this.router.navigate(['/vendas'],  {state: {alerta: {tipo: 'success', mensagem: `Venda salva com sucesso!`} }});
+        });
+  }  
+
   readOnly() {
     return this.salvando || this.erroCarregando || this.leitura;
   }
@@ -571,12 +601,35 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     confirmacaoRef.afterClosed().subscribe(result => {
       if (result == 'Sim') {
         this.itensVenda.splice(this.itensVenda.indexOf(itemVenda), 1);
-        this.produtos.push(itemVenda.produto!);
-        this.ordernarNome(this.produtos);
+        let produto = this.localizarProdutoPorId(itemVenda.produto!._id!);
+        if (produto){
+          this.produtos.push(produto);
+          this.ordernarNome(this.produtos);
+        }
         this.resetAdicionarProduto();
         this.atualizarTabela();
       }
     });
+  }
+
+  // Remove os produtos que já existem no itensVenda
+  private filtrarListaProdutos() {
+    for (let i = 0; i < this.itensVenda.length; i++) {
+      const produto =  this.itensVenda[i].produto;
+      for (let j = 0; j < this.produtos.length; j++) {
+        if (this.produtos[j]._id === produto!._id) {
+          this.produtos.splice(j, 1);
+          j--; // atualiza o índice para compensar a remoção
+        }
+      }
+    }
+  }
+
+  private localizarProdutoPorId(id : string) {
+    console.log(this.produtosBase, id);
+    const produtoEncontrado = this.produtosBase.find((produto) => produto._id === id);
+    console.log('produtoencontrado', produtoEncontrado);
+    return produtoEncontrado || null; // retorna o produto encontrado ou null se não houver correspondência
   }
   
   ordernarNome(objeto: { nome: string; }[]) {

@@ -61,9 +61,13 @@
                             matTooltip="Detalhar Pedido" [state]="{ operacao: 'Meus Pedidos' }" *ngIf="operacao != 'Listar Vendas'">
                             <mat-icon color="secondary">receipt</mat-icon>
                         </button>
-                        <button mat-icon-button matTooltip="Excluir Venda" (click)="confirmarExcluirVenda(venda)"
+                        <button mat-icon-button [routerLink]="['/vendas/' + venda._id + '/editarVenda']" *ngIf="(operacao == 'Listar Vendas') && (authService.isVendedor() || authService.isAdmin())"
+                            matTooltip="Editar Venda">
+                            <mat-icon color="secondary">create</mat-icon>
+                        </button>                                
+                        <button mat-icon-button matTooltip="Excluir Venda" (click)="confirmarExcluirVenda(venda)" *ngIf="(operacao == 'Listar Vendas') && (authService.isVendedor() || authService.isAdmin())"
                             [disabled]="excluindo" [class.spinner]="excluindo && (venda._id == vendaExcluida._id)">
-                            <mat-icon color="secondary" *ngIf="(operacao == 'Listar Vendas') && (authService.isVendedor() || authService.isAdmin())">delete</mat-icon>
+                            <mat-icon color="secondary">delete</mat-icon>
                         </button>
                         </div>
                     </mat-cell>

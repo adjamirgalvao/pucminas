@@ -343,7 +343,6 @@ export class EditarCompraComponent implements OnInit {
         });
   }
 
-
   private editarCompra(compra: Compra) {
     this.compraService.editar(compra).pipe(catchError(
       err => {

@@ -136,7 +136,7 @@ module.exports = class ItemVendaService {
     }
     try {
       const itemVenda = await ItemVendaService.criarItemVenda(data, session);
-      const produto = await ProdutoService.getProdutobyId(data.id_produto);
+      const produto = await ProdutoService.getProdutobyId(data.id_produto, session);
 
       if (produto != null) {
         console.log('produto', produto);
@@ -173,7 +173,7 @@ module.exports = class ItemVendaService {
     }
     try {
       const itemVendaRemovida = await ItemVendaModel.findOneAndDelete({ _id: id }, { session });
-      const produto = await ProdutoService.getProdutobyId(itemVendaRemovida.id_produto);
+      const produto = await ProdutoService.getProdutobyId(itemVendaRemovida.id_produto, session);
 
       if (produto != null) {
         produto.quantidade = produto.quantidade + itemVendaRemovida.quantidade;

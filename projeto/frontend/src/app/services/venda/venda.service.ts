@@ -21,6 +21,10 @@ export class VendaService {
   criar(venda: Venda): Observable<Venda> {
     return this.http.post<Venda>(this.API_VENDA, venda);
   }
+
+  editar(venda: Venda): Observable<Venda> {
+    return this.http.put<Venda>(this.API_VENDA + '' + venda._id, venda);
+  }
   
   buscarPorId(id: string): Observable<Venda> {
     return this.http.get<Venda>(this.API_VENDA + '' + id);

@@ -234,7 +234,7 @@ module.exports = class ProdutoService {
   static async updateProduto(id, produto, session) {
     let erro = false;
     try {
-      let produtoAntigo = await ProdutoModel.findOne({ nome: produto.nome.trim() });
+      let produtoAntigo = await ProdutoModel.findOne({ nome: produto.nome.trim() }).session(session);
       if (produtoAntigo && (produtoAntigo._id != id)) {
         erro = true;
         throw new Error('Produto não pode ser alterado pois já existe um produto com mesmo nome.');
