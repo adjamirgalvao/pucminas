@@ -37,12 +37,7 @@ export class EditarProdutoComponent implements OnInit {
   carregando: boolean = false;
   leitura: boolean = false;
 
-  inicial: Produto = {
-    nome: '',
-    quantidade: 0,
-    preco: 0,
-    precoCusto: 0
-  };
+  inicial! : Produto;
 
   operacao!: string;
 
@@ -116,18 +111,19 @@ export class EditarProdutoComponent implements OnInit {
 
   private criarFormulario() {
     //https://stackoverflow.com/questions/44969382/angular-2-formbuilder-disable-fields-on-checkbox-select
+    let novo = (this.operacao == 'Novo') || !this.inicial; 
     this.formulario = this.formBuilder.group({
-      nome: [{value: this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
+      nome: [{value: novo? '' :  this.inicial.nome, disabled: this.readOnly()}, Validators.compose([
         Validators.required,
         Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
-      quantidade: [{value: this.inicial.quantidade, disabled: this.readOnly()}, Validators.compose([
+      quantidade: [{value: novo? '' : this.inicial.quantidade, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0)
       ])],
-      preco: [{value: this.inicial.preco, disabled: this.readOnly()}, Validators.compose([
+      preco: [{value: novo? '' : this.inicial.preco, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01)
       ])],
-      precoCusto: [{value: this.inicial.precoCusto, disabled: this.readOnly()}, Validators.compose([
+      precoCusto: [{value: novo? '' : this.inicial.precoCusto, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0)
       ])]
     });

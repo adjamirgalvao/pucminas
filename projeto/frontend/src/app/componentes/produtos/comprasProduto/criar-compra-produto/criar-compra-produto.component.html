@@ -48,7 +48,7 @@
             <div class="mb-3">
                 <mat-form-field class="me-3">
                     <mat-label>Quantidade</mat-label>
-                    <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
+                    <input formControlName="quantidade" matInput placeholder="Digite a quantidade" mask="separator.2" thousandSeparator="."
                         [readonly]="salvando || erroCarregando">
                         <mat-error *ngIf="formulario.get('quantidade')?.hasError('required')  && formulario.get('quantidade')?.touched">O campo é obrigatório!</mat-error>
                         <mat-error *ngIf="formulario.get('quantidade')?.hasError('min') && formulario.get('quantidade')?.touched">O valor deve ser maior que zero!</mat-error>

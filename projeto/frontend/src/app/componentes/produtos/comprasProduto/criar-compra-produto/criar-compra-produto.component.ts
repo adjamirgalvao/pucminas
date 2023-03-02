@@ -39,7 +39,7 @@ export class CriarCompraProdutoComponent implements OnInit {
     id_produto: '',
     numero: '',
     data: new Date(),
-    quantidade: 0,
+    quantidade: null,
     preco: 0
   };
   

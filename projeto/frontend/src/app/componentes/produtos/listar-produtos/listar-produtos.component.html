@@ -24,7 +24,7 @@
                 </ng-container>
                 <ng-container matColumnDef="quantidade">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estoque</mat-header-cell>
-                    <mat-cell *matCellDef="let produto">{{ produto.quantidade }}</mat-cell>
+                    <mat-cell *matCellDef="let produto">{{ produto.quantidade | number:'1.0-2':'pt-BR'}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="preco">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Preço Unitário</mat-header-cell>

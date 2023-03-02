@@ -37,6 +37,8 @@ import { MatListModule } from '@angular/material/list';
 //Autenticacao google https://www.npmjs.com/package/@abacritt/angularx-social-login
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 // Meus componentes
 import { ModalConfirmacaoComponent } from './componentes/util/modal-confirmacao/modal-confirmacao.component';
 import { AlertaComponent } from './componentes/util/alerta/alerta.component';
@@ -73,6 +75,8 @@ import { ProdutosMaisVendidosComponent } from './componentes/gestao/produtos-mai
 import { MyCustomPaginatorIntl } from './componentes/util/paginacao/MyCustomPaginatorIntl';
 import { RodapeComponent } from './componentes/rodape/rodape.component';
 
+
+registerLocaleData(localePt, 'pt-BR');
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
   allowNegative: true,
@@ -117,6 +121,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     RodapeComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -184,4 +189,3 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

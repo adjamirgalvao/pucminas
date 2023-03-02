@@ -27,7 +27,7 @@
             <div class="mt-3 mb-3">
                 <mat-form-field  class="me-3">
                     <mat-label>Estoque</mat-label>
-                    <input type="number" formControlName="quantidade" matInput placeholder="Digite o estoque">
+                    <input formControlName="quantidade" matInput placeholder="Digite o estoque" mask="separator.2" thousandSeparator=".">
                     <mat-error *ngIf="formulario.get('quantidade')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="formulario.get('quantidade')?.hasError('min')">O valor deve ser maior ou igual a zero!</mat-error>
                     <mat-hint *ngIf="(operacao != 'Detalhar')">Digite o estoque</mat-hint>
