@@ -54,7 +54,7 @@
                     </ng-container>
                     <ng-container matColumnDef="quantidade">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Quantidade</mat-header-cell>
-                        <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.quantidade }}</mat-cell>
+                        <mat-cell *matCellDef="let vendaAgregada">{{ vendaAgregada.quantidade | number:'1.0-2':'pt-BR'}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="precoFinalTotal">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Vendas (Total)</mat-header-cell>
