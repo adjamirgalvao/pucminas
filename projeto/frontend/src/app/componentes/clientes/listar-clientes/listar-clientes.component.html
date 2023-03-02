@@ -55,7 +55,7 @@
         </div>
         <div>
             <button class="mt-3" mat-stroked-button routerLink="/clientes/criarCliente" [queryParams]="{ listar: true }"
-            matTooltip="Novo Cliente" color="primary">Novo Cliente</button>  &nbsp;
+            matTooltip="Novo Cliente" color="primary" [disabled]="excluindo || carregando">Novo Cliente</button>  &nbsp;
             <button class="mt-3" mat-stroked-button [class.spinner]="exportando" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirExcel();" matTooltip="Exportar" color="primary">Exportar</button> &nbsp;
             <button class="mt-3" mat-stroked-button [class.spinner]="imprimindo" [disabled]="excluindo || carregando " (click)="$event.preventDefault(); abrirRelatorio();" matTooltip="Imprimir" color="primary">Imprimir</button> &nbsp;
             <button class="mt-3" mat-stroked-button routerLink="/home" matTooltip="Voltar" color="warn">Voltar</button>  &nbsp;
