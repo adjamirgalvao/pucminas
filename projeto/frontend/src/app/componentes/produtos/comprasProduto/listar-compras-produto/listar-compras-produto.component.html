@@ -47,7 +47,7 @@
         </div>
         <div>
         <button class="mt-3" mat-stroked-button [routerLink]="['/produtos/' + produto._id + '/cadastrarCompraProduto']" [queryParams]="{ listar: true }"
-            matTooltip="Nova Compra" color="primary">Nova Compra </button>  &nbsp;
+            matTooltip="Nova Compra"  [disabled]="excluindo || erroCarregando" color="primary">Nova Compra </button>  &nbsp;
         <button class="mt-3" mat-stroked-button routerLink="/produtos" matTooltip="Voltar" color="warn">Voltar</button>
         </div>
     </fieldset>

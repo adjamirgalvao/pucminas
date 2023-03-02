@@ -127,10 +127,10 @@ export class EditarProdutoComponent implements OnInit {
       quantidade: [{value: novo? '' : this.inicial.quantidade, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0)
       ])],
-      preco: [{value: novo? '' : this.inicial.preco, disabled: this.readOnly()}, Validators.compose([
+      preco: [{value: novo? 0 : this.inicial.preco, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01)
       ])],
-      precoCusto: [{value: novo? '' : this.inicial.precoCusto, disabled: this.readOnly()}, Validators.compose([
+      precoCusto: [{value: novo? 0 : this.inicial.precoCusto, disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0)
       ])]
     });

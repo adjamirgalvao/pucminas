@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { ModalConfirmacaoComponent } from 'src/app/componentes/util/modal-confirmacao/modal-confirmacao.component';
 import { CompraService } from 'src/app/services/compra/compra.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-listar-compras-produto',
@@ -41,6 +42,7 @@ export class ListarComprasProdutoComponent implements OnInit {
   itensCompras: ItemCompra[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
+  erroCarregando: boolean = false;
 
   itemCompraExcluida!: ItemCompra;
   //Esse declaro os valores porque o campo é exibido no formulário
@@ -88,10 +90,15 @@ export class ListarComprasProdutoComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     this.produtoService.buscarPorId(id!).pipe(catchError(
-      err => {
+      (err: HttpErrorResponse) => {
         this.carregando = false;
-        this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error?.error}` });
-        throw 'Erro ao recuperar o produto! Detalhes: ' + err.err.error;
+        this.erroCarregando = true;
+        if (err.status == 404) {
+          this.adicionarAlerta({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
+        } else {
+          this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o produto! Detalhes: ${err.error}` });
+        }
+        throw 'Erro ao recuperar o produto! Detalhes: ' + err.error;
       })).subscribe((produto) => {
       if (produto != null) {
         this.produto = produto;
@@ -112,6 +119,7 @@ export class ListarComprasProdutoComponent implements OnInit {
       } else {
         this.adicionarAlerta({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
         this.carregando = false;
+        this.erroCarregando = true;
       }
     });
   }
