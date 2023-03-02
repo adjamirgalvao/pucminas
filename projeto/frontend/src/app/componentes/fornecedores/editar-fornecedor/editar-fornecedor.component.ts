@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
 import { Alerta } from 'src/app/interfaces/Alerta';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-editar-fornecedor',
@@ -68,11 +69,17 @@ export class EditarFornecedorComponent implements OnInit {
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
-        err => {
+        (err: HttpErrorResponse)  => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar o fornecedor!' });
-          throw 'Erro ao recuperar o fornecedor! Detalhes: ' + err;
+          if (err.status == 404) {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Fornecedor não encontrado!' });
+            this.leitura = true;
+            this.criarFormulario();
+          } else {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o fornecedor! Detalhes: ${err.error}` });
+          }
+          throw 'Erro ao recuperar o fornecedor! Detalhes: ' + err.error;
         })).subscribe((fornecedor) => {
           this.carregando = false;
           if (fornecedor != null) {
