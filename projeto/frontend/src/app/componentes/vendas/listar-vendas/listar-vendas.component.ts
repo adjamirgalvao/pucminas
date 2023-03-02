@@ -108,6 +108,7 @@ export class ListarVendasComponent implements OnInit, OnDestroy{
     this.dataSource.sortingDataAccessor = (item: any, property) => {
       switch (property) {
          case 'vendedor': return  item.vendedor?.nome;
+         case 'lucro': return  item.total - item.custoTotal;
          default: return item[property];
       }
    }      
