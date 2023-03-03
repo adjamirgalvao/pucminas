@@ -379,7 +379,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
     // Testa para forçar a navegação. Senão fica mostrando a mensagem de sucesso da edição que adicionou estado
     if (this.operacao == 'Meus Pedidos'){
-      this.router.navigate(['/compras/meusPedidos']);
+      this.router.navigate(['/meusPedidos']);
     }  else {
       if ((this.operacao != 'Nova') || this.listar) {
         this.router.navigate(['/vendas']);
