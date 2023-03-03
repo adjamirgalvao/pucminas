@@ -52,7 +52,16 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     }   
   }
 
-  @ViewChild('produto') myInput!: ElementRef;
+  @ViewChild('produto') inputProduto!: ElementRef;
+
+  @ViewChild('inicio') inputInicio!: ElementRef;
+
+  private setFocusInicial() {
+    //Sem isso dá O erro ExpressionChangedAfterItHasBeenCheckedError 
+    //Isso agendará a atualização da propriedade para a próxima iteração do ciclo de vida do Angular, permitindo que a detecção de alterações seja concluída antes que a propriedade seja atualizada.
+    setTimeout(() => { this.inputInicio.nativeElement.focus(); }, 0);
+  }
+  
   handlerOrientation: any;
   
   ngOnDestroy(): void {
@@ -326,6 +335,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
                         this.filtrarListaProdutos();
                         this.criarFormulario();
                         this.atualizarTabela();
+                        this.setFocusInicial();
                       } else {
                       this.adicionarAlerta({ tipo: 'danger', mensagem: 'Venda não encontrada!' });
                       this.erroCarregando = true;
@@ -334,6 +344,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
               } else {
                 this.criarFormulario();
                 this.carregando = false;
+                this.setFocusInicial();
             }
           });
       });
@@ -540,6 +551,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
           this.formDirective.resetForm(this.inicial);
           this.itensVenda = [];
           this.atualizarTabela();
+          this.setFocusInicial();
         });
   }
 
@@ -590,7 +602,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
     this.formulario.get('produto')?.setValue('');
     this.formulario.get('produto')?.markAsUntouched();
-    this.myInput.nativeElement.focus();
+    this.inputProduto.nativeElement.focus();
   }
 
   confirmarExcluirItemVenda(itemVenda: ItemVenda) {

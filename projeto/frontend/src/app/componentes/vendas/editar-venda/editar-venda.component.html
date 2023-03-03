@@ -23,7 +23,7 @@
             <div>
                 <mat-form-field appearance="fill" class="me-3 mb-3">
                     <mat-label>Data de venda</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="data">
+                    <input matInput [matDatepicker]="picker" formControlName="data" #inicio>
                     <mat-error
                         *ngIf="formulario.get('data')?.hasError('required') && !formulario.get('data')?.hasError('matDatepickerParse')">O
                         campo é obrigatório!</mat-error>

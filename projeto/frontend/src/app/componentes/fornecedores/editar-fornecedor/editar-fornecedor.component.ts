@@ -1,7 +1,7 @@
 import { Fornecedor } from 'src/app/interfaces/Fornecedor';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
@@ -53,6 +53,20 @@ export class EditarFornecedorComponent implements OnInit {
   @ViewChild('formDirective')
   private formDirective!: NgForm;
   
+  @ViewChild('inicio') inputInicio!: ElementRef;
+  
+  ngAfterViewInit() {
+    if (this.operacao == 'Novo') {
+      this.setFocusInicial();
+    }
+  }
+
+  private setFocusInicial() {
+    //Sem isso dá O erro ExpressionChangedAfterItHasBeenCheckedError 
+    //Isso agendará a atualização da propriedade para a próxima iteração do ciclo de vida do Angular, permitindo que a detecção de alterações seja concluída antes que a propriedade seja atualizada.
+    setTimeout(() => { this.inputInicio.nativeElement.focus(); }, 0);
+  }  
+
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     const id = this.route.snapshot.paramMap.get('id');
@@ -86,6 +100,7 @@ export class EditarFornecedorComponent implements OnInit {
             this.inicial = fornecedor;
             console.log('inicial', this.inicial);
             this.criarFormulario();
+            this.setFocusInicial();
           } else {
             this.adicionarAlerta({ tipo: 'danger', mensagem: 'Fornecedor não encontrado!' });
             this.erroCarregando = true;
@@ -156,6 +171,7 @@ export class EditarFornecedorComponent implements OnInit {
           this.adicionarAlerta({ tipo: 'success', mensagem: `Fornecedor "${fornecedor.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
+          this.setFocusInicial();
         });
   }
 

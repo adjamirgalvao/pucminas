@@ -19,7 +19,7 @@
             <div class="mb-3">
                 <mat-form-field class="produto-input">
                     <mat-label>Nome</mat-label>
-                    <input formControlName="nome" matInput placeholder="Digite o nome do produto">
+                    <input formControlName="nome" matInput placeholder="Digite o nome do produto" #inicio>
                     <mat-error *ngIf="formulario.get('nome')?.errors">O campo é obrigatório!</mat-error>
                     <mat-hint *ngIf="!readOnly()">Digite o nome do produto</mat-hint>
                 </mat-form-field>

@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators, FormControl } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
@@ -79,12 +79,27 @@ export class EditarProdutoComponent implements OnInit {
             this.inicial = produto;
             console.log('inicial', this.inicial);
             this.criarFormulario();
+            this.setFocusInicial();
           } else {
             this.adicionarAlerta({ tipo: 'danger', mensagem: 'Produto não encontrado!' });
             this.erroCarregando = true;
           }
         });
     }
+  }
+
+  @ViewChild('inicio') inputInicio!: ElementRef;
+
+  ngAfterViewInit() {
+    if (this.operacao == 'Novo') {
+      this.setFocusInicial();
+    }
+  }
+
+  private setFocusInicial() {
+    //Sem isso dá O erro ExpressionChangedAfterItHasBeenCheckedError 
+    //Isso agendará a atualização da propriedade para a próxima iteração do ciclo de vida do Angular, permitindo que a detecção de alterações seja concluída antes que a propriedade seja atualizada.
+    setTimeout(() => { this.inputInicio.nativeElement.focus(); }, 0);
   }
 
   salvar(): void {
@@ -149,6 +164,7 @@ export class EditarProdutoComponent implements OnInit {
           this.adicionarAlerta({ tipo: 'success', mensagem: `Produto "${produto.nome}" cadastrado com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
+          this.setFocusInicial();
         });
   }
 

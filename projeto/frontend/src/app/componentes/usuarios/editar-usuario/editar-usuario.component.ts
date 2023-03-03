@@ -61,6 +61,20 @@ export class EditarUsuarioComponent implements OnInit {
   @ViewChild('formDirective')
   private formDirective!: NgForm;
 
+  @ViewChild('inicio') inputInicio!: ElementRef;
+
+  ngAfterViewInit() {
+    if (this.operacao == 'Novo') {
+      this.setFocusInicial();
+    }
+  }
+
+  private setFocusInicial() {
+    //Sem isso dá O erro ExpressionChangedAfterItHasBeenCheckedError 
+    //Isso agendará a atualização da propriedade para a próxima iteração do ciclo de vida do Angular, permitindo que a detecção de alterações seja concluída antes que a propriedade seja atualizada.
+    setTimeout(() => { this.inputInicio.nativeElement.focus(); }, 0);
+  }
+
   ngOnInit(): void {
     this.listar = (this.route.snapshot.queryParamMap.get('listar') == 'true');
     let id = this.route.snapshot.paramMap.get('id');
@@ -100,6 +114,7 @@ export class EditarUsuarioComponent implements OnInit {
             this.inicial = usuario;
             console.log('inicial', this.inicial);
             this.criarFormulario();
+            this.setFocusInicial();
           } else {
             this.adicionarAlerta({ tipo: 'danger', mensagem: 'Usuário não encontrado!' });
             this.erroCarregando = true;
@@ -242,6 +257,7 @@ export class EditarUsuarioComponent implements OnInit {
             this.adicionarAlerta({ tipo: 'success', mensagem: `Usuário "${usuario.nome}" cadastrado com sucesso!` });
             //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
             this.formDirective.resetForm(this.inicial);
+            this.setFocusInicial();
           } else {
             this.router.navigate(['/home'],  {state: {alerta: {tipo: 'success', mensagem: `Usuário "${usuario.nome}" registrado com sucesso! Efetue o login.`} }});
           }  

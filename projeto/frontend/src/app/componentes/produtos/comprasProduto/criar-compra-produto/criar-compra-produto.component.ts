@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs/internal/operators/catchError';
@@ -52,6 +52,14 @@ export class CriarCompraProdutoComponent implements OnInit {
   }
   formulario!: FormGroup;
 
+  @ViewChild('inicio') inputInicio!: ElementRef;
+
+  private setFocusInicial() {
+    //Sem isso dá O erro ExpressionChangedAfterItHasBeenCheckedError 
+    //Isso agendará a atualização da propriedade para a próxima iteração do ciclo de vida do Angular, permitindo que a detecção de alterações seja concluída antes que a propriedade seja atualizada.
+    setTimeout(() => { this.inputInicio.nativeElement.focus(); }, 0);
+  }
+  
   //Filtro de fornecedores
   fornecedores: Fornecedor[] = [];
   fornecedoresFiltrados!: Observable<Fornecedor[]>;
@@ -93,6 +101,7 @@ export class CriarCompraProdutoComponent implements OnInit {
             this.carregando = false;
             console.log('fornecedores', fornecedores);
             this.criarFormulario();
+            this.setFocusInicial();
           })
       } else {
         this.adicionarAlerta({ tipo: 'danger', mensagem: 'Produto não encontrado!' });

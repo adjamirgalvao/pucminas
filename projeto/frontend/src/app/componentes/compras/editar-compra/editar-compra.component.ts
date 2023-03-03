@@ -81,11 +81,19 @@ export class EditarCompraComponent implements OnInit {
   fornecedores: Fornecedor[] = [];
   fornecedoresFiltrados!: Observable<Fornecedor[]>;
 
-  @ViewChild('produto') myInput!: ElementRef;
+  @ViewChild('produto') inputProduto!: ElementRef;
     
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.setDataSourceAttributes();
+  }
+
+  @ViewChild('inicio') inputInicio!: ElementRef;
+
+  private setFocusInicial() {
+    //Sem isso dá O erro ExpressionChangedAfterItHasBeenCheckedError 
+    //Isso agendará a atualização da propriedade para a próxima iteração do ciclo de vida do Angular, permitindo que a detecção de alterações seja concluída antes que a propriedade seja atualizada.
+    setTimeout(() => { this.inputInicio.nativeElement.focus(); }, 0);
   }
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
@@ -201,6 +209,7 @@ export class EditarCompraComponent implements OnInit {
                     this.itensCompra = compra.itensCompra!;
                     this.criarFormulario();
                     this.atualizarTabela();
+                    this.setFocusInicial();
                   } else {
                     this.adicionarAlerta({ tipo: 'danger', mensagem: 'Compra não encontrada!' });
                     this.erroCarregando = true;
@@ -209,6 +218,7 @@ export class EditarCompraComponent implements OnInit {
             } else {
               this.criarFormulario();
               this.carregando = false;
+              this.setFocusInicial();
             }
           });
       });
@@ -342,6 +352,7 @@ export class EditarCompraComponent implements OnInit {
           this.formDirective.resetForm(this.inicial);
           this.itensCompra = [];
           this.atualizarTabela();
+          this.setFocusInicial();
         });
   }
 
@@ -386,7 +397,7 @@ export class EditarCompraComponent implements OnInit {
 
     this.formulario.get('produto')?.setValue('');
     this.formulario.get('produto')?.markAsUntouched();
-    this.myInput.nativeElement.focus();
+    this.inputProduto.nativeElement.focus();
   }
 
   confirmarExcluirItemCompra(itemCompra: ItemCompra) {
