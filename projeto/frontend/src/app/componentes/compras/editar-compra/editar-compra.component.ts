@@ -1,7 +1,7 @@
 import { Fornecedor } from 'src/app/interfaces/Fornecedor';
 import { ItemCompra } from 'src/app/interfaces/ItemCompra';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { Location } from '@angular/common';
@@ -81,6 +81,8 @@ export class EditarCompraComponent implements OnInit {
   fornecedores: Fornecedor[] = [];
   fornecedoresFiltrados!: Observable<Fornecedor[]>;
 
+  @ViewChild('produto') myInput!: ElementRef;
+    
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.setDataSourceAttributes();
@@ -282,7 +284,7 @@ export class EditarCompraComponent implements OnInit {
       produto: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, this.produtoValidator()
       ])],
-      quantidade: [{value: 0, disabled: this.readOnly()}, Validators.compose([
+      quantidade: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01)
       ])],
       preco: [{value: 0, disabled: this.readOnly()}, Validators.compose([
@@ -376,13 +378,15 @@ export class EditarCompraComponent implements OnInit {
   }
 
   private resetAdicionarProduto() {
-    let campos = ['quantidade', 'preco'];
-    campos.map(campo => {
-      this.formulario.get(campo)?.setValue(0);
-      this.formulario.get(campo)?.markAsUntouched();
-    });
+    this.formulario.get('quantidade')?.setValue('');
+    this.formulario.get('quantidade')?.markAsUntouched();
+
+    this.formulario.get('preco')?.setValue(0);
+    this.formulario.get('preco')?.markAsUntouched();
+
     this.formulario.get('produto')?.setValue('');
     this.formulario.get('produto')?.markAsUntouched();
+    this.myInput.nativeElement.focus();
   }
 
   confirmarExcluirItemCompra(itemCompra: ItemCompra) {
@@ -397,6 +401,7 @@ export class EditarCompraComponent implements OnInit {
       if (result == 'Sim') {
         this.itensCompra.splice(this.itensCompra.indexOf(itemCompra), 1);
         this.atualizarTabela();
+        this.resetAdicionarProduto();
       }
     });
   }

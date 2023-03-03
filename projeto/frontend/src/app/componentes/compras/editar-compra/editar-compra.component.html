@@ -57,7 +57,7 @@
                     <mat-form-field class="me-3 mb-3 produto-input">
                         <mat-label>Produto</mat-label>
                         <input type="text" formControlName="produto" [matAutocomplete]="autoProduto" matInput
-                            placeholder="Escolha o produto" [readonly]="salvando || erroCarregando">
+                            placeholder="Escolha o produto" [readonly]="salvando || erroCarregando" #produto>
                         <mat-autocomplete #autoProduto="matAutocomplete" [displayWith]="displayFnProduto">
                             <mat-option *ngFor="let produto of produtosFiltrados | async" [value]="produto">
                                 {{produto.nome}}
@@ -73,8 +73,8 @@
                     </mat-form-field>
                     <mat-form-field class="me-3 mb-3 mt-3 quantidade-preco-input">
                         <mat-label>Quantidade</mat-label>
-                        <input type="number" formControlName="quantidade" matInput placeholder="Digite a quantidade"
-                            [readonly]="salvando || erroCarregando">
+                        <input  formControlName="quantidade" matInput placeholder="Digite a quantidade"
+                            [readonly]="salvando || erroCarregando" mask="separator.2" thousandSeparator=".">
                         <mat-error
                             *ngIf="formulario.get('quantidade')?.hasError('required')  && formulario.get('quantidade')?.touched">O
                             campo é obrigatório!</mat-error>
