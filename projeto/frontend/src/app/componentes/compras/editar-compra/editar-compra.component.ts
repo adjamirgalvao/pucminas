@@ -385,6 +385,8 @@ export class EditarCompraComponent implements OnInit {
     this.itensCompra.push(itemCompra);
     // resetando parte do formulario
     this.resetAdicionarProduto();
+    this.alertas = [];
+    this.adicionarAlerta({ tipo: 'success', mensagem: `Produto '${itemCompra.produto!.nome}' adicionado a compra.` })
     this.atualizarTabela();
   }
 

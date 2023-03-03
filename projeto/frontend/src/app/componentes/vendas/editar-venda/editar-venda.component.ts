@@ -590,6 +590,8 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     this.produtos.splice(this.produtos.indexOf(itemVenda.produto!), 1);
     // resetando parte do formulario
     this.resetAdicionarProduto();
+    this.alertas = [];
+    this.adicionarAlerta({ tipo: 'success', mensagem: `Produto '${itemVenda.produto!.nome}' adicionado a venda.` })
     this.atualizarTabela();
   }
 
