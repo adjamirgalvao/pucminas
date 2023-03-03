@@ -26,10 +26,15 @@ export class HomeComponent implements OnInit{
     }
   }
 
- alertas: Alerta[] = [];
+ alertas: Set<Alerta> = new Set<Alerta>();
    
  public adicionarAlerta(alerta: any){
-  this.alertas.push(alerta);
+  let novoAlerta = new Alerta(alerta.tipo, alerta.mensagem);
+  const alertaEncontrado = [...this.alertas].find(alerta => alerta.tipo === novoAlerta.tipo && alerta.mensagem === novoAlerta.mensagem);
+
+  if (!alertaEncontrado){
+  this.alertas.add(new Alerta(alerta.tipo, alerta.mensagem));
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 }

@@ -25,7 +25,7 @@ export class IndicadoresEstoqueComponent implements OnInit{
   carregando: boolean = false;
   carregado: boolean = false;
   erroCarregando: boolean = false;
-  alertas: Alerta[] = [];
+  alertas: Set<Alerta> = new Set<Alerta>();
   compras: CompraAgrupada[] = [];
   //Filtro de produtos
   produtos: Produto[] = [];
@@ -224,7 +224,12 @@ export class IndicadoresEstoqueComponent implements OnInit{
   }  
    
   public adicionarAlerta(alerta: any){
-    this.alertas.push(alerta);
+    let novoAlerta = new Alerta(alerta.tipo, alerta.mensagem);
+    const alertaEncontrado = [...this.alertas].find(alerta => alerta.tipo === novoAlerta.tipo && alerta.mensagem === novoAlerta.mensagem);
+
+    if (!alertaEncontrado){
+    this.alertas.add(new Alerta(alerta.tipo, alerta.mensagem));
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

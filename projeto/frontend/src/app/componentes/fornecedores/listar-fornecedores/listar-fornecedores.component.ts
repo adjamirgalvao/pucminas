@@ -31,7 +31,7 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
       }
   }
 
-  alertas: Alerta[] = [];
+  alertas: Set<Alerta> = new Set<Alerta>();
   fornecedores: Fornecedor[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
@@ -143,7 +143,7 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
           //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
           this.dataSource = new MatTableDataSource(this.fornecedores);
           this.setDataSourceAttributes(); // para atualizar paginação
-          this.alertas = [];
+          this.alertas = new Set<Alerta>();
           this.adicionarAlerta({ tipo: 'success', mensagem: `O Fornecedor "${fornecedor.nome}" foi excluído com sucesso!` });
         });
   }
@@ -203,7 +203,12 @@ export class ListarFornecedoresComponent implements OnInit, OnDestroy {
   }
    
   public adicionarAlerta(alerta: any){
-    this.alertas.push(alerta);
+    let novoAlerta = new Alerta(alerta.tipo, alerta.mensagem);
+    const alertaEncontrado = [...this.alertas].find(alerta => alerta.tipo === novoAlerta.tipo && alerta.mensagem === novoAlerta.mensagem);
+
+    if (!alertaEncontrado){
+    this.alertas.add(new Alerta(alerta.tipo, alerta.mensagem));
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

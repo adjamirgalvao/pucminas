@@ -38,7 +38,7 @@ export class EditarUsuarioComponent implements OnInit {
     }
   formulario!: FormGroup;
 
-  alertas: Alerta[] = [];
+  alertas: Set<Alerta> = new Set<Alerta>();
   salvando: boolean = false;
   listar: boolean = false;
   erroCarregando: boolean = false;
@@ -253,7 +253,7 @@ export class EditarUsuarioComponent implements OnInit {
         () => {
           if (this.operacao != 'Registrar') {
             this.salvandoFormulario(false);
-            this.alertas = [];
+            this.alertas = new Set<Alerta>();
             this.adicionarAlerta({ tipo: 'success', mensagem: `Usuário "${usuario.nome}" cadastrado com sucesso!` });
             //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
             this.formDirective.resetForm(this.inicial);
@@ -306,7 +306,12 @@ export class EditarUsuarioComponent implements OnInit {
   }
    
   public adicionarAlerta(alerta: any){
-    this.alertas.push(alerta);
+    let novoAlerta = new Alerta(alerta.tipo, alerta.mensagem);
+    const alertaEncontrado = [...this.alertas].find(alerta => alerta.tipo === novoAlerta.tipo && alerta.mensagem === novoAlerta.mensagem);
+
+    if (!alertaEncontrado){
+    this.alertas.add(new Alerta(alerta.tipo, alerta.mensagem));
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
