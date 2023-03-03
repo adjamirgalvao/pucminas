@@ -29,7 +29,7 @@ export class CriarCompraProdutoComponent implements OnInit {
     private router: Router) {
   }
 
-  alertas: Set<Alerta> = new Set<Alerta>();
+  alertas: Alerta[] = [];
   salvando: boolean = false;
   erroCarregando : boolean = false;
   carregando: boolean = false;
@@ -208,11 +208,8 @@ export class CriarCompraProdutoComponent implements OnInit {
   }  
    
   public adicionarAlerta(alerta: any){
-    let novoAlerta = new Alerta(alerta.tipo, alerta.mensagem);
-    const alertaEncontrado = [...this.alertas].find(alerta => alerta.tipo === novoAlerta.tipo && alerta.mensagem === novoAlerta.mensagem);
-
-    if (!alertaEncontrado){
-    this.alertas.add(new Alerta(alerta.tipo, alerta.mensagem));
+    if (!this.alertas.find(a => a.tipo === alerta.tipo && a.mensagem === alerta.mensagem)) {
+      this.alertas.push(alerta);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }

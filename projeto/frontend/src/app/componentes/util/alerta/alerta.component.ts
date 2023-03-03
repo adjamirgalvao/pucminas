@@ -14,11 +14,11 @@ export class AlertaComponent implements OnInit {
   }
   
   @Input()
-  alertas: Set<Alerta>= new Set<Alerta>();
+  alertas: Alerta[] = [];
 
 
   fecharAlerta(alerta: Alerta): void {
-    this.alertas.delete(alerta);
+    this.alertas.splice(this.alertas.indexOf(alerta), 1);
   }
 }
 

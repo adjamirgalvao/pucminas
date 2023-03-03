@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   }
   formulario!: FormGroup;
 
-  alertas: Set<Alerta> = new Set<Alerta>();
+  alertas: Alerta[] = [];
   logando: boolean = false;
 
   ngOnInit(): void {
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
         throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
-          this.alertas = new Set<Alerta>();
+          this.alertas = [];
           this.router.navigate(['/home']);
         });
   }
@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
         throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
-          this.alertas = new Set<Alerta>();
+          this.alertas = [];
           this.router.navigate(['/home']);
         });
   }
@@ -100,14 +100,10 @@ export class LoginComponent implements OnInit {
   }
 
   public adicionarAlerta(alerta: any){
-    let novoAlerta = new Alerta(alerta.tipo, alerta.mensagem);
-    const alertaEncontrado = [...this.alertas].find(alerta => alerta.tipo === novoAlerta.tipo && alerta.mensagem === novoAlerta.mensagem);
-
-    if (!alertaEncontrado){
-    this.alertas.add(new Alerta(alerta.tipo, alerta.mensagem));
+    if (!this.alertas.find(a => a.tipo === alerta.tipo && a.mensagem === alerta.mensagem)) {
+      this.alertas.push(alerta);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
 }
 

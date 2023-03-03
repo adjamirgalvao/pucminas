@@ -46,7 +46,7 @@ export class EditarCompraComponent implements OnInit {
 
   formulario!: FormGroup;
 
-  alertas: Set<Alerta> = new Set<Alerta>();
+  alertas: Alerta[] = [];
   salvando: boolean = false;
   listar: boolean = false;
   erroCarregando: boolean = false;
@@ -346,7 +346,7 @@ export class EditarCompraComponent implements OnInit {
       })).subscribe(
         () => {
           this.salvandoFormulario(false);
-          this.alertas = new Set<Alerta>();
+          this.alertas = [];
           this.adicionarAlerta({ tipo: 'success', mensagem: `Compra cadastrada com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
           this.formDirective.resetForm(this.inicial);
@@ -385,7 +385,7 @@ export class EditarCompraComponent implements OnInit {
     this.itensCompra.push(itemCompra);
     // resetando parte do formulario
     this.resetAdicionarProduto();
-    this.alertas = new Set<Alerta>();
+    this.alertas = [];
     this.adicionarAlerta({ tipo: 'success', mensagem: `Produto '${itemCompra.produto!.nome}' adicionado a compra.` })
     this.atualizarTabela();
   }
@@ -440,12 +440,10 @@ export class EditarCompraComponent implements OnInit {
   }  
    
   public adicionarAlerta(alerta: any){
-    let novoAlerta = new Alerta(alerta.tipo, alerta.mensagem);
-    const alertaEncontrado = [...this.alertas].find(alerta => alerta.tipo === novoAlerta.tipo && alerta.mensagem === novoAlerta.mensagem);
-
-    if (!alertaEncontrado){
-    this.alertas.add(new Alerta(alerta.tipo, alerta.mensagem));
+    if (!this.alertas.find(a => a.tipo === alerta.tipo && a.mensagem === alerta.mensagem)) {
+      this.alertas.push(alerta);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
+

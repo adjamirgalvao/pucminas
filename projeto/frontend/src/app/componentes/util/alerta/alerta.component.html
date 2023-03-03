@@ -1,4 +1,4 @@
-<div class="mural" *ngIf="alertas.size > 0">
+<div class="mural" *ngIf="alertas.length > 0">
     <p *ngFor="let alerta of alertas">
         <ngb-alert [type]="alerta.tipo" (closed)="fecharAlerta(alerta)">{{ alerta.mensagem }}</ngb-alert>
     </p>

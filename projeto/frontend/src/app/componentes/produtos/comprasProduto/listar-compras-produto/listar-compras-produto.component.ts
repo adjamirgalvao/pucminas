@@ -38,7 +38,7 @@ export class ListarComprasProdutoComponent implements OnInit {
       }
   }
 
-  alertas: Set<Alerta> = new Set<Alerta>();
+  alertas: Alerta[] = [];
   itensCompras: ItemCompra[] = [];
   carregando: boolean = true;
   excluindo: boolean = false;
@@ -156,17 +156,14 @@ export class ListarComprasProdutoComponent implements OnInit {
           //https://stackoverflow.com/questions/54744770/how-to-delete-particular-row-from-angular-material-table-which-doesnt-have-filte
           this.dataSource = new MatTableDataSource(this.itensCompras);
           this.setDataSourceAttributes(); // para atualizar paginação
-          this.alertas = new Set<Alerta>();
+          this.alertas = [];
           this.adicionarAlerta({ tipo: 'success', mensagem: `A compra do Produto "${this.produto.nome}" foi excluída com sucesso!` });
         });
   }
    
   public adicionarAlerta(alerta: any){
-    let novoAlerta = new Alerta(alerta.tipo, alerta.mensagem);
-    const alertaEncontrado = [...this.alertas].find(alerta => alerta.tipo === novoAlerta.tipo && alerta.mensagem === novoAlerta.mensagem);
-
-    if (!alertaEncontrado){
-    this.alertas.add(new Alerta(alerta.tipo, alerta.mensagem));
+    if (!this.alertas.find(a => a.tipo === alerta.tipo && a.mensagem === alerta.mensagem)) {
+      this.alertas.push(alerta);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
