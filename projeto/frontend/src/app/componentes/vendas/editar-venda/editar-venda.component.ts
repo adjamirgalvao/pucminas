@@ -1,5 +1,5 @@
 import { AuthService } from './../../../services/autenticacao/auth/auth.service';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, ValidatorFn, AbstractControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -52,6 +52,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     }   
   }
 
+  @ViewChild('produto') myInput!: ElementRef;
   handlerOrientation: any;
   
   ngOnDestroy(): void {
@@ -439,7 +440,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
         Validators.required, this.produtoValidator()
       ])],
       precoUnitario: [{value: '', disabled: true}],      
-      quantidade: [{value: 0, disabled: this.readOnly()}, Validators.compose([
+      quantidade: [{value: '', disabled: this.readOnly()}, Validators.compose([
         Validators.required, Validators.min(0.01), this.quantidadeValidator()
       ])],
       precoTotal: [{value: '', disabled: true}],      
@@ -581,13 +582,15 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
   }
 
   private resetAdicionarProduto() {
-    let campos = ['quantidade', 'desconto'];
-    campos.map(campo => {
-      this.formulario.get(campo)?.setValue(0);
-      this.formulario.get(campo)?.markAsUntouched();
-    });
+    this.formulario.get('quantidade')?.setValue('');
+    this.formulario.get('quantidade')?.markAsUntouched();
+
+    this.formulario.get('desconto')?.setValue(0);
+    this.formulario.get('desconto')?.markAsUntouched();
+
     this.formulario.get('produto')?.setValue('');
     this.formulario.get('produto')?.markAsUntouched();
+    this.myInput.nativeElement.focus();
   }
 
   confirmarExcluirItemVenda(itemVenda: ItemVenda) {
