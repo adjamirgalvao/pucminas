@@ -237,7 +237,7 @@ export class EditarCompraComponent implements OnInit {
     }      
 
     this.salvandoFormulario(true);
-    if (this.operacao == 'Novo') {
+    if (this.operacao == 'Nova') {
       this.cadastrarCompra(compra);
     } else {
       compra._id = this.inicial._id!;

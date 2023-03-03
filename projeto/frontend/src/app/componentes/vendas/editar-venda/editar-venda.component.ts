@@ -366,7 +366,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
     }
 
     this.salvandoFormulario(true);
-    if (this.operacao == 'Novo') {
+    if (this.operacao == 'Nova') {
       this.cadastrarVenda(venda);
     } else {
       venda._id = this.inicial._id!;
