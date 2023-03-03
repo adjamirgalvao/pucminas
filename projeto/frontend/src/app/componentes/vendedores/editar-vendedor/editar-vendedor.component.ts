@@ -6,6 +6,7 @@ import { Alerta } from 'src/app/interfaces/Alerta';
 import { Vendedor } from 'src/app/interfaces/Vendedor';
 import { VendedorService } from 'src/app/services/vendedor/vendedor.service';
 import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-editar-vendedor',
@@ -82,11 +83,17 @@ export class EditarVendedorComponent implements OnInit {
       this.erroCarregando = false;
       this.carregando = true;
       this.service.buscarPorId(id!).pipe(catchError(
-        err => {
+        (err: HttpErrorResponse)  => {
           this.erroCarregando = true;
           this.carregando = false;
-          this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o vendedor! Detalhes: ${err.error?.error}` });
-          throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error?.error;
+          if (err.status == 404) {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: 'Vendedor não encontrado!' });
+            this.leitura = true;
+            this.criarFormulario();
+          } else {
+            this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar o vendedor! Detalhes: ${err.error}` });
+          }
+          throw 'Erro ao recuperar o vendedor! Detalhes: ' + err.error;
         })).subscribe((vendedor) => {
           this.carregando = false;
           if (vendedor != null) {
