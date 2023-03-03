@@ -51,7 +51,7 @@ exports.loginGoogle = async (req, res) => {
         nome: payload.name,
         login: payload.email,
         email: payload.email,
-        senha: '',
+        senha: '' + (Math.floor(Math.random() * Date.now())), //senha aleatória
         roles: [ROLES.CLIENTE],
       };
 
