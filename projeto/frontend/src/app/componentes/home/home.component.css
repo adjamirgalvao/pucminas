@@ -1,0 +1,7 @@
+#principal {
+    background-image: url('../../../assets/24595852_2202_w039_n003_110b_p1_110.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover; /* redimensiona a imagem para preencher o elemento */
+    height: 100vh; /* define a altura da div como 100% da altura da tela */
+}
