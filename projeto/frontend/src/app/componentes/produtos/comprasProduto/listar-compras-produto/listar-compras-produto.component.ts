@@ -54,7 +54,7 @@ export class ListarComprasProdutoComponent implements OnInit {
   };
 
   // Campos para a tabela
-  displayedColumns: string[] = ['compra.data', 'quantidade', 'preco', 'acoes'];
+  displayedColumns: string[] = ['compra.data', 'compra.numero', 'quantidade', 'preco', 'acoes'];
   dataSource: MatTableDataSource<ItemCompra> = new MatTableDataSource();
 
   //Sem isso não consegui fazer funcionar o sort e paginator https://stackoverflow.com/questions/50767580/mat-filtering-mat-sort-not-work-correctly-when-use-ngif-in-mat-table-parent  
@@ -81,6 +81,7 @@ export class ListarComprasProdutoComponent implements OnInit {
     this.dataSource.sortingDataAccessor = (item: any, property) => {
       switch (property) {
          case 'compra.data': return  item.compra!.data;
+         case 'compra.numero': return  item.compra!.numero;
          default: return item[property];
       }
    }

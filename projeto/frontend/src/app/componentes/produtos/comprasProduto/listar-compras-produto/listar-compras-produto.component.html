@@ -23,6 +23,11 @@
                     <!-- https://stackoverflow.com/questions/54645041/how-to-convert-string-to-type-date-in-dynamically-generated-mat-table-->
                     <mat-cell *matCellDef="let item">{{ item.compra.data  | date: 'dd/MM/yyyy'}}</mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="compra.numero">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nota Fiscal</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{ item.compra.numero }}</mat-cell>
+                    <mat-footer-cell *matFooterCellDef>  </mat-footer-cell>
+                </ng-container>                
                 <ng-container matColumnDef="quantidade">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Quantidade</mat-header-cell>
                     <mat-cell *matCellDef="let item">{{ item.quantidade | number:'1.0-2':'pt-BR'}}</mat-cell>
