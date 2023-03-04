@@ -4,4 +4,5 @@
     background-repeat: no-repeat;
     background-size: cover; /* redimensiona a imagem para preencher o elemento */
     height: 100vh; /* define a altura da div como 100% da altura da tela */
+    opacity: 0.3;
 }
