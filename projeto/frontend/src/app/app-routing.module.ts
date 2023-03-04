@@ -191,7 +191,7 @@ const routes: Routes = [
     path: 'compras',
     component: ListarComprasComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [ADMIN, ESTOQUE]}
+    data: {roles: [ADMIN, ESTOQUE, GESTOR]}
   },
   {
     path: 'compras/criarCompra',
@@ -203,7 +203,7 @@ const routes: Routes = [
     path: 'compras/:id',
     component: EditarCompraComponent, 
     canActivate: [AuthGuard],
-    data: {roles: [ADMIN, ESTOQUE]} 
+    data: {roles: [ADMIN, ESTOQUE, GESTOR]} 
   },
   {
     path: 'compras/:id/editarCompra',

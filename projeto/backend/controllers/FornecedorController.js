@@ -3,7 +3,7 @@ const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 const PDFService = require("../services/PDFKitService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.GESTOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     if (id.length == 24) {
@@ -26,7 +26,7 @@ exports.get = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.GESTOR, ROLES.ADMIN])) {
     try {
       const registros = await FornecedorService.getAllFornecedores();
 

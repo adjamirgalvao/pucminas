@@ -213,6 +213,12 @@ export class EditarVendedorComponent implements OnInit {
     if (!this.alertas.find(a => a.tipo === alerta.tipo && a.mensagem === alerta.mensagem)) {
       this.alertas.push(alerta);
     }
+    /*setTimeout(()=> {
+      if (this.alertas.indexOf(alerta) > -1) {
+         this.alertas.splice(this.alertas.indexOf(alerta), 1);
+      }
+    }, 5000);*/
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

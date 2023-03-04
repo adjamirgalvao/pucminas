@@ -9,6 +9,7 @@ import { catchError } from 'rxjs';
 import { ModalConfirmacaoComponent } from 'src/app/componentes/util/modal-confirmacao/modal-confirmacao.component';
 import { Alerta } from 'src/app/interfaces/Alerta';
 import { Compra } from 'src/app/interfaces/Compra';
+import { AuthService } from 'src/app/services/autenticacao/auth/auth.service';
 import { CompraService } from 'src/app/services/compra/compra.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class ListarComprasComponent implements OnInit, OnDestroy {
 
   constructor(
     private deviceService: DeviceDetectorService,    
+    public authService: AuthService,
     private router: Router,
     private compraService: CompraService,
     public confirmacao: MatDialog) {

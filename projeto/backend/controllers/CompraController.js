@@ -4,7 +4,7 @@ const PDFService = require("../services/PDFKitService");
 const RelatorioUtilService = require("../services/RelatorioUtilService");
 
 exports.get = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.GESTOR, ROLES.ADMIN])) {
     let id = req.params.id;
 
     if (id.length == 24) {
@@ -27,7 +27,7 @@ exports.get = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.GESTOR, ROLES.ADMIN])) {
     try {
       const registros = await CompraService.getAllCompras();
 
@@ -134,7 +134,7 @@ exports.getAllCompras = async (req, res) => {
 };
 
 exports.getRelatorioListagem = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.GESTOR, ROLES.ADMIN])) {
     try {
       let dados = await CompraService.getExcelListagem();
 
@@ -153,7 +153,7 @@ exports.getRelatorioListagem = async (req, res) => {
 };
 
 exports.getExcelListagem = async (req, res) => {
-  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.ADMIN])) {
+  if (AutorizacaoService.validarRoles(req, [ROLES.ESTOQUE, ROLES.GESTOR, ROLES.ADMIN])) {
     try {
       let registros = await CompraService.getExcelListagem();
 
