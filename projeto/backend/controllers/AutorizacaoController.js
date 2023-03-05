@@ -73,7 +73,11 @@ exports.loginGoogle = async (req, res) => {
       res.status(404).json({ error: 'Não foi possível efetuar o login pelo Google.' });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error && error.message && (error.message.indexOf('Token used too late') > -1)) {
+      res.status(500).json({ error: 'Sessão expirada! Efetue o login.' });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
   }
 
 };
