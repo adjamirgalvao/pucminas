@@ -113,8 +113,8 @@ exports.update = async (req, res) => {
         }
 
         const registro = await UsuarioService.updateUsuario(id, usuario);
-
-        if (registro.modifiedCount === 0) {
+        console.log('atualizando', registro.matchedCount, registro);
+        if (registro.matchedCount === 0) {
           return res.status(404).json({});
         }
 
