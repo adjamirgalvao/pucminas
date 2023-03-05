@@ -156,6 +156,12 @@ export class EditarFornecedorComponent implements OnInit {
       complemento: [{value: this.inicial.endereco.complemento, disabled: this.readOnly()}],
 
     });
+
+    // Desta forma a troca de tipo força a ter que digitar de novo o cnpj/cpf (da outra forma, mantendo o valor dava problema)
+    this.formulario.get('tipo')?.valueChanges.subscribe(value => {
+      this.formulario.get('identificacao')?.setValue('');
+      this.formulario.get('identificacao')?.markAsUntouched();
+    });
   }
 
   private cadastrarFornecedor(fornecedor: Fornecedor) {
