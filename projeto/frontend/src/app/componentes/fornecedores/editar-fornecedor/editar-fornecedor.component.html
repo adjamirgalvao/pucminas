@@ -30,12 +30,13 @@
                     <mat-radio-group matInput aria-label="Escolha o tipo" formControlName="tipo" color="primary" >
                         <mat-radio-button value="pf">Pessoa Física</mat-radio-button>
                         <mat-radio-button value="pj">Pessoa Jurídica</mat-radio-button>
-                      </mat-radio-group><br>
+                        <mat-error *ngIf="formulario.get('tipo')?.errors && formulario.get('tipo')?.touched">O campo é obrigatório!</mat-error>
+                    </mat-radio-group><br>
             </div>
             <div class="mb-3">
                 <mat-form-field>
                     <mat-label>CPF/CNPJ</mat-label>
-                    <input formControlName="identificacao" matInput placeholder="Digite o CPF/CNPJ" mask="CPF_CNPJ">
+                    <input formControlName="identificacao" matInput placeholder="Digite o CPF/CNPJ" [mask]="getMascara()">
                     <mat-error *ngIf="formulario.get('identificacao')?.hasError('required')">O campo é obrigatório!</mat-error>
                     <mat-error *ngIf="!formulario.get('identificacao')?.hasError('required') && formulario.get('identificacao')?.hasError('mask')">CPF/CNPJ inválido!</mat-error>
                     <mat-hint *ngIf="!readOnly()">Digite o CPF/CNPJ</mat-hint>

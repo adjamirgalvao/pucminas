@@ -203,6 +203,14 @@ export class EditarFornecedorComponent implements OnInit {
     }
   }
    
+  public getMascara(): string {
+    if (this.formulario?.get('tipo')?.value == 'pf') {
+      return "000.000.000-00";
+    } else {
+      return '00.000.000/0000-00';
+    }
+  } 
+
   public adicionarAlerta(alerta: any){
     if (!this.alertas.find(a => a.tipo === alerta.tipo && a.mensagem === alerta.mensagem)) {
       this.alertas.push(alerta);

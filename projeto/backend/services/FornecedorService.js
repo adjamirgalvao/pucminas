@@ -38,7 +38,7 @@ module.exports = class FornecedorService {
         endereco: data.endereco
       };
       //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
-      let fornecedor = await FornecedorModel.findOne({ $or: [{ nome: novo.nome.trim() }, { identificacao: novo.identificacao.trim() }] });
+      let fornecedor = await FornecedorModel.findOne({ $or: [{ nome: { $regex: novo.nome.trim(), $options: 'i'}}, { identificacao: novo.identificacao.trim() }] });
       if (fornecedor) {
         erro = true;
         throw new Error('Fornecedor não pode ser criado pois já existe um fornecedor com mesmo nome ou cnpj/cpf.');
@@ -69,7 +69,8 @@ module.exports = class FornecedorService {
   static async updateFornecedor(id, fornecedor, session) {
     let erro = false;
     try {
-      let fornecedores = await FornecedorModel.find({ $or: [{ nome: fornecedor.nome.trim() },  { identificacao: fornecedor.identificacao.trim() }] });
+      console.log('expressão', `/${fornecedor.nome.trim()}/i`);
+      let fornecedores = await FornecedorModel.find({ $or: [{ nome: { $regex: fornecedor.nome.trim(), $options: 'i'} },  { identificacao: fornecedor.identificacao.trim() }] });
       if (fornecedores) {
         for (let i in fornecedores){
           if (fornecedores[i]._id != id) {
