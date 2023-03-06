@@ -145,7 +145,7 @@ module.exports = class ProdutoService {
     let quantidadeInicial = produto.quantidade;
   
     produto.quantidade = produto.quantidade + entrada.quantidade;
-    produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + (entrada.quantidade * entrada.preco)) / produto.quantidade;
+    produto.precoCusto = ((quantidadeInicial * produto.precoCusto) + entrada.preco) / produto.quantidade;
     produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
   
     //sem o '' caso passe um id como ObjectId dá erro na comparação de produtos
@@ -157,7 +157,7 @@ module.exports = class ProdutoService {
   
     produto.quantidade = produto.quantidade - saida.quantidade;
     if (produto.quantidade > 0) {
-      produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - (saida.quantidade * saida.preco)) / produto.quantidade;
+      produto.precoCusto = ((quantidadeInicial * produto.precoCusto) - saida.preco) / produto.quantidade;
       //https://stackoverflow.com/questions/1458633/how-to-deal-with-floating-point-number-precision-in-javascript
       produto.precoCusto = Math.round(produto.precoCusto * 100) / 100; //arredondar em 2 digitos
     } else if (produto.quantidade == 0){
