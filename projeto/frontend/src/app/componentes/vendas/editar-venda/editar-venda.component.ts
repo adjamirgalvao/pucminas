@@ -604,7 +604,6 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
 
     this.formulario.get('produto')?.setValue('');
     this.formulario.get('produto')?.markAsUntouched();
-    this.inputProduto.nativeElement.focus();
   }
 
   confirmarExcluirItemVenda(itemVenda: ItemVenda) {

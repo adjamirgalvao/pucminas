@@ -31,6 +31,9 @@ export class LoginComponent implements OnInit {
   logando: boolean = false;
 
   ngOnInit(): void {
+    if (this.jwtAuthService.isLogado()) {
+      this.jwtAuthService.logout();
+    }
     this.criarFormulario();
     this.socialAuthService.authState.subscribe((user) => {
       if ((user) && !this.logando){

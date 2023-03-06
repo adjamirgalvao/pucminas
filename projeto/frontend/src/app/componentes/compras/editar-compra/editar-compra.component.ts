@@ -399,7 +399,6 @@ export class EditarCompraComponent implements OnInit {
 
     this.formulario.get('produto')?.setValue('');
     this.formulario.get('produto')?.markAsUntouched();
-    this.inputProduto.nativeElement.focus();
   }
 
   confirmarExcluirItemCompra(itemCompra: ItemCompra) {
