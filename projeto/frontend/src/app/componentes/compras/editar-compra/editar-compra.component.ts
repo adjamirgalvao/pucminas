@@ -349,6 +349,7 @@ export class EditarCompraComponent implements OnInit {
           this.alertas = [];
           this.adicionarAlerta({ tipo: 'success', mensagem: `Compra cadastrada com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
+          this.inicial.data =  new Date();
           this.formDirective.resetForm(this.inicial);
           this.itensCompra = [];
           this.atualizarTabela();

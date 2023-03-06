@@ -548,6 +548,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
           this.alertas = [];
           this.adicionarAlerta({ tipo: 'success', mensagem: `Venda cadastrada com sucesso!` });
           //https://stackoverflow.com/questions/60184432/how-to-clear-validation-errors-for-mat-error-after-submitting-the-form
+          this.inicial.data =  new Date();
           this.formDirective.resetForm(this.inicial);
           this.itensVenda = [];
           this.atualizarTabela();
