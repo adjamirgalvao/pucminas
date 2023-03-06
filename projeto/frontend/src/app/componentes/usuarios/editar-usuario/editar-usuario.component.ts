@@ -277,18 +277,15 @@ export class EditarUsuarioComponent implements OnInit {
         throw 'Erro ao editar usuário. Detalhes: ' + err.error?.error;
       })).subscribe(
         () => {
-          let alerta = {tipo: 'success', mensagem: `Usuário "${usuario.nome}" salvo com sucesso!`};
           this.salvandoFormulario(false);
           // https://stackoverflow.com/questions/44864303/send-data-through-routing-paths-in-angular
           if (this.operacao == 'Editar') {
+            let alerta = {tipo: 'success', mensagem: `Usuário "${usuario.nome}" salvo com sucesso!`};
             this.router.navigate(['/usuarios'],  {state: { alerta }});
           } else {
-            // Como estes campos não estão habilitados eles vem como undefined na hora de salvar o formulário
-            usuario.login = this.inicial.login;
-            usuario.roles = this.inicial.roles;
-            //Atualizo o token local para mostrar o usuário logado corretamente.
-            this.authService.setUsuario(usuario);
-            this.router.navigate(['/home'],  {state: { alerta }});
+            let alerta = {tipo: 'success', mensagem: `Usuário "${usuario.nome}" salvo com sucesso. Faça novamente o login!`};
+            this.authService.logout();
+            this.router.navigate(['/login'],  {state: { alerta }});
           }
         });
   }

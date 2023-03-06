@@ -9,7 +9,7 @@ exports.applyPassportStrategy = (passport) => {
   options.secretOrKey = Config.PASSPORT.SECRET;
   passport.use(
     new Strategy(options, (payload, done) => {
-        UsuarioModel.find({ login: payload.login }, (err, usuarios) => {
+        UsuarioModel.find({ login: payload.usuario.login }, (err, usuarios) => {
         if (err) {
           return done(err, false);
         } else if (usuarios && (usuarios.length == 1)) {

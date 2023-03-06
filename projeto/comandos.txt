@@ -14,6 +14,7 @@ para resolver o problema de Access to XMLHttpRequest at 'http://localhost:8090/p
 
 para fazer autenticacao
 npm i passport passport-jwt jsonwebtoken   --para fazer a instação do passport e da extensao para jwt e jsonwebtoken para ter o token
+npm install jwt-decode --save
 
 para fazer hash de senha (sha256 is depreccated)
 npm install sha.js

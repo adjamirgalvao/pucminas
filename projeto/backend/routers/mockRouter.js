@@ -94,19 +94,6 @@ router.post('/autenticacao/login', (req, res) => {
         res.status(404).json({ error: 'Usuário não encontrado.' });
     } else {
         res.status(200).json({
-            usuario: {
-                _id: "63dc6c82fd018a07bd7eec36",
-                login: req.body.login,
-                email: `${req.body.login}@gmail.com`,
-                nome: `${capitalizeFirstLetter(req.body.login)} da Silva Santos`,
-                roles: [
-                    "ADMINISTRADOR",
-                    "GESTOR",
-                    "CLIENTE",
-                    "VENDEDOR",
-                    "ESTOQUE"
-                ]
-            },
             token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjc3MDgzNzU3LCJleHAiOjE2NzcwOTM3NTd9.QKlf0EEnOo-3TOLjll6m3HPL6sdTiSDvT7EVizqbpuE"
         });
     }
@@ -123,8 +110,7 @@ router.post('/autenticacao/registrar', (req, res) => {
                 email: req.body.email,
                 nome: req.body.nome,
                 roles: ["CLIENTE"]
-            },
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjc3MDgzNzU3LCJleHAiOjE2NzcwOTM3NTd9.QKlf0EEnOo-3TOLjll6m3HPL6sdTiSDvT7EVizqbpuE"
+            }
         });
     }
 }

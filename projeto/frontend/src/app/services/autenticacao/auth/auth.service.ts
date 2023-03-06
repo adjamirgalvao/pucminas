@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/Usuario';
-import { UsuarioToken } from 'src/app/interfaces/UsuarioToken';
+import { Token } from 'src/app/interfaces/Token';
 import { TokenService } from '../token/token.service';
 
 export const ADMIN = 'ADMINISTRADOR';
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   loginJwt(usuario: Usuario){
-    return this.http.post<UsuarioToken>(this.API_AUTENTICACAO + 'login', usuario).pipe(tap(
+    return this.http.post<Token>(this.API_AUTENTICACAO + 'login', usuario).pipe(tap(
       res => {
           this.tokenService.setToken(res);
           return res;
@@ -37,7 +37,7 @@ export class AuthService {
 
   
   loginGoogle(usuario: SocialUser){
-    return this.http.post<UsuarioToken>(this.API_AUTENTICACAO + 'loginGoogle', usuario).pipe(tap(
+    return this.http.post<Token>(this.API_AUTENTICACAO + 'loginGoogle', usuario).pipe(tap(
       res => {
           this.tokenService.setToken(res);
           return res;
@@ -59,10 +59,6 @@ export class AuthService {
   getUsuario(): Usuario {
     return this.tokenService.getUsuario();
   }  
-
-  setUsuario(usuario: Usuario) {
-    this.tokenService.setUsuario(usuario);
-  }
 
   isAdmin() : boolean{
     let retorno = false;

@@ -88,19 +88,11 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      usuario:
-                        $ref: '#/components/schemas/Usuario'
-                    description: Dados do usuário logado  
-                  - type: object
                     properties:
                       token: 
                         type: string
                     description: Token JWT gerado no login 
                     required: 
-                      - usuario
                       - token
         '404':
           description: Acesso negado ao usuário

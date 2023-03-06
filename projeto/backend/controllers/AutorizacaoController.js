@@ -6,23 +6,24 @@ const UsuarioService = require("../services/UsuarioService");
 const { AutorizacaoService, ROLES } = require("../services/AutorizacaoService");
 
 
-function gerarToken(login) {
-  return jwt.sign({ login }, Config.PASSPORT.SECRET, { expiresIn: Config.PASSPORT.EXPIRESIN, });
+function gerarToken(usuario) {
+  return jwt.sign({ usuario }, Config.PASSPORT.SECRET, { expiresIn: Config.PASSPORT.EXPIRESIN, });
 }
 
 exports.login = async (req, res) => {
   try {
     let { login, senha } = req.body;
     const usuario = await UsuarioService.findOne({ login: login });
+    let usuarioSemSenha = usuario.toObject();
+    delete usuarioSemSenha.senha;
 
-    if (senha && usuario && (usuario.senha == AutorizacaoService.criptografar(senha))) {
+    console.log(usuarioSemSenha);
+    if (senha && usuario && (usuario.senha  == AutorizacaoService.criptografar(senha))) {
       // Sign token
-      const token = gerarToken(login);
+      const token = gerarToken(usuarioSemSenha);
 
       //https://stackoverflow.com/questions/23342558/why-cant-i-delete-a-mongoose-models-object-properties
-      let retorno = { usuario: usuario.toObject() };
-      retorno.token = token;
-      delete retorno.usuario.senha;
+      let retorno = {token: token} ;
       res.status(200).json(retorno);
     } else {
       res.status(404).json({ error: 'Usuario não encontrado.' });
@@ -62,12 +63,12 @@ exports.loginGoogle = async (req, res) => {
       usuario = usuarios[0];
     }
     if (usuario) {
+      let usuarioSemSenha = usuario.toObject();
+      delete usuarioSemSenha.senha;
       // Sign token
-      token = gerarToken(usuario.login);
+      token = gerarToken(usuarioSemSenha);
 
-      let retorno = { usuario: usuario.toObject() };
-      retorno.token = token;
-      delete retorno.usuario.senha;
+      let retorno = { token: token };
       res.status(200).json(retorno);
     } else {
       res.status(404).json({ error: 'Não foi possível efetuar o login pelo Google.' });

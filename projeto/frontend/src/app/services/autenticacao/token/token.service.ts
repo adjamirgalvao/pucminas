@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Usuario } from 'src/app/interfaces/Usuario';
-import { UsuarioToken } from 'src/app/interfaces/UsuarioToken';
+import { Token } from 'src/app/interfaces/Token';
+import jwt_decode from "jwt-decode";
 
 const KEY = 'authToken';
-const USUARIO = 'usuario';
-const EXPIRES = 'expires';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +17,8 @@ export class TokenService {
   //https://www.bezkoder.com/logout-when-token-expired-angular-14/
   isTokenExpired() {
     let expirou = false;
-    let expires = window.localStorage.getItem(EXPIRES);
+    let expires = this.getExpires();
+
 
     if (expires) {
       expirou = parseInt(expires) * 1000 < Date.now();
@@ -31,16 +30,12 @@ export class TokenService {
     return expirou;
   }
 
-
-  setUsuario(usuario: Usuario) {
-    window.localStorage.setItem(USUARIO, JSON.stringify(usuario));
+  decodeToken(token: string) : any {
+    return jwt_decode(token);
   }
 
-  setToken(usuarioToken: UsuarioToken) {
+  setToken(usuarioToken: Token) {
     window.localStorage.setItem(KEY, usuarioToken.token);
-    this.setUsuario(usuarioToken.usuario);
-    const expiry = (JSON.parse(window.atob(usuarioToken.token.split('.')[1]))).exp;
-    window.localStorage.setItem(EXPIRES, expiry);
   }
 
   getToken() {
@@ -48,9 +43,20 @@ export class TokenService {
   }
 
   getUsuario() {
-    let usuario = window.localStorage.getItem(USUARIO);
-    if (usuario) {
-      return JSON.parse(usuario);
+    let token = this.getToken();
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      return decodedToken.usuario;
+    } else {
+      return null;
+    }
+  }
+
+  getExpires() {
+    let token = this.getToken();
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      return decodedToken.exp;
     } else {
       return null;
     }
@@ -58,7 +64,5 @@ export class TokenService {
 
   removeToken() {
     window.localStorage.removeItem(KEY);
-    window.localStorage.removeItem(USUARIO);
-    window.localStorage.removeItem(EXPIRES);
   }
 }
