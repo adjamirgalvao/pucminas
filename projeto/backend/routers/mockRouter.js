@@ -100,10 +100,10 @@ router.post('/autenticacao/login', (req, res) => {
 });
 
 router.post('/autenticacao/registrar', (req, res) => {
-    if (!req.body.nome || !req.body.login || !req.body.email || !req.body.senha || !req.body.roles) {
-        res.status(400).json({ error: 'Usuário não pode ser criado pois já faltam informações (nome, login, email, senha ou roles).' });
+    if (!req.body.nome || !req.body.login || !req.body.email || !req.body.senha) {
+        res.status(400).json({ error: 'Usuário não pode ser criado pois faltam informações (nome, login, email, senha).' });
     } else {
-        res.status(200).json({
+        res.status(201).json({
             usuario: {
                 _id: "63dc6c82fd018a07bd7eec31",
                 login: req.body.login,
