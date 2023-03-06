@@ -202,7 +202,7 @@ module.exports = class ProdutoService {
         precoCustoInicial: data.precoCusto
       };
       //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
-      let produto = await ProdutoModel.findOne({ nome: { $regex: novo.nome.trim(), $options: 'i'} });
+      let produto = await ProdutoModel.findOne({ nome: { $regex: RelatorioUtilService.escapeRegExp(novo.nome.trim()), $options: 'i'} });
       if (produto) {
         erro = true;
         throw new Error('Produto não pode ser criado pois já existe um produto com o mesmo nome.');
@@ -234,7 +234,7 @@ module.exports = class ProdutoService {
   static async updateProduto(id, produto, session) {
     let erro = false;
     try {
-      let produtoAntigo = await ProdutoModel.findOne({ nome: { $regex: produto.nome.trim(), $options: 'i'} }).session(session);
+      let produtoAntigo = await ProdutoModel.findOne({ nome: { $regex: RelatorioUtilService.escapeRegExp(produto.nome.trim()), $options: 'i'} }).session(session);
       if (produtoAntigo && (produtoAntigo._id != id)) {
         erro = true;
         throw new Error('Produto não pode ser alterado pois já existe um produto com mesmo nome.');

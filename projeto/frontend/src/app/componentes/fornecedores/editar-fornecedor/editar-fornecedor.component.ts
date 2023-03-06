@@ -159,8 +159,20 @@ export class EditarFornecedorComponent implements OnInit {
 
     // Desta forma a troca de tipo força a ter que digitar de novo o cnpj/cpf (da outra forma, mantendo o valor dava problema)
     this.formulario.get('tipo')?.valueChanges.subscribe(value => {
-      this.formulario.get('identificacao')?.setValue('');
-      this.formulario.get('identificacao')?.markAsUntouched();
+        let identificacao : string = this.formulario.get('identificacao')?.value + '';
+        let limpar : boolean = false;
+        switch (this.formulario.get('tipo')?.value) {
+          case 'pj': 
+            limpar = (identificacao.length != 14 );
+            break;
+          case 'pf': 
+            limpar = (identificacao.length != 11 );
+            break;
+        }
+        if (limpar) {
+          this.formulario.get('identificacao')?.setValue('');
+          this.formulario.get('identificacao')?.markAsUntouched();
+        }
     });
   }
 

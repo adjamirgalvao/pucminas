@@ -1,6 +1,12 @@
 module.exports = class RelatorioUtilService {
 
 
+  //https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+  static escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+  }
+
   //https://pt.stackoverflow.com/questions/77505/formatar-mascara-para-cnpj
   static getMascaraCPFCNPJ(identificacao) {
     if (identificacao) {

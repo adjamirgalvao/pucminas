@@ -27,7 +27,7 @@ module.exports = class ClienteService {
         endereco: data.endereco
       };
       //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
-      let cliente = await ClienteModel.findOne({ $or: [{ nome: { $regex: novo.nome.trim(), $options: 'i'} }, { email: { $regex: novo.email.trim(), $options: 'i'} }, { cpf: novo.cpf.trim() }] });
+      let cliente = await ClienteModel.findOne({ $or: [{ nome: { $regex: RelatorioUtilService.escapeRegExp(novo.nome.trim()), $options: 'i'} }, { email: { $regex: RelatorioUtilService.escapeRegExp(novo.email.trim()), $options: 'i'} }, { cpf: novo.cpf.trim() }] });
       if (cliente) {
         erro = true;
         throw new Error('Cliente não pode ser criado pois já existe um cliente com o mesmo nome, cpf ou e-mail.');
@@ -63,7 +63,7 @@ module.exports = class ClienteService {
   static async updateCliente(id, cliente, session) {
     let erro = false;
     try {
-      let clientes = await ClienteModel.find({ $or: [{ nome: { $regex: cliente.nome.trim(), $options: 'i'} }, { email: { $regex: cliente.email.trim(), $options: 'i'} }, { cpf: cliente.cpf.trim() }] });
+      let clientes = await ClienteModel.find({ $or: [{ nome: { $regex: RelatorioUtilService.escapeRegExp(cliente.nome.trim()), $options: 'i'} }, { email: { $regex: RelatorioUtilService.escapeRegExp(cliente.email.trim()), $options: 'i'} }, { cpf: cliente.cpf.trim() }] });
       if (clientes) {
         for (let i in clientes){
           if (clientes[i]._id != id) {

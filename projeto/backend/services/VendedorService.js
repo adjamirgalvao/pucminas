@@ -27,7 +27,7 @@ module.exports = class VendedorService {
         endereco: data.endereco
       };
       //https://stackoverflow.com/questions/33627238/mongoose-find-with-multiple-conditions
-      let vendedor = await VendedorModel.findOne({ $or: [{ nome: { $regex: novo.nome.trim(), $options: 'i'} }, { email: { $regex: novo.email.trim(), $options: 'i'} }, { cpf: novo.cpf.trim() }] });
+      let vendedor = await VendedorModel.findOne({ $or: [{ nome: { $regex: RelatorioUtilService.escapeRegExp(novo.nome.trim()), $options: 'i'} }, { email: { $regex: RelatorioUtilService.escapeRegExp(novo.email.trim()), $options: 'i'} }, { cpf: novo.cpf.trim() }] });
       if (vendedor) {
         erro = true;
         throw new Error('Vendedor não pode ser criado pois já existe um vendedor com o mesmo nome, cpf ou e-mail.');
@@ -70,7 +70,7 @@ module.exports = class VendedorService {
   static async updateVendedor(id, vendedor, session) {
     let erro = false;
     try {
-      let vendedores = await VendedorModel.find({ $or: [{ nome: { $regex: vendedor.nome.trim(), $options: 'i'} }, { email: { $regex: vendedor.email.trim(), $options: 'i'} }, { cpf: vendedor.cpf.trim() }] });
+      let vendedores = await VendedorModel.find({ $or: [{ nome: { $regex: RelatorioUtilService.escapeRegExp(vendedor.nome.trim()), $options: 'i'} }, { email: { $regex: RelatorioUtilService.escapeRegExp(vendedor.email.trim()), $options: 'i'} }, { cpf: vendedor.cpf.trim() }] });
       if (vendedores) {
         for (let i in vendedores){
           if (vendedores[i]._id != id) {
