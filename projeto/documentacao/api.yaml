@@ -1849,9 +1849,9 @@ components:
           example: "39629415500" 
         dataNascimento:
           type: string
-          format: date
+          format: date-time
           description: Data de nascimento do cliente
-          example: "26/04/2000" 
+
         endereco:
           type: object
           properties:
@@ -2019,9 +2019,8 @@ components:
           example: "ZYZ 672"
         data:
           type: string
-          format: date
+          format: date-time
           description: Data da compra
-          example: "13/12/2022" 
         id_fornecedor:
           type: string
           description: Id do fornecedor da compra
@@ -2082,9 +2081,8 @@ components:
           readOnly: true
         data:
           type: string
-          format: date
+          format: date-time
           description: Data da venda
-          example: "13/12/2022" 
         id_vendedor:
           type: string
           description: Id do vendedor
