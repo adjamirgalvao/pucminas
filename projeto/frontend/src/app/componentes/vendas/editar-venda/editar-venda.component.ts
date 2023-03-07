@@ -288,8 +288,8 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
         throw 'Erro ao recuperar produtos! Detalhes: ' + err.error?.error;
       })).subscribe((produtos) => {
         this.produtos = produtos;
-        this.produtosBase = [...produtos]; //senão vai apontar para o mesmo objeto
         this.ordernarNome(this.produtos);
+        this.produtosBase = [...produtos]; //senão vai apontar para o mesmo objeto
         console.log(produtos);
 
         this.vendedorService.listar().pipe(catchError(
@@ -395,7 +395,8 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
   }
 
   formularioIncluirValido(): boolean {
-    return this.formulario.get('produto')!.valid && this.formulario.get('quantidade')!.valid && this.formulario.get('desconto')!.valid;
+    return this.formulario.get('produto')!.valid && this.formulario.get('quantidade')!.valid && this.formulario.get('desconto')!.valid
+    && (this.formulario.get('precoFinal')?.value >=0);
   }
 
   vendedorValidator(): ValidatorFn {
@@ -551,6 +552,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
           this.inicial.data =  new Date();
           this.formDirective.resetForm(this.inicial);
           this.itensVenda = [];
+          this.produtos = [... this.produtosBase];
           this.atualizarTabela();
           this.setFocusInicial();
         });

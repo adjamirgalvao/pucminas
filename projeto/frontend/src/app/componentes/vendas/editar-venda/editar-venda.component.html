@@ -132,10 +132,8 @@
                         <mat-form-field class="me-3 mt-3"
                             *ngIf="formulario.get('produto')!.valid && formulario.get('quantidade')!.valid && formulario.get('desconto')!.valid">
                             <mat-label>Preço Final</mat-label>
-                            <input type="string" formControlName="precoFinal" currencyMask matInput
-                                placeholder="Digite o preço unitário" [readonly]="salvando || erroCarregando">
-                            <mat-hint class="text-danger" *ngIf="formulario.get('precoFinal')!.value <0">Aviso: Valor
-                                negativo!</mat-hint>
+                            <input type="string" formControlName="precoFinal" currencyMask matInput placeholder="Digite o preço unitário" [readonly]="salvando || erroCarregando">
+                            <mat-hint class="text-danger" *ngIf="formulario.get('precoFinal')!.value < 0">O preço final do produto deve ser maior ou igual que zero!</mat-hint>
                             <mat-hint class="text-warning" *ngIf="formulario.get('precoFinal')!.value ==0">Aviso: Produto de graça!</mat-hint>
                         </mat-form-field>
                     </div>
