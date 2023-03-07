@@ -97,14 +97,14 @@ module.exports = class VendedorService {
       let venda = await VendaModel.findOne({id_vendedor : id});
 
       if (venda){
-        throw new Error(`. Possui venda.`);
+        throw new Error(`, pois possui venda.`);
       } else {         
         const registro = await VendedorModel.findOneAndDelete({ _id: id }, {session});
         return registro;
       }  
     } catch (error) {
-      console.log(`Vendedor não pode ser excluído ${error.message}`);
-      throw new Error(`Vendedor não pode ser excluído ${error.message}`);
+      console.log(`Vendedor não pode ser excluído${error.message}`);
+      throw new Error(`Vendedor não pode ser excluído${error.message}`);
     }
   }
 
