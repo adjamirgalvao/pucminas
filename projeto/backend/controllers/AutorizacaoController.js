@@ -14,11 +14,11 @@ exports.login = async (req, res) => {
   try {
     let { login, senha } = req.body;
     const usuario = await UsuarioService.findOne({ login: login });
-    let usuarioSemSenha = usuario.toObject();
-    delete usuarioSemSenha.senha;
 
-    console.log(usuarioSemSenha);
     if (senha && usuario && (usuario.senha  == AutorizacaoService.criptografar(senha))) {
+      let usuarioSemSenha = usuario.toObject();
+      delete usuarioSemSenha.senha;
+  
       // Sign token
       const token = gerarToken(usuarioSemSenha);
 
