@@ -18,6 +18,7 @@ import { ProdutoService } from 'src/app/services/produto/produto.service';
 import { Produto } from 'src/app/interfaces/Produto';
 import { map, Observable, startWith } from 'rxjs';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-editar-compra',
@@ -197,11 +198,17 @@ export class EditarCompraComponent implements OnInit {
               this.erroCarregando = false;
               this.carregando = true;
               this.compraService.buscarPorId(id!).pipe(catchError(
-                err => {
+                (err: HttpErrorResponse)  => {
                   this.erroCarregando = true;
                   this.carregando = false;
-                  this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar a compra!' });
-                  throw 'Erro ao recuperar a compra! Detalhes: ' + err;
+                  if (err.status == 404) {
+                    this.adicionarAlerta({ tipo: 'danger', mensagem: 'Compra não encontrada!' });
+                    this.leitura = true;
+                    this.criarFormulario();
+                  } else {
+                    this.adicionarAlerta({ tipo: 'danger', mensagem: 'Erro ao recuperar a compra!' });
+                  }
+                   throw 'Erro ao recuperar a compra! Detalhes: ' + err;
                 })).subscribe((compra) => {
                   this.carregando = false;
                   if (compra != null) {
