@@ -372,6 +372,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
       venda._id = this.inicial._id!;
       this.editarVenda(venda);
     }    
+    
 
   }
 
@@ -552,9 +553,24 @@ export class EditarVendaComponent implements OnInit, OnDestroy {
           this.inicial.data =  new Date();
           this.formDirective.resetForm(this.inicial);
           this.itensVenda = [];
-          this.produtos = [... this.produtosBase];
-          this.atualizarTabela();
-          this.setFocusInicial();
+          this.carregando = true;
+          //Tem que carregar novamente a lista de produtos
+          this.produtoService.listarComSaldo().pipe(catchError(
+            err => {
+              this.erroCarregando = true;
+              this.carregando = false;
+              this.adicionarAlerta({ tipo: 'danger', mensagem: `Erro ao recuperar produtos! Detalhes ${err.error?.error}` });
+              throw 'Erro ao recuperar produtos! Detalhes: ' + err.error?.error;
+            })).subscribe((produtos) => {
+              this.produtos = produtos;
+              this.ordernarNome(this.produtos);
+              this.produtosBase = [...produtos]; //senão vai apontar para o mesmo objeto
+              this.atualizarTabela();
+              this.setFocusInicial();
+              this.carregando = false;
+            });  
+
+
         });
   }
 
