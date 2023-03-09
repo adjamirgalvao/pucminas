@@ -2,7 +2,7 @@
 module.exports = Object.freeze({
     PASSPORT: {
       SECRET: 'node.js_sample_secret_key_1asd134',
-      EXPIRESIN: 10000,
+      EXPIRESIN: 40000,
     },
     GOOGLE_CLIENT_ID: '29293112369-dsdrjt1o361s0oajmoiqsjcjcqes7o0v.apps.googleusercontent.com',
   });
